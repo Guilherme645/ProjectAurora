@@ -1,0 +1,43 @@
+/* Geral */
+.layout-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 314px; 
+    color: white;
+    position: fixed;
+    height: 809px;
+  }
+  
+  /* Main Content */
+  .main-content {
+    margin-left: 16rem; /* Espaço igual à largura da sidebar */
+    flex: 1;
+    min-height: 100vh;
+  }
+  
+  /* Cabeçalho */
+  .header {
+    margin-left: 90px;
+    margin-right: 64px;
+    width: 958px;
+   
+  }
+  
+  /* Conteúdo Principal */
+  .main {
+    padding: 1.5rem 2rem; /* Controle de padding do conteúdo principal */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Espaço entre os elementos */
+  }
+  
+  /* Cartões */
+  .card {
+    width: 620px;
+    height: 216px;
+margin-left: 64px;
+}

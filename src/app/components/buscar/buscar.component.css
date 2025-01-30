@@ -1,0 +1,125 @@
+/* Ajuste geral do container */
+.busca-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  /* Estilização do logo */
+  .logo {
+    margin-bottom: 16px;
+  }
+  
+  /* Estilização dos botões de busca */
+  .busca-opcoes {
+   width: 261px;
+   height: 36px;
+   gap: 10px;
+  }
+  
+  .busca-opcoes button {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .busca-opcoes button:hover {
+    background-color: #eaeaea;
+  }
+  
+  .busca-opcoes button.ativo {
+    font-weight: 600;
+  }
+  
+  /* Estilização do input e botão */
+  .busca-barra {
+   width: 632px;
+   height: 56px;
+   gap: 12px;
+  }
+  
+  .busca-barra input {
+    width: 480px;
+    height: 56px;
+    border-radius: 16px;
+    color: white;
+  }
+  
+  .busca-barra input::placeholder {
+    color: #9ca3af;
+    font-size: 14px;
+    width: 340px;
+    height: 17px;
+  }
+  
+  .busca-barra input:focus {
+    border-color: #3b82f6;
+  }
+  
+  .busca-barra button {
+   width: 140px;
+   height: 56px;
+   border-radius: 8px;
+   background-color: #1F2937;
+   color: white;
+   font-size: 15px;
+   padding-top: 14px;
+   padding-bottom: 14px;
+   padding-left: 16px;
+   padding-right: 16px;
+   gap: 10px;
+  }
+  
+  .busca-barra button:hover {
+    background-color: #111827;
+  }
+  .drawer-container {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+  }
+  
+  .drawer-open {
+    right: 0; /* Quando ativado, o Drawer se move para a posição visível */
+  }
+  
+  .drawer-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  /* Estilo do fundo desfocado */
+.blur-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.1); /* Escurece o fundo */
+  backdrop-filter: blur(8px); /* Aplica o desfoque */
+  z-index: 30;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.blur-background.active {
+  opacity: 1;
+  visibility: visible;
+}

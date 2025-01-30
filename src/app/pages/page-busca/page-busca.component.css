@@ -1,0 +1,54 @@
+/* Estilo geral da página */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    background-color: #f8fafc; /* Cor do fundo principal */
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .h-screen {
+    height: 100vh;
+  }
+  
+  .bg-neutral-50 {
+    background-color: #f8fafc; /* Cor de fundo principal */
+  }
+  
+  .bg-neutral-800 {
+    background-color: #1e293b; /* Cor do sidebar */
+  }
+  
+  .text-white {
+    color: white;
+  }
+  
+  /* Sidebar */
+  .w-64 {
+    width: 16rem; /* Largura fixa do sidebar */
+  }
+  
+  /* Estilo do container do app-buscar */
+  .buscar-container {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  /* Estilo de centralização */
+  .flex-1 {
+    flex: 1;
+  }
+  
+  .flex.items-center {
+    align-items: center;
+  }
+  
+  .flex.justify-center {
+    justify-content: center;
+  }
+  

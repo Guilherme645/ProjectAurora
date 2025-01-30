@@ -1,0 +1,36 @@
+<div class="busca-container">
+  <!-- Logo -->
+  <div class="logo">
+    <img src="assets/logo2.png" alt="Logo" />
+  </div>
+
+  <!-- Opções de busca -->
+  <div class="busca-opcoes">
+    <button class="ativo">Busca simples</button>
+    <button (click)="openAdvancedSearch()">Busca avançada</button>
+  </div>
+
+  <!-- Barra de busca -->
+  <div class="busca-barra">
+    <input type="text" placeholder="O que você deseja buscar?" [(ngModel)]="searchQuery" />
+    <button (click)="onSearch()">Buscar</button>
+  </div>
+
+  <!-- Fundo desfocado -->
+  <div
+    class="blur-background"
+    [ngClass]="{ 'active': isDrawerOpen }"
+    (click)="closeDrawer()"
+  ></div>
+
+  <!-- Drawer -->
+  <div
+    class="drawer fixed top-0 right-0 z-40 h-screen w-80 bg-white shadow-lg transition-transform transform"
+    [ngClass]="{ 'translate-x-full': !isDrawerOpen, 'translate-x-0': isDrawerOpen }"
+  >
+    <div class="p-4">
+      <!-- Conteúdo do Drawer -->
+      <app-high-search></app-high-search>
+    </div>
+  </div>
+</div>

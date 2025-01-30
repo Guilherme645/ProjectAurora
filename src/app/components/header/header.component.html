@@ -1,0 +1,49 @@
+<div class="header-container">
+  <!-- Linha Principal do Cabeçalho -->
+  <div class="header-main-row">
+    <div>
+      <h1 class="header-title">Resultados do Workspace</h1>
+      <p class="header-subtitle">9840 resultados em Superior Tribunal Federal</p>
+    </div>
+    <div class="button-group">
+      <button class="action-buttonone" (click)="openBusca()">Fazer busca</button>
+      <button class="action-buttontwo">Busca avançada</button>
+    </div>
+  </div>
+
+  <!-- Linha de Filtros e Ordenação -->
+  <div class="header-filters-row">
+    <div class="filters">
+      <label class="filter-item">
+        <input type="checkbox" class="filter-checkbox" />
+        <span>Todos os resultados</span>
+      </label>
+      <div class="filter-group">
+        <label class="filter-item">
+          <span>Resultados brutos</span>
+        </label>
+        <label class="filter-item">
+          <span>Resultados tratados</span>
+        </label>
+      </div>
+    </div>
+    <div class="sorting">
+    
+      <div class="sorting-group">
+        <span>Ordenar por:</span>
+        <select class="sorting-select">
+          <option value="relevancia">Mais relevantes</option>
+          <option value="recente">Mais recentes</option>
+        </select>
+      </div>
+      <button class="filter-button" aria-label="Filtrar resultados">
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+        stroke-linecap="round" stroke-linejoin="round" class="lucide text-gray-800">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" key="1yg77f"></polygon></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Componente InputBusca -->
+  <app-input-busca *ngIf="isBuscaOpen" (close)="closeBusca()"></app-input-busca>
+</div>

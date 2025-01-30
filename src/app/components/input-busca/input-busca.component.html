@@ -1,0 +1,23 @@
+<!-- Fundo borrado -->
+<div
+  class="overlay"
+  [ngClass]="{ 'active': isSearchModalOpen }"
+  (click)="closeSearchModal()"
+></div>
+
+<!-- Modal de Busca Centralizado -->
+<div class="search-container">
+  <!-- Barra de Busca -->
+  <div class="search-bar">
+    <div class="search-input">
+      <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 5a7.5 7.5 0 010 10.65z" />
+      </svg>
+      <input type="text" placeholder="Busque no Workspace" />
+    </div>
+    <div class="search-info">
+      <p>Use a <kbd>""</kbd> para delimitar as palavras-chave</p>
+      <button class="search-button" (click)="onSearch()">Fazer busca</button>
+    </div>
+  </div>
+</div>

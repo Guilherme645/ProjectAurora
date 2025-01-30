@@ -1,0 +1,32 @@
+<div class="mensoes-container">
+    <div class="mention-box flex flex-row items-center justify-between border border-gray-200 shadow-lg rounded-xl p-3">
+      <!-- Texto de Menções Selecionadas -->
+      <p class="text-xs font-medium text-[#180EA4]">Menções selecionadas (2)</p>
+    
+      <!-- Botão de Ações (Dropdown) -->
+      <div class="relative inline-flex">
+        <button id="mention-dropdown" type="button" class="dropdown-toggle flex justify-center items-center size-9 text-sm font-semibold rounded-lg bg-white text-gray-800 hover:bg-gray-50"
+          (click)="toggleDropdown()">
+          <span class="focus:border focus:border-gray-200 focus:p-4 cursor-pointer">
+            <!-- Ícone de Três Pontos -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide">
+              <circle cx="12" cy="12" r="1"></circle>
+              <circle cx="12" cy="5" r="1"></circle>
+              <circle cx="12" cy="19" r="1"></circle>
+            </svg>
+          </span>
+        </button>
+        <div id="mention-dropdown-menu" class="dropdown-menu transition-opacity duration-200" [class.show]="dropdownOpen">
+            <a (click)="abrirRelatorioModal()" class="mention-item flex justify-between items-center cursor-pointer hover:bg-gray-100 px-2 py-1 rounded">
+              Incluir em Relatório(s) <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">R</kbd></span>
+            </a>
+            <a class="mention-item flex justify-between items-center cursor-pointer hover:bg-gray-100 px-2 py-1 rounded">
+              Compartilhar <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">C</kbd></span>
+            </a>
+            <a class="mention-item flex justify-between items-center cursor-pointer hover:bg-gray-100 px-2 py-1 rounded">
+              Imprimir menções <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">P</kbd></span>
+            </a>
+          </div>
+          
+          <!-- Modal do Relatório -->
+          <app-relatorio-modal *ngIf="modalAberto" (fechar)="fecharRelatorioModal()"></app-relatorio-modal>

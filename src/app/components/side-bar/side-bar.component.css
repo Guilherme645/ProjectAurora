@@ -1,0 +1,10 @@
+.sidebar-collapsed {
+    width: 0;
+    overflow: hidden;
+  }
+  .sidebar-expanded {
+    width: 16rem; /* Equivale a w-64 */
+  }
+  .transition-all {
+    transition: all 0.3s ease-in-out;
+  }

@@ -1,0 +1,106 @@
+{
+  "buscaGeral": "Dias Toffoli",
+  "resultados": 39360,
+  "noticias": [
+    {
+      "veiculo": "Globo",
+      "tipo": "Vídeo",
+      "data": "11/02/23",
+      "sentimento": "Neutro",
+      "titulo": "Ministério Público do Rio Grande do Sul recorre à decisão do STF",
+      "descricao": "O Ministério Público do RS recorreu da decisão do STF, afirmando que a medida é essencial para assegurar a correta interpretação das leis. Especialistas avaliam os possíveis impactos judiciais e políticos do caso.",
+      "entidades": ["Ministério Público", "Rio Grande do Sul", "STF"],
+      "logo": "assets/logos/globo.png"
+    },
+    {
+      "veiculo": "Folha de São Paulo",
+      "tipo": "Texto",
+      "data": "10/02/23",
+      "sentimento": "Positivo",
+      "titulo": "Ordem dos Advogados comenta nova decisão do STF",
+      "descricao": "A OAB destacou a relevância da decisão do STF para garantir os direitos constitucionais e fortalecer o sistema jurídico brasileiro. Advogados avaliam o impacto positivo no cenário nacional.",
+      "entidades": ["OAB", "STF", "Supremo Tribunal"],
+      "logo": "assets/logos/folha.png"
+    },
+    {
+      "veiculo": "G1",
+      "tipo": "Texto",
+      "data": "09/02/23",
+      "sentimento": "Negativo",
+      "titulo": "Análise: Decisões recentes do STF impactam economia",
+      "descricao": "Especialistas destacam que as recentes decisões do STF geram incertezas no mercado financeiro. Apesar disso, há quem defenda que elas estabelecem novos parâmetros legais necessários.",
+      "entidades": ["STF", "economia", "análise"],
+      "logo": "assets/logos/g1.png"
+    },
+    {
+      "veiculo": "Estadão",
+      "tipo": "Texto",
+      "data": "08/02/23",
+      "sentimento": "Positivo",
+      "titulo": "Tribunal Supremo adota medidas inéditas",
+      "descricao": "O STF anunciou medidas que prometem modernizar o sistema judicial brasileiro, incluindo novas regras processuais e maior integração tecnológica. Especialistas elogiam as iniciativas.",
+      "entidades": ["Tribunal Supremo", "medidas inéditas"],
+      "logo": "assets/logos/estadao.png"
+    },
+    {
+      "veiculo": "BBC Brasil",
+      "tipo": "Áudio",
+      "data": "07/02/23",
+      "sentimento": "Neutro",
+      "titulo": "Entrevista com especialistas sobre o STF",
+      "descricao": "Um podcast reuniu especialistas para discutir os impactos recentes das decisões do STF no cenário político e econômico do Brasil. O episódio destacou análises detalhadas e imparciais.",
+      "entidades": ["STF", "decisões", "especialistas"],
+      "logo": "assets/logos/bbc.png"
+    },
+    {
+      "veiculo": "CNN",
+      "tipo": "Vídeo",
+      "data": "06/02/23",
+      "sentimento": "Negativo",
+      "titulo": "Críticas às recentes decisões econômicas do STF",
+      "descricao": "As decisões econômicas do STF têm gerado críticas no setor empresarial por aumentar incertezas nos investimentos. O tribunal, por outro lado, argumenta que as mudanças são necessárias.",
+      "entidades": ["decisões econômicas", "críticas", "STF"],
+      "logo": "assets/logos/cnn.png"
+    },
+    {
+      "veiculo": "R7",
+      "tipo": "Texto",
+      "data": "05/02/23",
+      "sentimento": "Positivo",
+      "titulo": "Impacto das decisões do STF no mercado",
+      "descricao": "Analistas destacam que as decisões do STF trouxeram maior estabilidade jurídica ao mercado. Empresários acreditam que isso pode atrair novos investimentos e impulsionar a economia.",
+      "entidades": ["mercado", "decisões STF"],
+      "logo": "assets/logos/r7.png"
+    },
+    {
+      "veiculo": "UOL",
+      "tipo": "Texto",
+      "data": "04/02/23",
+      "sentimento": "Neutro",
+      "titulo": "Histórico das decisões do STF em 2023",
+      "descricao": "O STF tomou decisões importantes em 2023 que impactaram diferentes setores. Especialistas avaliam os desdobramentos dessas medidas no campo jurídico, político e econômico.",
+      "entidades": ["decisões STF", "2023", "histórico"],
+      "logo": "assets/logos/uol.png"
+    },
+    {
+      "veiculo": "Valor Econômico",
+      "tipo": "Texto",
+      "data": "03/02/23",
+      "sentimento": "Positivo",
+      "titulo": "Supremo Tribunal toma decisões que beneficiam empresas",
+      "descricao": "Empresas elogiaram as recentes decisões do STF, destacando os benefícios em questões tributárias. As ações têm sido vistas como um passo importante para a competitividade nacional.",
+      "entidades": ["empresas", "benefícios", "STF"],
+      "logo": "assets/logos/valor.png"
+    },
+    {
+      "veiculo": "Carta Capital",
+      "tipo": "Texto",
+      "data": "02/02/23",
+      "sentimento": "Negativo",
+      "titulo": "Impacto social das decisões recentes do STF",
+      "descricao": "As decisões do STF geraram intensos debates na sociedade, especialmente sobre o impacto social de algumas medidas. Organizações questionam a abordagem adotada pelo tribunal.",
+      "entidades": ["impacto social", "decisões", "STF"],
+      "logo": "assets/logos/cartacapital.png"
+    }
+  ]
+}

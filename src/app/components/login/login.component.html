@@ -1,0 +1,45 @@
+<div class="main-container">
+  <div class="login-form">
+    <div class="login-container">
+      <img src="assets/col.png" alt="Logo" class="logo">
+      <h1>Entre na sua conta BlueBossa</h1>
+      <p>Acesse já e veja as novas inovações.</p>
+      <form (ngSubmit)="onLogin()">
+        <div class="input-container">
+          <label for="email" class="sr-only">Email</label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div class="input-container">
+          <label for="password" class="sr-only">Senha</label>
+          <input
+            type="password"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Senha"
+            required
+          />
+        </div>
+        <a [routerLink]="'/esqueceu'" class="forgot-password">
+          Esqueceu sua senha?
+        </a>
+        <button type="submit" class="button">
+          Entrar
+        </button>
+        <p class="register-link">
+          Não tem uma conta? <a [routerLink]="'/criar'">Crie agora</a>
+        </p>
+      </form>
+    </div>
+  </div>
+  <div class="img">
+    <div class="image-section"></div>
+  </div>
+</div>

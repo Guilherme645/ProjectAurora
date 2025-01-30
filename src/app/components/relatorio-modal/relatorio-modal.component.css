@@ -1,0 +1,172 @@
+/* Fundo escuro ao abrir o modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2); /* Escurece levemente */
+    backdrop-filter: blur(8px); /* Aplica o efeito de desfoque */    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Estrutura do modal */
+  .modal-container {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    width: 737px;
+    height: 626px;
+    text-align: center;
+    position: relative;
+  }
+  
+  /* Cabeçalho */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .header-text {
+    text-align: left;
+  }
+  
+.checkbox{
+  background-color: white;
+}
+
+  .close-icon {
+    cursor: pointer;
+  }
+  
+  .close-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: #6b7280;
+  }
+  
+  .close-icon:hover svg {
+    stroke: #374151;
+  }
+  
+  /* Campo de busca */
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .search-box {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 8px;
+    width: 70%;
+  }
+  
+  .search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 8px;
+    flex-grow: 1;
+  }
+  
+  .create-report {
+    font-size: 14px;
+    color: #2563eb;
+    cursor: pointer;
+  }
+  
+  /* Tabela */
+  .table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  thead {
+    background: #f9fafb;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th:first-child, td:first-child {
+    width: 5%;
+    text-align: center;
+  }
+  
+  td.creator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* Avatar */
+  .avatar {
+    width: 32px;
+    height: 32px;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+  /* Paginação */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 12px 0;
+    gap: 10px;
+  }
+  
+  .pagination button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .pagination span {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  /* Botão */
+  .modal-footer {
+width: 138px;
+height: 46px;
+border-radius: 8px;
+  }
+  
+  .insert-button {
+    background: #4a5568;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .insert-button:hover {
+    background: #374151;
+  }
+  

@@ -1,0 +1,91 @@
+.card {
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 680px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .left-info,
+  .right-info {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+    color: #4b5563;
+  }
+  
+  .vehicle-name {
+    font-weight: bold;
+  }
+  
+  .original-link {
+    font-size: 14px;
+    color: #2563eb;
+    text-decoration: none;
+    margin: 8px 0;
+  }
+  
+  .original-link:hover {
+    text-decoration: underline;
+  }
+  
+  .mention-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1f2937;
+    margin: 8px 0;
+  }
+  
+  .mention-description {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 16px;
+  }
+  
+  .mention-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .entities-label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #4b5563;
+  }
+  
+  .label {
+    background: #e5e7eb;
+    color: #1f2937;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+  }
+  
+  .view-all-labels {
+    font-size: 12px;
+    color: #2563eb;
+    text-decoration: none;
+    margin-left: auto;
+  }
+  
+  .view-all-labels:hover {
+    text-decoration: underline;
+  }
+  
+  .date,
+  .sentiment {
+    font-size: 12px;
+    color: #6b7280;
+  }
+  hr{
+    margin-top: 20px;
+  }
+  
