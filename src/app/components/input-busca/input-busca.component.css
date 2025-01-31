@@ -1,85 +1,81 @@
-/* Fundo borrado */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px); /* Efeito de blur no fundo */
-    z-index: 10; /* Coloca atrás do modal */
-  }
-  
-  /* Modal centralizado */
-  .search-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 20; /* Garante que fique acima do fundo */
-    width: 480px;
-  }
-  
-  /* Barra de busca */
-  .search-bar {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .search-input {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #f9fafb;
-    padding: 12px 16px;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-  
-  .search-icon {
-    width: 24px;
-    height: 24px;
-    color: #9ca3af;
-  }
-  
-  .search-input input {
-    border: none;
-    outline: none;
-    width: 100%;
-    background: transparent;
-  }
-  
-  /* Informações e botão */
-  .search-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .search-info p {
-    font-size: 14px;
-    color: #6b7280;
-  }
-  
-  .search-button {
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-    background: #1f2937;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .search-button:hover {
-    background: #374151;
-  }
-  
+/* Fundo escuro e embaçado */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Fundo escurecido */
+  backdrop-filter: blur(8px); /* Efeito de desfoque */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Corpo do modal */
+.search-modal {
+  width: 592px;
+height: 151px; 
+ border-radius: 16px;
+}
+
+/* Cabeçalho */
+.modal-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 16px 16px 0 0;
+}
+
+/* Campo de pesquisa */
+.search-input {
+  width: 340px;
+  background: transparent;
+  border: none;
+  margin-left: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0000004d;
+  outline: none;
+}
+
+/* Corpo do modal */
+.modal-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Informações sobre palavras-chave */
+.modal-hint {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.modal-icon {
+  padding: 4px;
+  margin: 0 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+/* Botão de busca */
+.search-button {
+  background:#4B5563;
+  color: white;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background: #1f2937;
+}

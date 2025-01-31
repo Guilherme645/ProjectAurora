@@ -41,11 +41,18 @@
     color: #1f2937;
     margin: 8px 0;
   }
+
+  .veiculo{
+    margin-right: 20px;
+  }
   
+  .tipo{
+    margin-left: -15px;
+  }
   .mention-description {
-    font-size: 14px;
-    color: #4b5563;
-    margin-bottom: 16px;
+    font-weight: 400; /* Peso da fonte normal */
+    color: #1f2937; /* Cor do texto: cinza escuro */
+    margin-bottom: 0.75rem; /* Espaçamento inferior de 12px */
   }
   
   .mention-footer {
@@ -88,4 +95,24 @@
   hr{
     margin-top: 20px;
   }
-  
+  .logov{
+    color: #6b7280;
+    margin-left: -30px;
+    margin-bottom: 23px;
+  }
+  .p{
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: bolder;
+
+  }
+  .tipo{
+    margin-bottom: 23px;
+    font-weight: bolder;
+  }
+  .usuario{
+    font-weight: bolder;
+    color: #6b7280;
+    font-size: 14px;
+
+  }

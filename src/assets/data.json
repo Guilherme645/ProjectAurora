@@ -4,6 +4,7 @@
   "noticias": [
     {
       "veiculo": "Globo",
+      "usuario": "Superior Tribunal Federal",
       "tipo": "Vídeo",
       "data": "11/02/23",
       "sentimento": "Neutro",
@@ -14,6 +15,7 @@
     },
     {
       "veiculo": "Folha de São Paulo",
+      "usuario": "Superior Tribunal Federal",
       "tipo": "Texto",
       "data": "10/02/23",
       "sentimento": "Positivo",
@@ -24,6 +26,7 @@
     },
     {
       "veiculo": "G1",
+      "usuario": "Superior Tribunal Federal",
       "tipo": "Texto",
       "data": "09/02/23",
       "sentimento": "Negativo",
@@ -34,6 +37,7 @@
     },
     {
       "veiculo": "Estadão",
+      "usuario": "Superior Tribunal Federal",
       "tipo": "Texto",
       "data": "08/02/23",
       "sentimento": "Positivo",
@@ -44,6 +48,7 @@
     },
     {
       "veiculo": "BBC Brasil",
+      "usuario": "Superior Tribunal Federal",
       "tipo": "Áudio",
       "data": "07/02/23",
       "sentimento": "Neutro",
@@ -54,6 +59,7 @@
     },
     {
       "veiculo": "CNN",
+      "usuario": "Superior Tribunal Federal",
       "tipo": "Vídeo",
       "data": "06/02/23",
       "sentimento": "Negativo",
@@ -64,6 +70,7 @@
     },
     {
       "veiculo": "R7",
+      "usuario": "Superior Tribunal Federal",
       "tipo": "Texto",
       "data": "05/02/23",
       "sentimento": "Positivo",
@@ -75,6 +82,7 @@
     {
       "veiculo": "UOL",
       "tipo": "Texto",
+      "usuario": "Superior Tribunal Federal",
       "data": "04/02/23",
       "sentimento": "Neutro",
       "titulo": "Histórico das decisões do STF em 2023",
@@ -85,6 +93,7 @@
     {
       "veiculo": "Valor Econômico",
       "tipo": "Texto",
+      "usuario": "Superior Tribunal Federal",
       "data": "03/02/23",
       "sentimento": "Positivo",
       "titulo": "Supremo Tribunal toma decisões que beneficiam empresas",
@@ -94,6 +103,7 @@
     },
     {
       "veiculo": "Carta Capital",
+      "usuario": "Superior Tribunal Federal",
       "tipo": "Texto",
       "data": "02/02/23",
       "sentimento": "Negativo",

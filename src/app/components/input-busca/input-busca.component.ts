@@ -15,9 +15,12 @@ export class InputBuscaComponent {
     this.isSearchModalOpen = true;
   }
 
-  // Método para fechar o modal
-  closeSearchModal() {
-    this.isSearchModalOpen = false;
+  // Método para fechar o modal ao clicar fora dele
+  closeSearchModal(event: Event) {
+    const modalContent = document.querySelector('.modal-container');
+    if (modalContent && !modalContent.contains(event.target as Node)) {
+      this.isSearchModalOpen = false;
+    }
   }
 
   // Método executado ao clicar em "Fazer busca"
