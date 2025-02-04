@@ -7,17 +7,24 @@ import { DrawerService } from 'src/app/services/drawer.service';
   styleUrls: ['./high-search.component.css'],
 })
 export class HighSearchComponent {
-  isDrawerOpen = false;
+  sections = [
+    { title: 'Palavras-chave', open: false, type: 'text' },
+    { title: 'Data', open: false, type: 'text' },
+    { title: 'Tipos de mídia', open: false, type: 'checkbox', options: ['Áudio', 'Texto', 'Vídeo'] },
+    { title: 'Veículos', open: false, type: 'text' },
+    { title: 'Sentimento', open: false, type: 'checkbox', options: ['Positivo', 'Neutro', 'Negativo'] },
+    { title: 'Localização', open: false, type: 'text' }
+  ];
 
-  constructor(private drawerService: DrawerService) {}
-
-  ngOnInit() {
-    this.drawerService.drawerState$.subscribe((state) => {
-      this.isDrawerOpen = state;
-    });
+  toggleSection(item: any) {
+    item.open = !item.open;
   }
 
-  closeDrawer() {
-    this.drawerService.closeDrawer();
+  clearSearch() {
+    console.log('Busca limpa');
+  }
+
+  performSearch() {
+    console.log('Busca realizada');
   }
 }

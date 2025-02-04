@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class SideBarComponent {
   isExpanded: boolean = true;
+  menuOpen = false;
 
   toggleSidebar() {
     this.isExpanded = !this.isExpanded;
@@ -16,5 +17,12 @@ export class SideBarComponent {
   setActiveTab(tab: string): void {
     this.activeTab = tab;
   }
+  isModalOpen = false;
 
+  toggleModal() {
+    this.isModalOpen = !this.isModalOpen;
+  }
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }

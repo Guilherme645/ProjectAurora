@@ -23,6 +23,9 @@ import { HighSearchComponent } from './components/high-search/high-search.compon
 import { InputBuscaComponent } from './components/input-busca/input-busca.component';
 import { RelatorioModalComponent } from './components/relatorio-modal/relatorio-modal.component';
 import { MensoesComponent } from './mensoes/mensoes.component';
+import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
+import { ModalAccountComponent } from './components/modal-account/modal-account.component';
+import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import { MensoesComponent } from './mensoes/mensoes.component';
     InputBuscaComponent,
     RelatorioModalComponent,
     MensoesComponent,
+    ScrollTopComponent,
+    ModalAccountComponent,
+    TagFilterComponent,
   ],
   imports: [
     BrowserModule,

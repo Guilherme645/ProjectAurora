@@ -1,49 +1,61 @@
-<div class="header-container">
+<div class="header-container" [ngClass]="{ 'hidden': isScrolled }">
   <!-- Linha Principal do Cabeçalho -->
   <div class="header-main-row">
     <div>
       <h1 class="header-title">Resultados do Workspace</h1>
       <p class="header-subtitle">9840 resultados em Superior Tribunal Federal</p>
     </div>
+
+    <!-- Botões alinhados à direita -->
     <div class="button-group">
       <button class="action-buttonone" (click)="openBusca()">Fazer busca</button>
       <button class="action-buttontwo">Busca avançada</button>
     </div>
   </div>
-
-  <!-- Linha de Filtros e Ordenação -->
-  <div class="header-filters-row">
-    <div class="filters">
-      <label class="filter-item">
-        <input type="checkbox" class="filter-checkbox" />
-        <span>Todos os resultados</span>
-      </label>
-      <div class="filter-group">
-        <label class="filter-item">
-          <span>Resultados brutos</span>
-        </label>
-        <label class="filter-item">
-          <span>Resultados tratados</span>
-        </label>
-      </div>
-    </div>
-    <div class="sorting">
-    
-      <div class="sorting-group">
-        <span>Ordenar por:</span>
-        <select class="sorting-select">
-          <option value="relevancia">Mais relevantes</option>
-          <option value="recente">Mais recentes</option>
-        </select>
-      </div>
-      <button class="filter-button" aria-label="Filtrar resultados">
-        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-        stroke-linecap="round" stroke-linejoin="round" class="lucide text-gray-800">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" key="1yg77f"></polygon></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- Componente InputBusca -->
-  <app-input-busca *ngIf="isBuscaOpen" (close)="closeBusca()"></app-input-busca>
 </div>
+
+<!-- Barra de Filtros Fixa -->
+<div class="header-filters-row">
+  <div class="filters">
+    <input type="checkbox" class="filter-checkbox" (change)="selectTab('todos')" [checked]="selectedTab === 'todos'" />
+    <label class="filter-tab">
+      <span [ngClass]="{ 'active': selectedTab === 'todos' }">Todos os resultados</span>
+    </label>
+  
+    <label class="filter-tab" (click)="selectTab('brutos')">
+      <span [ngClass]="{ 'active': selectedTab === 'brutos' }">Resultados brutos</span>
+    </label>
+  
+    <label class="filter-tab" (click)="selectTab('tratados')">
+      <span [ngClass]="{ 'active': selectedTab === 'tratados' }">Clippings</span>
+    </label>
+  </div>
+  
+
+  <div class="sorting-group">
+    <span>Ordenar por:</span>
+    <div class="dropdown" (click)="toggleDropdown()">
+      <button class="dropdown-toggle">
+        Mais relevantes
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="dropdown-icon" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z"/>
+        </svg>
+      </button>
+  
+      <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+        <li (click)="selectOption('Mais relevantes')" class="active">Mais relevantes</li>
+        <li (click)="selectOption('Mais recentes')">Mais recentes</li>
+      </ul>
+    </div>
+    <button class="filter-button" aria-label="Filtrar resultados">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+      </svg>
+    </button>
+  </div>
+  
+</div>
+
+<!-- Componente de busca -->
+<app-input-busca *ngIf="isBuscaOpen" (close)="closeBusca()"></app-input-busca>

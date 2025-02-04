@@ -1,17 +1,4 @@
-.sidebar-collapsed {
-    width: 0;
-    overflow: hidden;
-  }
-  .sidebar-expanded {
-    width: 16rem; /* Equivale a w-64 */
-  }
-  .transition-all {
-    transition: all 0.3s ease-in-out;
-  }
-  .menu-button{
-margin-left: 52px;
-  }
-  .menu-button {
+.menu-button {
     background: transparent;
     border: none;
     cursor: pointer;
@@ -25,8 +12,8 @@ margin-left: 52px;
   /* Estilo do Menu Dropdown */
   .dropdown-menu {
     position: absolute;
-    right: 0;
-    bottom: 50px; /* Distância do botão */
+    right: -30px; /* Para aparecer ao lado direito */
+    bottom: 0;
     background-color: white;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
@@ -34,14 +21,14 @@ margin-left: 52px;
     width: 180px;
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateX(-10px);
     z-index: 50;
     pointer-events: none;
   }
   
   .dropdown-menu.open {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
     pointer-events: auto;
   }
   
