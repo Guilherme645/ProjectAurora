@@ -1,38 +1,113 @@
 <div class="advanced-search-container">
-  <div class="header">
-    <h2 class="title">Busca avançada</h2>
-    <p class="subtitle">Selecione o tipo de busca e insira os parâmetros desejados</p>
+  <h2 class="title">Busca Avançada
+  <p class="subtitle">Selecione o tipo de busca e insira os parâmetros desejados</p></h2>
+
+  <!-- Palavras-chave -->
+  <div class="accordion-section">
+    <div class="accordion-header" (click)="toggleSection('keywords')">
+      Palavras-chave
+      <svg [ngClass]="{ 'rotate': isSectionOpen.keywords }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.keywords }">
+      <input class="input-field" placeholder="Todas essas palavras" type="text" />
+      <input class="input-field" placeholder="Qualquer uma dessas palavras" type="text" />
+      <input class="input-field" placeholder="Frase ou palavra exata" type="text" />
+      <input class="input-field" placeholder="Nenhuma dessas palavras" type="text" />
+    </div>
   </div>
 
-  <div class="scrollable-content">
-    <div class="accordion-section" *ngFor="let item of sections" (click)="toggleSection(item)">
-      <div class="accordion-header">
-        <span>{{ item.title }}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" 
-             width="24" height="24" 
-             viewBox="0 0 24 24" 
-             fill="none" stroke="currentColor" 
-             stroke-width="2" stroke-linecap="round" 
-             stroke-linejoin="round" 
-             [class.rotate]="item.open"
-             class="lucide size-5 text-gray-500 transition-transform duration-200">
-          <path d="m6 9 6 6 6-6"></path>
-        </svg>
-      </div>
-
-      <div class="accordion-content" *ngIf="item.open">
-        <input *ngIf="item.type === 'text'" type="text" placeholder="Digite aqui..." class="input-field" />
-        <div *ngIf="item.type === 'checkbox'" class="checkbox-group">
-          <label *ngFor="let option of item.options">
-            <input type="checkbox" /> {{ option }}
-          </label>
-        </div>
+  <!-- Data -->
+  <div class="accordion-section">
+    <div class="accordion-header" (click)="toggleSection('date')">
+      Data
+      <svg [ngClass]="{ 'rotate': isSectionOpen.date }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.date }">
+      <div class="date-container">
+        <input class="date-field" type="text" placeholder="Data Início" (focus)="changeToDate($event)" (blur)="resetPlaceholder($event, 'Data Início')" />
+        <input class="date-field" type="text" placeholder="Data Fim" (focus)="changeToDate($event)" (blur)="resetPlaceholder($event, 'Data Fim')" />
       </div>
     </div>
   </div>
 
-  <div class="footer-buttons">
-    <button class="clear-button" (click)="clearSearch()">Limpar busca</button>
-    <button class="search-button" (click)="performSearch()">Fazer busca</button>
+  <!-- Tipos de Mídia -->
+  <div class="accordion-section">
+    <div class="accordion-header" (click)="toggleSection('media')">
+      Tipos de mídia
+      <svg [ngClass]="{ 'rotate': isSectionOpen.media }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.media }">
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="mediaTypes.audio" />
+        <span class="checkmark"></span>
+        Áudio (Rádio)
+      </label>
+
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="mediaTypes.text" />
+        <span class="checkmark"></span>
+        Texto (Impressos e Web)
+      </label>
+
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="mediaTypes.video" />
+        <span class="checkmark"></span>
+        Vídeo (Canais de televisão)
+      </label>
+    </div>
+  </div>
+ <!-- Sentimento -->
+ <div class="accordion-section">
+  <div class="accordion-header" (click)="toggleSection('sentiment')">
+    Sentimento
+    <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </div>
+
+  <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.sentiment }">
+    <label class="custom-checkbox">
+      <input type="checkbox" [(ngModel)]="sentiments.positive" />
+      <span class="checkmark"></span>
+      Positivo
+    </label>
+
+    <label class="custom-checkbox">
+      <input type="checkbox" [(ngModel)]="sentiments.neutral" />
+      <span class="checkmark"></span>
+      Neutro
+    </label>
+
+    <label class="custom-checkbox">
+      <input type="checkbox" [(ngModel)]="sentiments.negative" />
+      <span class="checkmark"></span>
+      Negativo
+    </label>
+  </div>
+</div>
+  <!-- Localização -->
+  <div class="accordion-section">
+    <div class="accordion-header" (click)="toggleSection('location')">
+      Localização
+      <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.location }">
+      <input class="input-field" placeholder="Digite a localização" />
+    </div>
+  </div>
+
+  <!-- Botões -->
+  <div class="button-container">
+    <button class="clear-button" (click)="clearSearch()">Limpar Busca</button>
+    <button class="search-button" (click)="performSearch()">Fazer Busca</button>
   </div>
 </div>

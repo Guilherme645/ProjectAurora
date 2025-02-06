@@ -1,30 +1,55 @@
 import { Component } from '@angular/core';
-import { DrawerService } from 'src/app/services/drawer.service';
 
 @Component({
   selector: 'app-high-search',
   templateUrl: './high-search.component.html',
-  styleUrls: ['./high-search.component.css'],
+  styleUrls: ['./high-search.component.css']
 })
 export class HighSearchComponent {
-  sections = [
-    { title: 'Palavras-chave', open: false, type: 'text' },
-    { title: 'Data', open: false, type: 'text' },
-    { title: 'Tipos de mídia', open: false, type: 'checkbox', options: ['Áudio', 'Texto', 'Vídeo'] },
-    { title: 'Veículos', open: false, type: 'text' },
-    { title: 'Sentimento', open: false, type: 'checkbox', options: ['Positivo', 'Neutro', 'Negativo'] },
-    { title: 'Localização', open: false, type: 'text' }
-  ];
-
-  toggleSection(item: any) {
-    item.open = !item.open;
+  isSectionOpen = {
+    keywords: false,
+    date: false,
+    media: false,
+    location: false,
+    sentiment: false
+  };
+  
+  mediaTypes = {
+    audio: false,
+    text: false,
+    video: false
+  };
+  
+  sentiments = {
+    positive: false,
+    neutral: false,
+    negative: false
+  };
+  
+  toggleSection(section: keyof typeof this.isSectionOpen): void {
+    this.isSectionOpen[section] = !this.isSectionOpen[section];
   }
 
-  clearSearch() {
-    console.log('Busca limpa');
+  clearSearch(): void {
+    console.log('Busca limpa!');
   }
 
-  performSearch() {
-    console.log('Busca realizada');
+  performSearch(): void {
+    console.log('Busca realizada!');
+  }
+
+  changeToDate(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.type = 'date';
+  }
+  ngAfterViewInit(): void {
+    (window as any).HSDatepicker?.init();
+  }
+  resetPlaceholder(event: Event, placeholder: string): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.value) {
+      input.type = 'text';
+      input.placeholder = placeholder;
+    }
   }
 }

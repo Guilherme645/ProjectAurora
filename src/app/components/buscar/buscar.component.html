@@ -25,10 +25,10 @@
 
   <!-- Drawer -->
   <div
-    class="drawer fixed top-0 right-0 z-40 h-screen w-80 bg-white shadow-lg transition-transform transform"
+    class="drawer"
     [ngClass]="{ 'translate-x-full': !isDrawerOpen, 'translate-x-0': isDrawerOpen }"
   >
-    <div class="p-4">
+    <div class="drawer-content">
       <!-- Conteúdo do Drawer -->
       <app-high-search></app-high-search>
     </div>

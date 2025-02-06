@@ -1,138 +1,213 @@
+/* Container principal */
 .advanced-search-container {
-  width: 320px;
+  max-width: 478px;
+  height: 100vh; /* Ocupa toda a altura da tela */
+  overflow-y: auto; 
   background: white;
-  border-radius: 8px;
   padding: 24px;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  gap: 16px;
+  border-radius: 8px;
   position: relative;
+  box-sizing: border-box; /* Inclui o padding e border no cálculo da altura */
 }
 
-.header {
-  margin-bottom: 16px;
-  text-align: left;
+/* Estilo da barra de rolagem */
+.advanced-search-container::-webkit-scrollbar {
+  width: 8px;
 }
 
+.advanced-search-container::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 4px;
+}
+
+.advanced-search-container::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+/* Títulos */
 .title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   color: #111827;
-  margin: 0;
+  text-align: left;
+  margin-bottom: 4px;
 }
 
 .subtitle {
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
-  margin: 4px 0 16px;
+  text-align: left;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 
-.scrollable-content {
-  flex: 1;
-  overflow-y: auto;
-
-  padding-top: -16px;
-  padding-bottom: -16px;
-  margin-bottom: 10px;
-}
-
+/* Seção do Accordion */
 .accordion-section {
-  border-bottom: 1px solid #E5E7EB;
-  padding: 12px 0;
-  cursor: pointer;
+  padding-bottom: 12px;
+  flex-shrink: 0; /* Impede o encolhimento */
 }
 
 .accordion-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
+  cursor: pointer;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: bold;
   color: #111827;
-  font-weight: 500;
 }
 
-.accordion-header span.rotate {
-  transform: rotate(180deg);
-  transition: transform 0.3s;
-}
-
+/* Conteúdo do Accordion */
 .accordion-content {
   padding: 10px 0;
+  display: none;
+  transition: all 0.3s ease;
 }
 
-.input-field {
+.accordion-content.show {
+  display: block;
+}
+
+/* Campos de entrada */
+.input-field,
+.date-field {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #f9fafb;
+  border-radius: 8px;
+  background: #f3f4f6;
   outline: none;
   font-size: 14px;
-  color: #1F2937;
+  margin-bottom: 10px;
 }
 
-.input-field:focus {
+.date-field:focus {
   border-color: #2563eb;
   background: white;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
 }
 
-.checkbox-group {
+.date-container {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
-label {
+/* Checkbox */
+.custom-checkbox {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #374151;
+  color: #111827;
+  cursor: pointer;
+  margin-bottom: 8px;
 }
 
-.footer-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px 0;
-  border-top: 1px solid #e5e7eb;
-  position: sticky;
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox .checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #2563eb;
+  border-color: #000000;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Footer fixo com botões */
+.button-container {
+  position: sticky; /* Torna o footer visível ao rolar */
   bottom: 0;
   background: white;
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+ 
+  z-index: 100;
 }
 
+/* Botões */
 .clear-button {
-color: rgb(0, 0, 0);
-font-size: 15px;
-border-radius: 8px;
-width: 119px;
-height: 46px;
+  background: transparent;
+  color: #374151;
+  width: 119px;
+  height: 46px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.clear-button:hover {
+  color: #111827;
+  text-decoration: underline;
 }
 
 .search-button {
-  background-color: #111827;
-color: white;
-font-size: 15px;
-border-radius: 8px;
-width: 119px;
-height: 46px;
+  width: 119px;
+  height: 46px;
+  background-color: #4B5563;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .search-button:hover {
   background-color: #1f2937;
 }
 
-/* Custom scrollbar */
-.scrollable-content::-webkit-scrollbar {
-  width: 6px;
+/* Ícone do Accordion */
+.icon {
+  transition: transform 0.3s ease;
 }
 
-.scrollable-content::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
-  border-radius: 4px;
+.icon.rotate {
+  transform: rotate(180deg);
 }
 
-.scrollable-content::-webkit-scrollbar-thumb:hover {
-  background-color: #94a3b8;
+/* Responsividade */
+@media (max-width: 768px) {
+  .advanced-search-container {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .clear-button,
+  .search-button {
+    width: 100%;
+  }
 }
