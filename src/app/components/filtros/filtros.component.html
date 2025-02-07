@@ -1,0 +1,44 @@
+<div class="filtro-container">
+
+    <!-- Informações da Busca -->
+    <div class="search-info">
+        <nav class="breadcrumb">
+            <span>Busca Geral</span> /
+            <span class="active">Dias Toffoli</span>
+        </nav>
+        <h2 class="search-title">Dias Toffoli</h2>
+        <p class="search-results">9840 resultados</p>
+    </div>
+
+    <!-- Botão de Salvar Busca -->
+    <div class="save-search">
+        <div class="save-search-text">
+            <p class="title">Monitore essa busca</p>
+            <p class="subtitle">Atualizações automáticas</p>
+        </div>
+        <button class="save-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+            </svg>
+            <span>Salvar</span>
+        </button>
+    </div>
+
+    <!-- Seções de Filtros -->
+    <div *ngFor="let filtro of filtros" class="filter-section">
+        <div class="filter-header" (click)="toggleSection(filtro.nome)">
+            <h2>{{ filtro.nome }}</h2>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </div>
+
+        <div class="filter-content" *ngIf="filtro.aberto">
+            <ul>
+                <li *ngFor="let item of filtro.itens">{{ item }}</li>
+            </ul>
+            <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+        </div>
+    </div>
+
+</div>

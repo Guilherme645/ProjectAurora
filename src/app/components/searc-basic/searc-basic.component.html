@@ -1,0 +1,25 @@
+<div class="search-container">
+    <div class="search-box relative p-3 rounded-lg flex flex-row items-center bg-gray-100 w-full max-w-[600px] border-b border-b-gray-200">
+        
+        <!-- Ícone da lupa antes do campo de entrada -->
+        <svg class="search-icon text-gray-500" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+        </svg>
+
+        <!-- Campo de entrada -->
+        <input class="search-input w-full bg-gray-100 ml-6 pr-10 text-sm text-gray-800 focus:outline-none" type="text" placeholder="Dias Toffoli" [(ngModel)]="searchQuery">
+
+        <!-- Botão de busca -->
+        <button class="search-button absolute -right-1 flex items-center justify-center bg-blue-600 h-full w-11 rounded-r-lg hover:bg-blue-800 transition-colors" (click)="onSearch()">
+            <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+            </svg>
+        </button>
+
+    </div>
+
+    <!-- Link para busca avançada -->
+    <button class="advanced-search-btn" (click)="openAdvancedSearch()">Busca avançada</button>
+</div>

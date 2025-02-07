@@ -1,6 +1,6 @@
 <div class="advanced-search-container">
-  <h2 class="title">Busca Avançada
-  <p class="subtitle">Selecione o tipo de busca e insira os parâmetros desejados</p></h2>
+  <h2 class="title">Busca Avançada</h2>
+  <p class="subtitle">Selecione o tipo de busca e insira os parâmetros desejados</p>
 
   <!-- Palavras-chave -->
   <div class="accordion-section">
@@ -28,8 +28,8 @@
     </div>
     <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.date }">
       <div class="date-container">
-        <input class="date-field" type="text" placeholder="Data Início" (focus)="changeToDate($event)" (blur)="resetPlaceholder($event, 'Data Início')" />
-        <input class="date-field" type="text" placeholder="Data Fim" (focus)="changeToDate($event)" (blur)="resetPlaceholder($event, 'Data Fim')" />
+        <input class="date-field" type="text" placeholder="Data Início" />
+        <input class="date-field" type="text" placeholder="Data Fim" />
       </div>
     </div>
   </div>
@@ -63,35 +63,64 @@
       </label>
     </div>
   </div>
- <!-- Sentimento -->
+
+  <!-- Veículos -->
  <div class="accordion-section">
-  <div class="accordion-header" (click)="toggleSection('sentiment')">
-    Sentimento
-    <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <div class="accordion-header" (click)="openModal()">
+    Veículos
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="m6 9 6 6 6-6"></path>
     </svg>
   </div>
+</div>
+   <!-- Fundo escuro do modal -->
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
 
-  <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.sentiment }">
-    <label class="custom-checkbox">
-      <input type="checkbox" [(ngModel)]="sentiments.positive" />
-      <span class="checkmark"></span>
-      Positivo
-    </label>
+<!-- Modal de veículos -->
+<div class="modal-container" *ngIf="isModalOpen">
+  <div class="modal-header">
+    <h2>Selecionar Veículos</h2>
+    <button class="close-button" (click)="closeModal()">✖</button>
+  </div>
 
-    <label class="custom-checkbox">
-      <input type="checkbox" [(ngModel)]="sentiments.neutral" />
-      <span class="checkmark"></span>
-      Neutro
-    </label>
+  <!-- Componente Veículos dentro do modal -->
+  <app-veiculos></app-veiculos>
 
-    <label class="custom-checkbox">
-      <input type="checkbox" [(ngModel)]="sentiments.negative" />
-      <span class="checkmark"></span>
-      Negativo
-    </label>
+  <div class="modal-footer">
+    <button class="clear-button" (click)="closeModal()">Fechar</button>
   </div>
 </div>
+
+  <!-- Sentimento -->
+  <div class="accordion-section">
+    <div class="accordion-header" (click)="toggleSection('sentiment')">
+      Sentimento
+      <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.sentiment }">
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="sentiments.positive" />
+        <span class="checkmark"></span>
+        Positivo
+      </label>
+
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="sentiments.neutral" />
+        <span class="checkmark"></span>
+        Neutro
+      </label>
+
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="sentiments.negative" />
+        <span class="checkmark"></span>
+        Negativo
+      </label>
+    </div>
+  </div>
+
   <!-- Localização -->
   <div class="accordion-section">
     <div class="accordion-header" (click)="toggleSection('location')">
@@ -108,6 +137,6 @@
   <!-- Botões -->
   <div class="button-container">
     <button class="clear-button" (click)="clearSearch()">Limpar Busca</button>
-    <button class="search-button" (click)="performSearch()">Fazer Busca</button>
-  </div>
+    <button class="search-button" (click)="navigateToResults()">Fazer Busca</button>
+</div>
 </div>

@@ -57,9 +57,8 @@
   align-items: center;
   cursor: pointer;
   padding: 10px 0;
+  font-size: 14px;
   border-bottom: 1px solid #e5e7eb;
-  font-weight: bold;
-  color: #111827;
 }
 
 /* Conteúdo do Accordion */
@@ -211,3 +210,54 @@
     width: 100%;
   }
 }
+/* Fundo escuro */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4); /* Fundo escuro */
+  z-index: 999; /* Atrás do modal */
+}
+
+/* Modal principal */
+/* Modal principal */
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px; /* Ajuste para um tamanho adequado */
+  max-width: 90%;
+  max-height: 80vh; /* Limita a altura para evitar ultrapassar a tela */
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001; /* Garante que esteja acima do fundo */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Adiciona rolagem se necessário */
+}
+
+/* Fundo escuro */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Fundo mais escuro para melhor contraste */
+  backdrop-filter: blur(8px);
+  z-index: 1000; /* Mantém abaixo do modal */
+}
+
+/* Ajuste de largura em telas grandes */
+@media (min-width: 1024px) {
+  .modal-container {
+    width: 500px;
+  }
+}
+
+/* Cabeçalho do modal */

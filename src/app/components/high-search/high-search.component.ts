@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-high-search',
@@ -6,14 +7,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./high-search.component.css']
 })
 export class HighSearchComponent {
-  isSectionOpen = {
+
+  constructor(private router: Router) {}
+
+
+  isSectionOpen: { 
+    keywords: boolean;
+    date: boolean;
+    media: boolean;
+    vehicles: boolean;
+    sentiment: boolean;
+    location: boolean;
+  } = {
     keywords: false,
     date: false,
     media: false,
-    location: false,
-    sentiment: false
+    vehicles: false,
+    sentiment: false,
+    location: false
   };
   
+
+  isModalOpen = false; // Controle do modal
+
   mediaTypes = {
     audio: false,
     text: false,
@@ -26,7 +42,7 @@ export class HighSearchComponent {
     negative: false
   };
   
-  toggleSection(section: keyof typeof this.isSectionOpen): void {
+  toggleSection(section: keyof typeof this.isSectionOpen) {
     this.isSectionOpen[section] = !this.isSectionOpen[section];
   }
 
@@ -51,5 +67,16 @@ export class HighSearchComponent {
       input.type = 'text';
       input.placeholder = placeholder;
     }
+  }
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  // Fecha o modal
+  closeModal() {
+    this.isModalOpen = false;
+  }
+  navigateToResults() {
+    this.router.navigate(['/resultado']); // Substitua pelo caminho correto da página de resultados
   }
 }

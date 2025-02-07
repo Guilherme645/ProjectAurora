@@ -26,6 +26,10 @@ import { MensoesComponent } from './mensoes/mensoes.component';
 import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
 import { ModalAccountComponent } from './components/modal-account/modal-account.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
+import { VeiculosComponent } from './components/veiculos/veiculos.component';
+import { ResultComponent } from './pages/result/result.component';
+import { FiltrosComponent } from './components/filtros/filtros.component';
+import { SearcBasicComponent } from './components/searc-basic/searc-basic.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +53,10 @@ import { TagFilterComponent } from './components/tag-filter/tag-filter.component
     ScrollTopComponent,
     ModalAccountComponent,
     TagFilterComponent,
+    VeiculosComponent,
+    ResultComponent,
+    FiltrosComponent,
+    SearcBasicComponent,
   ],
   imports: [
     BrowserModule,

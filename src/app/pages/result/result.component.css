@@ -1,0 +1,108 @@
+/* Remove qualquer overflow no HTML e BODY para garantir rolagem global */
+html, body {
+    height: 100%;
+    overflow-y: auto; /* Ativa rolagem global */
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+}
+
+/* Layout principal */
+.layout-container {
+    display: flex;
+    min-height: 100vh; /* Permite rolagem completa */
+}
+
+/* Sidebar fixa */
+.sidebar {
+    width: 280px;
+    background-color: #1f2937; /* Cor da sidebar */
+    color: white;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+/* Conteúdo principal */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 280px; /* Ajusta a posição ao lado da sidebar */
+    padding: 16px 24px;
+}
+
+/* Cabeçalho fixo */
+.header {
+    position: fixed;
+    top: 0;
+    left: 280px;
+    right: 0;
+    background: white;
+    padding: 16px 24px;
+    z-index: 10;
+    margin-left: 310px;
+}
+
+/* Wrapper para Filtros + Conteúdo Principal */
+.content-wrapper {
+    display: flex;
+    flex: 1;
+    margin-top: 80px; /* Evita sobreposição do cabeçalho */
+}
+
+/* Filtros fixos */
+.filters {
+    width: 350px; /* Ajustado conforme imagem */
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* Conteúdo principal */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: -25px;
+    margin-top: 10px;
+}
+
+/* Tabs no topo */
+.tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.tab {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    color: #374151;
+}
+
+.tab.active {
+    background: #E5E7EB;
+    color: rgb(0, 0, 0);
+}
+
+/* Container dos cartões */
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Cartões */
+.card {
+    width: 620px;
+    height: auto;
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+}
+

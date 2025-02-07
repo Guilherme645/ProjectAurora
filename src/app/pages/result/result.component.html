@@ -1,0 +1,45 @@
+<div class="layout-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <app-side-bar></app-side-bar>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Cabeçalho Fixo -->
+        <header class="header fixed-header">
+<app-searc-basic></app-searc-basic>        </header>
+
+        <div class="content-wrapper">
+            <!-- Filtros fixos -->
+            <div class="filters">
+                <app-filtros></app-filtros>
+            </div>
+
+             <!-- Conteúdo Principal -->
+             <main class="main">
+                <div class="tabs">
+                    <button class="tab active">Todos os resultados</button>
+                    <button class="tab">Resultados brutos</button>
+                    <button class="tab">Clippings</button>
+                </div>
+
+                <main class="main">
+                    <!-- Cartões -->
+                    <div class="card" *ngFor="let noticias of noticias">
+                        <app-card [noticias]="noticias"></app-card>
+                    </div>
+                    <br>
+                    <div class="card" *ngFor="let noticias of noticias">
+                        <app-card [noticias]="noticias"></app-card>
+                    </div>
+                    <br>
+                    <div class="card" *ngFor="let noticias of noticias">
+                        <app-card [noticias]="noticias"></app-card>
+                    </div>
+                </main>
+            </main>
+        </div>
+
+    </div>
+</div>

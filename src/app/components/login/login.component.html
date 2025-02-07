@@ -2,10 +2,12 @@
   <div class="login-form">
     <div class="login-container">
       <img src="assets/col.png" alt="Logo" class="logo">
-      <h1>Entre na sua conta BlueBossa</h1>
-      <p>Acesse já e veja as novas inovações.</p>
+      <h1>Entre na sua conta BlueBossa<br><p>Acesse já e veja as novas inovações.</p></h1>
+      
+      
       <form (ngSubmit)="onLogin()">
-        <div class="input-container">
+        <!-- Campo de Email -->
+        <div class="input-container" [ngClass]="{ 'error': emailError }">
           <label for="email" class="sr-only">Email</label>
           <input
             type="email"
@@ -13,10 +15,13 @@
             [(ngModel)]="email"
             name="email"
             placeholder="Email"
+            (blur)="validateEmail()"
             required
           />
         </div>
-        <div class="input-container">
+
+        <!-- Campo de Senha -->
+        <div class="input-container" [ngClass]="{ 'error': passwordError }">
           <label for="password" class="sr-only">Senha</label>
           <input
             type="password"
@@ -24,21 +29,26 @@
             [(ngModel)]="password"
             name="password"
             placeholder="Senha"
+            (blur)="validatePassword()"
             required
           />
+          <p class="error-message" *ngIf="passwordError">{{ passwordError }}</p>    
+                <p class="error-message" *ngIf="emailError">{{ emailError }}</p>
+
         </div>
-        <a [routerLink]="'/esqueceu'" class="forgot-password">
-          Esqueceu sua senha?
-        </a>
-        <button type="submit" class="button">
-          Entrar
-        </button>
+
+        <a [routerLink]="'/esqueceu'" class="forgot-password">Esqueceu sua senha?</a>
+
+        <!-- Botão de Login -->
+        <button type="submit" class="button">Entrar</button>
+
         <p class="register-link">
           Não tem uma conta? <a [routerLink]="'/criar'">Crie agora</a>
         </p>
       </form>
     </div>
   </div>
+  
   <div class="img">
     <div class="image-section"></div>
   </div>

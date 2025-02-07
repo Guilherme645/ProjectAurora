@@ -1,7 +1,7 @@
 /* Ajustes globais */
 html, body {
-    height: 100%;
-    margin: 0;
+  overflow-x: hidden; /* Esconde a rolagem horizontal */
+  width: 100vw; /* Garante que ocupe 100% da largura */
   }
 
 
@@ -60,11 +60,6 @@ label {
   color: #4b5563;
 }
 
-.input-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
   
   input[type="email"] {
     width: 400px; /* Largura fixa */
@@ -169,7 +164,7 @@ button:hover {
   .image-section {
     background-image: url('/assets/foto.png'); /* Insira o caminho correto */
     width: 676px; /* Largura especificada */
-    height: 755px; /* Altura especificada */
+    height: 785px; /* Altura especificada */
     background-size: cover; /* Faz a imagem preencher o espaço */
     background-position: center; /* Centraliza a imagem */
     border-radius: 12px; /* Bordas arredondadas */
@@ -180,3 +175,30 @@ button:hover {
     height: 28px;
     margin-left: 12;
   }
+
+/* Exibição de erros */
+.input-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Borda vermelha ao erro */
+.input-container.error input {
+  border-color: #dc2626; /* Vermelho */
+  background-color: #ffffff; /* Fundo sutil */
+}
+
+/* Mensagem de erro */
+.error-message {
+  color: #dc2626 !important; /* Vermelho forte */
+  font-size: 12px;
+  text-align: left;
+  margin-top: 4px;
+  width: 100%;
+  max-width: 400px;
+  padding-left: 8px;
+  font-weight: 500; /* Deixa mais visível */
+}
