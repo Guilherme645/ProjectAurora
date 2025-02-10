@@ -1,61 +1,45 @@
 <div class="card">
-  <!-- Cabeçalho do Card -->
-  <div class="card-header flex justify-between items-center mb-4">
-    <div class="flex items-center gap-4">
+  <div class="card-header">
+    <div class="left-info">
       <input type="checkbox" class="checkbox-input" />
-      <img class="w-10 h-10 rounded-full" src="{{ noticias.logo }}" alt="Logo do Veículo" />        
-      
+      <img class="logo" src="{{ noticias.logo }}" alt="Logo do Veículo" />
       <div class="veiculo">
-        <span class="vehicle-name font-medium text-gray-800">{{ noticias.veiculo }}</span> 
-        <div class="p">
-          <p>{{noticias.veiculo}}</p>
-        </div>
+        <span class="vehicle-name">{{ noticias.veiculo }}</span>
       </div>
-
-      <div class="logov">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" 
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide mr-0.5">
+      <div class="iconTipo flex items-center gap-2">
+        <div class="logov">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" 
+          fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide">
           <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
           <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
           <path d="m10 11 5 3-5 3v-6Z"></path>
         </svg>
+        </div>
+        <div class="tipo">
+          <span class="content-type text-sm text-gray-500">{{ noticias.tipo }}</span>
+        </div>
       </div>
-
-      <div class="tipo">
-        <span class="content-type text-sm text-gray-500">{{ noticias.tipo }}</span>
-      </div>
+      
     </div>
-
-    <div class="right-info text-sm text-gray-500 flex items-center gap-4">
-      <div>
-        <span class="date">{{ noticias.data }}</span><br>
-        <span class="sentiment">Sentimento: {{ noticias.sentimento }}</span>
-      </div>
+    <div class="right-info">
+      <span class="date">{{ noticias.data }}</span><br>
+      <span class="sentimento">Sentimento:</span>
+      <span class="sentiment">{{ noticias.sentimento }}</span>
     </div>
   </div>
 
-  <!-- Título da Menção -->
-  <p class="mb-3 text-ellipsis text-[#180EA4]"><strong>{{ noticias.titulo }}</strong></p>
+  <p class="mention-title">{{ noticias.titulo }}</p>
+  <p class="mention-description">{{ noticias.descricao }}</p>
 
-  <!-- Descrição da Menção -->
-  <p class="mention-description text-gray-700 text-sm mt-2">{{ noticias.descricao }}</p>
-
-  <!-- Rodapé do Card -->
-  <div class="mention-footer mt-4">
-    <span class="entities-label text-sm text-gray-600 font-medium">Entidades extraídas:</span>
-    <div class="flex flex-wrap gap-2 mt-2">
-      <span class="label px-2 py-1 bg-gray-200 rounded-full text-xs text-gray-800" *ngFor="let entidade of noticias.entidades">
-        {{ entidade }}
-      </span>
+  <div class="mention-footer">
+    <span class="entities-label">Entidades extraídas:</span>
+    <div class="entities">
+      <span class="label" *ngFor="let entidade of noticias.entidades">{{ entidade }}</span>
     </div>
-
-    <!-- Botão para abrir o filtro de tags -->
-    <a href="#" (click)="openTagFilter($event)" class="view-all-labels text-blue-600 text-sm mt-2 block">Ver todas</a>
+    <a href="#" (click)="openTagFilter($event)" class="view-all-labels">Ver todas</a>
   </div>
-
-  <!-- Exibir o componente TagFilter quando showTagFilter for verdadeiro -->
   <app-tag-filter *ngIf="showTagFilter" (closeTagFilter)="closeTagFilter()"></app-tag-filter>
 
-  <hr>
+  <hr />
 </div>

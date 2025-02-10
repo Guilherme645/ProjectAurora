@@ -22,22 +22,28 @@ height: 151px;
 
 /* Cabeçalho */
 .modal-header {
+  width: 592px;
+height: 78px;
+justify-content: space-between;
+padding: 16px;
   display: flex;
   align-items: center;
   padding: 16px;
+  font-size: 14px;
   border-bottom: 1px solid #e5e7eb;
   border-radius: 16px 16px 0 0;
 }
 
 /* Campo de pesquisa */
 .search-input {
-  width: 340px;
+  width: 592px;
+  height: 73px;
   background: transparent;
   border: none;
   margin-left: 16px;
   font-size: 14px;
   font-weight: 500;
-  color: #0000004d;
+  color: #000000;
   outline: none;
 }
 
@@ -60,7 +66,6 @@ height: 151px;
 .modal-icon {
   padding: 4px;
   margin: 0 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
   border-radius: 6px;
 }
@@ -69,11 +74,15 @@ height: 151px;
 .search-button {
   background:#4B5563;
   color: white;
-  padding: 12px 20px;
-  font-size: 14px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 15px;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
+  width: 119px;
+  height: 46px;
+  gap: 10px;
 }
 
 .search-button:hover {

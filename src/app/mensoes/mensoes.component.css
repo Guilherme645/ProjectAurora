@@ -1,30 +1,28 @@
 .mensoes-container {
     position: fixed;
-    bottom: 8px;
-    right: 8px;
-    margin-right:8px ;
-margin-left: 16px ;
-margin-top: 8px;
-margin-bottom: 8px;
-    border-radius: 16px;
+    bottom: 16px;
+    right: 16px;
+    z-index: 100;
+  }
+  
+  .mention-box {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    width: 300px;
+    width: 281px;
     height: 62px;
-    justify-content: space-between;
-}
-
-.mention-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.mensoes-text {
-    font-size: 14px;
+    padding: 8px 16px;
+    border: 1px solid #E5E7EB ;
+    border-radius: 16px; 
+    background-color: white;
+  }
+  
+.mention-text {
+    font-size: 12px;
     font-weight: 500;
     cursor: pointer;
+    color: #180EA4
+    ;
 }
 
 .mensoes-menu {
@@ -56,16 +54,16 @@ margin-bottom: 8px;
 }
 
 .mention-item:hover {
-    background-color: #f3f4f6;
+    background-color: #F8FAFC;
     border-radius: 6px;
 }
 
 .kbd {
-    background-color: #e5e7eb;
+    background-color: #ffffff;
     border-radius: 4px;
     padding: 2px 4px;
     font-size: 12px;
-    font-weight: bold;
+    border: 1px solid var(--components-kbd-border-color, #E5E7EB    )
 }
 
 .dropdown-menu {
@@ -75,8 +73,8 @@ margin-bottom: 8px;
     width: 281px;
     bottom: 80px; /* Move o dropdown para cima */
     background: white;
-    border-radius: 6px;
-    border: 1px black;
+    border: 1px solid #E5E7EB; /* Borda cinza clara */
+    border-radius: 12px;   
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
@@ -121,5 +119,30 @@ margin-bottom: 8px;
   
   .close-button:hover {
     background: #c53030;
+  }
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    border: 1px solid var(--Components-Button-White-Border-Color, #E5E7EB);    background-color: white;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .dropdown-toggle:hover {
+    border: 3px solid var(--Components-Button-White-Border-Color, #E5E7EB); 
+    border-radius: 5px;
+
+  }
+  
+  .dropdown-icon svg {
+    stroke: #4B5563; /* Cor do ícone */
+  }
+  
+  .dropdown-toggle:hover .dropdown-icon svg {
+    stroke: #1F2937; /* Cor mais escura ao passar o mouse */
   }
   

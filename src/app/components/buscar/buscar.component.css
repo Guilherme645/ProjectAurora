@@ -27,6 +27,7 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    
   }
   
   .busca-opcoes button:hover {
@@ -35,6 +36,10 @@
   
   .busca-opcoes button.ativo {
     font-weight: 600;
+    background-color: #E5E7EB;
+    gap: 8px;
+    padding: 8px 16px;
+
   }
   
   /* Estilização do input e botão */
@@ -52,10 +57,11 @@
   }
   
   .busca-barra input::placeholder {
-    color: #9ca3af;
+    color: #6B7280;
     font-size: 14px;
     width: 340px;
     height: 17px;
+    background-color: white;
   }
   
   .busca-barra input:focus {
@@ -127,4 +133,9 @@
 .blur-background.active {
   opacity: 1;
   visibility: visible;
+}
+.logo{
+  width: 141.99981689453125px;
+height: 82.10206604003906px;
+
 }

@@ -17,30 +17,39 @@
     margin-left: 16rem; /* Espaço igual à largura da sidebar */
     flex: 1;
     min-height: 100vh;
+  padding-top: 20px;
   }
   
   /* Cabeçalho */
   .header {
     position: fixed;
-    margin-left: 90px;
-    margin-right: 64px;
-    width: 958px;
+    width: 1086px;
+    height: 112px;
+    gap: 20px;
+    padding-right: 64px;
+    padding-left: 64px;
+    margin-left: 58px;
    
   }
   
   /* Conteúdo Principal */
   .main {
-    padding: 1.5rem 2rem; /* Controle de padding do conteúdo principal */
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem; /* Espaço entre os elementos */
+    flex-grow: 1;
+  padding: 20px;
+    width: 1086px;
+    height: 601px;
+    gap: 57px;
+    padding-left: 64px;
+    margin-top: 120px;
+    
+    
   }
   
   /* Cartões */
   .card {
-    width: 620px;
-    height: 216px;
-margin-left: 64px;
-}
-.scroll{
+    width: 1086;
+    height: 601;
+    gap: 57px;
+    padding-left: 64px;
+    
 }

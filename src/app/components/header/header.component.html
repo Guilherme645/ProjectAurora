@@ -1,19 +1,18 @@
+<div class="overlay" [class.show]="isBuscaOpen || isDropdownOpen"></div>
 <div class="header-container" [ngClass]="{ 'hidden': isScrolled }">
   <!-- Linha Principal do Cabeçalho -->
   <div class="header-main-row">
     <div>
       <h1 class="header-title">Resultados do Workspace</h1>
-      <p class="header-subtitle">9840 resultados em Superior Tribunal Federal</p>
+      <p class="header-subtitle">9840 resultados em Procuradoria Geral do Estado de Santa Catarina</p>
     </div>
 
-    <!-- Botões alinhados à direita -->
     <div class="button-group">
       <button class="action-buttonone" (click)="openBusca()">Fazer busca</button>
       <button class="action-buttontwo">Busca avançada</button>
     </div>
   </div>
 </div>
-
 <!-- Barra de Filtros Fixa -->
 <div class="header-filters-row">
   <div class="filters">
@@ -21,17 +20,26 @@
     <label class="filter-tab">
       <span [ngClass]="{ 'active': selectedTab === 'todos' }">Todos os resultados</span>
     </label>
-  
+
     <label class="filter-tab" (click)="selectTab('brutos')">
-      <span [ngClass]="{ 'active': selectedTab === 'brutos' }">Resultados brutos</span>
+      <span [ngClass]="{ 'active': selectedTab === 'brutos' }" class="brutos-tab">
+        <div class="brutos-text">Resultados brutos</div>
+        <div class="tooltip-container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <div class="tooltip">Os resultados brutos só retornam menções das mídias: TV, Rádio e Impressos</div>
+        </div>
+      </span>
     </label>
-  
+    
     <label class="filter-tab" (click)="selectTab('tratados')">
-      <span [ngClass]="{ 'active': selectedTab === 'tratados' }">Clippings</span>
+      <span [ngClass]="{ 'active': selectedTab === 'tratados' }">Resultados tratados</span>
     </label>
   </div>
   
-
   <div class="sorting-group">
     <span>Ordenar por:</span>
     <div class="dropdown" (click)="toggleDropdown()">
@@ -43,17 +51,18 @@
       </button>
   
       <ul class="dropdown-menu" [class.show]="isDropdownOpen">
-        <li (click)="selectOption('Mais relevantes')" class="active">Mais relevantes</li>
+        <li (click)="selectOption('Mais relevantes') ">Mais relevantes</li>
         <li (click)="selectOption('Mais recentes')">Mais recentes</li>
       </ul>
     </div>
-    <button class="filter-button" aria-label="Filtrar resultados">
+    <div class="filter-icon-container">
       <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
       </svg>
-    </button>
-  </div>
+      <div class="tooltipI">Filtros</div>
+    </div>
+    
   
 </div>
 

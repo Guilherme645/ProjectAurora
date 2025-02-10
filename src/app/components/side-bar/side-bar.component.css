@@ -1,70 +1,264 @@
-.sidebar-collapsed {
-    width: 0;
-    overflow: hidden;
-  }
-  .sidebar-expanded {
-    width: 16rem; /* Equivale a w-64 */
-  }
-  .transition-all {
-    transition: all 0.3s ease-in-out;
-  }
-  .menu-button{
-margin-left: 52px;
-  }
-  .menu-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
+.flex {
+  display: flex;
+  height: 100vh;
+}
+.flex h-screen{
+  width: 314px;
+  height: 809px;
   
-  .menu-button:hover {
-    background-color: #374151;
-  }
+}
+.compact-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1F2937;
+  padding: 16px 0;
+  width: 64px;
+}
+
+.sidebar-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #374151;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
+
+.active-button {
+  background-color: #1E40AF;
+  color: white;
+  width: 38px;
+height: 38px;
+gap: 6px;
+}
+
+.sidebar-button:hover {
+  background-color: #4b5563;
+  color: white;
+}
+
+.sidebar {
+  width: 260px;
+  height: 777px;
+  background-color: #151F2D;
+  justify-content: space-between;
   
-  /* Estilo do Menu Dropdown */
-  .dropdown-menu {
-    position: absolute;
-    right: 0;
-    bottom: 50px; /* Distância do botão */
-    background-color: white;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    padding: 10px 0;
-    width: 180px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
-    transform: translateY(10px);
-    z-index: 50;
-    pointer-events: none;
+}
+
+.sidebar-header {
+  width: 182px;
+  height: 38px;
+  gap: 2px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header h2 {
+font-weight: 700;
+font-size: 14px;
+line-height: 20px;
+letter-spacing: -1%;
+margin-top: 14px;
+}
+
+.sidebar-header h3 {
+  width: 232px;
+  height: 16px;
+font-weight: 600px;
+font-size: 12px;
+line-height: 16px;
+letter-spacing: -1%;
+color: #6F809A;
+padding-right: 14px;
+padding-top: 14px;
+padding-bottom: 14px;
   }
-  
-  .dropdown-menu.open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-  
-  .menu-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    color: #374151;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  .menu-item:hover {
-    background-color: #f3f4f6;
-  }
-  
-  .logout {
-    color: #ef4444;
-    font-weight: bold;
-  }
-  
-  .logout:hover {
-    background-color: #fee2e2;
-  }
-  
+
+.sidebar-header p {
+  width: 64px;
+  height: 16px;
+font-weight: 500px;
+font-size: 12px;
+line-height: 16px;
+letter-spacing: -1%;
+text-align: center;
+color: #6F809A;
+}
+
+.toggle-button {
+  width: 32px;
+  height: 32px;
+  background-color: #374151;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-button:hover {
+  background-color: #FFFFFF;
+}
+
+.menu {
+  padding: 16px;
+  overflow-y: auto;
+  margin-top: 14px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  font-size: 14px;
+  color: #FFFFFF;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.menu-item.active {
+  background-color: #374151;
+  color: white;
+}
+
+.menu-item:hover {
+  background-color: #4b5563;
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px;
+  background-color: #111827;
+  border-top: 1px solid #374151;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #2563eb;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.user-role {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.menu-button {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: white;
+}
+
+.menu-button:hover {
+  background-color: #374151;
+  border-radius: 8px;
+}
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #1E293B;
+  padding-top: 16px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  background-color: #1E293B;
+  padding: 12px 16px;
+  border-top: 1px solid #2D3748;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #DBEAFE;
+  color: #1E40AF;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.user-info {
+  flex-grow: 1;
+}
+
+.user-name {
+  font-size: 14px;
+  color: white;
+}
+
+.user-role {
+  font-size: 12px;
+  color: #A0AEC0;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.menu-button:hover {
+  background-color: #374151;
+  border-radius: 4px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  bottom: 50px;
+  background-color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 10px 0;
+  width: 180px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.dropdown-menu.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
