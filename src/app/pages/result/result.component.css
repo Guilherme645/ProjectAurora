@@ -41,7 +41,7 @@ html, body {
     background: white;
     padding: 16px 24px;
     z-index: 10;
-    margin-left: 310px;
+    margin-left: 350px;
 }
 
 /* Wrapper para Filtros + Conteúdo Principal */
@@ -68,11 +68,7 @@ html, body {
 }
 
 /* Tabs no topo */
-.tabs {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
-}
+
 
 .tab {
     background: none;
@@ -83,6 +79,12 @@ html, body {
     cursor: pointer;
     border-radius: 8px;
     color: #374151;
+    width: 480px;
+    height: 36px;
+    gap: 12px;
+    margin-left: 10px;
+    transition: background 0.3s ease, color 0.3s ease;
+
 }
 
 .tab.active {
@@ -104,5 +106,6 @@ html, body {
     background: white;
     padding: 16px;
     border-radius: 8px;
+    margin-left: 23px;
 }
 

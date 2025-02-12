@@ -1,45 +1,70 @@
-<div class="card">
-  <div class="card-header">
+<!-- Versão Desktop -->
+<div *ngIf="!isMobile" >
+  <div class="card">
+    <div class="card-header">
+      <div class="left-info">
+        <input type="checkbox" class="checkbox-input" />
+        <img class="logo" src="{{ noticias.logo }}" alt="Logo do Veículo" />
+        <div class="veiculo">
+          <span class="vehicle-name">{{ noticias.veiculo }}</span>
+        </div>
+        <div class="iconTipo flex items-center gap-2">
+          <div class="logov">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" 
+            fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide">
+            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+            <path d="m10 11 5 3-5 3v-6Z"></path>
+          </svg>
+          </div>
+          <div class="tipo">
+            <span class="content-type text-sm text-gray-500">{{ noticias.tipo }}</span>
+          </div>
+        </div>
+        
+      </div>
+      <div class="right-info">
+        <span class="date">{{ noticias.data }}</span><br>
+        <span class="sentimento">Sentimento:</span>
+        <span class="sentiment">{{ noticias.sentimento }}</span>
+      </div>
+    </div>
+  
+    <p class="mention-title">{{ noticias.titulo }}</p>
+    <p class="mention-description">{{ noticias.descricao }}</p>
+  
+    <div class="mention-footer">
+      <span class="entities-label">Entidades extraídas:</span>
+      <div class="entities">
+        <span class="label" *ngFor="let entidade of noticias.entidades">{{ entidade }}</span>
+      </div>
+      <a href="#" (click)="openTagFilter($event)" class="view-all-labels">Ver todas</a>
+    </div>
+    <app-tag-filter *ngIf="showTagFilter" (closeTagFilter)="closeTagFilter()"></app-tag-filter>
+  
+    <hr />
+  </div>
+</div>
+
+<!-- Versão Mobile -->
+<div *ngIf="isMobile" class="card-mobile">
+  <div class="mobile-header">
     <div class="left-info">
-      <input type="checkbox" class="checkbox-input" />
-      <img class="logo" src="{{ noticias.logo }}" alt="Logo do Veículo" />
-      <div class="veiculo">
-        <span class="vehicle-name">{{ noticias.veiculo }}</span>
+      <img class="mobile-logo" [src]="noticias.logo" alt="Logo do Veículo" />
+      <div class="mobile-veiculo">
+        <span class="mobile-vehicle-name">{{ noticias.veiculo }}</span>
+        <span class="mobile-date">{{ noticias.data }}</span>
       </div>
-      <div class="iconTipo flex items-center gap-2">
-        <div class="logov">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" 
-          fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide">
-          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-          <path d="m10 11 5 3-5 3v-6Z"></path>
-        </svg>
-        </div>
-        <div class="tipo">
-          <span class="content-type text-sm text-gray-500">{{ noticias.tipo }}</span>
-        </div>
-      </div>
-      
     </div>
-    <div class="right-info">
-      <span class="date">{{ noticias.data }}</span><br>
-      <span class="sentimento">Sentimento:</span>
-      <span class="sentiment">{{ noticias.sentimento }}</span>
+    <span class="mobile-tipo">{{ noticias.tipo }}</span>
+  </div>
+  <p class="mobile-mention-title">{{ noticias.titulo }}</p>
+  <p class="mobile-mention-description">{{ noticias.descricao }}</p>
+  <div class="mobile-mention-footer">
+    <span class="mobile-entities-label">Entidades:</span>
+    <div class="mobile-entities">
+      <span class="mobile-label" *ngFor="let entidade of noticias.entidades">{{ entidade }}</span>
     </div>
   </div>
-
-  <p class="mention-title">{{ noticias.titulo }}</p>
-  <p class="mention-description">{{ noticias.descricao }}</p>
-
-  <div class="mention-footer">
-    <span class="entities-label">Entidades extraídas:</span>
-    <div class="entities">
-      <span class="label" *ngFor="let entidade of noticias.entidades">{{ entidade }}</span>
-    </div>
-    <a href="#" (click)="openTagFilter($event)" class="view-all-labels">Ver todas</a>
-  </div>
-  <app-tag-filter *ngIf="showTagFilter" (closeTagFilter)="closeTagFilter()"></app-tag-filter>
-
-  <hr />
 </div>

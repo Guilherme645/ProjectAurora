@@ -142,3 +142,84 @@ gap: 8px;
 .date{
   color: black;
 }
+@media (max-width: 480px) {
+/* Estilo para versão Desktop (sem modificações) */
+
+/* Versão Mobile */
+.card-mobile {
+  padding: 16px;
+  background: white;
+  font-family: Arial, sans-serif;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.mobile-veiculo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-vehicle-name {
+  font-weight: bold;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.mobile-date {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.mobile-tipo {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.mobile-mention-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #180ea4;
+  margin: 8px 0;
+}
+
+.mobile-mention-description {
+  font-size: 12px;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.mobile-mention-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mobile-entities-label {
+  font-weight: bold;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.mobile-label {
+  background: #e5e7eb;
+  color: #1f2937;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
+}
+

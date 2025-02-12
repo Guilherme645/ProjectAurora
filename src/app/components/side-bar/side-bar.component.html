@@ -1,3 +1,4 @@
+<div *ngIf="!isMobile">
 <div class="flex h-screen">
   <!-- Navegador Compacto Lateral -->
   <div class="compact-sidebar">
@@ -110,3 +111,55 @@
     </div>
   </div>
   </div>
+</div>
+<div *ngIf="isMobile">
+  <div class="mobile-layout">
+    <!-- Botão para abrir Sidebar -->
+    <button class="sidebar-toggle" (click)="toggleSidebar()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="6" x2="20" y2="6"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Sidebar Mobile -->
+    <div [ngClass]="{ 'sidebar-open': isSidebarOpen, 'sidebar-closed': !isSidebarOpen }" class="sidebar-mobile">
+      <div class="sidebar-header">
+        <div class="workspace-info">
+          <span class="icon">ST</span>
+          <div>
+            <h3 class="workspace-title">Workspace</h3>
+            <p class="workspace-subtitle">Supremo Tribunal Federal</p>
+          </div>
+        </div>
+        <button (click)="toggleSidebar()" class="close-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <nav class="menu">
+        <h3 class="menu-title">MENU WORKSPACE</h3>
+        <ul>
+          <li><a href="#" class="menu-item active">Início</a></li>
+          <li><a href="#" class="menu-item">Busca Geral</a></li>
+          <li><a href="#" class="menu-item">Buscas Salvas</a></li>
+          <li><a href="#" class="menu-item">Clippings</a></li>
+          <li><a href="#" class="menu-item">Dashboard</a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="footer-content">
+          <div class="avatar">AC</div>
+          <div class="user-info">
+            <p class="user-name">Antônio Costa</p>
+            <p class="user-role">Analista</p>
+          </div>
+          <button class="menu-button">Sair da conta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

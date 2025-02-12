@@ -1,6 +1,6 @@
 /* Container principal */
 .advanced-search-container {
-  max-width: 478px;
+  max-width: 476px;
   height: 100vh; /* Ocupa toda a altura da tela */
   overflow-y: auto; 
   background: white;
@@ -12,6 +12,9 @@
   border-radius: 8px;
   position: relative;
   box-sizing: border-box; /* Inclui o padding e border no cálculo da altura */
+  overflow-y: auto; /* Mantém a rolagem vertical */
+  overflow-x: hidden; /* Remove a rolagem horizontal */
+
 }
 
 /* Estilo da barra de rolagem */
@@ -39,7 +42,7 @@
 
 .subtitle {
   font-size: 13px;
-  color: #6b7280;
+  color: #6B7280;
   text-align: left;
   line-height: 1.5;
   margin-bottom: 12px;
@@ -139,45 +142,45 @@
 }
 
 /* Footer fixo com botões */
-.button-container {
-  position: sticky; /* Torna o footer visível ao rolar */
+.modal-footer {
+  position: sticky;
   bottom: 0;
-  background: white;
-  padding: 16px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
- 
-  z-index: 100;
+  width: 476px;
+height: 45px;
+top: 731px;
+border-top-width: 1px;
+padding: 16px;
+gap: 12px;
+margin-left: -40px;
+  text-align: right;
+  border-top: none; /* Remove a linha superior */
+
 }
 
 /* Botões */
 .clear-button {
-  background: transparent;
-  color: #374151;
-  width: 119px;
+  width: 128px;
   height: 46px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  transition: color 0.3s ease;
+ font-weight: bold;
+  
 }
 
-.clear-button:hover {
-  color: #111827;
-  text-decoration: underline;
-}
 
 .search-button {
   width: 119px;
-  height: 46px;
+  height: 46px;  
   background-color: #4B5563;
   color: white;
   border: none;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+font-weight: 600px;
+font-size: 15px;
+line-height: 18.15px;
+letter-spacing: -1%;
+text-align: center;
+
 }
 
 .search-button:hover {

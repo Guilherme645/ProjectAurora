@@ -1,23 +1,30 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css'],
+  styleUrls: ['./card.component.css']
 })
-export class CardComponent {
-  showTagFilter: boolean = false; // Controla a visibilidade do TagFilterComponent
+export class CardComponent implements OnInit {
+  @Input() noticias: any;
+  showTagFilter: boolean = false;
+  isMobile: boolean = false; // Flag para identificar se é mobile
 
-  @Input() noticias: any; // Recebe os dados de uma única notícia
+  ngOnInit(): void {
+    this.checkScreenSize(); // Verifica o tamanho da tela ao carregar
+  }
 
-  // Abre o componente TagFilter
-  openTagFilter(event: Event) {
-    event.preventDefault(); // Previne o comportamento padrão do link
+  @HostListener('window:resize')
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768; // Define mobile se for menor ou igual a 768px
+  }
+
+  openTagFilter(event: Event): void {
+    event.preventDefault();
     this.showTagFilter = true;
   }
 
-  // Fecha o componente TagFilter
-  closeTagFilter() {
+  closeTagFilter(): void {
     this.showTagFilter = false;
   }
 }

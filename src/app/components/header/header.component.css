@@ -460,3 +460,43 @@ gap: 4px;
   position: relative;
   z-index: 999;
 }
+@media (max-width: 480px) {
+  .mobile-header nav {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .icon-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .tab-item {
+    padding: 10px;
+    color: #374151;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .tab-item.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+    font-weight: 600;
+  }
+  
+  .tab-item:hover {
+    color: #1e40af;
+  }
+  
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  }
+
+

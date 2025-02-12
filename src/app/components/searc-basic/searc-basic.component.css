@@ -15,8 +15,8 @@
   width: 400px;
   height: 46px;
   max-width: 600px;
-  background: #f3f4f6;
-  border-bottom: 1px solid #E5E7EB;
+  background: #ffffff;
+  border: 1px solid #E5E7EB;
   padding: 10px 12px;
   position: relative;
   margin-left: -130px;
@@ -36,6 +36,9 @@
   color: #111827;
   padding: 6px;
   outline: none;
+  width: 464px;
+height: 46px;
+
 }
 
 /* Placeholder no campo de entrada */
@@ -69,7 +72,6 @@
   border: none;
   color: #2563eb;
   font-size: 14px;
-  font-weight: bold;
   cursor: pointer;
   transition: color 0.3s;
   text-decoration: none;

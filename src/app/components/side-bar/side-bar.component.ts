@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -6,11 +6,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./side-bar.component.css']
 })
 export class SideBarComponent {
-  isExpanded: boolean = true;
   menuOpen = false;
+  isExpanded = true; // Controle para o modo expandido
+  isMobile = false;
+  isSidebarOpen = true;
+
+  ngOnInit(): void {
+    this.checkScreenSize();
+  }
 
   toggleSidebar() {
-    this.isExpanded = !this.isExpanded;
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
   activeTab: string = 'Tab 2'; // Define a aba ativa inicialmente
 
@@ -24,5 +30,14 @@ export class SideBarComponent {
   }
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
+  }
+
+  @HostListener('window:resize')
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768;
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobile = !this.isMobile;
   }
 }

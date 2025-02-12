@@ -8,8 +8,10 @@
 
 /* Informações da Busca */
 .search-info {
-    margin-bottom: 16px;
-}
+    width: 198px;
+    height: 76px;
+    gap: 12px;
+    }
 
 .breadcrumb {
     font-size: 12px;
@@ -38,12 +40,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 308px;
+    height: 78px;
+    border-radius: 12px;
+    border-width: 1px;
+    justify-content: space-between;
     padding: 16px;
-    border-radius: 8px;
+        border-radius: 8px;
     border: 1px solid #e5e7eb;
     background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .save-search-text {
@@ -80,18 +86,71 @@
 
 /* Seções de Filtros */
 .filter-section {
-    margin-top: 16px;
-}
+    width: 308px;
+    gap: 48px;
+    }
 
-.filter-header {
+    .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        padding: 10px 0;
+        border-bottom: none; 
+    }
+.date-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+    border-bottom: none; 
+  }
+  
+  .date-field {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #F3F4F6;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    width: 146px;
+height: 62px;
+border-bottom: none; 
+
+  }
+  
+  .date-field:focus {
+    background: white;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+  }
+  
+  .filter-section {
+    margin-bottom: 16px;
+  }
+  
+  .filter-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    border-radius: 8px;
     cursor: pointer;
-}
-
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .accordion-content {
+    padding: 8px 0;
+  }
+  
+  .icon {
+    transition: transform 0.3s ease;
+  }
+  
+  .icon.rotate {
+    transform: rotate(180deg);
+  }
+  
 .filter-header h2 {
     font-size: 14px;
     font-weight: bold;

@@ -202,3 +202,116 @@ button:hover {
   padding-left: 8px;
   font-weight: 500; /* Deixa mais visível */
 }
+/* Versão mobile para dispositivos com largura máxima de 480px */
+/* Estilo para dispositivos mobile (332x464) */
+/* Versão mobile para dispositivos com largura máxima de 480px */
+@media (max-width: 480px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 20px; /* Adiciona espaçamento nas laterais */
+
+  }
+
+  .main-container {
+    flex-direction: column;
+    width: 100%;
+    max-width: 360px; /* Garante que o contêiner não ocupe mais que 360px */
+    height: auto;
+  }
+
+  .login-container {
+    width: 330px;
+    height: 417px;
+    margin-top: 197px;
+    margin-left: 27px;
+    gap: 48px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    box-sizing: border-box;
+  }
+
+  .logo {
+    width: 24px;
+    height: 18px;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  p {
+    font-size: 14px;
+    color: #6B7280;
+  }
+
+  .input-container {
+    width: 328px;
+    position: relative;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    height: 44px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 14px;
+    align-self: center; 
+
+  }
+
+  input::placeholder {
+    color: #9ca3af;
+  }
+
+  .forgot-password {
+    font-size: 12px;
+    color: #2563eb;
+    text-decoration: none;
+    align-self: flex-end;
+  }
+
+  .button {
+    width: 100%;
+    height: 46px;
+    border-radius: 8px;
+    margin-left: -3px;
+  align-self: center; 
+ }
+
+  .button:hover {
+    background-color: #374151;
+  }
+
+  .register-link {
+    font-size: 14px;
+    color: #6b7280;
+    text-align: center;
+  }
+
+  .register-link a {
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  .register-link a:hover {
+    color: #1e40af;
+  }
+
+  .img {
+    display: none; /* Remove a imagem no layout mobile */
+  }
+}
+

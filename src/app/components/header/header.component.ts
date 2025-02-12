@@ -37,4 +37,18 @@ selectOption(option: string) {
   this.selectedOption = option;
   this.isDropdownOpen = false;
 }
+isMobile: boolean = false;
+
+@HostListener('window:resize', ['$event'])
+onResize() {
+  this.checkScreenSize();
+}
+
+ngOnInit(): void {
+  this.checkScreenSize();
+}
+
+private checkScreenSize(): void {
+  this.isMobile = window.innerWidth <= 768; // Mobile para telas <= 768px
+}
 }

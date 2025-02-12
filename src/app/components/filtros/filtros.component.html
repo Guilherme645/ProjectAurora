@@ -25,20 +25,29 @@
     </div>
 
     <!-- Seções de Filtros -->
-    <div *ngFor="let filtro of filtros" class="filter-section">
-        <div class="filter-header" (click)="toggleSection(filtro.nome)">
-            <h2>{{ filtro.nome }}</h2>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-        </div>
-
-        <div class="filter-content" *ngIf="filtro.aberto">
-            <ul>
-                <li *ngFor="let item of filtro.itens">{{ item }}</li>
-            </ul>
-            <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
-        </div>
+  <!-- Seções de Filtros -->
+  <div *ngFor="let filtro of filtros" class="filter-section">
+    <div class="filter-header" (click)="toggleSection(filtro.nome)">
+      <h2>{{ filtro.nome }}</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
     </div>
+    
+    <div class="accordion-content" *ngIf="filtro.aberto">
+      <div *ngIf="filtro.nome === 'Data'" class="date-container">
+        <input class="date-field" placeholder="Data Início" type="text" />
+        <input class="date-field" placeholder="Data Fim" type="text" />
+      </div>
+      <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
+        <ul>
+          <li *ngFor="let item of filtro.itens">{{ item }}</li>
+        </ul>
+        <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+      </div>
+  </div>
+
+</div>
+
 
 </div>
