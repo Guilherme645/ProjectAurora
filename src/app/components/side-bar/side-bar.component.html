@@ -124,12 +124,12 @@
     </button>
 
     <!-- Sidebar Mobile -->
-    <div [ngClass]="{ 'sidebar-open': isSidebarOpen, 'sidebar-closed': !isSidebarOpen }" class="sidebar-mobile">
+    <    <div [ngClass]="{ 'sidebar-open': isSidebarOpen, 'sidebar-closed': !isSidebarOpen }" class="sidebar-mobile">
       <div class="sidebar-header">
         <div class="workspace-info">
-          <span class="icon">ST</span>
-          <div>
-            <h3 class="workspace-title">Workspace</h3>
+          <div class="workspace-icon">ST</div>
+          <div class="workspace-title-container">
+            <h1 class="workspace-title">Workspace</h1>
             <p class="workspace-subtitle">Supremo Tribunal Federal</p>
           </div>
         </div>
@@ -140,14 +140,60 @@
           </svg>
         </button>
       </div>
+
       <nav class="menu">
         <h3 class="menu-title">MENU WORKSPACE</h3>
-        <ul>
-          <li><a href="#" class="menu-item active">Início</a></li>
-          <li><a href="#" class="menu-item">Busca Geral</a></li>
-          <li><a href="#" class="menu-item">Buscas Salvas</a></li>
-          <li><a href="#" class="menu-item">Clippings</a></li>
-          <li><a href="#" class="menu-item">Dashboard</a></li>
+        <ul >
+          <li>
+            <a routerLink="/home/workspace" routerLinkActive="active" class="menu-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              </svg>
+              <p class="text-sm ml-2 font-medium">Início</p>
+            </a>
+          </li>
+        
+          <li>
+            <a routerLink="/home/general-search" routerLinkActive="active" class="menu-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </svg>
+              <p class="text-sm ml-2 font-medium">Busca Geral</p>
+            </a>
+          </li>
+        
+          <li>
+            <a routerLink="/home/saved-search" routerLinkActive="active" class="menu-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"></path>
+                <path d="M17 21v-8H7v8"></path>
+                <path d="M7 3v4h10V3"></path>
+              </svg>
+              <p class="text-sm ml-2 font-medium">Buscas Salvas</p>
+            </a>
+          </li>
+        
+          <li>
+            <a routerLink="/home/clippings" routerLinkActive="active" class="menu-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2" key="1vzg26"></path><path d="M10 22H8" key="euku7a"></path><path d="M16 22h-2" key="18d249"></path><circle cx="8" cy="8" r="2" key="14cg06"></circle><path d="M9.414 9.414 12 12" key="qz4lzr"></path><path d="M14.8 14.8 18 18" key="11flf1"></path><circle cx="8" cy="16" r="2" key="1acxsx"></circle><path d="m18 6-8.586 8.586" key="11kzk1"></path></svg>
+              <p class="text-sm ml-2 font-medium">Clippings</p>
+            </a>
+          </li>
+        
+          <li>
+            <a routerLink="/home/dashboard" routerLinkActive="active" class="menu-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+              </svg>
+              <p class="text-sm ml-2 font-medium">Dashboard</p>
+            </a>
+          </li>
+  
         </ul>
       </nav>
       <div class="sidebar-footer">
@@ -157,7 +203,12 @@
             <p class="user-name">Antônio Costa</p>
             <p class="user-role">Analista</p>
           </div>
-          <button class="menu-button">Sair da conta</button>
+        </div>
+        <div class="logout-container">
+          <button class="menu-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" key="1uf3rs"></path><polyline points="16 17 21 12 16 7" key="1gabdz"></polyline><line x1="21" x2="9" y1="12" y2="12" key="1uyos4"></line></svg>
+            Sair da conta
+          </button>
         </div>
       </div>
     </div>

@@ -1,0 +1,128 @@
+<div class="container">
+    <header class="header">
+      <h1 class="title">Salvar nova busca</h1>
+      <p class="subtitle">Insira as edições desejadas</p>
+    </header>
+  
+    <div class="form-layout">
+      <!-- Passos de Navegação -->
+      <nav class="steps">
+        <div class="step" [class.active]="currentStep === 1">
+          <div class="step-icon">1</div>
+          <span class="step-title">Informações básicas</span>
+        </div>
+        <div class="step" [class.active]="currentStep === 2">
+          <div class="step-icon">2</div>
+          <span class="step-title">Alertas</span>
+          <p class="step-description">Configuração opcional</p>
+        </div>
+      </nav>
+  
+      <!-- Etapa 1: Informações básicas -->
+      <section *ngIf="currentStep === 1" class="form-content">
+        <form [formGroup]="salvarBuscaForm">
+          <article class="form-group">
+            <label for="searchName" class="form-label">Nome da busca salva <span class="required">*</span></label>
+            <input id="searchName" type="text" formControlName="searchName" class="form-input" placeholder="Digite o nome da busca" />
+            <p class="form-helper">Aparecerá nas menções dessa busca</p>
+          </article>
+  
+          <article class="form-group">
+            <label for="startDate" class="form-label">Início do monitoramento <span class="required">*</span></label>
+            <input id="startDate" type="date" formControlName="startDate" class="form-input" />
+            <p class="form-helper">Data que o sistema começará a coletar menções dessa busca</p>
+          </article>
+  
+          <article class="form-group">
+            <label for="endDate" class="form-label">Fim do monitoramento</label>
+            <input id="endDate" type="date" formControlName="endDate" class="form-input" />
+            <p class="form-helper">Data que o sistema irá finalizar a coleta de menções dessa busca</p>
+          </article>
+  
+          <div class="form-actions">
+            <button type="button" class="button" (click)="nextStep()">Continuar</button>
+          </div>
+        </form>
+      </section>
+  
+      <!-- Etapa 2: Alertas -->
+      <section *ngIf="currentStep === 2" class="form-content">
+        <div class="scrollable-content">
+          <!-- Passo 1: Parâmetros do alerta -->
+          <article class="alert-parameters">
+            <header class="section-header">
+              <h2>Passo 1: Parâmetros do alerta</h2>
+            </header>
+            <div class="section-content">
+              <div class="parameter-item">
+                <div class="parameter-text">
+                  <label>Ativar alerta <span class="required">*</span></label>
+                  <p>Enviar um alerta sempre que houver uma nova menção</p>
+                </div>
+                <input type="checkbox" id="alert-switch" class="toggle-switch">
+              </div>
+              <hr />
+              <div class="parameter-item">
+                <div class="parameter-text">
+                  <label>Ativar alerta somente para menções negativas <span class="required">*</span></label>
+                  <p>Enviar um alerta apenas quando uma nova menção for analisada com sentimento negativo</p>
+                </div>
+                <input type="checkbox" id="negative-alert-switch" class="toggle-switch">
+              </div>
+            </div>
+          </article>
+  
+          <!-- Passo 2: Seleção de usuários -->
+          <article class="user-selection">
+            <header class="section-header">
+              <h2>Passo 2: Selecione os usuários do Workspace que devem receber os alertas</h2>
+            </header>
+            <div class="section-content">
+              <div class="select-all">
+                <input type="checkbox" id="select-all">
+                <label for="select-all">Selecionar todos do Workspace</label>
+              </div>
+  
+              <ul class="user-list">
+                <li class="user-item">
+                  <div class="user-info">
+                    <input type="checkbox">
+                    <div class="avatar" style="background-color: #3b82f6;">GS</div>
+                    <span>Guilherme Sousa (guilhermesousa&#64;org)</span>
+                  </div>
+                </li>
+                <li class="user-item">
+                  <div class="user-info">
+                    <input type="checkbox">
+                    <div class="avatar" style="background-color: #ef4444;">MC</div>
+                    <span>Marina Campos (marinacampos&#64;org)</span>
+                  </div>
+                </li>
+                <li class="user-item">
+                  <div class="user-info">
+                    <input type="checkbox">
+                    <div class="avatar" style="background-color: #10b981;">GM</div>
+                    <span>Gilberto Menezes (gilbertomenezes&#64;org)</span>
+                  </div>
+                </li>
+                <li class="user-item">
+                  <div class="user-info">
+                    <input type="checkbox">
+                    <div class="avatar" style="background-color: #6366f1;">SB</div>
+                    <span>Sarah Bastos (sarahbastos&#64;org)</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+  
+        <!-- Botões de ação -->
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="prevStep()">Voltar</button>
+          <button type="button" class="btn-primary" (click)="onSubmit()">Salvar busca</button>
+        </div>
+      </section>
+    </div>
+  </div>
+  

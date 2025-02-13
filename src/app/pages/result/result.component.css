@@ -84,7 +84,6 @@ html, body {
     gap: 12px;
     margin-left: 10px;
     transition: background 0.3s ease, color 0.3s ease;
-
 }
 
 .tab.active {

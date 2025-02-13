@@ -205,3 +205,53 @@ border-bottom: none;
 .show-more:hover {
     text-decoration: underline;
 }
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+  }
+  
+  .modal-container {
+    position: absolute;
+    width: 1086px;
+    height: 667px;
+    top: 97.5px;
+    left: 157.5px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .modal-content {
+    padding: 1.5rem;
+    height: calc(100% - 4rem); /* Ajusta o conteúdo para não sobrepor o footer */
+      overflow: hidden; /* Evita o scroll interno */
+
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    background: #f3f4f6;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .modal-close-button {
+    padding: 0.5rem 1rem;
+    background-color: #4b5563;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .modal-close-button:hover {
+    background-color: #1f2937;
+  }
+  

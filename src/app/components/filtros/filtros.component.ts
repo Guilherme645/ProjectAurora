@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./filtros.component.css']
 })
 export class FiltrosComponent {
+  modalAberto = false; // Controle para abrir e fechar o modal
 
   filtros = [
     { nome: 'Hora', aberto: true, itens: ['Manhã (4091)', 'Tarde (3291)', 'Noite (1827)'], mostrarMais: false },
@@ -18,13 +19,20 @@ export class FiltrosComponent {
 
   toggleSection(nome: string) {
     const filtro = this.filtros.find(f => f.nome === nome);
-    if (filtro) {
-      filtro.aberto = !filtro.aberto;
-    }
+    if (filtro) filtro.aberto = !filtro.aberto; // Alterna a abertura da seção
   }
 
+ 
   mostrarMais(filtro: any) {
     filtro.itens.push('Mais opções...');
     filtro.mostrarMais = false;
   }
+  openModal() {
+    this.modalAberto = true; // Abre o modal
+  }
+
+  closeModal() {
+    this.modalAberto = false; // Fecha o modal
+  }
+
 }

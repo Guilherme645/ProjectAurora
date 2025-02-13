@@ -11,7 +11,7 @@ import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuscarComponent } from './components/buscar/buscar.component';
 import { PageBuscaComponent } from './pages/page-busca/page-busca.component';
 import { CriarContaComponent } from './components/criar-conta/criar-conta.component';
@@ -30,6 +30,7 @@ import { VeiculosComponent } from './components/veiculos/veiculos.component';
 import { ResultComponent } from './pages/result/result.component';
 import { FiltrosComponent } from './components/filtros/filtros.component';
 import { SearcBasicComponent } from './components/searc-basic/searc-basic.component';
+import { SaveSearchComponent } from './components/save-search/save-search.component';
 
 @NgModule({
   declarations: [
@@ -57,13 +58,16 @@ import { SearcBasicComponent } from './components/searc-basic/searc-basic.compon
     ResultComponent,
     FiltrosComponent,
     SearcBasicComponent,
+    SaveSearchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterOutlet,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
+
 
   ],
   providers: [],
