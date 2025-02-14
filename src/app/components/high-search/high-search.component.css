@@ -198,69 +198,154 @@ text-align: center;
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .advanced-search-container {
-    max-width: 100%;
+  .advanced-search-mobile {
     padding: 16px;
+    background: white;
+    overflow-y: auto;
   }
-
-  .button-container {
-    flex-direction: column;
-    gap: 8px;
+  
+  .header {
+    width: 327px;
+    height: 46px;
+    top: 72px;
+    left: 24px;
+    justify-content: space-between;
+    
   }
+  
+  .title {
+font-weight: 600;
+font-size: 18px;
+line-height: 21.78px;
+letter-spacing: -1.8%;
+    width: 138px;
+height: 22px;
 
-  .clear-button,
-  .search-button {
+  }
+  
+  .subtitle {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -1%;
+        color: #6B7280;
+    width: 176px;
+height: 16px;
+
+  }
+  
+  .accordion-section {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #ddd;
+    border-bottom: none;
+
+  }
+  
+  .accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 12px 0;
+  }
+  
+  .icon {
+    transition: transform 0.3s ease;
+  }
+  
+  .icon.rotate {
+    transform: rotate(180deg);
+  }
+  
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-bottom: none;
+  }
+  
+  .accordion-content.show {
+    max-height: 500px;
+  }
+  
+  .input-field, .date-field {
     width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
   }
-}
-/* Fundo escuro */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.4); /* Fundo escuro */
-  z-index: 999; /* Atrás do modal */
-}
+  
+  .action-buttons {
+    width: 375px;
+height: 102px;
+top: 710px;
+padding-top: 16px;
+padding-right: 16px;
+padding-bottom: 40px;
+padding-left: 16px;
+border-top-width: none;
 
-/* Modal principal */
-/* Modal principal */
-.modal-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 450px; /* Ajuste para um tamanho adequado */
-  max-width: 90%;
-  max-height: 80vh; /* Limita a altura para evitar ultrapassar a tela */
-  background: white;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1001; /* Garante que esteja acima do fundo */
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto; /* Adiciona rolagem se necessário */
-}
 
-/* Fundo escuro */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Fundo mais escuro para melhor contraste */
-  backdrop-filter: blur(8px);
-  z-index: 1000; /* Mantém abaixo do modal */
-}
-
-/* Ajuste de largura em telas grandes */
-@media (min-width: 1024px) {
-  .modal-container {
-    width: 500px;
   }
-}
+  
+  .clear-button, .search-button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .clear-button {
+    background: #ddd;
+  }
+  
+  .search-button {
+    width: 343px;
+    height: 46px;
+    color: #ffffff;
+    background-color: #1F2937;
+    border-radius: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    align-self: center;
+  }
+  .back-to-simple-search {
+    display: flex;
+    width: 195px;
+height: 45px;
+top: 138px;
+left: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #2563eb; /* Cor azul */
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .back-to-simple-search:hover {
+    background: #f3f4f6; /* Fundo leve ao passar o mouse */
+    border-radius: 8px;
+  }
+  
+  .back-to-simple-search .text {
+    margin-right: 8px;
+    width: 169px;
+height: 17px;
+font-weight: 500;
+font-size: 14px;
+line-height: 16.94px;
+letter-spacing: -1%;
+text-align: center;
 
-/* Cabeçalho do modal */
+  }
+  
+  .back-to-simple-search .icon {
+    stroke: currentColor;
+  }
+  
+}

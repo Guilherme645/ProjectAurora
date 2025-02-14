@@ -1,4 +1,4 @@
-<div class="modal-overlay">
+<div *ngIf="!isMobile" class="modal-overlay">
     <!-- Modal Principal -->
     <div class="modal-container">
       <div class="modal-content">
@@ -142,6 +142,75 @@
               </li>
   
             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-modal-background" *ngIf="isMobileModalOpen" (click)="closeMobileModal()"></div>
+  <div  class="mobile-modal-overlay">
+    <div class="mobile-modal-container">
+      <!-- Cabeçalho do Modal -->
+      <div class="mobile-modal-header">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-search">
+    <circle cx="11" cy="11" r="8"></circle>
+    <path d="m21 21-4.3-4.3"></path>
+  </svg>
+  <input placeholder="Buscar entidade" class="mobile-search-input" />
+      </div>
+  
+      <!-- Tabs -->
+      <nav class="mobile-tab-menu">
+        <button class="mobile-tab active">Data</button>
+        <button class="mobile-tab">Profissão</button>
+        <button class="mobile-tab">Pessoa</button>
+        <button class="mobile-tab">Lugar</button>
+        <button class="mobile-tab">Organização</button>
+      </nav>
+  
+      <!-- Lista de Entidades -->
+      <div class="mobile-entity-list">
+        <div class="entity-group">
+          <span class="entity-title">Data</span>
+          <div class="badge-container">
+            <span class="badge">sexta-feira</span>
+            <span class="badge">janeiro</span>
+            <span class="badge">2024</span>
+          </div>
+        </div>
+        <hr>
+        <div class="entity-group">
+          <span class="entity-title">Profissão</span>
+          <div class="badge-container">
+            <span class="badge">ministros</span>
+            <span class="badge">advogados</span>
+            <span class="badge">juiz</span>
+          </div>
+        </div>
+        <hr>
+        <div class="entity-group">
+          <span class="entity-title">Pessoa</span>
+          <div class="badge-container">
+            <span class="badge">Dias Toffoli</span>
+            <span class="badge">Rosa Weber</span>
+            <span class="badge">Alexandre de Moraes</span>
+          </div>
+        </div>
+        <hr>
+        <div class="entity-group">
+          <span class="entity-title">Lugar</span>
+          <div class="badge-container">
+            <span class="badge">Rio Grande do Sul</span>
+            <span class="badge">Brasília</span>
+          </div>
+        </div>
+        <hr>
+        <div class="entity-group">
+          <span class="entity-title">Organização</span>
+          <div class="badge-container">
+            <span class="badge">STF</span>
+            <span class="badge">OAB</span>
           </div>
         </div>
       </div>

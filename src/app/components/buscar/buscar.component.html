@@ -1,4 +1,4 @@
-<div class="busca-container">
+<div *ngIf="!isMobile" class="busca-container">
   <!-- Logo -->
   <div class="logo">
     <img src="assets/logo2.png" alt="Logo" />
@@ -34,3 +34,44 @@
     </div>
   </div>
 </div>
+
+
+<!-- Versão Mobile -->
+<div *ngIf="isMobile" class="mobile-search-container relative">
+  <div class="mobile-modal-container">
+    <!-- Botão no canto superior direito -->
+    <button class="absolute top-3 right-3 border border-gray-200 p-3 rounded-lg shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-black">
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="6" x2="20" y2="6"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Cabeçalho do Modal -->
+    <div class="mobile-modal-header">
+
+      <input placeholder="Buscar entidade" class="mobile-search-input" />
+    </div>
+
+    <!-- Link para busca avançada -->
+    <span 
+    class="flex lg:hidden items-center justify-center py-3 px-4 mt-3 text-sm font-medium text-blue-500 cursor-pointer" 
+    (click)="isAdvancedSearchOpen = true"
+  >
+    Fazer busca avançada
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
+      <path d="m9 18 6-6-6-6"></path>
+    </svg>
+  </span>
+</div>
+
+<div *ngIf="isAdvancedSearchOpen" class="overlay">
+  <div class="high-search-container">
+    <button class="close-button" (click)="isAdvancedSearchOpen = false">Fechar</button>
+    <app-high-search></app-high-search>
+  </div>
+</div>
+
+
+

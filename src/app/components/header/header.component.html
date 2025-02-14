@@ -18,9 +18,9 @@
   <!-- Barra de Filtros Fixa -->
   <div class="header-filters-row">
     <div class="filters">
-      <input type="checkbox" class="filter-checkbox" (change)="selectTab('todos')" [checked]="selectedTab === 'todos'" />
+      <input type="checkbox" class="filter-checkbox" (change)="toggleSelectAll()" [checked]="selectAll" />
       <label class="filter-tab">
-        <span [ngClass]="{ 'active': selectedTab === 'todos' }">Todos os resultados</span>
+        <span [ngClass]="{ 'active': selectAll }">Todos os resultados</span>
       </label>
   
       <label class="filter-tab" (click)="selectTab('brutos')">

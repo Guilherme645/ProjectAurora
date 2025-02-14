@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { DrawerService } from 'src/app/services/drawer.service';
 
 @Component({
@@ -9,7 +9,13 @@ import { DrawerService } from 'src/app/services/drawer.service';
 export class BuscarComponent {
   searchQuery: string = '';
   isDrawerOpen = false; // Controle do estado do drawer
+  isMobile = window.innerWidth <= 768;
+  isAdvancedSearchOpen = false;
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isMobile = event.target.innerWidth <= 768;
+  }
   constructor(private drawerService: DrawerService) {}
 
   ngOnInit() {
@@ -29,4 +35,5 @@ export class BuscarComponent {
   onSearch(): void {
     console.log('Buscando por:', this.searchQuery);
   }
+  
 }

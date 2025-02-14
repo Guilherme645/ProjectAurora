@@ -52,3 +52,35 @@ html, body {
     justify-content: center;
   }
   
+  @media (max-width: 480px) {
+  /* Estilização para sidebar mobile */
+.sidebar-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 80%; /* Ajuste para 80% da largura */
+  background: #1e293b;
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-mobile.open {
+  transform: translateX(0);
+}
+
+.sidebar-mobile.closed {
+  transform: translateX(-100%);
+}
+
+.close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+
+  }

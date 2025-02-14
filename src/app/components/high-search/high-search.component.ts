@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./high-search.component.css']
 })
 export class HighSearchComponent {
+  isMobile = window.innerWidth <= 768;
 
   constructor(private router: Router) {}
 
@@ -45,6 +46,12 @@ export class HighSearchComponent {
   toggleSection(section: keyof typeof this.isSectionOpen) {
     this.isSectionOpen[section] = !this.isSectionOpen[section];
   }
+
+ @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isMobile = event.target.innerWidth <= 768;
+  }
+  
 
   clearSearch(): void {
     console.log('Busca limpa!');

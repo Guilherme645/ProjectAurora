@@ -3,7 +3,7 @@
   <div class="card">
     <div class="card-header">
       <div class="left-info">
-        <input type="checkbox" class="checkbox-input" />
+        <input type="checkbox" class="checkbox-input" [checked]="isSelected || allSelected" (change)="onCheckboxChange($event)" />
         <img class="logo" src="{{ noticias.logo }}" alt="Logo do Veículo" />
         <div class="veiculo">
           <span class="vehicle-name">{{ noticias.veiculo }}</span>
@@ -57,8 +57,25 @@
         <span class="mobile-date">{{ noticias.data }}</span>
       </div>
     </div>
-    <span class="mobile-tipo">{{ noticias.tipo }}</span>
+    <div class="mobile-actions">
+      <button id="menu-trigger" type="button" class="dropdown-toggle" (click)="toggleMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="12" cy="5" r="1"></circle>
+          <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+      </button>
+
+      <!-- Modal Dropdown Estilizado -->
+      <div *ngIf="isMenuOpen && !isEntitiesModalOpen" class="custom-dropdown-menu">
+        <a class="menu-item">Compartilhar</a>
+        <a class="menu-item" (click)="openEntitiesModal()">Entidades extraídas</a>
+        <hr class="divider" />
+        <button class="menu-item close-menu" (click)="toggleMenu()">Fechar menu</button>
+      </div>
+    </div>
   </div>
+
   <p class="mobile-mention-title">{{ noticias.titulo }}</p>
   <p class="mobile-mention-description">{{ noticias.descricao }}</p>
   <div class="mobile-mention-footer">
@@ -68,3 +85,23 @@
     </div>
   </div>
 </div>
+
+<!-- Modal para exibir o componente de entidades extraídas -->
+<div *ngIf="isEntitiesModalOpen" class="modal-overlay">
+  <div class="modal-container animate-slide-up">
+    <div class="modal-header">
+      <h3 class="modal-title">Entidades Extraídas</h3>
+      <button class="close-button" (click)="closeEntitiesModal()">X</button>
+    </div>
+    <div class="modal-body">
+      <!-- Exibição do componente de entidades extraídas -->
+      <app-tag-filter></app-tag-filter>
+    </div>
+  </div>
+</div>
+
+
+
+   
+
+

@@ -137,5 +137,123 @@
 .logo{
   width: 141.99981689453125px;
 height: 82.10206604003906px;
+}
+@media (max-width: 480px) {
+  .mobile-search-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: white;
+    padding: 16px;
+    position: relative;
+  }
+  
+  .mobile-modal-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .mobile-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    margin-top: 40px;
+  }
+  
+  .mobile-modal-header .icon-search {
+    color: #999;
+  }
+  
+  .mobile-search-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    width: 327px;
+    height: 45px;
+  }
+  
+  .mobile-search-input::placeholder {
+    color: #999;
+  }
+   /* Estilo para quando o input é focado ou clicado */
+   .mobile-search-input:focus {
+    border-color: #2563EB; /* Azul */
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2); /* Glow leve azul */
+  }
+  button {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  button svg {
+    stroke: #000;
+  }
+  
+  span {
+    color: #2563EB;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    
+  }
+  
+  span svg {
+    margin-left: 4px;
+  }
 
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Fundo semi-transparente */
+    z-index: 1000; /* Garante que está acima de outros elementos */
+  }
+  
+  .high-search-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white; /* Fundo branco para o componente */
+    overflow-y: auto;
+    z-index: 1001; /* Acima do fundo semi-transparente */
+    animation: slideIn 0.3s ease-in-out;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1002;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
 }

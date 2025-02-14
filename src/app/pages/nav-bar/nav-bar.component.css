@@ -54,7 +54,6 @@
     
 }
 @media (max-width: 1024px) {
-  @media (max-width: 1024px) {
     .sidebar-open {
       position: fixed;
       top: 0;
@@ -123,4 +122,3 @@
     }
   }
   
-}

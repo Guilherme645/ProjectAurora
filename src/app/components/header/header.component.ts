@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +10,20 @@ export class HeaderComponent {
   isDropdownOpen = false;
   selectedOption = 'Mais relevantes';
   isBuscaOpen = false;
+  @Output() selectAllEvent = new EventEmitter<boolean>(); // Emite evento para selecionar todos
+  selectAll: boolean = false; // Controle de seleção
+  @Output() filterNewsEvent = new EventEmitter<string>();
+
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
     this.isScrolled = scrollTop > 100;  // Esconde o cabeçalho após 100px de rolagem
   }
 
-
+  selectTab(tab: string) {
+    this.selectedTab = tab;
+    this.filterNewsEvent.emit(tab); // Emite o tipo de filtro para o NavBarComponent
+  }
   openBusca() {
     this.isBuscaOpen = true;
   }
@@ -26,9 +33,11 @@ export class HeaderComponent {
   }
   selectedTab: string = 'brutos';
 
-selectTab(tab: string) {
-  this.selectedTab = tab;
-}
+  toggleSelectAll() {
+    this.selectAll = !this.selectAll;
+    this.selectAllEvent.emit(this.selectAll); // Envia o estado de seleção para o pai
+  }
+
 toggleDropdown() {
   this.isDropdownOpen = !this.isDropdownOpen;
 }

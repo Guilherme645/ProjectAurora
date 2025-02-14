@@ -9,18 +9,18 @@
     <div class="main-content">
         <!-- Cabeçalho Fixo -->
         <header class="header fixed-header">
-            <app-header></app-header>
+          <app-header (filterNewsEvent)="onFilterNews($event)" (selectAllEvent)="onSelectAll($event)"></app-header>
         </header>
 
         <!-- Conteúdo Principal -->
         <main class="main">
             <!-- Cartões -->
-            <div class="card" *ngFor="let noticias of noticias">
-                <app-card [noticias]="noticias"></app-card>
+            <div class="card" *ngFor="let noticia of filteredNoticias">
+              <app-card [noticias]="noticia" [isSelected]="allSelected"></app-card>
             </div>
             <br>
-            <div class="card" *ngFor="let noticias of noticias">
-                <app-card [noticias]="noticias"></app-card>
+            <div class="card" *ngFor="let noticia of filteredNoticias">
+              <app-card [noticias]="noticia" [isSelected]="allSelected"></app-card>
             </div>
         </main>
         <div class="scroll">
