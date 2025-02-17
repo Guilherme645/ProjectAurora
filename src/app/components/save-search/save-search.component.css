@@ -155,6 +155,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 765px;
   height: 435px;
+  margin-top: -25px;
 }
 
 .flex-header-save-search {
