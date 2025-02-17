@@ -2,19 +2,15 @@
 .advanced-search-container {
   max-width: 476px;
   height: 100vh; /* Ocupa toda a altura da tela */
-  overflow-y: auto; 
   background: white;
   padding: 24px;
   font-family: Arial, sans-serif;
-  display: flex;
   flex-direction: column;
   gap: 16px;
   border-radius: 8px;
   position: relative;
   box-sizing: border-box; /* Inclui o padding e border no cálculo da altura */
-  overflow-y: auto; /* Mantém a rolagem vertical */
-  overflow-x: hidden; /* Remove a rolagem horizontal */
-
+  
 }
 
 /* Estilo da barra de rolagem */
@@ -59,7 +55,7 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 10px 0;
+  padding: 24px;
   font-size: 14px;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -195,6 +191,63 @@ text-align: center;
 .icon.rotate {
   transform: rotate(180deg);
 }
+
+
+
+
+.date-container {
+  display: flex;
+  gap: 16px; /* Espaço entre os inputs */
+}
+
+.datepicker-container {
+  flex: 1; /* Os inputs terão o mesmo tamanho */
+  position: relative;
+}
+
+.date-field {
+  width: 206px;
+  height: 62px;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  font-size: 14px;
+  outline: none;
+}
+
+.date-field:focus {
+  border-color: #2563eb;
+  background-color: white;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.datepicker-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.custom-calendar-panel {
+  position: absolute;
+  top: 190px;
+  right: 450px; /* Move o calendário para a esquerda do input */
+  margin-right: 50px; /* Adiciona espaço entre o calendário e o input */
+  z-index: 2000; /* Certifica-se de que esteja acima de outros elementos */
+  width: 300px;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-left: -50px;
+}
+
+.accordion-content{
+  margin-left: -250px;
+}
+
+
+
+
 
 /* Responsividade */
 @media (max-width: 768px) {

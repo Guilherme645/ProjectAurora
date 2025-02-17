@@ -4,7 +4,6 @@
   padding: 15px 20px;
   position: sticky;
   top: 0;
-  z-index: 999;
   transition: transform 0.3s ease-in-out;
   
 }
@@ -67,7 +66,6 @@
   background-color: white;
   padding: 10px 20px;
   border-bottom: 1px solid #e5e7eb;
-  z-index: 998;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -78,6 +76,7 @@
   align-items: center;
   gap: 8px;
   font-size: 0.875rem;
+  
 }
 
 /* Estilo dos botões tipo aba */
@@ -98,16 +97,26 @@
 }
 
 /* Estilo do botão ativo */
-.filter-tab.active {
-  background-color: #E5E7EB; /* Cor de destaque */
-  color: #1F2937;            /* Texto mais escuro */
-  font-weight: bold;
+.filter-tab .active {
+  background-color: #E5E7EB;
+  color: #111827;  
+  border-radius: 8px;
+  width: 167px;
+  height: 36px;
+gap: 8px;
+padding-top: 8px;
+padding-right: 12px;
+padding-bottom: 8px;
+padding-left: 12px;
+border-radius:8px ;
+margin-top: -8px;
+
 }
 
 /* Hover para realce sutil */
 .filter-tab:hover {
-  background-color: #E5E7EB;
-  color: #111827;
+  color: #2563EB;
+
 }
 
 /* Checkbox para "Todos os resultados" */
@@ -368,8 +377,7 @@ gap: 4px;
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px); /* Desfoque aplicado */
-  z-index: 998;
+  backdrop-filter: blur(10px);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -386,7 +394,6 @@ gap: 4px;
   padding: 15px 20px;
   position: sticky;
   top: 0;
-  z-index: 999;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -429,34 +436,17 @@ gap: 4px;
   background-color: white;
   padding: 10px 20px;
   border-bottom: 1px solid #e5e7eb;
-  z-index: 998;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-/* Overlay de fundo com desfoque */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(5px);
-  z-index: 998;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
 .overlay.show {
   opacity: 1;
   pointer-events: all;
 }
 
 /* Certifique-se de que o modal ou o input de busca tenha z-index maior que o overlay */
-.app-input-busca,
-.modal-content {
+.app-input-busca {
   position: relative;
   z-index: 999;
 }

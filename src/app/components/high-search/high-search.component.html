@@ -28,67 +28,87 @@
     </div>
     <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.date }">
       <div class="date-container">
-        <input class="date-field" type="text" placeholder="Data Início" />
-        <input class="date-field" type="text" placeholder="Data Fim" />
+        <!-- Campo Data Início -->
+        <div class="datepicker-container">
+          <input
+            class="date-field"
+            type="text"
+            placeholder="Data Início"
+            (focus)="openCalendar('start')"
+            [value]="selectedStartDate | date: 'dd/MM/yyyy'"
+            readonly
+          />
+        </div>
+    
+        <!-- Campo Data Fim -->
+        <div class="datepicker-container">
+          <input
+            class="date-field"
+            type="text"
+            placeholder="Data Fim"
+            (focus)="openCalendar('end')"
+            [value]="selectedEndDate | date: 'dd/MM/yyyy'"
+            readonly
+          />
+        </div>
+      </div>
+    
+      <!-- Calendário Reutilizável -->
+      <div class="custom-calendar-panel" *ngIf="showCalendar">
+        <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
       </div>
     </div>
   </div>
-
-  <!-- Tipos de Mídia -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('media')">
-      Tipos de mídia
-      <svg [ngClass]="{ 'rotate': isSectionOpen.media }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+   <!-- Tipo de midia -->
+   <div class="accordion-section">
+    <div class="accordion-header" (click)="toggleSection('sentiment')">
+      Tipo de mídia
+      <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m6 9 6 6 6-6"></path>
       </svg>
     </div>
 
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.media }">
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.sentiment }">
       <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="mediaTypes.audio" />
+        <input type="checkbox" [(ngModel)]="sentiments.positive" />
         <span class="checkmark"></span>
-        Áudio (Rádio)
+        Áudio
       </label>
 
       <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="mediaTypes.text" />
+        <input type="checkbox" [(ngModel)]="sentiments.neutral" />
         <span class="checkmark"></span>
         Texto (Impressos e Web)
       </label>
 
       <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="mediaTypes.video" />
+        <input type="checkbox" [(ngModel)]="sentiments.negative" />
         <span class="checkmark"></span>
-        Vídeo (Canais de televisão)
+       Vídeo (Canais de televisão)
       </label>
     </div>
   </div>
 
-  <!-- Veículos -->
- <div class="accordion-section">
-  <div class="accordion-header" (click)="openModal()">
-    Veículos
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m6 9 6 6 6-6"></path>
-    </svg>
-  </div>
-</div>
-   <!-- Fundo escuro do modal -->
+  <!-- Tipos de Mídia -->
+  <div class="accordion-section">
+    <div class="accordion-header" (click)="toggleSection('vehicles')">
+      Veículos
+      <svg [ngClass]="{ 'rotate': isSectionOpen.vehicles }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.vehicles }">
+      <!-- Componente de veículos aparece diretamente -->
+      <app-veiculos></app-veiculos>
+    </div>
+  
+<!-- Fundo escuro -->
 <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
 
-<!-- Modal de veículos -->
+<!-- Modal centralizado -->
 <div class="modal-container" *ngIf="isModalOpen">
-  <div class="modal-header">
-    <h2>Selecionar Veículos</h2>
-    <button class="close-button" (click)="closeModal()">✖</button>
-  </div>
-
-  <!-- Componente Veículos dentro do modal -->
   <app-veiculos></app-veiculos>
-
-  <div class="modal-footer">
-    <button class="clear-button" (click)="closeModal()">Fechar</button>
-  </div>
+</div>
 </div>
 
   <!-- Sentimento -->
@@ -122,15 +142,27 @@
   </div>
 
   <!-- Localização -->
-    <div class="accordion-header" (click)="toggleSection('location')">
+   <!-- Tipos de Mídia -->
+  <div class="accordion-section">
+    <div class="accordion-header" (click)="toggleSection('vehicles')">
       Localização
-      <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg [ngClass]="{ 'rotate': isSectionOpen.vehicles }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m6 9 6 6 6-6"></path>
       </svg>
     </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.location }">
-      <input class="input-field" placeholder="Digite a localização" />
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.vehicles }">
+      <!-- Componente de veículos aparece diretamente -->
+      <app-veiculos></app-veiculos>
     </div>
+  
+<!-- Fundo escuro -->
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
+
+<!-- Modal centralizado -->
+<div class="modal-container" *ngIf="isModalOpen">
+  <app-veiculos></app-veiculos>
+</div>
+</div>
   
 
   <!-- Botões -->

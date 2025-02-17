@@ -1,59 +1,66 @@
-<!-- Fundo escuro ao abrir o modal -->
-<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
-
-<!-- Modal de seleção de veículos -->
-<div class="modal-container" *ngIf="isModalOpen">
-  
-  <!-- Cabeçalho do Modal -->
+<div class="modal-container">
+  <!-- Cabeçalho -->
   <div class="modal-header">
-    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="11" cy="11" r="8"></circle>
-      <path d="m21 21-4.3-4.3"></path>
-    </svg>
-
+    <i class="icon-search"></i>
     <input type="text" placeholder="Procurar veículos" class="search-input" />
-
-    <button class="esc-button" (click)="closeModal()">ESC</button>
+    <button class="esc-button">ESC</button>
   </div>
 
-  <!-- Corpo do Modal -->
+  <!-- Conteúdo principal -->
   <div class="modal-body">
-    
-    <!-- Menu lateral -->
+    <!-- Menu de Categorias -->
     <nav class="category-menu">
       <ul>
-        <li class="active">Texto</li>
-        <li>Vídeo</li>
-        <li>Áudio</li>
+        <li class="category-item active">Texto</li>
+        <li class="category-item">Vídeo</li>
+        <li class="category-item">Áudio</li>
       </ul>
     </nav>
 
-    <!-- Lista de veículos -->
-    <div class="vehicle-list">
-      <label class="checkbox">
-        <input type="checkbox">
-        Selecionar todos os veículos de texto (492)
-      </label>
-
-      <div class="vehicle-columns">
-        <div class="column">
-          <label class="checkbox"><input type="checkbox"> O Dia</label>
-          <label class="checkbox"><input type="checkbox"> O Globo</label>
-          <label class="checkbox"><input type="checkbox"> Jornal do Brasil</label>
-          <label class="checkbox"><input type="checkbox"> Jornal do Comércio</label>
+    <!-- Lista de Veículos -->
+    <div class="entity-list">
+      <div class="category-section">
+        <span class="section-title">Texto (Impressos e Web)</span>
+        <div class="grid-container">
+          <div class="grid-item">
+            <label><input type="checkbox" /> O dia</label>
+            <label><input type="checkbox" /> O Globo</label>
+            <label><input type="checkbox" /> Jornal do Brasil</label>
+            <label><input type="checkbox" /> Jornal do Comércio</label>
+            <label><input type="checkbox" /> A tribuna da Imprensa</label>
+          </div>
+          <div class="grid-item">
+            <label><input type="checkbox" /> Folha Dirigida</label>
+            <label><input type="checkbox" /> A Voz da Serra</label>
+            <label><input type="checkbox" /> Tribuna de Petrópolis</label>
+            <label><input type="checkbox" /> Inverta - Jornal para Ver...</label>
+            <label><input type="checkbox" /> Correio Brasiliense</label>
+          </div>
         </div>
-        <div class="column">
-          <label class="checkbox"><input type="checkbox"> Folha da Cidade</label>
-          <label class="checkbox"><input type="checkbox"> Correio do Povo</label>
-          <label class="checkbox"><input type="checkbox"> Diário Popular</label>
-          <label class="checkbox"><input type="checkbox"> Zero Hora</label>
+      </div>
+      <hr />
+      <div class="category-section">
+        <span class="section-title">Vídeo (Canais de televisão)</span>
+        <div class="grid-container">
+          <div class="grid-item">
+            <label><input type="checkbox" /> Agência Brasil</label>
+            <label><input type="checkbox" /> Diario Oficial</label>
+            <label><input type="checkbox" /> Globo - Ideal TV</label>
+            <label><input type="checkbox" /> Amazonas</label>
+          </div>
+          <div class="grid-item">
+            <label><input type="checkbox" /> Bahia Audio</label>
+            <label><input type="checkbox" /> Ceará Audio</label>
+            <label><input type="checkbox" /> Distrito Federal Audio</label>
+            <label><input type="checkbox" /> Espírito Santo Audio</label>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Rodapé do modal -->
+  <!-- Rodapé -->
   <div class="modal-footer">
-    <button class="confirm-button">Utilizar veículos selecionados</button>
+    <button class="action-button">Utilizar veículos selecionados</button>
   </div>
 </div>

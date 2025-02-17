@@ -31,6 +31,7 @@ import { ResultComponent } from './pages/result/result.component';
 import { FiltrosComponent } from './components/filtros/filtros.component';
 import { SearcBasicComponent } from './components/searc-basic/searc-basic.component';
 import { SaveSearchComponent } from './components/save-search/save-search.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { SaveSearchComponent } from './components/save-search/save-search.compon
     FiltrosComponent,
     SearcBasicComponent,
     SaveSearchComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

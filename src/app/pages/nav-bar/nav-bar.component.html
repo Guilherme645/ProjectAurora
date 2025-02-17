@@ -2,7 +2,7 @@
 <div class="layout-container">
     <!-- Sidebar -->
     <div class="sidebar">
-        <app-side-bar></app-side-bar>
+      <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
     </div>
 
     <!-- Main Content -->
@@ -15,11 +15,11 @@
         <!-- Conteúdo Principal -->
         <main class="main">
             <!-- Cartões -->
-            <div class="card" *ngFor="let noticia of filteredNoticias">
+            <div *ngFor="let noticia of filteredNoticias" class="card">
               <app-card [noticias]="noticia" [isSelected]="allSelected"></app-card>
             </div>
             <br>
-            <div class="card" *ngFor="let noticia of filteredNoticias">
+            <div *ngFor="let noticia of filteredNoticias" class="card">
               <app-card [noticias]="noticia" [isSelected]="allSelected"></app-card>
             </div>
         </main>

@@ -1,6 +1,6 @@
 <!-- Versão Desktop (intacta) -->
 <div *ngIf="!isMobile">
-  <div class="overlay" [class.show]="isBuscaOpen || isDropdownOpen"></div>
+  <div class="overlay" [class.show]="isBuscaOpen"></div>
   <div class="header-container" [ngClass]="{ 'hidden': isScrolled }">
     <!-- Linha Principal do Cabeçalho -->
     <div class="header-main-row">
@@ -20,7 +20,7 @@
     <div class="filters">
       <input type="checkbox" class="filter-checkbox" (change)="toggleSelectAll()" [checked]="selectAll" />
       <label class="filter-tab">
-        <span [ngClass]="{ 'active': selectAll }">Todos os resultados</span>
+        <span [ngClass]="{ 'active': selectedTab === 'todos' }">Todos os resultados</span>
       </label>
   
       <label class="filter-tab" (click)="selectTab('brutos')">
@@ -38,22 +38,22 @@
       </label>
       
       <label class="filter-tab" (click)="selectTab('tratados')">
-        <span [ngClass]="{ 'active': selectedTab === 'tratados' }">Resultados tratados</span>
+        <span [ngClass]="{ 'active': selectedTab === 'tratados' }">Clippings</span>
       </label>
     </div>
     
     <div class="sorting-group">
       <span>Ordenar por:</span>
-      <div class="dropdown" (click)="toggleDropdown()">
-        <button class="dropdown-toggle">
-          Mais relevantes
+      <div class="dropdown">
+        <button class="dropdown-toggle" (click)="toggleDropdown()">
+          {{ selectedOption }}
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="dropdown-icon" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z"/>
+            <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
           </svg>
         </button>
-    
+      
         <ul class="dropdown-menu" [class.show]="isDropdownOpen">
-          <li (click)="selectOption('Mais relevantes') ">Mais relevantes</li>
+          <li (click)="selectOption('Mais relevantes')">Mais relevantes</li>
           <li (click)="selectOption('Mais recentes')">Mais recentes</li>
         </ul>
       </div>

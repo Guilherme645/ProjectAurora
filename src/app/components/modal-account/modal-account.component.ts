@@ -7,7 +7,9 @@ import { Component } from '@angular/core';
 })
 export class ModalAccountComponent {
   isOpen = false;
-
+  ngOnInit(): void {
+    console.log('ModalAccountComponent carregado');
+  }
   toggleMenu() {
     this.isOpen = !this.isOpen;
   }

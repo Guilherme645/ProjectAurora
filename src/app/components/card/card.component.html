@@ -1,28 +1,25 @@
 <!-- Versão Desktop -->
-<div *ngIf="!isMobile" >
+<div *ngIf="!isMobile">
   <div class="card">
     <div class="card-header">
       <div class="left-info">
         <input type="checkbox" class="checkbox-input" [checked]="isSelected || allSelected" (change)="onCheckboxChange($event)" />
-        <img class="logo" src="{{ noticias.logo }}" alt="Logo do Veículo" />
+        <img class="logo" [src]="noticias.logo" alt="Logo do Veículo" />
         <div class="veiculo">
-          <span class="vehicle-name">{{ noticias.veiculo }}</span>
-        </div>
-        <div class="iconTipo flex items-center gap-2">
-          <div class="logov">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" 
-            fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide">
-            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-            <path d="m10 11 5 3-5 3v-6Z"></path>
-          </svg>
+          <div class="veiculo-tipo">
+            <span class="vehicle-name">{{ noticias.veiculo }}</span>
+            <span *ngIf="noticias.tipo" class="tipo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="m10 11 5 3-5 3v-6Z"></path>
+              </svg>
+              <span class="content-type">{{ noticias.tipo }}</span>
+            </span>
           </div>
-          <div class="tipo">
-            <span class="content-type text-sm text-gray-500">{{ noticias.tipo }}</span>
-          </div>
+          <span *ngIf="noticias.local" class="additional-info">{{ noticias.local }}</span>
+          <span *ngIf="noticias.usuario" class="additional-info">{{ noticias.usuario }}</span>
         </div>
-        
       </div>
       <div class="right-info">
         <span class="date">{{ noticias.data }}</span><br>
@@ -30,22 +27,23 @@
         <span class="sentiment">{{ noticias.sentimento }}</span>
       </div>
     </div>
-  
+
     <p class="mention-title">{{ noticias.titulo }}</p>
     <p class="mention-description">{{ noticias.descricao }}</p>
-  
+
     <div class="mention-footer">
       <span class="entities-label">Entidades extraídas:</span>
       <div class="entities">
         <span class="label" *ngFor="let entidade of noticias.entidades">{{ entidade }}</span>
       </div>
       <a href="#" (click)="openTagFilter($event)" class="view-all-labels">Ver todas</a>
+      <app-tag-filter *ngIf="showTagFilter" (closeTagFilter)="closeTagFilter()"></app-tag-filter>
     </div>
-    <app-tag-filter *ngIf="showTagFilter" (closeTagFilter)="closeTagFilter()"></app-tag-filter>
-  
     <hr />
   </div>
 </div>
+
+
 
 <!-- Versão Mobile -->
 <div *ngIf="isMobile" class="card-mobile">

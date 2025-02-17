@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./filtros.component.css']
 })
 export class FiltrosComponent {
-  modalAberto = false; // Controle para abrir e fechar o modal
+  modalAberto = false;  // Exemplo de estado para o modal
 
   filtros = [
     { nome: 'Hora', aberto: true, itens: ['Manhã (4091)', 'Tarde (3291)', 'Noite (1827)'], mostrarMais: false },
@@ -35,4 +35,8 @@ export class FiltrosComponent {
     this.modalAberto = false; // Fecha o modal
   }
 
+  fecharModal() {
+    this.modalAberto = false;
+    console.log('Modal fechado');
+  }
 }

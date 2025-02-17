@@ -2,9 +2,12 @@
     position: fixed;
     bottom: 16px;
     right: 16px;
-    z-index: 100;
+    transition: filter 0.3s ease, opacity 0.3s ease;
   }
-  
+  .mensoes-container.blurred {
+    filter: blur(8px);
+    opacity: 0.5; /* Adiciona uma leve transparência para reforçar o efeito */
+  }
   .mention-box {
     display: flex;
     justify-content: space-between;

@@ -2,17 +2,38 @@
 <div class="flex h-screen">
   <!-- Navegador Compacto Lateral -->
   <div class="compact-sidebar">
-    <button class="sidebar-button active-button">ST</button>
-    <button class="sidebar-button">PG</button>
-    <button class="sidebar-button">SE</button>
+    <button 
+      class="sidebar-button" 
+      (click)="changeUser('ST')" 
+      [ngClass]="{ 'active-button': currentUser.name === 'Superior Tribunal Federal' }">
+      ST
+      <div class="active-indicator" *ngIf="currentUser.name === 'Superior Tribunal Federal'"></div>
+    </button>
+  
+    <button 
+      class="sidebar-button" 
+      (click)="changeUser('PG')" 
+      [ngClass]="{ 'active-button': currentUser.name === 'Procuradoria Geral' }">
+      PG
+      <div class="active-indicator" *ngIf="currentUser.name === 'Procuradoria Geral'"></div>
+    </button>
+  
+    <button 
+      class="sidebar-button" 
+      (click)="changeUser('SE')" 
+      [ngClass]="{ 'active-button': currentUser.name === 'Secretaria de Educação' }">
+      SE
+      <div class="active-indicator" *ngIf="currentUser.name === 'Secretaria de Educação'"></div>
+    </button>
   </div>
+  
 
   <!-- Sidebar -->
   <div [ngClass]="{ 'sidebar-expanded': isExpanded, 'sidebar-collapsed': !isExpanded }" class="sidebar">
     <!-- Header -->
     <div class="sidebar-header">
       <div>
-        <h2>Superior Tribunal Federal</h2>
+        <h2>{{ currentUser.name }}</h2>
         <p>Workspace</p>
 
         <h3>MENU WORKSPACE</h3>
@@ -96,7 +117,10 @@
     <div class="sidebar-footer">
       <div class="footer-content">
         <!-- Avatar -->
-        <div class="avatar">NA</div>
+        <div class="avatar-container">
+          <div class="avatar">NA</div>
+          <div class="status-indicator"></div>
+        </div>
   
         <!-- Nome e Cargo -->
         <div class="user-info">
@@ -105,8 +129,10 @@
         </div>
   
         <!-- Botão do menu -->
-        <button (click)="toggleMenu()" class="menu-button">⋮</button>
-        <app-modal-account *ngIf="menuOpen" class="dropdown-menu"></app-modal-account>
+        <button (click)="toggleModal()" class="menu-button">⋮</button>
+<div *ngIf="isModalVisible" class="overlay"></div>
+<app-modal-account *ngIf="isModalVisible" class="dropdown-menu"></app-modal-account>
+       
       </div>
     </div>
   </div>

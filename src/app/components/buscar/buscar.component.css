@@ -27,6 +27,7 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-left: 4px;
     
   }
   
@@ -53,7 +54,9 @@
     width: 480px;
     height: 56px;
     border-radius: 16px;
-    color: white;
+    color: rgb(0, 0, 0);
+    outline: none; /* Remove o destaque padrão ao focar */
+
   }
   
   .busca-barra input::placeholder {
@@ -138,6 +141,81 @@
   width: 141.99981689453125px;
 height: 82.10206604003906px;
 }
+.date-input-wrapper {
+  position: relative;
+  width: 150px;
+}
+
+.drawer-layout {
+  display: flex;
+  justify-content: space-between;
+}
+
+.high-search-panel {
+  flex: 1;
+  padding-right: 16px;
+}
+
+.drawer-content {
+  position: relative;
+  overflow: visible; /* Permite que elementos sejam exibidos fora do drawer */
+}
+.custom-calendar {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  width: 320px;
+  z-index: 1000;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day {
+  font-weight: bold;
+  text-align: center;
+}
+
+.calendar-cell {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.calendar-cell.current-date {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-close-calendar {
+  margin-top: 12px;
+  background: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
 @media (max-width: 480px) {
   .mobile-search-container {
     display: flex;

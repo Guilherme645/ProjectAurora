@@ -41,14 +41,14 @@ html, body {
     background: white;
     padding: 16px 24px;
     z-index: 10;
-    margin-left: 350px;
+    margin-left: 390px;
 }
 
 /* Wrapper para Filtros + Conteúdo Principal */
 .content-wrapper {
     display: flex;
     flex: 1;
-    margin-top: 80px; /* Evita sobreposição do cabeçalho */
+    margin-top: 80px; 
 }
 
 /* Filtros fixos */
@@ -75,17 +75,22 @@ html, body {
     border: none;
     font-size: 14px;
     font-weight: bold;
-    padding: 8px 16px;
+    padding: 8px 1px;
     cursor: pointer;
     border-radius: 8px;
     color: #374151;
-    width: 480px;
+    width: 580px;
     height: 36px;
     gap: 12px;
     margin-left: 10px;
     transition: background 0.3s ease, color 0.3s ease;
-}
+    margin-left: 50px;
 
+}
+.checkbox-input{
+width: 16px;
+height: 16px;
+}
 .tab.active {
     background: #E5E7EB;
     color: rgb(0, 0, 0);
@@ -107,6 +112,7 @@ html, body {
     border-radius: 8px;
     margin-left: 23px;
 }
+
 
 @media (max-width: 1024px) {
     @media (max-width: 1024px) {

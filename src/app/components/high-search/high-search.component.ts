@@ -8,7 +8,12 @@ import { Router } from '@angular/router';
 })
 export class HighSearchComponent {
   isMobile = window.innerWidth <= 768;
-
+  showCalendarStart: boolean = false;
+  showCalendarEnd: boolean = false;
+  selectedStartDate!: Date;
+  selectedEndDate!: Date;
+  showCalendar: boolean = false;
+  selectedInput: 'start' | 'end' | null = null;
   constructor(private router: Router) {}
 
 
@@ -51,7 +56,43 @@ export class HighSearchComponent {
   onResize(event: any) {
     this.isMobile = event.target.innerWidth <= 768;
   }
-  
+
+
+
+  toggleCalendar(type: string) {
+    if (type === 'start') {
+      this.showCalendarStart = !this.showCalendarStart;
+      this.showCalendarEnd = false;
+    } else if (type === 'end') {
+      this.showCalendarEnd = !this.showCalendarEnd;
+      this.showCalendarStart = false;
+    }
+  }
+
+  onDateStartSelected(date: Date) {
+    this.selectedStartDate = date;
+    this.showCalendarStart = false;
+  }
+
+  onDateEndSelected(date: Date) {
+    this.selectedEndDate = date;
+    this.showCalendarEnd = false;
+  }
+  openCalendar(input: 'start' | 'end') {
+    this.selectedInput = input;
+    this.showCalendar = true;
+  }
+
+  onDateSelected(date: Date) {
+    if (this.selectedInput === 'start') {
+      this.selectedStartDate = date;
+    } else if (this.selectedInput === 'end') {
+      this.selectedEndDate = date;
+    }
+    this.showCalendar = false;
+    this.selectedInput = null;
+  }
+
 
   clearSearch(): void {
     console.log('Busca limpa!');
