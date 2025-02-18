@@ -1,7 +1,6 @@
-<div class="filtro-container">
-
+<div *ngIf="!isMobile" class="filtro-container">
   <!-- Informações da Busca -->
-  <div class="search-info">
+  <div *ngIf="!isMobile" class="search-info">
     <nav class="breadcrumb">
       <span>Busca Geral</span> /
       <span class="active">Dias Toffoli</span>
@@ -25,8 +24,9 @@
     </button>
   </div>
 
-  <!-- Modal (Aparece somente quando modalAberto for true) -->
-  <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">
+
+   <!-- Modal (Aparece somente quando modalAberto for true) -->
+   <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-container">
       <div class="modal-content">
         <button type="button" aria-label="Fechar" class="close-modal-button" (click)="fecharModal()">
@@ -61,5 +61,37 @@
       </div>
     </div>
   </div>
+</div>
 
+
+<div *ngIf="isMobile && modalAberto" class="mobile-modal-overlay">
+  <div class="mobile-modal-container">
+    <div class="mobile-modal-header">
+      <h2>Salvar Busca</h2>
+      <button class="close-button" (click)="fecharModal()">✖</button>
+    </div>
+  </div>
+</div>
+
+<!-- Seções de Filtros -->
+<div *ngFor="let filtro of filtros" class="filter-section">
+  <div class="filter-header" (click)="toggleSection(filtro.nome)">
+    <h2>{{ filtro.nome }}</h2>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </div>
+
+  <div class="accordion-content" *ngIf="filtro.aberto">
+    <div *ngIf="filtro.nome === 'Data'" class="date-container">
+      <input class="date-field" placeholder="Data Início" type="text" />
+      <input class="date-field" placeholder="Data Fim" type="text" />
+    </div>
+    <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
+      <ul>
+        <li *ngFor="let item of filtro.itens">{{ item }}</li>
+      </ul>
+      <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+    </div>
+  </div>
 </div>

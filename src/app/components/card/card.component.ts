@@ -22,7 +22,7 @@ export class CardComponent implements OnInit {
 
   @HostListener('window:resize')
   checkScreenSize(): void {
-    this.isMobile = window.innerWidth <= 768;
+    this.isMobile = window.innerWidth <= 768; // Define se está em mobile
   }
 
   // Função para abrir o modal de tag filter
@@ -48,17 +48,17 @@ export class CardComponent implements OnInit {
     this.allSelected = selectAll;
   }
 
-  openEntitiesModal(): void {
-    this.isMenuOpen = false;
-    this.isEntitiesModalOpen = true;
-  }
-
-  closeEntitiesModal(): void {
-    this.isEntitiesModalOpen = false;
-  }
-
-  toggleMenu(): void {
+  toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  openEntitiesModal() {
+    this.isEntitiesModalOpen = true;
+    this.isMenuOpen = false; // Fecha o menu ao abrir o modal
+  }
+
+  closeEntitiesModal() {
+    this.isEntitiesModalOpen = false;
   }
 
   onCheckboxChange(event: Event): void {

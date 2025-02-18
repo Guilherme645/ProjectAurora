@@ -318,3 +318,19 @@ border-bottom: none;
 .close-modal-button:hover {
   background: #f3f4f6;
 }
+@media (max-width: 768px) {
+  .filtro-container {
+    width: 100%;
+    padding: 16px;
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .filter-section {
+    width: 100%;
+  }
+
+  .date-field {
+    width: 100%;
+  }
+}

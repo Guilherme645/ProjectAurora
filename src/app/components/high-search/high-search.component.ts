@@ -13,6 +13,8 @@ export class HighSearchComponent {
   selectedStartDate!: Date;
   selectedEndDate!: Date;
   showCalendar: boolean = false;
+  startDate: string = ''; // Variável para a Data Início
+  endDate: string = '';   // Variável para a Data Fim
   selectedInput: 'start' | 'end' | null = null;
   constructor(private router: Router) {}
 
@@ -99,7 +101,7 @@ export class HighSearchComponent {
   }
 
   performSearch(): void {
-    console.log('Busca realizada!');
+    this.router.navigate(['/resultado']); 
   }
 
   changeToDate(event: Event): void {

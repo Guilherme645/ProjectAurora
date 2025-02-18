@@ -192,132 +192,207 @@ gap: 8px;
 }
 
 @media (max-width: 480px) {
-/* Estilo para versão Desktop (sem modificações) */
+  /* Estilização do card */
+  .card-mobile {
+    padding: 16px;
+    background: white;
+    font-family: Arial, sans-serif;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
 
-/* Versão Mobile */
-.card-mobile {
-  padding: 16px;
-  background: white;
-  font-family: Arial, sans-serif;
-  border-radius: 8px;
-  margin-bottom: 16px;
-}
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-.mobile-header {
+  .mobile-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  .mobile-veiculo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .vehicle-name {
+    font-weight: bold;
+    font-size: 14px;
+    color: #1f2937;
+  }
+
+  .tipo-icon {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  .tipo-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+    /* Container principal */
+    .sentiment-date-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #374151;
+    }
+  
+    /* Ajuste do texto "Sentimento: Neutro" */
+    .sentiment-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 4px; /* Ajuste fino do espaçamento */
+    }
+  
+    .sentimento {
+      font-weight: 500;
+      color: #1f2937;
+    }
+  
+    .sentiment {
+      font-weight: bold;
+    }
+  
+    /* Estilização da data à direita */
+    .date {
+      font-size: 12px;
+      color: #000000;
+      text-align: right;
+    }
+  
+
+  .mobile-mention-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #180ea4;
+    margin: 8px 0;
+  }
+
+  .mobile-mention-description {
+    font-size: 12px;
+    color: #1f2937;
+    margin-bottom: 8px;
+  }
+
+  .custom-dropdown-menu {
+    position: absolute;
+    width: 187px;
+    height: 181px;
+    top: 220px;
+    left: 174px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .menu-item {
+    padding: 0 16px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .menu-item:hover {
+    background-color: #f5f5f5;
+  }
+
+  .divider {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 0 16px;
+  }
+
+  .close-menu {
+    color: red;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Overlay do Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Escurece o fundo */
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.mobile-logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-}
-
-.mobile-veiculo {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.mobile-vehicle-name {
-  font-weight: bold;
-  font-size: 14px;
-  color: #1f2937;
-}
-
-.mobile-date {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.mobile-tipo {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.mobile-mention-title {
-  font-weight: 600;
-  font-size: 14px;
-  color: #180ea4;
-  margin: 8px 0;
-}
-
-.mobile-mention-description {
-  font-size: 12px;
-  color: #1f2937;
-  margin-bottom: 8px;
-}
-
-.mobile-mention-footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.mobile-entities-label {
-  font-weight: bold;
-  font-size: 12px;
-  color: #4b5563;
-}
-
-.mobile-label {
-  background: #e5e7eb;
-  color: #1f2937;
-  padding: 4px 8px;
-  font-size: 12px;
-  border-radius: 12px;
-}
-.custom-dropdown-menu {
-  position: absolute;
-  width: 187px;
-  height: 181px;
-  top: 220px;
-  left: 174px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 24px 0;
+  align-items: flex-end; /* Faz o modal surgir de baixo */
+  justify-content: center;
   z-index: 1000;
+}
+
+/* Animação de surgimento do Modal */
+.modal-container {
+  width: 100%;
+  max-height: 85vh; /* Ajustado para evitar cortes e manter a rolagem */
+  background: white;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  animation: fadeIn 0.2s ease-out;
+  animation: slideUp 0.3s ease-out;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.menu-item {
-  padding: 0 16px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  text-align: left;
-}
-
-.menu-item:hover {
-  background-color: #f5f5f5;
-}
-
-.divider {
-  border: 0;
-  border-top: 1px solid #ddd;
-  margin: 0 16px;
-}
-
-.close-menu {
-  color: red;
-}
-
-@keyframes fadeIn {
+/* Animação do Modal */
+@keyframes slideUp {
   from {
+    transform: translateY(100%);
     opacity: 0;
-    transform: translateY(-5px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
 }
 
+/* Corpo do Modal */
+.modal-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; /* Garante que o conteúdo se organize corretamente */
 }
 
+/* Garante que o <app-tag-filter> apareça corretamente */
+app-tag-filter {
+  display: flex !important;
+  flex-direction: column;
+  width: 100%;
+  min-height: 400px !important; /* Aumentei para garantir visibilidade */
+  background: white !important;
+  border: 1px solid #ddd !important;
+  padding: 16px !important;
+}
+
+}

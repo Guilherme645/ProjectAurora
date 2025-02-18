@@ -97,17 +97,34 @@
         <button class="tab-item">Resultados brutos</button>
       </div>
     </div>
-    <!-- Ordenação -->
-    <div class="flex items-center px-4 py-2">
-      <span class="text-sm text-gray-500 mr-2">Ordenar por:</span>
-      <button class="text-sm text-blue-600 flex items-center">
-        Mais relevantes
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" class="ml-1">
-          <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
-        </svg>
-      </button>
+    
+    <!-- Seção de Ordenação e Filtros -->
+    <div class="sorting-container">
+      <div class="sorting-group">
+        <span>Ordenar por:</span>
+        <div class="dropdown relative">
+          <button class="dropdown-toggle" (click)="toggleDropdown()">
+            {{ selectedOption }}
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
+            </svg>
+          </button>
+          <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+            <li (click)="selectOption('Mais relevantes')">Mais relevantes</li>
+            <li (click)="selectOption('Mais recentes')">Mais recentes</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Ícone de Filtro -->
+      <div class="filter-icon-container">
+        <button>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+          </svg>
+        </button>
+        <div class="tooltip">Filtros</div>
+      </div>
     </div>
-  </nav>
-</div>
-
+    
 

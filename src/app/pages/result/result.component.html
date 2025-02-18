@@ -1,44 +1,44 @@
 <div *ngIf="!isMobile" class="layout-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <app-side-bar></app-side-bar>
-    </div>
-  
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Cabeçalho Fixo -->
-      <header class="header fixed-header">
-        <app-searc-basic></app-searc-basic>
-      </header>
-  
-      <div class="content-wrapper">
-        <!-- Filtros fixos -->
-        <div class="filters">
-          <app-filtros></app-filtros>
-        </div>
-  
-        <!-- Conteúdo Principal -->
-        <main class="main">
-          <div class="tab">
-            <label class="tab-label">
-              <input type="checkbox" class="checkbox-input"   />
-              <span class="tab">Todos os resultados</span>
-            </label>
-            <label class="tab-label">
-              <span class="tab">Resultados brutos</span>
-            </label>
-            <label class="tab-label">
-              <span class="tab">Clippings</span>
-            </label>
-          </div>
-  
-          <div class="card" *ngFor="let noticias of noticias">
-            <app-card [noticias]="noticias"></app-card>
-          </div>
-        </main>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <app-side-bar></app-side-bar>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Cabeçalho Fixo -->
+    <header class="header fixed-header">
+      <app-searc-basic></app-searc-basic>
+    </header>
+
+    <div class="content-wrapper">
+      <!-- Filtros fixos -->
+      <div class="filters">
+        <app-filtros></app-filtros>
       </div>
+
+      <!-- Conteúdo Principal -->
+      <main class="main">
+        <div class="tab">
+          <label class="tab-label">
+            <input type="checkbox" class="checkbox-input"   />
+            <span class="tab">Todos os resultados</span>
+          </label>
+          <label class="tab-label">
+            <span class="tab">Resultados brutos</span>
+          </label>
+          <label class="tab-label">
+            <span class="tab">Clippings</span>
+          </label>
+        </div>
+
+        <div class="card" *ngFor="let noticias of noticias">
+          <app-card [noticias]="noticias"></app-card>
+        </div>
+      </main>
     </div>
   </div>
+</div>
   
  <!-- Versão Mobile -->
 <div *ngIf="isMobile" class="mobile-layout-container">
@@ -49,11 +49,11 @@
   <!-- Cabeçalho e Conteúdo Principal -->
   <nav class="sticky top-0 z-10 bg-white transition-transform duration-300 ease-in-out">
     <div class="flex flex-row items-center justify-between p-4">
+      <!-- Ícone e Nome -->
       <div class="flex items-center">
-        <div class="h-10 w-10 rounded-full bg-gray-300 mr-3"></div>
-        <div class="flex flex-col">
-          <h3 class="text-base font-semibold text-gray-800">Workspace</h3>
-          <h2 class="text-sm font-medium text-gray-500">9800 resultados</h2>
+        <div class="flex flex-col ml-3">
+          <h3 class="workspace-title">Dias Toffoli</h3>
+          <h2 class="workspace-results">9840 resultados </h2>
         </div>
       </div>
       <div class="flex items-center space-x-4">
@@ -74,12 +74,64 @@
     </div>
     <div class="border-t border-gray-200">
       <div class="flex justify-around">
-        <button class="py-2 px-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">Todos os resultados</button>
-        <button class="py-2 px-4 text-sm font-medium text-gray-500">Resultados brutos</button>
+        <button 
+          class="tab-button" 
+          [class.active]="selectedTab === 'todos'"
+          (click)="setSelectedTab('todos')">
+          Todos os resultados
+        </button>
+    
+        <button 
+          class="tab-button" 
+          [class.active]="selectedTab === 'brutos'"
+          (click)="setSelectedTab('brutos')">
+          Resultados brutos
+        </button>
+    
+        <button 
+          class="tab-button" 
+          [class.active]="selectedTab === 'clippings'"
+          (click)="setSelectedTab('clippings')">
+          Clippings
+        </button>
       </div>
     </div>
+    
   </nav>
-
+<!-- Seção de Ordenação e Filtros -->
+<div class="sorting-container">
+  <div class="sorting-group">
+    <span>Ordenar por:</span>
+    <div class="dropdown relative">
+      <button class="dropdown-toggle" (click)="toggleDropdown()">
+        {{ selectedOption }}
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
+        </svg>
+      </button>
+      <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+        <li (click)="selectOption('Mais relevantes')">Mais relevantes</li>
+        <li (click)="selectOption('Mais recentes')">Mais recentes</li>
+      </ul>
+    </div>
+  </div>
+  <!-- Ícone de Filtro -->
+  <div class="filter-icon-container">
+    <button (click)="toggleFiltros()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+      </svg>
+    </button>
+    
+    <!-- Componente de Filtros com animação -->
+    <div *ngIf="filtrosAbertos" class="filtros-overlay">
+      <div class="filtros-container animate-slide-up">
+        <app-filtros></app-filtros>
+      </div>
+    </div>    
+  </div>
+</div>
   <!-- Conteúdo Principal Mobile -->
   <main class="p-4">
     <div *ngFor="let noticias of noticias">

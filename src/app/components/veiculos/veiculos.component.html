@@ -1,4 +1,4 @@
-<div class="modal-container">
+<div *ngIf="!isMobile" class="modal-container">
   <!-- Cabeçalho -->
   <div class="modal-header">
     <i class="icon-search"></i>
@@ -19,15 +19,16 @@
 
     <!-- Lista de Veículos -->
     <div class="entity-list">
+      <!-- Categoria: Texto (Impressos e Web) -->
       <div class="category-section">
         <span class="section-title">Texto (Impressos e Web)</span>
         <div class="grid-container">
           <div class="grid-item">
-            <label><input type="checkbox" /> O dia</label>
+            <label><input type="checkbox" /> O Dia</label>
             <label><input type="checkbox" /> O Globo</label>
             <label><input type="checkbox" /> Jornal do Brasil</label>
             <label><input type="checkbox" /> Jornal do Comércio</label>
-            <label><input type="checkbox" /> A tribuna da Imprensa</label>
+            <label><input type="checkbox" /> A Tribuna da Imprensa</label>
           </div>
           <div class="grid-item">
             <label><input type="checkbox" /> Folha Dirigida</label>
@@ -38,7 +39,10 @@
           </div>
         </div>
       </div>
+
       <hr />
+
+      <!-- Categoria: Vídeo (Canais de televisão) -->
       <div class="category-section">
         <span class="section-title">Vídeo (Canais de televisão)</span>
         <div class="grid-container">
@@ -49,10 +53,35 @@
             <label><input type="checkbox" /> Amazonas</label>
           </div>
           <div class="grid-item">
+            <label><input type="checkbox" /> Bahia Video</label>
+            <label><input type="checkbox" /> Ceará Video</label>
+            <label><input type="checkbox" /> Distrito Federal Video</label>
+            <label><input type="checkbox" /> Espírito Santo Video</label>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Categoria: Áudio (Rádio) -->
+      <div class="category-section">
+        <span class="section-title">Áudio (Rádio)</span>
+        <div class="grid-container">
+          <div class="grid-item">
+            <label><input type="checkbox" /> Acre Audio</label>
+            <label><input type="checkbox" /> Alagoas Audio</label>
+            <label><input type="checkbox" /> Amapá Audio</label>
+            <label><input type="checkbox" /> Amazonas Audio</label>
             <label><input type="checkbox" /> Bahia Audio</label>
+          </div>
+          <div class="grid-item">
             <label><input type="checkbox" /> Ceará Audio</label>
             <label><input type="checkbox" /> Distrito Federal Audio</label>
             <label><input type="checkbox" /> Espírito Santo Audio</label>
+            <label><input type="checkbox" /> Goiás Audio</label>
+            <label><input type="checkbox" /> Minas Gerais Audio</label>
+            <label><input type="checkbox" /> Maranhão Audio</label>
+            <label><input type="checkbox" /> Mato Grosso Audio</label>
           </div>
         </div>
       </div>
@@ -63,4 +92,85 @@
   <div class="modal-footer">
     <button class="action-button">Utilizar veículos selecionados</button>
   </div>
+</div>
+<!-- MODAL MOBILE -->
+<div *ngIf="isMobile" class="mobile-modal-container">
+  <!-- Cabeçalho -->
+  <div class="mobile-modal-header">
+  </div>
+
+  <!-- Barra de busca -->
+  <div class="mobile-search">
+    <i class="icon-search"></i>
+    <input type="text" placeholder="Procurar veículos" class="mobile-search-input" />
+  </div>
+
+  <!-- Menu de Categorias -->
+  <div class="mobile-category-menu">
+    <button class="mobile-category active">Texto</button>
+    <button class="mobile-category">Vídeo</button>
+    <button class="mobile-category">Áudio</button>
+  </div>
+
+  <!-- Lista de Veículos -->
+  <div class="mobile-entity-list">
+    <div class="mobile-category-section">
+      <span class="section-title">Texto (Impressos e Web)</span>
+      <div class="mobile-grid-container">
+        <label><input type="checkbox" /> Selecionar todos os veículos de Texto</label>
+        <label><input type="checkbox" /> O Dia</label>
+        <label><input type="checkbox" /> O Globo</label>
+        <label><input type="checkbox" /> Jornal do Brasil</label>
+        <label><input type="checkbox" /> Jornal do Comércio</label>
+        <label><input type="checkbox" /> A Tribuna da Imprensa</label>
+        <label><input type="checkbox" /> Folha Dirigida</label>
+        <label><input type="checkbox" /> A Voz da Serra</label>
+        <label><input type="checkbox" /> Tribuna de Petrópolis</label>
+        <label><input type="checkbox" /> Inverta - Jornal para Ver...</label>
+        <label><input type="checkbox" /> Correio Brasiliense</label>
+      </div>
+    </div>
+
+    <div class="mobile-category-section">
+      <span class="section-title">Vídeo (Canais de televisão)</span>
+      <div class="mobile-grid-container">
+        <label><input type="checkbox" /> Selecionar todos os veículos de Vídeo</label>
+        <label><input type="checkbox" /> Agência Brasil</label>
+        <label><input type="checkbox" /> Diario Oficial</label>
+        <label><input type="checkbox" /> Globo - Ideal TV</label>
+        <label><input type="checkbox" /> Amazonas</label>
+        <label><input type="checkbox" /> Bahia Video</label>
+        <label><input type="checkbox" /> Ceará Video</label>
+        <label><input type="checkbox" /> Distrito Federal Video</label>
+        <label><input type="checkbox" /> Espírito Santo Video</label>
+        <label><input type="checkbox" /> Goiás Video</label>
+        <label><input type="checkbox" /> Minas Gerais Video</label>
+        <label><input type="checkbox" /> Maranhão Video</label>
+        <label><input type="checkbox" /> Mato Grosso Video</label>
+        <label><input type="checkbox" /> Mato Grosso do Sul Video</label>
+      </div>
+    </div>
+    <div class="mobile-category-section">
+      <span class="section-title">Áudio (Rádio)</span>
+      <div class="mobile-grid-container">
+       <label><input type="checkbox" /> Acre Audio</label>
+        <label><input type="checkbox" /> Alagoas Audio</label>
+        <label><input type="checkbox" /> Amapá Audio</label>
+        <label><input type="checkbox" /> Amazonas Audio</label>
+        <label><input type="checkbox" /> Bahia Audio</label>
+        <label><input type="checkbox" /> Ceará Audio</label>
+        <label><input type="checkbox" /> Distrito Federal Audio</label>
+        <label><input type="checkbox" /> Espírito Santo Audio</label>
+        <label><input type="checkbox" /> Goiás Audio</label>
+        <label><input type="checkbox" /> Minas Gerais Audio</label>
+        <label><input type="checkbox" /> Maranhão Audio</label>
+        <label><input type="checkbox" /> Mato Grosso Audio</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <div class="mobile-modal-footer">
+    <button class="mobile-action-button">Confirmar Seleção</button>
+  </div>
 </div>

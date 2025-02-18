@@ -11,10 +11,45 @@
       </svg>
     </div>
     <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.keywords }">
-      <input class="input-field" placeholder="Todas essas palavras" type="text" />
-      <input class="input-field" placeholder="Qualquer uma dessas palavras" type="text" />
-      <input class="input-field" placeholder="Frase ou palavra exata" type="text" />
-      <input class="input-field" placeholder="Nenhuma dessas palavras" type="text" />
+      <div class="input-container">
+        <input class="input-field" placeholder="Todas essas palavras" type="text" />
+        <div class="tooltip-container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <div class="tooltip">Digite as palavras que você deseja</div>
+        </div>
+
+        <input class="input-field" placeholder="Qualquer uma dessas palavras" type="text" />
+        <div class="tooltip-container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <div class="tooltip">Digite as palavras que podem aparecer</div>
+        </div>    
+        <input class="input-field" placeholder="Frase ou palavra exata" type="text" />
+    <div class="tooltip-container">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 16v-4"></path>
+        <path d="M12 8h.01"></path>
+      </svg>
+      <div class="tooltip">Digite as palavras ou frase que devem aparecer</div>
+    </div>
+    <input class="input-field" placeholder="Nenhuma dessas palavras" type="text" />
+    <div class="tooltip-container">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 16v-4"></path>
+        <path d="M12 8h.01"></path>
+      </svg>
+      <div class="tooltip">Digite as palavras que não devem aparecer</div>
+    </div>
+  </div>
     </div>
   </div>
 
@@ -152,8 +187,8 @@
     </div>
     <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.vehicles }">
       <!-- Componente de veículos aparece diretamente -->
-      <app-veiculos></app-veiculos>
-    </div>
+<app-localizacao></app-localizacao>   
+</div>
   
 <!-- Fundo escuro -->
 <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
@@ -213,8 +248,8 @@
     </div>
     <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.date }">
       <div class="date-container">
-        <input class="date-field" type="text" placeholder="Data Início" />
-        <input class="date-field" type="text" placeholder="Data Fim" />
+        <input id="start-date" class="date-field" type="date" placeholder="Data Início"[(ngModel)]="startDate"/>
+        <input id="end-date" class="date-field" type="date" placeholder="Data Final" [(ngModel)]="endDate"/>
       </div>
     </div>
   </div>
@@ -259,14 +294,7 @@
   <!-- Modal de Veículos -->
   <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
   <div class="modal-container" *ngIf="isModalOpen">
-    <div class="modal-header">
-      <h2>Selecionar Veículos</h2>
-      <button class="close-button" (click)="closeModal()">✖</button>
-    </div>
     <app-veiculos></app-veiculos>
-    <div class="modal-footer">
-      <button class="clear-button" (click)="closeModal()">Fechar</button>
-    </div>
   </div>
 
   <!-- Sentimento -->
@@ -304,10 +332,13 @@
         <path d="m6 9 6 6 6-6"></path>
       </svg>
     </div>
+    
     <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.location }">
-      <input class="input-field" placeholder="Digite a localização" />
+      <!-- Quando 'location' estiver aberto, exibe o componente -->
+      <app-localizacao *ngIf="isSectionOpen.location"></app-localizacao>
     </div>
   </div>
+  
 
   <!-- Botões de ação -->
   <div class="action-buttons">

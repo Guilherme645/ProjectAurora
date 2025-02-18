@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-filtros',
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class FiltrosComponent {
   modalAberto = false;  // Exemplo de estado para o modal
+  isMobile: boolean = false;
 
   filtros = [
     { nome: 'Hora', aberto: true, itens: ['Manhã (4091)', 'Tarde (3291)', 'Noite (1827)'], mostrarMais: false },
@@ -20,6 +21,10 @@ export class FiltrosComponent {
   toggleSection(nome: string) {
     const filtro = this.filtros.find(f => f.nome === nome);
     if (filtro) filtro.aberto = !filtro.aberto; // Alterna a abertura da seção
+  }
+  @HostListener('window:resize')
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768;
   }
 
  

@@ -10,6 +10,10 @@ export class ResultComponent implements OnInit {
   noticias: any[] = []; 
   isMobile: boolean = false;
   isSidebarOpen = true;  
+  selectedTab: string = 'todos';
+  isDropdownOpen: boolean = false;
+  selectedOption: string = 'Mais relevantes';
+  filtrosAbertos: boolean = false;
 
   constructor(private dataService: DataService) {}
 
@@ -32,5 +36,20 @@ export class ResultComponent implements OnInit {
 
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+  setSelectedTab(tab: string) {
+    this.selectedTab = tab;
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+  selectOption(option: string) {
+    this.selectedOption = option;
+    this.isDropdownOpen = false;
+  }
+
+  toggleFiltros(): void {
+    this.filtrosAbertos = !this.filtrosAbertos;
   }
 }

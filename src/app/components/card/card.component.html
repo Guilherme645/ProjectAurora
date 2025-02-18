@@ -51,10 +51,28 @@
     <div class="left-info">
       <img class="mobile-logo" [src]="noticias.logo" alt="Logo do Veículo" />
       <div class="mobile-veiculo">
-        <span class="mobile-vehicle-name">{{ noticias.veiculo }}</span>
-        <span class="mobile-date">{{ noticias.data }}</span>
+        <!-- Nome do Veículo e Tipo -->
+        <div class="veiculo-tipo">
+          <span class="vehicle-name">{{ noticias.veiculo }}</span>
+          <span *ngIf="noticias.tipo" class="tipo-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+              <path d="m10 11 5 3-5 3v-6Z"></path>
+            </svg>
+            <span class="content-type">{{ noticias.tipo }}</span>
+          </span>
+        </div>
+
+        <!-- Local e Usuário -->
+        <div class="additional-info-container">
+          <span *ngIf="noticias.local" class="additional-info">{{ noticias.local }}</span>
+          <span *ngIf="noticias.usuario" class="additional-info">{{ noticias.usuario }}</span>
+        </div>
       </div>
     </div>
+
+    <!-- Botão de Ações -->
     <div class="mobile-actions">
       <button id="menu-trigger" type="button" class="dropdown-toggle" (click)="toggleMenu()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -74,32 +92,36 @@
     </div>
   </div>
 
+  <!-- Sentimento e Data na Mesma Linha -->
+  <div class="sentiment-date-container">
+    <div class="sentiment-wrapper">
+      <span class="sentimento">Sentimento:</span>
+      <span class="sentiment">{{ noticias.sentimento }}</span>
+    </div>
+    <span class="date">{{ noticias.data }}</span>
+  </div>
+  
+
+  <!-- Título e Descrição -->
   <p class="mobile-mention-title">{{ noticias.titulo }}</p>
   <p class="mobile-mention-description">{{ noticias.descricao }}</p>
-  <div class="mobile-mention-footer">
-    <span class="mobile-entities-label">Entidades:</span>
-    <div class="mobile-entities">
-      <span class="mobile-label" *ngFor="let entidade of noticias.entidades">{{ entidade }}</span>
-    </div>
-  </div>
+
+  <div class="mobile-mention-footer"></div>
 </div>
 
 <!-- Modal para exibir o componente de entidades extraídas -->
 <div *ngIf="isEntitiesModalOpen" class="modal-overlay">
-  <div class="modal-container animate-slide-up">
+  <div class="modal-container">
     <div class="modal-header">
-      <h3 class="modal-title">Entidades Extraídas</h3>
-      <button class="close-button" (click)="closeEntitiesModal()">X</button>
+      <h3>Entidades Extraídas</h3>
+      <button class="close-button" (click)="closeEntitiesModal()">✕</button>
     </div>
+
     <div class="modal-body">
-      <!-- Exibição do componente de entidades extraídas -->
-      <app-tag-filter></app-tag-filter>
+      <!-- Somente exibe em dispositivos móveis -->
+      <app-tag-filter *ngIf="isMobile"></app-tag-filter>
     </div>
   </div>
 </div>
-
-
-
-   
 
 

@@ -32,6 +32,7 @@ import { FiltrosComponent } from './components/filtros/filtros.component';
 import { SearcBasicComponent } from './components/searc-basic/searc-basic.component';
 import { SaveSearchComponent } from './components/save-search/save-search.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { LocalizacaoComponent } from './components/localizacao/localizacao.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     SearcBasicComponent,
     SaveSearchComponent,
     CalendarComponent,
+    LocalizacaoComponent
   ],
   imports: [
     BrowserModule,

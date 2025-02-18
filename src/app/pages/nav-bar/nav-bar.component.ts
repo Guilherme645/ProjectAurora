@@ -13,6 +13,10 @@ export class NavBarComponent implements OnInit {
   isSidebarOpen = true;
   allSelected: boolean = false;
   currentUser: string = 'Superior Tribunal Federal'; // Usuário padrão
+selectedTab: string = 'todos';
+
+  selectedOption: string = 'Mais relevantes';
+  isDropdownOpen: boolean = false;
 
   constructor(private dataService: DataService) {}
 
@@ -25,7 +29,9 @@ export class NavBarComponent implements OnInit {
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
-
+  setSelectedTab(tab: string) {
+    this.selectedTab = tab;
+  }
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
@@ -84,5 +90,17 @@ export class NavBarComponent implements OnInit {
     this.currentUser = user;
     this.loadNoticias(); // Recarrega as notícias para o novo usuário
   }
+ 
+  
+
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+    // Seleciona uma opção de ordenação
+    selectOption(option: string) {
+      this.selectedOption = option;
+      this.isDropdownOpen = false;
+    }
   
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-veiculos',
@@ -12,25 +12,21 @@ export class VeiculosComponent implements OnInit {
   selectedVehicles: { [key: string]: boolean } = {};  // Veículos selecionados
   selectedCategory: string = 'texto';  // Categoria padrão
   searchQuery: string = '';  // Texto de busca
+  isMobile: boolean = false; // Verifica se está em um dispositivo móvel
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.loadVehicles();
+    this.checkScreenSize();
+    }
+
+
+  @HostListener('window:resize')
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768;
   }
 
   // Carrega veículos do arquivo JSON
-  loadVehicles(): void {
-    this.http.get<any>('assets/veiculos.json').subscribe({
-      next: (data) => {
-        this.vehiclesList = data;
-        this.filterVehicles();
-      },
-      error: (err) => {
-        console.error('Erro ao carregar veículos:', err);
-      }
-    });
-  }
 
   // Atualiza a categoria selecionada e filtra veículos
   selectCategory(category: string): void {
