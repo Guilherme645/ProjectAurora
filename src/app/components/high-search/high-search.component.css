@@ -1,7 +1,7 @@
 /* Container principal */
 .advanced-search-container {
   max-width: 476px;
-  height: 100vh; /* Ocupa toda a altura da tela */
+  height: 809px; /* Ocupa toda a altura da tela */
   background: white;
   padding: 24px;
   font-family: Arial, sans-serif;
@@ -46,7 +46,6 @@
 
 /* Seção do Accordion */
 .accordion-section {
-  padding-bottom: 12px;
   flex-shrink: 0; /* Impede o encolhimento */
 }
 
@@ -139,10 +138,9 @@
 
 /* Footer fixo com botões */
 .modal-footer {
-  position: fixed;
   bottom: 0;
   width: 476px;
-height: 45px;
+height: 78px;
 top: 651px;
 border-top-width: 1px;
 padding: 16px;
@@ -158,13 +156,13 @@ margin-left: -40px;
   width: 128px;
   height: 46px;
  font-weight: bold;
-  
+  gap: 10px;
 }
 
 
 .search-button {
-  width: 119px;
-  height: 46px;  
+  width: 128px;
+  height: 46px; 
   background-color: #4B5563;
   color: white;
   border: none;

@@ -54,6 +54,7 @@
     align-items: center;
     padding: 8px 12px;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .mention-item:hover {
@@ -72,9 +73,10 @@
 .dropdown-menu {
     display: none;
     position: absolute;
-    right: 0;
+    right: -17px;
     width: 281px;
-    bottom: 80px; /* Move o dropdown para cima */
+    height: 124px;
+    bottom: 51px; /* Move o dropdown para cima */
     background: white;
     border: 1px solid #E5E7EB; /* Borda cinza clara */
     border-radius: 12px;   

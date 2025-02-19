@@ -118,7 +118,13 @@ height: 324px;
 height: 54;
 border-top-width: 1px;
 border-bottom-width: 1px;
-
+font-weight: 200;
+font-size: 12px;
+  }
+  td{
+  font-weight: 400; 
+  font-size: 14px;
+ 
   }
   
   th:first-child, td:first-child {
@@ -257,4 +263,8 @@ height: 46px;
 
 .insert-button:hover {
   background-color: #374151;
+}
+.search-box svg{
+  margin-left: 20px;
+  color: #6B7280;
 }

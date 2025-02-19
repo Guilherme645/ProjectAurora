@@ -9,7 +9,7 @@ export class CardComponent implements OnInit {
   @Input() noticias: any;
   @Input() isSelected: boolean = false;
   @Output() selectionChange = new EventEmitter<boolean>();
-
+  
   allSelected: boolean = false;
   showTagFilter: boolean = false;
   isMobile: boolean = false;

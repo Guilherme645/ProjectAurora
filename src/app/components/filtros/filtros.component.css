@@ -1,9 +1,11 @@
 .filtro-container {
-    width: 290px;
+  width: 308px;
+height: 1340px;
+gap: 40px;
     padding: 16px;
     border-radius: 8px;
     margin-top: -85px;
-    margin-left: -20px;
+    margin-left: 23px;
 }
 
 /* Informações da Busca */
@@ -212,15 +214,18 @@ border-bottom: none;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Centraliza o modal */
     overflow-y: auto;
+    z-index: 1000; /* Garante que fique sobreposto */
+    width: 100%;
+    height: 100%;
   }
   
   .modal-container {
     position: absolute;
     width: 1086px;
     height: 667px;
-    top: 97.5px;
+    top: 25px;
     left: 157.5px;
     background-color: white;
     border-radius: 16px;
@@ -304,15 +309,14 @@ border-bottom: none;
 
 
 .close-modal-button {
-  position: fixed; /* Altere para fixed */
-  top: 16px;
-  right: 16px;
-  z-index: 1000; /* Eleve o z-index para estar acima de outros elementos */
+  position: fixed;
+  top: 31px;
+  right: 62px;
+  z-index: 1000;
   padding: 6px;
   border-radius: 4px;
   background: white;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s;
 }
 
 .close-modal-button:hover {

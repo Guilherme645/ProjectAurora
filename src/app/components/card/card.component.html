@@ -37,8 +37,10 @@
         <span class="label" *ngFor="let entidade of noticias.entidades">{{ entidade }}</span>
       </div>
       <a href="#" (click)="openTagFilter($event)" class="view-all-labels">Ver todas</a>
-      <app-tag-filter *ngIf="showTagFilter" (closeTagFilter)="closeTagFilter()"></app-tag-filter>
-    </div>
+      <div *ngIf="showTagFilter" class="modal-overlay">
+        <app-tag-filter (closeTagFilter)="closeTagFilter()"></app-tag-filter>
+      </div>
+        </div>
     <hr />
   </div>
 </div>

@@ -27,16 +27,19 @@ html, body {
     color: white;
   }
   
-  /* Sidebar */
-  .w-64 {
-    width: 16rem; /* Largura fixa do sidebar */
-  }
+  .sidebar {
+    width: 314px; 
+    color: white;
+    position: fixed;
+    height: 809px;  }
   
   /* Estilo do container do app-buscar */
   .buscar-container {
     text-align: center;
     max-width: 600px;
     width: 100%;
+        min-height: 100vh;
+    margin-left: 292px;
   }
   
   /* Estilo de centralização */

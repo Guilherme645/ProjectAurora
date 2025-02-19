@@ -9,18 +9,20 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   email: string = '';
   password: string = '';
-
+  showPassword: boolean = false; // Estado para alternar a senha visível
   emailError: string = '';
   passwordError: string = '';
   loginError: string = '';
 
-  private readonly correctEmail: string = 'test@gmail.com';
+  private readonly correctEmail: string = 'guilherme@gmail.com';
   private readonly correctPassword: string = '123456';
 
   constructor(private router: Router) {}
 
   // Validação de Email
   validateEmail(): void {
+    this.email = this.email.trim(); // Remove espaços desnecessários
+
     if (!this.email) {
       this.emailError = 'Insira os dados para acessar sua conta.';
     } else if (!this.email.includes('@') || !this.email.includes('.')) {
@@ -32,6 +34,8 @@ export class LoginComponent {
 
   // Validação de Senha
   validatePassword(): void {
+    this.password = this.password.trim(); // Remove espaços desnecessários
+
     if (!this.password) {
       this.passwordError = 'Insira a senha para acessar sua conta.';
     } else {
@@ -44,7 +48,7 @@ export class LoginComponent {
     this.validateEmail();
     this.validatePassword();
 
-    // Se houver erros de email ou senha, interrompe o login
+    // Se houver erros, interrompe o login
     if (this.emailError || this.passwordError) {
       return;
     }
@@ -53,7 +57,12 @@ export class LoginComponent {
     if (this.email === this.correctEmail && this.password === this.correctPassword) {
       this.router.navigate(['/navBar']);
     } else {
-      this.loginError = 'Insira os dados corretos para acessar sua conta.';
+      this.loginError = 'Email ou senha incorretos.';
     }
+  }
+
+  // Alternar a visibilidade da senha
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

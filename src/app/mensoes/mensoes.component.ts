@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-mensoes',
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class MensoesComponent {
   dropdownOpen: boolean = false;
   modalAberto: boolean = false;
+  @Input() selectedCount: number = 0;
 
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;

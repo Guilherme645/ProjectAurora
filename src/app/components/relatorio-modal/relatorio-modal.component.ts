@@ -13,11 +13,46 @@ export class RelatorioModalComponent {
   totalPaginas = 3;
 
   relatorios = [
-    { nome: 'Ministros', criadoPor: 'Guilherme Sousa', sigla: 'GS', cor: '#DBEAFE', criadoEm: '10/02/24' },
-    { nome: 'Supremo Tribunal Federal', criadoPor: 'Marina Campos', sigla: 'MC', cor: '#DBEAFE', criadoEm: '24/01/24' },
-    { nome: 'Judiciário', criadoPor: 'Gilberto Menezes', sigla: 'GM', cor: '#DBEAFE', criadoEm: '12/01/24' },
-    { nome: 'Legislativo', criadoPor: 'Guilherme Sousa', sigla: 'GS', cor: '#DBEAFE', criadoEm: '28/12/23' },
-    { nome: 'Executivo', criadoPor: 'Guilherme Sousa', sigla: 'GS', cor: '#DBEAFE', criadoEm: '28/12/23' }
+    { 
+      nome: 'Ministros', 
+      criadoPor: 'Guilherme Sousa', 
+      sigla: 'GS', 
+      cor: '#1E3A8A', 
+      backgroundColor: '#1E40AF', 
+      criadoEm: '10/02/24' 
+  },
+  { 
+      nome: 'Supremo Tribunal Federal', 
+      criadoPor: 'Marina Campos', 
+      sigla: 'MC', 
+      cor: '#991B1B', 
+      backgroundColor: '#E9D5FF', 
+      criadoEm: '24/01/24' 
+  },
+  { 
+      nome: 'Judiciário', 
+      criadoPor: 'Gilberto Menezes', 
+      sigla: 'GM', 
+      cor: '#115E59', 
+      backgroundColor: '#CCFBF1', 
+      criadoEm: '12/01/24' 
+  },
+  { 
+      nome: 'Legislativo', 
+      criadoPor: 'Guilherme Sousa', 
+      sigla: 'GS', 
+      cor: '#1E3A8A', 
+      backgroundColor: '#DBEAFE', 
+      criadoEm: '28/12/23' 
+  },
+  { 
+      nome: 'Executivo', 
+      criadoPor: 'Guilherme Sousa', 
+      sigla: 'GS', 
+      cor: '#1E3A8A', 
+      backgroundColor: '#DBEAFE', 
+      criadoEm: '28/12/23' 
+  }
   ];
 
   getRelatoriosPaginados() {

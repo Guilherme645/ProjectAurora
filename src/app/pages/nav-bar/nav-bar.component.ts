@@ -18,6 +18,9 @@ selectedTab: string = 'todos';
   selectedOption: string = 'Mais relevantes';
   isDropdownOpen: boolean = false;
 
+
+  selectedMentionsCount: number = 0;
+
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
@@ -101,6 +104,15 @@ selectedTab: string = 'todos';
     selectOption(option: string) {
       this.selectedOption = option;
       this.isDropdownOpen = false;
+    }
+  
+
+    onSelectionChange(isSelected: boolean) {
+      if (isSelected) {
+        this.selectedMentionsCount++;
+      } else {
+        this.selectedMentionsCount--;
+      }
     }
   
 }
