@@ -1,155 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+
 .modal-container {
-  position: fixed;
-  top: 50px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 700px;
-  max-height: 600px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  z-index: 1000;
-  padding: 16px;
-  scrollbar-width: thin;
-  scrollbar-color: #E5E7EB white;
-  margin-left: -535px;
-}
-
-.modal-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-container::-webkit-scrollbar-thumb {
-  background-color: #E5E7EB;
-  border-radius: 8px;
-}
-
-.modal-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 12px;
-  margin-bottom: 16px;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 295px;
+      transform: translate(-50%, -50%);
+      width: 645px;
+      height: 573px;
+      margin-left: -291px;
 }
 
-.search-input {
-  flex: 1;
+/* Estilo do Input do Preline UI */
+.hs-input {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   font-size: 14px;
-  border-radius: 6px;
-  margin-left: 16px;
-  width: 645px;
-height: 72px;
-justify-content: space-between;
-padding: 24px;
-
+  line-height: 16.94px;
+  letter-spacing: -0.01em;
+  padding: 8px 12px;
 }
 
-.esc-button {
-  padding: 4px 8px;
-  border: 1px solid #374151;
-  background-color: white;
-  color: #374151;
+/* Estiliza os nomes dos veículos */
+.veiculo-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+  color: #6B7280;
+}
+
+.category-title {
+  font-family: Inter;
+  font-weight: 600;
   font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.esc-button:hover {
-  background-color: #f3f4f6;
-}
-
-.modal-body {
-  display: flex;
-  gap: 16px;
-}
-
-.category-menu {
-  width: 168px;
-height: 164px;
-gap: 10px;
-padding: 24px;
+  line-height: 16px;
+  letter-spacing: -1%;
+  color: #6B7280;
 
 }
 
-.category-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
 
 .category-item {
-  width: 120px;
-height: 36px;
-font-size: 14px;
-margin-left: -50px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+  color: #1F2937; /* Cor padrão */
+  transition: color 0.3s ease-in-out;
 }
 
 .category-item:hover {
-color: #1d4ed8;
+  color: #2563EB; /* Cor ao passar o mouse */
+}
+
+.category-item.active {
+  color: #2563EB; /* Cor quando ativo */
 }
 
 
-.entity-list {
-  flex: 1;
-  padding: 0 16px;
+/* Estilo da barra de rolagem */
+.veiculos-container {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px;
 }
 
-.category-section {
+/* Custom Scroll */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-.section-title {
-  width: 428px;
-height: 16px;
-font-weight: 600;
-font-size: 12px;
-line-height: 16px;
-letter-spacing: -1%;
-color: #6B7280;
-margin-left: -350px;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+::-webkit-scrollbar-thumb {
+  background: #cfd4dc;
+  border-radius: 10px;
 }
 
-.grid-item label {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.grid-item input[type="checkbox"] {
-  margin-right: 8px;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 12px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.action-button {
-  padding: 10px 16px;
-  background-color: #1F2937;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.action-button:hover {
-  background-color: #1d4ed8;
+::-webkit-scrollbar-thumb:hover {
+  background: #b6bcc5;
 }
 @media (max-width: 768px) {
   .mobile-modal-container {
@@ -166,119 +103,16 @@ margin-left: -350px;
     z-index: 1000;
     padding: 16px;
   }
-
-  /* Cabeçalho do modal */
-  .mobile-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-bottom: 1px solid #e5e7eb;
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
-
-  .mobile-modal-header h2 {
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  /* Campo de busca */
-  .mobile-search {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 8px;
-    background: #f9f9f9;
-  }
-
-  .mobile-search input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  /* Menu de categorias */
-  .mobile-category-menu {
-    display: flex;
-    justify-content: space-between;
-    overflow-x: auto;
-    margin-top: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .mobile-category {
-    flex: 1;
-    text-align: center;
-    padding: 8px 12px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-  }
-
-  .mobile-category.active {
-    border-bottom: 2px solid #1d4ed8;
-    color: #1d4ed8;
-  }
-
-  /* Lista de veículos */
-  .mobile-entity-list {
-    padding: 12px 0;
-    overflow-y: auto;
-  }
-
-  .mobile-category-section {
-    margin-bottom: 12px;
-  }
-
-  .section-title {
-    font-size: 14px;
-    font-weight: bold;
-    color: #374151;
-    margin-bottom: 8px;
-    margin-left: -309px;
-  }
-
-  .mobile-grid-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 8px 0;
-  }
-
-  .mobile-grid-container label {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-  }
-
-  .mobile-grid-container input[type="checkbox"] {
-    margin-right: 8px;
-  }
-
-  /* Rodapé no mobile */
-  .mobile-modal-footer {
-    padding-top: 10px;
-    text-align: center;
-  }
-
-  .mobile-action-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #1F2937;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .mobile-action-button:hover {
-    background-color: #1d4ed8;
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out forwards;
   }
 }

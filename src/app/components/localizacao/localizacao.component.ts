@@ -9,17 +9,16 @@ import { Component, OnInit, HostListener } from '@angular/core';
 export class LocalizacaoComponent implements OnInit {
 
   vehiclesList: { [key: string]: string[] } = {}; // Dados carregados do JSON
-  filteredVehicles: string[] = []; // Lista de veículos filtrados
-  selectedVehicles: { [key: string]: boolean } = {}; // Veículos selecionados
   selectedCategory: string = 'texto'; // Categoria padrão
   searchQuery: string = ''; // Texto de busca
   isMobile: boolean = false; // Identifica se está em mobile
+  selectAll: boolean = false;
+  isModalOpen: boolean = true; // Controla a visibilidade do modal
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
-    this.loadVehicles();
   }
 
   // Detecta se está em um dispositivo móvel
@@ -27,48 +26,55 @@ export class LocalizacaoComponent implements OnInit {
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
+  estados = [
+    { nome: "Acre (AC)", selecionado: false },
+    { nome: "Alagoas (AL)", selecionado: false },
+    { nome: "Amapá (AP)", selecionado: false },
+    { nome: "Amazonas (AM)", selecionado: false },
+    { nome: "Bahia (BA)", selecionado: false },
+    { nome: "Ceará (CE)", selecionado: false },
+    { nome: "Distrito Federal (DF)", selecionado: false },
+    { nome: "Espírito Santo (ES)", selecionado: false },
+    { nome: "Goiás (GO)", selecionado: false },
+    { nome: "Maranhão (MA)", selecionado: false },
+    { nome: "Mato Grosso (MT)", selecionado: false },
+    { nome: "Mato Grosso do Sul (MS)", selecionado: false },
+    { nome: "Minas Gerais (MG)", selecionado: false },
+    { nome: "Pará (PA)", selecionado: false },
+    { nome: "Paraíba (PB)", selecionado: false },
+    { nome: "Paraná (PR)", selecionado: false },
+    { nome: "Pernambuco (PE)", selecionado: false },
+    { nome: "Piauí (PI)", selecionado: false },
+    { nome: "Rio de Janeiro (RJ)", selecionado: false },
+    { nome: "Rio Grande do Norte (RN)", selecionado: false },
+    { nome: "Rio Grande do Sul (RS)", selecionado: false },
+    { nome: "Rondônia (RO)", selecionado: false },
+    { nome: "Roraima (RR)", selecionado: false },
+    { nome: "Santa Catarina (SC)", selecionado: false },
+    { nome: "São Paulo (SP)", selecionado: false },
+    { nome: "Sergipe (SE)", selecionado: false },
+    { nome: "Tocantins (TO)", selecionado: false }
+  ];
 
-  // Carrega veículos do arquivo JSON
-  loadVehicles(): void {
-    this.http.get<{ [key: string]: string[] }>('assets/veiculos.json').subscribe({
-      next: (data) => {
-        this.vehiclesList = data || {}; // Garante que o objeto seja inicializado
-        this.filterVehicles();
-      },
-      error: (err) => {
-        console.error('Erro ao carregar veículos:', err);
-      }
-    });
+  // Função para marcar/desmarcar todos os estados
+  toggleAll() {
+    this.estados.forEach(estado => estado.selecionado = this.selectAll);
   }
 
-  // Atualiza a categoria selecionada e filtra veículos
-  selectCategory(category: string): void {
-    this.selectedCategory = category;
-    this.filterVehicles();
+  // Atualiza "Selecionar todos" baseado nos checkboxes individuais
+  updateSelectAll() {
+    this.selectAll = this.estados.every(estado => estado.selecionado);
   }
-
-  // Filtra veículos com base na categoria e no texto de busca
-  filterVehicles(): void {
-    if (!this.vehiclesList[this.selectedCategory]) {
-      this.filteredVehicles = [];
-      return;
+     // Método para fechar o modal
+     closeModal() {
+      this.isModalOpen = false;
     }
-
-    this.filteredVehicles = this.vehiclesList[this.selectedCategory].filter(vehicle =>
-      vehicle.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
-  }
-
-  // Seleciona ou desmarca todos os veículos na categoria atual
-  selectAll(isChecked: boolean): void {
-    this.filteredVehicles.forEach(vehicle => {
-      this.selectedVehicles[vehicle] = isChecked;
-    });
-  }
-
-  // Confirma e exibe os veículos selecionados
-  submitSelection(): void {
-    const selected = Object.keys(this.selectedVehicles).filter(vehicle => this.selectedVehicles[vehicle]);
-    console.log('🚀 Veículos selecionados:', selected);
-  }
+  
+    // Detectar a tecla ESC e fechar o modal
+    @HostListener('document:keydown.escape', ['$event'])
+    handleEscapeKey(event: KeyboardEvent) {
+      this.closeModal();
+    }
+  
 }
+

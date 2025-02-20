@@ -1,157 +1,57 @@
-.modal-container {
-    position: fixed;
-    top: 50px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 700px;
-    max-height: 600px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    z-index: 1000;
-    padding: 16px;
-    scrollbar-width: thin;
-    scrollbar-color: #E5E7EB white;
-    margin-left: -535px;
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+  .veiculosModalContainer {
+  display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 295px;
+      transform: translate(-50%, -50%);
+      width: 490px;
+      height: 573px;
+      margin-left: -291px;
   }
   
-  .modal-container::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .modal-container::-webkit-scrollbar-thumb {
-    background-color: #E5E7EB;
-    border-radius: 8px;
-  }
-  
-  .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: 12px;
-    margin-bottom: 16px;
-  }
-  
-  .search-input {
-    flex: 1;
-    font-size: 14px;
-    border-radius: 6px;
-    margin-left: 16px;
-    width: 645px;
-  height: 72px;
-  justify-content: space-between;
-  padding: 24px;
-  
-  }
-  
-  .esc-button {
-    padding: 4px 8px;
-    border: 1px solid #374151;
-    background-color: white;
-    color: #374151;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-  }
-  
-  .esc-button:hover {
-    background-color: #f3f4f6;
-  }
-  
-  .modal-body {
-    display: flex;
-    gap: 16px;
-  }
-  
-  .category-menu {
-    width: 168px;
-  height: 164px;
-  gap: 10px;
-  padding: 24px;
-  
-  }
-  
-  .category-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .category-item {
-    width: 120px;
-  height: 36px;
+
+.estado-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   font-size: 14px;
-  margin-left: -50px;
-  }
-  
-  .category-item:hover {
-  color: #1d4ed8;
-  }
-  
-  
-  .entity-list {
-    flex: 1;
-    padding: 0 16px;
-  }
-  
-  .category-section {
-  }
-  
-  .section-title {
-    width: 428px;
-  height: 16px;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: -1%;
-  color: #6B7280;
-  margin-left: -350px;
-  }
-  
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  
-  .grid-item label {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  
-  .grid-item input[type="checkbox"] {
-    margin-right: 8px;
-  }
-  
-  .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 12px;
-    border-top: 1px solid #e5e7eb;
-  }
-  
-  .action-button {
-    padding: 10px 16px;
-    background-color: #1F2937;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .action-button:hover {
-    background-color: #1d4ed8;
-  }
-  /* Estilos para o modal em mobile */
+  line-height: 20px;
+  letter-spacing: -0.01em; 
+  color: #000000; 
+}
+
+.search-input {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16.94px;
+  letter-spacing: -0.01em; 
+  color: #D1D5DB;
+}
+/* Barra de rolagem para navegadores WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px; /* Largura fina da barra */
+  height: 144px;
+}
+
+/* Fundo da barra de rolagem */
+::-webkit-scrollbar-track {
+  background: transparent; /* Fundo transparente */
+}
+
+/* Parte arrastável da barra (scroll thumb) */
+::-webkit-scrollbar-thumb {
+  background: #cfd4dc; 
+  border-radius: 10px; 
+}
+
+/* Efeito ao passar o mouse sobre a barra */
+::-webkit-scrollbar-thumb:hover {
+  background: #b6bcc5; 
+}
+
 @media (max-width: 768px) {
   .mobile-modal-container {
     position: fixed;

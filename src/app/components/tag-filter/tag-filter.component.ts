@@ -14,6 +14,15 @@ export class TagFilterComponent {
   selectedCategory: string = 'Data'; // Categoria selecionada
   searchQuery: string = ''; // Texto de busca
 
+  categorias = [
+    { nome: 'Data', itens: ['sexta-feira', 'janeiro', '2024'] },
+    { nome: 'Profissão', itens: ['ministros', 'advogados', 'juiz'] },
+    { nome: 'Pessoa', itens: ['Dias Toffoli', 'Rosa Weber', 'Alexandre de Moraes'] },
+    { nome: 'Lugar', itens: ['Rio Grande do Sul', 'Brasília'] },
+    { nome: 'Organização', itens: ['STF', 'OAB'] }
+  ];
+
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -34,12 +43,6 @@ export class TagFilterComponent {
     });
   }
 
-  // Atualiza a categoria selecionada e filtra entidades
-  selectCategory(category: string): void {
-    this.selectedCategory = category;
-    this.filterEntities();
-  }
-
   // Filtra entidades com base na categoria selecionada e no texto de busca
   filterEntities(): void {
     if (!this.entidades || !this.entidades[this.selectedCategory]) {
@@ -58,21 +61,26 @@ export class TagFilterComponent {
     this.isMobile = window.innerWidth <= 480;
   }
 
-  // Fecha o modal ao pressionar a tecla Escape
-  @HostListener('document:keydown.escape', ['$event'])
-  handleEscapeKey(event: KeyboardEvent): void {
-    if (this.isMobileModalOpen) {
-      this.closeMobileModal();
-    }
-  }
-
-  // Abre o modal para dispositivos móveis
-  openMobileModal(): void {
+ 
+ 
+   // Fecha o modal ao pressionar a tecla Escape
+   @HostListener('window:keydown.escape', ['$event'])
+   handleEscape(event: KeyboardEvent): void {
+     this.closeMobileModal();
+   }
+   // Abre o modal mobile
+   openMobileModal(): void {
     this.isMobileModalOpen = true;
   }
 
-  // Fecha o modal para dispositivos móveis
+  // Fecha o modal mobile com animação; aguarda 300ms antes de removê-lo do DOM
   closeMobileModal(): void {
-    this.isMobileModalOpen = false;
+    this.isMobile = false; // Fecha o modal ao definir isMobile como false
   }
+
+  // Atualiza a categoria selecionada
+  selectCategory(category: string): void {
+    this.selectedCategory = category;
+  }
+
 }

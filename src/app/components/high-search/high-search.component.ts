@@ -50,8 +50,28 @@ export class HighSearchComponent {
     negative: false
   };
   
+
+  accordionItems = [
+    { id: 'keywords', label: 'Palavras-chave' },
+    { id: 'date', label: 'Data' },
+    { id: 'media', label: 'Tipos de mídia' },
+    { id: 'vehicles', label: 'Veículos' },
+    { id: 'sentiment', label: 'Sentimento' },
+    { id: 'location', label: 'Localização' }
+  ];
+
+  
   toggleSection(section: keyof typeof this.isSectionOpen) {
+    // Fecha todas as seções antes de abrir a nova
+    Object.keys(this.isSectionOpen).forEach((key) => {
+      this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
+    });
+  
+    // Abre apenas a seção clicada
     this.isSectionOpen[section] = !this.isSectionOpen[section];
+    
+    // Garante que o modal não seja aberto junto
+    this.isModalOpen = false;
   }
 
  @HostListener('window:resize', ['$event'])
@@ -119,9 +139,13 @@ export class HighSearchComponent {
     }
   }
   openModal() {
+    // Fecha qualquer seção aberta antes de abrir o modal
+    Object.keys(this.isSectionOpen).forEach((key) => {
+      this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
+    });
+  
     this.isModalOpen = true;
   }
-
   // Fecha o modal
   closeModal() {
     this.isModalOpen = false;

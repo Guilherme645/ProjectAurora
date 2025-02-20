@@ -96,14 +96,14 @@
   </div>
    <!-- Tipo de midia -->
    <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('sentiment')">
+    <div class="accordion-header" (click)="toggleSection('media')">
       Tipo de mídia
       <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m6 9 6 6 6-6"></path>
       </svg>
     </div>
 
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.sentiment }">
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.media }">
       <label class="custom-checkbox">
         <input type="checkbox" [(ngModel)]="sentiments.positive" />
         <span class="checkmark"></span>
@@ -179,13 +179,13 @@
   <!-- Localização -->
    <!-- Tipos de Mídia -->
   <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('vehicles')">
+    <div class="accordion-header" (click)="toggleSection('location')">
       Localização
-      <svg [ngClass]="{ 'rotate': isSectionOpen.vehicles }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m6 9 6 6 6-6"></path>
       </svg>
     </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.vehicles }">
+    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.location }">
       <!-- Componente de veículos aparece diretamente -->
 <app-localizacao></app-localizacao>   
 </div>
@@ -345,5 +345,3 @@
     <button class="search-button" (click)="performSearch()">Fazer Busca</button>
   </div>
 </div>
-
-

@@ -7,12 +7,14 @@ import { Component, HostListener, OnInit } from '@angular/core';
   styleUrls: ['./veiculos.component.css']
 })
 export class VeiculosComponent implements OnInit {
-  vehiclesList: any = {};  // Dados carregados do JSON
-  filteredVehicles: string[] = [];  // Lista de veículos filtrados
-  selectedVehicles: { [key: string]: boolean } = {};  // Veículos selecionados
-  selectedCategory: string = 'texto';  // Categoria padrão
-  searchQuery: string = '';  // Texto de busca
   isMobile: boolean = false; // Verifica se está em um dispositivo móvel
+  selectAll: boolean = false;
+  selectAllText: boolean = false;
+  selectAllVideo: boolean = false;
+  selectAllAudio: boolean = false;
+  selectedCategory: string = '';
+  isModalOpen: boolean = true; // Controla a visibilidade do modal
+  categorias: string[] = ['Texto', 'Vídeo', 'Áudio']; // Adiciona a propriedade correta
 
   constructor(private http: HttpClient) {}
 
@@ -26,36 +28,87 @@ export class VeiculosComponent implements OnInit {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  // Carrega veículos do arquivo JSON
+// Listas de veículos
+textVehicles = [
+  { nome: "O Dia", selecionado: false },
+  { nome: "O Globo", selecionado: false },
+  { nome: "Jornal do Brasil", selecionado: false },
+  { nome: "Jornal do Comércio", selecionado: false },
+  { nome: "A Tribuna da Imprensa", selecionado: false },
+  { nome: "Folha Dirigida", selecionado: false },
+  { nome: "A Voz da Serra", selecionado: false },
+  { nome: "Tribuna de Petrópolis", selecionado: false },
+  { nome: "Inverta - Jornal para Ver...", selecionado: false },
+  { nome: "Correio Brasiliense", selecionado: false }
+];
 
-  // Atualiza a categoria selecionada e filtra veículos
-  selectCategory(category: string): void {
-    this.selectedCategory = category;
-    this.filterVehicles();
-  }
+videoVehicles = [
+  { nome: "Agência Brasil", selecionado: false },
+  { nome: "Diário Oficial", selecionado: false },
+  { nome: "Globo - Ideal TV", selecionado: false },
+  { nome: "Amazonas", selecionado: false },
+  { nome: "Bahia Video", selecionado: false },
+  { nome: "Ceará Video", selecionado: false },
+  { nome: "Distrito Federal Video", selecionado: false },
+  { nome: "Espírito Santo Video", selecionado: false },
+  { nome: "Goiás Video", selecionado: false },
+  { nome: "Minas Gerais Video", selecionado: false }
+];
 
-  // Filtra veículos com base na categoria e no texto de busca
-  filterVehicles(): void {
-    if (!this.vehiclesList || !this.vehiclesList[this.selectedCategory]) {
-      this.filteredVehicles = [];
-      return;
+audioVehicles = [
+  { nome: "Acre Audio", selecionado: false },
+  { nome: "Alagoas Audio", selecionado: false },
+  { nome: "Amapá Audio", selecionado: false },
+  { nome: "Amazonas Audio", selecionado: false },
+  { nome: "Bahia Audio", selecionado: false },
+  { nome: "Ceará Audio", selecionado: false },
+  { nome: "Distrito Federal Audio", selecionado: false },
+  { nome: "Espírito Santo Audio", selecionado: false },
+  { nome: "Goiás Audio", selecionado: false },
+  { nome: "Minas Gerais Audio", selecionado: false }
+];
+
+
+ // Método para selecionar todos os veículos de uma categoria
+  toggleAll(category: string): void {
+    if (category === 'text') {
+      this.selectAllText = !this.selectAllText;
+      this.textVehicles.forEach(v => v.selecionado = this.selectAllText);
+    } else if (category === 'video') {
+      this.selectAllVideo = !this.selectAllVideo;
+      this.videoVehicles.forEach(v => v.selecionado = this.selectAllVideo);
+    } else if (category === 'audio') {
+      this.selectAllAudio = !this.selectAllAudio;
+      this.audioVehicles.forEach(v => v.selecionado = this.selectAllAudio);
     }
-
-    this.filteredVehicles = this.vehiclesList[this.selectedCategory].filter((vehicle: string) =>
-      vehicle.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
   }
 
-  // Seleciona ou desmarca todos os veículos na categoria atual
-  selectAll(isChecked: boolean): void {
-    this.filteredVehicles.forEach(vehicle => {
-      this.selectedVehicles[vehicle] = isChecked;
-    });
+  // Método para atualizar "Selecionar todos" quando um checkbox individual for marcado
+  updateSelectAll(): void {
+    this.selectAllText = this.textVehicles.every(v => v.selecionado);
+    this.selectAllVideo = this.videoVehicles.every(v => v.selecionado);
+    this.selectAllAudio = this.audioVehicles.every(v => v.selecionado);
   }
 
-  // Confirma e exibe os veículos selecionados
-  submitSelection(): void {
-    const selected = Object.keys(this.selectedVehicles).filter(vehicle => this.selectedVehicles[vehicle]);
-    console.log('Veículos selecionados:', selected);
-  }
+    // Método para fechar o modal
+    closeModal() {
+      this.isModalOpen = false;
+    }
+  
+    // Detectar a tecla ESC e fechar o modal
+    @HostListener('document:keydown.escape', ['$event'])
+    handleEscapeKey(event: KeyboardEvent) {
+      this.closeModal();
+    }
+    getVehiclesByCategory(category: string) {
+      switch (category) {
+        case 'Texto': return this.textVehicles;
+        case 'Vídeo': return this.videoVehicles;
+        case 'Áudio': return this.audioVehicles;
+        default: return [];
+      }
+    }
+    
+  
+  
 }

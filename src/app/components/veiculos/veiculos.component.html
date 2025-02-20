@@ -1,176 +1,180 @@
-<div *ngIf="!isMobile" class="modal-container">
-  <!-- Cabeçalho -->
-  <div class="modal-header">
-    <i class="icon-search"></i>
-    <input type="text" placeholder="Procurar veículos" class="search-input" />
-    <button class="esc-button">ESC</button>
-  </div>
+<!-- Modal Wrapper -->
+<div *ngIf="isModalOpen" id="modalWrapper" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
 
-  <!-- Conteúdo principal -->
-  <div class="modal-body">
-    <!-- Menu de Categorias -->
-    <nav class="category-menu">
-      <ul>
-        <li class="category-item active">Texto</li>
-        <li class="category-item">Vídeo</li>
-        <li class="category-item">Áudio</li>
-      </ul>
-    </nav>
+  <!-- Container do Modal -->
+  <div id="modalContainer" class="modal-container w-[645px] h-[500px] bg-white shadow-lg rounded-2xl border border-gray-200 flex flex-col">
 
-    <!-- Lista de Veículos -->
-    <div class="entity-list">
-      <!-- Categoria: Texto (Impressos e Web) -->
-      <div class="category-section">
-        <span class="section-title">Texto (Impressos e Web)</span>
-        <div class="grid-container">
-          <div class="grid-item">
-            <label><input type="checkbox" /> O Dia</label>
-            <label><input type="checkbox" /> O Globo</label>
-            <label><input type="checkbox" /> Jornal do Brasil</label>
-            <label><input type="checkbox" /> Jornal do Comércio</label>
-            <label><input type="checkbox" /> A Tribuna da Imprensa</label>
-          </div>
-          <div class="grid-item">
-            <label><input type="checkbox" /> Folha Dirigida</label>
-            <label><input type="checkbox" /> A Voz da Serra</label>
-            <label><input type="checkbox" /> Tribuna de Petrópolis</label>
-            <label><input type="checkbox" /> Inverta - Jornal para Ver...</label>
-            <label><input type="checkbox" /> Correio Brasiliense</label>
-          </div>
-        </div>
+    <!-- Cabeçalho ajustado -->
+    <div class="flex items-center justify-between bg-white px-4 py-3 h-[73px] w-full rounded-t-2xl border-b">
+      <div class="relative w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide stroke-1 text-gray-500 absolute left-4 top-1/2 transform -translate-y-1/2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21 -4.3-4.3"></path>
+        </svg>
+        <input type="text" placeholder="Procurar veículos" class="w-full bg-white text-gray-900 placeholder-gray-400 focus:outline-none pl-10 py-2 border-none"/>
       </div>
+      <button class="text-xs text-gray-600 flex justify-center items-center w-[30px] h-[18px] border border-gray-300 rounded-lg hover:bg-gray-200"
+        (click)="closeModal()">
+        ESC
+      </button>
+    </div>
 
-      <hr />
+    <!-- Conteúdo principal -->
+    <div class="flex flex-grow w-[645px] h-[482px] pt-2">
 
-      <!-- Categoria: Vídeo (Canais de televisão) -->
-      <div class="category-section">
-        <span class="section-title">Vídeo (Canais de televisão)</span>
-        <div class="grid-container">
-          <div class="grid-item">
-            <label><input type="checkbox" /> Agência Brasil</label>
-            <label><input type="checkbox" /> Diario Oficial</label>
-            <label><input type="checkbox" /> Globo - Ideal TV</label>
-            <label><input type="checkbox" /> Amazonas</label>
-          </div>
-          <div class="grid-item">
-            <label><input type="checkbox" /> Bahia Video</label>
-            <label><input type="checkbox" /> Ceará Video</label>
-            <label><input type="checkbox" /> Distrito Federal Video</label>
-            <label><input type="checkbox" /> Espírito Santo Video</label>
-          </div>
+      <!-- Menu lateral -->
+      <nav class="w-[150px] border-r border-gray-200 p-4">
+        <ul class="space-y-3">
+          <li class="category-item flex items-center gap-2 cursor-pointer" [ngClass]="{'active': selectedCategory === 'texto'}" (click)="selectedCategory = 'texto'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12h18"></path>
+              <path d="M3 6h18"></path>
+              <path d="M3 18h18"></path>
+            </svg>
+            Texto
+          </li>
+          
+          <li class="category-item flex items-center gap-2 cursor-pointer" [ngClass]="{'active': selectedCategory === 'video'}" (click)="selectedCategory = 'video'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+              <path d="m10 11 5 3-5 3v-6Z"></path>
+            </svg>
+            Vídeo
+          </li>
+      
+          <li class="category-item flex items-center gap-2 cursor-pointer" [ngClass]="{'active': selectedCategory === 'audio'}" (click)="selectedCategory = 'audio'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.5 22h.5a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"></path>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+              <path d="M2 19a2 2 0 1 1 4 0v1a2 2 0 1 1-4 0v-4a6 6 0 0 1 12 0v4a2 2 0 1 1-4 0v-1a2 2 0 1 1 4 0"></path>
+            </svg>
+            Áudio
+          </li>
+        </ul>
+      </nav>
+      
+
+      <!-- Lista de veículos -->
+      <div class="p-4 flex-1 max-h-[382px] overflow-y-auto">
+
+        <!-- Categoria: Texto -->
+        <span class="block text-sm font-medium text-gray-700 text-left mb-3 category-title">
+          Texto (Impressos e Web)
+        </span>
+                <label class="flex items-center gap-x-2 text-sm font-medium text-gray-700 mb-2">
+          <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" />
+          Selecionar todos os veículos de Texto
+        </label>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-3 pr-2">
+          <label *ngFor="let veiculo of textVehicles" class="flex items-center gap-x-2 text-sm font-medium">
+            <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" />
+            {{ veiculo.nome }}
+          </label>
         </div>
-      </div>
 
-      <hr />
+        <hr class="my-4"/>
 
-      <!-- Categoria: Áudio (Rádio) -->
-      <div class="category-section">
-        <span class="section-title">Áudio (Rádio)</span>
-        <div class="grid-container">
-          <div class="grid-item">
-            <label><input type="checkbox" /> Acre Audio</label>
-            <label><input type="checkbox" /> Alagoas Audio</label>
-            <label><input type="checkbox" /> Amapá Audio</label>
-            <label><input type="checkbox" /> Amazonas Audio</label>
-            <label><input type="checkbox" /> Bahia Audio</label>
-          </div>
-          <div class="grid-item">
-            <label><input type="checkbox" /> Ceará Audio</label>
-            <label><input type="checkbox" /> Distrito Federal Audio</label>
-            <label><input type="checkbox" /> Espírito Santo Audio</label>
-            <label><input type="checkbox" /> Goiás Audio</label>
-            <label><input type="checkbox" /> Minas Gerais Audio</label>
-            <label><input type="checkbox" /> Maranhão Audio</label>
-            <label><input type="checkbox" /> Mato Grosso Audio</label>
-          </div>
+        <!-- Categoria: Vídeo -->
+        <span class="block text-xs font-semibold text-gray-500 text-left mb-3">Vídeo (Canais de televisão)</span>
+        <label class="flex items-center gap-x-2 text-sm font-medium text-gray-700 mb-2">
+          <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" />
+          Selecionar todos os veículos de Vídeo
+        </label>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-3 pr-2">
+          <label *ngFor="let veiculo of videoVehicles" class="flex items-center gap-x-2 text-sm font-medium">
+            <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" />
+            {{ veiculo.nome }}
+          </label>
         </div>
+
+        <hr class="my-4"/>
+
+        <!-- Categoria: Áudio -->
+        <span class="block text-xs font-semibold text-gray-500 text-left mb-3">Áudio (Rádio)</span>
+        <label class="flex items-center gap-x-2 text-sm font-medium text-gray-700 mb-2">
+          <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" />
+          Selecionar todos os veículos de Áudio
+        </label>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-3 pr-2">
+          <label *ngFor="let veiculo of audioVehicles" class="flex items-center gap-x-2 text-sm font-medium">
+            <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" />
+            {{ veiculo.nome }}
+          </label>
+        </div>
+
       </div>
     </div>
-  </div>
 
-  <!-- Rodapé -->
-  <div class="modal-footer">
-    <button class="action-button">Utilizar veículos selecionados</button>
+    <!-- Rodapé corrigido -->
+    <div class="w-full border-t p-4 flex justify-end">
+      <button type="button" class="py-3 px-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800">
+        Utilizar veículos selecionados
+      </button>
+    </div>
   </div>
 </div>
+
 <!-- MODAL MOBILE -->
-<div *ngIf="isMobile" class="mobile-modal-container">
-  <!-- Cabeçalho -->
-  <div class="mobile-modal-header">
-  </div>
+<!-- Modal Mobile - Surge de Baixo para Cima -->
+<div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-end">
+  
+  <!-- Container do Modal -->
+  <div class="mobile-modal-container w-full bg-white shadow-lg rounded-t-2xl border border-gray-200 flex flex-col transform translate-y-full animate-slide-up">
+    
+    <!-- Cabeçalho -->
+    <div class="flex items-center justify-between bg-white px-4 py-3 h-[60px] w-full border-b">
+      <div class="relative w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide stroke-1 text-gray-500 absolute left-4 top-1/2 transform -translate-y-1/2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21 -4.3-4.3"></path>
+        </svg>
+        <input type="text" placeholder="Procurar veículos" class="w-full bg-white text-gray-900 placeholder-gray-400 focus:outline-none pl-10 py-2 border-none"/>
+      </div>
+      <button class="text-xs text-gray-600 flex justify-center items-center w-[30px] h-[18px] border border-gray-300 rounded-lg hover:bg-gray-200"
+        (click)="closeModal()">
+        ESC
+      </button>
+    </div>
 
-  <!-- Barra de busca -->
-  <div class="mobile-search">
-    <i class="icon-search"></i>
-    <input type="text" placeholder="Procurar veículos" class="mobile-search-input" />
-  </div>
+    <!-- Conteúdo do Modal -->
+    <div class="flex flex-col w-full h-[400px] overflow-y-auto p-4">
 
-  <!-- Menu de Categorias -->
-  <div class="mobile-category-menu">
-    <button class="mobile-category active">Texto</button>
-    <button class="mobile-category">Vídeo</button>
-    <button class="mobile-category">Áudio</button>
-  </div>
+      <!-- Tabs de Categoria -->
+      <div class="flex gap-4 overflow-x-auto border-b pb-2">
+        <button *ngFor="let categoria of categorias" class="px-4 py-2 text-sm font-medium rounded-lg"
+          [ngClass]="{'bg-black text-white': selectedCategory === categoria, 'bg-gray-200 text-gray-700': selectedCategory !== categoria}"
+          (click)="selectedCategory = categoria">
+          {{ categoria }}
+        </button>
+      </div>
 
-  <!-- Lista de Veículos -->
-  <div class="mobile-entity-list">
-    <div class="mobile-category-section">
-      <span class="section-title">Texto (Impressos e Web)</span>
-      <div class="mobile-grid-container">
-        <label><input type="checkbox" /> Selecionar todos os veículos de Texto</label>
-        <label><input type="checkbox" /> O Dia</label>
-        <label><input type="checkbox" /> O Globo</label>
-        <label><input type="checkbox" /> Jornal do Brasil</label>
-        <label><input type="checkbox" /> Jornal do Comércio</label>
-        <label><input type="checkbox" /> A Tribuna da Imprensa</label>
-        <label><input type="checkbox" /> Folha Dirigida</label>
-        <label><input type="checkbox" /> A Voz da Serra</label>
-        <label><input type="checkbox" /> Tribuna de Petrópolis</label>
-        <label><input type="checkbox" /> Inverta - Jornal para Ver...</label>
-        <label><input type="checkbox" /> Correio Brasiliense</label>
+      <!-- Lista de Veículos -->
+      <div class="flex-1 overflow-y-auto mt-3">
+        <span class="block text-sm font-medium text-gray-700 text-left mb-3 category-title">
+          {{ selectedCategory }}
+        </span>
+        <label class="flex items-center gap-x-2 text-sm font-medium text-gray-700 mb-2">
+          <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" />
+          Selecionar todos os veículos de {{ selectedCategory }}
+        </label>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-3 pr-2">
+          <label *ngFor="let veiculo of getVehiclesByCategory(selectedCategory)" class="flex items-center gap-x-2 text-sm font-medium">
+            <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" />
+            {{ veiculo.nome }}
+          </label>
+        </div>
       </div>
     </div>
 
-    <div class="mobile-category-section">
-      <span class="section-title">Vídeo (Canais de televisão)</span>
-      <div class="mobile-grid-container">
-        <label><input type="checkbox" /> Selecionar todos os veículos de Vídeo</label>
-        <label><input type="checkbox" /> Agência Brasil</label>
-        <label><input type="checkbox" /> Diario Oficial</label>
-        <label><input type="checkbox" /> Globo - Ideal TV</label>
-        <label><input type="checkbox" /> Amazonas</label>
-        <label><input type="checkbox" /> Bahia Video</label>
-        <label><input type="checkbox" /> Ceará Video</label>
-        <label><input type="checkbox" /> Distrito Federal Video</label>
-        <label><input type="checkbox" /> Espírito Santo Video</label>
-        <label><input type="checkbox" /> Goiás Video</label>
-        <label><input type="checkbox" /> Minas Gerais Video</label>
-        <label><input type="checkbox" /> Maranhão Video</label>
-        <label><input type="checkbox" /> Mato Grosso Video</label>
-        <label><input type="checkbox" /> Mato Grosso do Sul Video</label>
-      </div>
+    <!-- Rodapé -->
+    <div class="w-full border-t p-4 flex justify-end">
+      <button type="button" class="py-3 px-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800">
+        Utilizar veículos selecionados
+      </button>
     </div>
-    <div class="mobile-category-section">
-      <span class="section-title">Áudio (Rádio)</span>
-      <div class="mobile-grid-container">
-       <label><input type="checkbox" /> Acre Audio</label>
-        <label><input type="checkbox" /> Alagoas Audio</label>
-        <label><input type="checkbox" /> Amapá Audio</label>
-        <label><input type="checkbox" /> Amazonas Audio</label>
-        <label><input type="checkbox" /> Bahia Audio</label>
-        <label><input type="checkbox" /> Ceará Audio</label>
-        <label><input type="checkbox" /> Distrito Federal Audio</label>
-        <label><input type="checkbox" /> Espírito Santo Audio</label>
-        <label><input type="checkbox" /> Goiás Audio</label>
-        <label><input type="checkbox" /> Minas Gerais Audio</label>
-        <label><input type="checkbox" /> Maranhão Audio</label>
-        <label><input type="checkbox" /> Mato Grosso Audio</label>
-      </div>
-    </div>
-  </div>
 
-  <!-- Rodapé -->
-  <div class="mobile-modal-footer">
-    <button class="mobile-action-button">Confirmar Seleção</button>
-  </div>
+  </div>
 </div>

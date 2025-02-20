@@ -59,13 +59,6 @@ export class RelatorioModalComponent {
     return this.relatorios.slice((this.paginaAtual - 1) * this.itensPorPagina, this.paginaAtual * this.itensPorPagina);
   }
 
-  paginaAnterior() {
-    if (this.paginaAtual > 1) this.paginaAtual--;
-  }
-
-  proximaPagina() {
-    if (this.paginaAtual < this.totalPaginas) this.paginaAtual++;
-  }
 
   fecharModal() {
     this.fechar.emit();
@@ -74,4 +67,28 @@ export class RelatorioModalComponent {
     console.log('Menção inserida!');
     this.fecharModal();
   }
+    // Método para avançar para a próxima página
+    proximaPagina() {
+      if (this.paginaAtual < this.totalPaginas) {
+        this.paginaAtual++;
+      }
+    }
+  
+    // Método para voltar para a página anterior
+    paginaAnterior() {
+      if (this.paginaAtual > 1) {
+        this.paginaAtual--;
+      }
+    }
+  
+    // Método para atualizar a página ao editar o input manualmente
+    atualizarPagina(event: any) {
+      let valor = parseInt(event.target.value, 10);
+      if (!isNaN(valor) && valor >= 1 && valor <= this.totalPaginas) {
+        this.paginaAtual = valor;
+      } else {
+        event.target.value = this.paginaAtual;
+      }
+    }
+  
 }

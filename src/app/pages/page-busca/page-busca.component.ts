@@ -6,23 +6,21 @@ import { Component, HostListener } from '@angular/core';
   styleUrls: ['./page-busca.component.css']
 })
 export class PageBuscaComponent {
-  isMobile = window.innerWidth <= 768;
-  isSidebarOpen = false;
-  isMobileSidebarOpen = false;
+  isMobile: boolean = window.innerWidth <= 480; // Detecta se é mobile
+  isMobileSidebarOpen: boolean = this.isMobile; // Começa aberta se for mobile
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.isMobile = event.target.innerWidth <= 768;
-  }
-  
-  toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
+  onResize() {
+    this.isMobile = window.innerWidth <= 480;
+    if (!this.isMobile) {
+      this.isMobileSidebarOpen = false; // Fecha a sidebar no desktop
+    }
   }
 
-  toggleMobileSidebar() {
-    this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
+  abrirMobileSidebar() {
+    this.isMobileSidebarOpen = true;
   }
-  
+
   closeMobileSidebar() {
     this.isMobileSidebarOpen = false;
   }

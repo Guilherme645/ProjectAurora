@@ -1,83 +1,122 @@
-<div class="modal-overlay">
-    <div class="modal-container">
-      <!-- Cabeçalho do Modal -->
-      <div class="modal-header">
-        <div class="header-text">
-          <p class="text-lg font-semibold text-black">Relatórios do Workspace</p>
-          <p class="text-xs text-gray-500">Selecione os relatórios desejados para inserir a menção</p>
-        </div>
-        <span class="close-icon" (click)="fecharModal()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18"></path>
-            <path d="M6 6l12 12"></path>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 backdrop-blur-md">
+  <div class="modal-wrapper">
+      <div class="bg-white rounded-2xl shadow-lg w-[737px] h-[626px] p-6">
+          <!-- Cabeçalho do Modal -->
+          <div class="flex justify-between items-center border-b pb-3">
+              <div>
+                  <p class="text-lg font-semibold text-gray-900">Relatórios do Workspace</p>
+                  <p class="text-sm text-gray-500">Selecione os relatórios desejados para inserir a menção</p>
+              </div>
+              <button class="text-gray-500 hover:text-gray-800" (click)="fecharModal()">
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 6 6 18"></path>
+                      <path d="M6 6l12 12"></path>
+                  </svg>
+              </button>
+          </div>
+
+          <!-- Tabela de Relatórios com fundo branco no cabeçalho -->
+          <div class="overflow-auto border border-gray-200 rounded-xl">
+              <table class="w-full border-collapse text-sm">
+                  <thead class="">
+                      <!-- Linha contendo o campo de pesquisa e o botão -->
+                      <tr>
+                          <th colspan="4" class="p-3 bg-white">
+                              <div class="flex justify-between items-center">
+                                  <!-- Campo de busca -->
+                                  <div class="relative w-full">
+                                      <input type="text" placeholder="Pesquisar relatório"
+                                          class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 outline-none bg-white shadow-sm">
+                                      <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500"
+                                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <circle cx="11" cy="11" r="8"></circle>
+                                          <path d="m21 21-4.3-4.3"></path>
+                                      </svg>
+                                  </div>
+
+                                  <!-- Criar novo relatório -->
+                                  <button class="ml-4 text-sm text-blue-600 flex items-center whitespace-nowrap hover:text-blue-800">
+                                      <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <circle cx="12" cy="12" r="10"></circle>
+                                          <path d="M8 12h8"></path>
+                                          <path d="M12 8v8"></path>
+                                      </svg>
+                                      Criar novo relatório
+                                  </button>
+                              </div>
+                          </th>
+                      </tr>
+                      <!-- Linha normal do cabeçalho -->
+                      <tr class="bg-gray-50 text-gray-600">
+                        <th class="p-3 w-10">
+                            <input type="checkbox" class="rounded border-gray-300 focus:ring focus:ring-blue-300">
+                        </th>
+                        <th class="p-3 text-left">NOME</th>
+                        <th class="p-3 text-left">CRIADO POR</th>
+                        <th class="p-3 text-left">CRIADO EM</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+                      <tr *ngFor="let relatorio of getRelatoriosPaginados()" class="hover:bg-gray-50">
+                          <td class="p-3">
+                              <input type="checkbox" class="rounded border-gray-300 focus:ring focus:ring-blue-300">
+                          </td>
+                          <td class="p-3">{{ relatorio.nome }}</td>
+                          <td class="p-3 flex items-center">
+                            <div class="w-[38px] h-[38px] rounded-full text-white flex items-center justify-center shadow-sm"
+                            [style.backgroundColor]="relatorio.cor"
+                            style=" font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: -0.01em; text-align: center;">
+                           {{ relatorio.sigla }}
+                       </div>
+
+                              <span class="ml-2 text-gray-800">{{ relatorio.criadoPor }}</span>
+                          </td>
+                          <td class="p-3 text-gray-600">{{ relatorio.criadoEm }}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+
+       <!-- Paginação -->
+<div class="flex justify-between items-center mt-4">
+  <div class="flex items-center space-x-2 text-sm text-gray-800">
+      <!-- Botão de página anterior -->
+      <button class="p-1 rounded hover:bg-gray-100"
+              (click)="paginaAnterior()"
+              [disabled]="paginaAtual === 1">
+          <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"></path>
           </svg>
-        </span>
-      </div>
-  
-     <!-- Seção com borda ao redor -->
-<div class="content-border">
-  <!-- Campo de Busca e Criar Relatório -->
-  <div class="search-container">
-    <div class="search-box"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path>
-      </svg>
-      <input type="text" placeholder="Pesquisar relatório" class="search-input">
-      
-    </div>
-    <div class="novo">
-         <span class="flex flex-nowrap items-center text-sm font-medium text-blue-600 cursor-pointer">
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide text-blue-600 mr-1">
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="M8 12h8"></path>
-        <path d="M12 8v8"></path>
-      </svg> 
-      Criar novo relatório
-    </span>
-    </div>
- 
+      </button>
+
+      <!-- Campo de input da página atual -->
+      <input type="text" [value]="paginaAtual" (change)="atualizarPagina($event)"
+          class="w-[32px] h-[32px] text-center border border-gray-300 rounded-lg focus:ring focus:ring-blue-300 outline-none text-gray-800 font-normal">
+
+      <!-- Texto "de" -->
+      <span class="text-gray-500">de</span>
+
+      <!-- Número total de páginas -->
+      <span class="text-gray-800">{{ totalPaginas }}</span>
+
+      <!-- Botão de próxima página -->
+      <button class="p-1 rounded hover:bg-gray-100"
+              (click)="proximaPagina()"
+              [disabled]="paginaAtual === totalPaginas">
+          <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"></path>
+          </svg>
+      </button>
   </div>
 
-  <!-- Tabela de Relatórios -->
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th><input type="checkbox" class="checkbox-header"></th>
-          <th>NOME</th>
-          <th>CRIADO POR</th>
-          <th>CRIADO EM</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let relatorio of getRelatoriosPaginados()">
-          <td><input type="checkbox"></td>
-          <td>{{ relatorio.nome }}</td>
-          <td class="creator">
-            <div class="avatar" [style.backgroundColor]="relatorio.cor">{{ relatorio.sigla }}</div>
-            {{ relatorio.criadoPor }}
-          </td>
-          <td>{{ relatorio.criadoEm }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- Botão Inserir -->
+  <button class="bg-gray-900 text-white w-[138px] h-[46px] rounded-lg text-sm hover:bg-gray-800 shadow-md">
+      Inserir menção
+  </button>
 </div>
 
-  
-<div class="flex flex-row justify-between items-center pagination-container">
-  <div class="pagination-nav py-1">
-    <nav class="flex items-center justify-center text-xs text-gray-800">
-      <svg class="icon-previous-page" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m15 18-6-6 6-6"></path>
-      </svg>
-      <input value="1" class="pagination-input">
-      <p class="pagination-text"> de </p>
-      <p class="pagination-total"> 3 </p>
-      <svg class="icon-next-page" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m9 18 6-6-6-6"></path>
-      </svg>
-    </nav>
-  </div>
-  <button class="insert-button">Inserir menção</button>
-</div>

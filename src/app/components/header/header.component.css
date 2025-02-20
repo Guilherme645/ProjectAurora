@@ -8,6 +8,17 @@
   
 }
 
+app-high-search {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  z-index: 1000;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
 .header-container.hidden {
   transform: translateY(-100%); /* Faz o cabeçalho desaparecer suavemente */
 }

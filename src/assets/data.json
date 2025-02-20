@@ -41,7 +41,7 @@
       "logo": "assets/logos/g1.png"
     },
     {
-      "veiculo": "Estadão",
+      "veiculo": "G1",
       "usuario": "Superior Tribunal Federal",
       "tipo": "Texto",
       "data": "08/02/23",
@@ -50,10 +50,10 @@
       "titulo": "Tribunal Supremo adota medidas inéditas",
       "descricao": "O STF anunciou medidas que prometem modernizar o sistema judicial brasileiro, incluindo novas regras processuais e maior integração tecnológica. Especialistas elogiam as iniciativas.",
       "entidades": ["Tribunal Supremo", "medidas inéditas"],
-      "logo": "assets/logos/estadao.png"
+      "logo": "assets/logos/g1.png"
     },
     {
-      "veiculo": "BBC Brasil",
+      "veiculo": "G1",
       "usuario": "Superior Tribunal Federal",
       "tipo": "Áudio",
       "data": "07/02/23",
@@ -65,7 +65,7 @@
       "logo": "assets/logos/bbc.png"
     },
     {
-      "veiculo": "CNN",
+      "veiculo": "G1",
       "usuario": "Superior Tribunal Federal",
       "tipo": "Vídeo",
       "data": "06/02/23",
@@ -74,10 +74,10 @@
       "titulo": "Críticas às recentes decisões econômicas do STF",
       "descricao": "As decisões econômicas do STF têm gerado críticas no setor empresarial por aumentar incertezas nos investimentos. O tribunal, por outro lado, argumenta que as mudanças são necessárias.",
       "entidades": ["decisões econômicas", "críticas", "STF"],
-      "logo": "assets/logos/cnn.png"
+      "logo": "assets/logos/g1.png"
     },
     {
-      "veiculo": "R7",
+      "veiculo": "Globo",
       "usuario": "Superior Tribunal Federal",
       "tipo": "Texto",
       "data": "05/02/23",
@@ -86,10 +86,10 @@
       "titulo": "Impacto das decisões do STF no mercado",
       "descricao": "Analistas destacam que as decisões do STF trouxeram maior estabilidade jurídica ao mercado. Empresários acreditam que isso pode atrair novos investimentos e impulsionar a economia.",
       "entidades": ["mercado", "decisões STF"],
-      "logo": "assets/logos/r7.png"
+      "logo": "assets/logos/globo.png"
     },
     {
-      "veiculo": "UOL",
+      "veiculo": "Globo",
       "tipo": "Texto",
       "usuario": "Superior Tribunal Federal",
       "data": "04/02/23",
@@ -98,10 +98,10 @@
       "titulo": "Histórico das decisões do STF em 2023",
       "descricao": "O STF tomou decisões importantes em 2023 que impactaram diferentes setores. Especialistas avaliam os desdobramentos dessas medidas no campo jurídico, político e econômico.",
       "entidades": ["decisões STF", "2023", "histórico"],
-      "logo": "assets/logos/uol.png"
+      "logo": "assets/logos/globo.png"
     },
     {
-      "veiculo": "Valor Econômico",
+      "veiculo": "G1",
       "tipo": "Texto",
       "usuario": "Superior Tribunal Federal",
       "data": "03/02/23",
@@ -110,10 +110,10 @@
       "titulo": "Supremo Tribunal toma decisões que beneficiam empresas",
       "descricao": "Empresas elogiaram as recentes decisões do STF, destacando os benefícios em questões tributárias. As ações têm sido vistas como um passo importante para a competitividade nacional.",
       "entidades": ["empresas", "benefícios", "STF"],
-      "logo": "assets/logos/valor.png"
+      "logo": "assets/logos/g1.png"
     },
     {
-      "veiculo": "Carta Capital",
+      "veiculo": "Globo",
       "usuario": "Superior Tribunal Federal",
       "tipo": "Texto",
       "local": "TV em Rio de Janeiro",
@@ -122,7 +122,7 @@
       "titulo": "Impacto social das decisões recentes do STF",
       "descricao": "As decisões do STF geraram intensos debates na sociedade, especialmente sobre o impacto social de algumas medidas. Organizações questionam a abordagem adotada pelo tribunal.",
       "entidades": ["impacto social", "decisões", "STF"],
-      "logo": "assets/logos/cartacapital.png"
+      "logo": "assets/logos/globo.png"
     }
   ]
 }

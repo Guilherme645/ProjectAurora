@@ -13,6 +13,7 @@ export class HeaderComponent {
   selectedOption: string = 'Mais relevantes';
   selectedTab: string = 'brutos';
   selectAll: boolean = false;
+  exibirBuscaAvancada: boolean = false;
 
   @Output() selectAllEvent = new EventEmitter<boolean>();
   @Output() filterNewsEvent = new EventEmitter<string>();
@@ -27,7 +28,9 @@ export class HeaderComponent {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
     this.isScrolled = scrollTop > 100;  // Esconde o cabeçalho após 100px de rolagem
   }
-
+  abrirBuscaAvancada() {
+    this.exibirBuscaAvancada = !this.exibirBuscaAvancada;
+  }
   // Detecta redimensionamento da janela para ajustar a tela
   @HostListener('window:resize', ['$event'])
   onResize() {
