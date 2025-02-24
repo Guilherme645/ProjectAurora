@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,16 +8,12 @@ import { Router } from '@angular/router';
 })
 export class HighSearchComponent {
   isMobile = window.innerWidth <= 768;
-  showCalendarStart: boolean = false;
-  showCalendarEnd: boolean = false;
+  showCalendar: boolean = false;
   selectedStartDate!: Date;
   selectedEndDate!: Date;
-  showCalendar: boolean = false;
-  startDate: string = ''; // Variável para a Data Início
-  endDate: string = '';   // Variável para a Data Fim
   selectedInput: 'start' | 'end' | null = null;
+  @Output() fecharComponente = new EventEmitter<void>();
   constructor(private router: Router) {}
-
 
   isSectionOpen: { 
     keywords: boolean;
@@ -34,72 +30,31 @@ export class HighSearchComponent {
     sentiment: false,
     location: false
   };
-  
 
-  isModalOpen = false; // Controle do modal
+  isModalOpen = false;
 
   mediaTypes = {
     audio: false,
     text: false,
     video: false
   };
-  
+
   sentiments = {
     positive: false,
     neutral: false,
     negative: false
   };
-  
 
-  accordionItems = [
-    { id: 'keywords', label: 'Palavras-chave' },
-    { id: 'date', label: 'Data' },
-    { id: 'media', label: 'Tipos de mídia' },
-    { id: 'vehicles', label: 'Veículos' },
-    { id: 'sentiment', label: 'Sentimento' },
-    { id: 'location', label: 'Localização' }
-  ];
-
-  
-  toggleSection(section: keyof typeof this.isSectionOpen) {
-    // Fecha todas as seções antes de abrir a nova
-    Object.keys(this.isSectionOpen).forEach((key) => {
-      this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
-    });
-  
-    // Abre apenas a seção clicada
-    this.isSectionOpen[section] = !this.isSectionOpen[section];
-    
-    // Garante que o modal não seja aberto junto
-    this.isModalOpen = false;
-  }
-
- @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.isMobile = event.target.innerWidth <= 768;
   }
 
-
-
-  toggleCalendar(type: string) {
-    if (type === 'start') {
-      this.showCalendarStart = !this.showCalendarStart;
-      this.showCalendarEnd = false;
-    } else if (type === 'end') {
-      this.showCalendarEnd = !this.showCalendarEnd;
-      this.showCalendarStart = false;
-    }
+  toggleSection(section: keyof typeof this.isSectionOpen) {
+    this.isSectionOpen[section] = !this.isSectionOpen[section];
+    this.isModalOpen = false;
   }
 
-  onDateStartSelected(date: Date) {
-    this.selectedStartDate = date;
-    this.showCalendarStart = false;
-  }
-
-  onDateEndSelected(date: Date) {
-    this.selectedEndDate = date;
-    this.showCalendarEnd = false;
-  }
   openCalendar(input: 'start' | 'end') {
     this.selectedInput = input;
     this.showCalendar = true;
@@ -111,46 +66,46 @@ export class HighSearchComponent {
     } else if (this.selectedInput === 'end') {
       this.selectedEndDate = date;
     }
+    this.closeCalendar();
+  }
+
+  closeCalendar() {
     this.showCalendar = false;
     this.selectedInput = null;
   }
 
-
   clearSearch(): void {
-    console.log('Busca limpa!');
-  }
-
-  performSearch(): void {
-    this.router.navigate(['/resultado']); 
-  }
-
-  changeToDate(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    input.type = 'date';
-  }
-  ngAfterViewInit(): void {
-    (window as any).HSDatepicker?.init();
-  }
-  resetPlaceholder(event: Event, placeholder: string): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.value) {
-      input.type = 'text';
-      input.placeholder = placeholder;
-    }
-  }
-  openModal() {
-    // Fecha qualquer seção aberta antes de abrir o modal
+    this.mediaTypes = { audio: false, text: false, video: false };
+    this.sentiments = { positive: false, neutral: false, negative: false };
+    this.selectedStartDate = null!;
+    this.selectedEndDate = null!;
     Object.keys(this.isSectionOpen).forEach((key) => {
       this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
     });
-  
+  }
+
+  navigateToResults() {
+    this.router.navigate(['/resultado']);
+  }
+
+  openModal() {
+    Object.keys(this.isSectionOpen).forEach((key) => {
+      this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
+    });
     this.isModalOpen = true;
   }
-  // Fecha o modal
+
   closeModal() {
     this.isModalOpen = false;
   }
-  navigateToResults() {
-    this.router.navigate(['/resultado']); // Substitua pelo caminho correto da página de resultados
+
+  navigateToSimpleSearch() {
+    window.location.href = '/busca'; // Redireciona e recarrega a página
   }
+  
+  onCloseSection() {
+    this.isSectionOpen.location = false;
+  }
+
+  
 }

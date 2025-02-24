@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-veiculos',
@@ -15,8 +15,9 @@ export class VeiculosComponent implements OnInit {
   selectedCategory: string = '';
   isModalOpen: boolean = true; // Controla a visibilidade do modal
   categorias: string[] = ['Texto', 'Vídeo', 'Áudio']; // Adiciona a propriedade correta
+  @Output() closeSection = new EventEmitter<void>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
@@ -69,6 +70,12 @@ audioVehicles = [
 ];
 
 
+
+closeModal() {
+  this.isModalOpen = false;
+  this.closeSection.emit(); // Emite o evento para fechar a seção no HighSearchComponent
+}
+
  // Método para selecionar todos os veículos de uma categoria
   toggleAll(category: string): void {
     if (category === 'text') {
@@ -90,11 +97,6 @@ audioVehicles = [
     this.selectAllAudio = this.audioVehicles.every(v => v.selecionado);
   }
 
-    // Método para fechar o modal
-    closeModal() {
-      this.isModalOpen = false;
-    }
-  
     // Detectar a tecla ESC e fechar o modal
     @HostListener('document:keydown.escape', ['$event'])
     handleEscapeKey(event: KeyboardEvent) {

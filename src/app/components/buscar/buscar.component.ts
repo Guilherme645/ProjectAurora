@@ -1,6 +1,7 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { DrawerService } from 'src/app/services/drawer.service';
 import { CalendarService } from 'src/app/services/calendar.service'; // Serviço para comunicação entre componentes
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-buscar',
@@ -13,6 +14,7 @@ export class BuscarComponent {
   isAdvancedSearchOpen = false;
   isDrawerOpen = true;
   isCalendarOpen = false;
+  isHighSearchOpen = false;
 
   currentYear = new Date().getFullYear();
   currentMonth = new Date().getMonth();
@@ -31,7 +33,9 @@ export class BuscarComponent {
 
   constructor(
     private drawerService: DrawerService,
-    private calendarService: CalendarService // Serviço para escutar eventos de abertura do calendário
+    private calendarService: CalendarService,
+    private router: Router,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit() {
@@ -52,6 +56,20 @@ export class BuscarComponent {
     this.isDrawerOpen = true;
     console.log('Drawer aberto.');
   }
+
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.isHighSearchOpen = false; // Fecha ao clicar fora
+    }
+  }
+
+  abrirHighSearch() {
+    this.isHighSearchOpen = true;
+  }
+
+
 
   closeDrawer() {
     this.isDrawerOpen = false;
@@ -79,6 +97,8 @@ export class BuscarComponent {
 
   onSearch(): void {
     console.log('Buscando por:', this.searchQuery);
+    this.router.navigate(['/navBar'], { queryParams: { query: this.searchQuery } });
+
   }
 
   onCalendarRequested() {

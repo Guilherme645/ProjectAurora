@@ -1,19 +1,25 @@
-/* Container principal */
-.advanced-search-container {
+/* Estilo do container principal */
+.hs-overlay {
   max-width: 476px;
-  height: 809px; /* Ocupa toda a altura da tela */
+  height: 100vh;
   background: white;
-  padding: 24px;
+  padding: 0;
   font-family: Arial, sans-serif;
+  display: flex;
   flex-direction: column;
   gap: 16px;
   border-radius: 8px;
-  position: relative;
+  position: fixed;
   box-sizing: border-box;
-  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilo da barra de rolagem */
+.advanced-search-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
 .advanced-search-container::-webkit-scrollbar {
   width: 8px;
 }
@@ -28,25 +34,24 @@
 }
 
 /* Títulos */
-.title {
+.text-lg {
   font-size: 18px;
   font-weight: bold;
   color: #111827;
   text-align: left;
-  margin-bottom: 4px;
 }
 
-.subtitle {
+.text-xs {
   font-size: 13px;
   color: #6B7280;
   text-align: left;
   line-height: 1.5;
-  margin-bottom: 12px;
 }
 
 /* Seção do Accordion */
 .accordion-section {
-  flex-shrink: 0; /* Impede o encolhimento */
+  flex-shrink: 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .accordion-header {
@@ -54,12 +59,11 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 24px;
+  padding: 16px 24px;
   font-size: 14px;
-  border-bottom: 1px solid #e5e7eb;
+  color: #111827;
 }
 
-/* Conteúdo do Accordion */
 .accordion-content {
   padding: 10px 0;
   display: none;
@@ -68,6 +72,7 @@
 
 .accordion-content.show {
   display: block;
+  margin-left: 12px;
 }
 
 /* Campos de entrada */
@@ -83,16 +88,7 @@
   margin-bottom: 10px;
 }
 
-.date-field:focus {
-  border-color: #2563eb;
-  background: white;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
-}
 
-.date-container {
-  display: flex;
-  gap: 12px;
-}
 
 /* Checkbox */
 .custom-checkbox {
@@ -138,43 +134,32 @@
 
 /* Footer fixo com botões */
 .modal-footer {
-  bottom: 0;
-  width: 476px;
-height: 78px;
-top: 651px;
-border-top-width: 1px;
-padding: 16px;
-gap: 12px;
-margin-left: -40px;
-  text-align: right;
-  border-top: none; /* Remove a linha superior */
-
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
 }
 
 /* Botões */
 .clear-button {
   width: 128px;
   height: 46px;
- font-weight: bold;
-  gap: 10px;
+  font-weight: bold;
+  background: #ddd;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
-
 
 .search-button {
   width: 128px;
-  height: 46px; 
+  height: 46px;
   background-color: #4B5563;
   color: white;
   border: none;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-font-weight: 600px;
-font-size: 15px;
-line-height: 18.15px;
-letter-spacing: -1%;
-text-align: center;
-
 }
 
 .search-button:hover {
@@ -190,60 +175,7 @@ text-align: center;
   transform: rotate(180deg);
 }
 
-
-
-
-.date-container {
-  display: flex;
-  gap: 16px; /* Espaço entre os inputs */
-}
-
-.datepicker-container {
-  flex: 1; /* Os inputs terão o mesmo tamanho */
-  position: relative;
-}
-
-.date-field {
-  width: 206px;
-  height: 62px;
-  padding: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background-color: #f9fafb;
-  font-size: 14px;
-  outline: none;
-}
-
-.date-field:focus {
-  border-color: #2563eb;
-  background-color: white;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
-}
-
-.datepicker-container {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-.custom-calendar-panel {
-  position: absolute;
-  top: 190px;
-  right: 450px; /* Move o calendário para a esquerda do input */
-  margin-right: 50px; /* Adiciona espaço entre o calendário e o input */
-  z-index: 2000; /* Certifica-se de que esteja acima de outros elementos */
-  width: 300px;
-  background-color: white;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-left: -50px;
-}
-
-
-
-
-
-
+/* Tooltip */
 .tooltip-container {
   position: relative;
   cursor: pointer;
@@ -253,10 +185,9 @@ text-align: center;
   width: 20px;
   height: 20px;
   color: #4B5563;
-  margin-left: 430px;
-  margin-top: -25px;
+  margin-left: 90%;
+  margin-top: -40px;
 }
-
 
 .tooltip {
   display: none;
@@ -280,168 +211,82 @@ text-align: center;
   background-color: #1F2937;
 }
 
+/* Calendário */
+/* Estilo do container de data */
+.date-container {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
 
+/* Estilo dos campos de data */
+.date-field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f3f4f6;
+  outline: none;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
 
+.date-field:focus {
+  border-color: #2563eb;
+  background: white;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
 
+/* Overlay para o calendário (similar ao modal-overlay de Veículos) */
+.modal-overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+  z-index: 1999; /* Menor que o calendário para permitir interação */
+  cursor: default;
+}
 
+/* Container do calendário (similar ao modal-container de Veículos, posicionado ao lado esquerdo) */
+.calendar-modal-container {
+  position: fixed; /* Posicionamento fixo para aparecer fora do componente */
+  top: 50%; /* Centraliza verticalmente */
+  left: calc(50% + 238px); /* Posiciona ao lado esquerdo do componente (ajuste o valor conforme a largura do componente) */
+  transform: translateY(-50%); /* Centraliza verticalmente */
+  z-index: 2000;
+  width: 300px; /* Ajuste o tamanho conforme necessário */
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-left: -768px;
+}
 
-
-/* Responsividade */
+/* Ajuste para telas menores */
 @media (max-width: 768px) {
-  .advanced-search-mobile {
-    padding: 16px;
-    background: white;
-    overflow-y: auto;
-  }
-  
-  .header {
-    width: 327px;
-    height: 46px;
-    top: 72px;
-    left: 24px;
-    justify-content: space-between;
-    
-  }
-  
-  .title {
-font-weight: 600;
-font-size: 18px;
-line-height: 21.78px;
-letter-spacing: -1.8%;
-    width: 138px;
-height: 22px;
-
-  }
-  
-  .subtitle {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: -1%;
-        color: #6B7280;
-    width: 176px;
-height: 16px;
-
-  }
-  
-  .accordion-section {
-    margin-bottom: 16px;
-    border-bottom: 1px solid #ddd;
-    border-bottom: none;
-
-  }
-  
-  .accordion-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 12px 0;
-  }
-  
-  .icon {
-    transition: transform 0.3s ease;
-  }
-  
-  .icon.rotate {
-    transform: rotate(180deg);
-  }
-  
-  .accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    border-bottom: none;
-  }
-  
-  .accordion-content.show {
-    max-height: 500px;
-  }
-  
-  .input-field, .date-field {
+  .calendar-modal-container {
+    position: fixed;
+    top: auto;
+    left: 0;
+    bottom: 0;
+    transform: translateY(0);
     width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    max-width: 300px;
+    border-radius: 0 0 12px 12px;
   }
-  
-  .action-buttons {
-    width: 375px;
-height: 102px;
-top: 710px;
-padding-top: 16px;
-padding-right: 16px;
-padding-bottom: 40px;
-padding-left: 16px;
-border-top-width: none;
-
-
-  }
-  
-  .clear-button, .search-button {
-    padding: 14px 20px;
+  .close-button {
+    background-color: #ff4444;
+    color: white;
     border: none;
+    padding: 5px 10px;
     border-radius: 4px;
-    font-size: 16px;
     cursor: pointer;
+    margin-top: 10px;
   }
   
-  .clear-button {
-    background: #ddd;
-  }
-  
-  .search-button {
-    width: 343px;
-    height: 46px;
-    color: #ffffff;
-    background-color: #1F2937;
-    border-radius: 8px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    align-self: center;
-  }
-  .back-to-simple-search {
-    display: flex;
-    width: 195px;
-height: 45px;
-top: 138px;
-left: 24px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #2563eb; /* Cor azul */
-    cursor: pointer;
-    transition: background 0.2s ease-in-out;
-  }
-  
-  .back-to-simple-search:hover {
-    background: #f3f4f6; /* Fundo leve ao passar o mouse */
-    border-radius: 8px;
-  }
-  
-  .back-to-simple-search .text {
-    margin-right: 8px;
-    width: 169px;
-height: 17px;
-font-weight: 500;
-font-size: 14px;
-line-height: 16.94px;
-letter-spacing: -1%;
-text-align: center;
-
-  }
-  
-  .back-to-simple-search .icon {
-    stroke: currentColor;
-  }
-  .date-field {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
+  .close-button:hover {
+    background-color: #cc0000;
   }
 }

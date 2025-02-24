@@ -2,8 +2,11 @@
 <div *ngIf="!isMobile" class="modal-overlay">
   <div class="modal-container">
     <div class="modal-content">
+
+
       <!-- Cabeçalho do Modal -->
-      <div class="modal-header">
+      <div class="modal-header">    
+
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.3-4.3"></path>
@@ -107,10 +110,13 @@
 </div>
 
 <!-- Modal para Mobile -->
-<div *ngIf="isMobile" class="mobile-modal-background" (click)="closeMobileModal()"></div>
-  <div *ngIf="isMobile" class="mobile-modal-overlay">
-    <div *ngIf="isMobile" class="mobile-modal-container" (click)="$event.stopPropagation()">
-      <!-- Cabeçalho do Modal -->
+<div *ngIf="isMobile" class="mobile-modal-overlay">
+  <div *ngIf="isMobile" class="mobile-modal-container" (click)="$event.stopPropagation()">
+    
+    <!-- Barra horizontal para fechar o modal -->
+    <div class="mobile-modal-drag-bar" (click)="closeMobileModal()"></div>
+
+    <!-- Cabeçalho do Modal -->
     <div class="mobile-modal-header">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-search">
         <circle cx="11" cy="11" r="8"></circle>

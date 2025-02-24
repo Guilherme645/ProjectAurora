@@ -14,6 +14,7 @@ export class ResultComponent implements OnInit {
   isDropdownOpen: boolean = false;
   selectedOption: string = 'Mais relevantes';
   filtrosAbertos: boolean = false;
+  isScrolled = false;
 
   constructor(private dataService: DataService) {}
 
@@ -51,5 +52,11 @@ export class ResultComponent implements OnInit {
 
   toggleFiltros(): void {
     this.filtrosAbertos = !this.filtrosAbertos;
+  }
+
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 100; // Muda o estado após 100px de rolagem
   }
 }

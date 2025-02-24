@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-input-busca',
@@ -6,26 +7,33 @@ import { Component } from '@angular/core';
   styleUrls: ['./input-busca.component.css']
 })
 export class InputBuscaComponent {
-  isSearchModalOpen: boolean = false; // Controle do modal de busca
+  @Input() isModalOpen: boolean = false; // Recebe estado do HeaderComponent
 
-  constructor() {}
 
-  // Método para abrir o modal
-  openSearchModal() {
-    this.isSearchModalOpen = true;
+  
+  constructor(private router: Router) {}
+  openModal(): void {
+    this.isModalOpen = true;
+    console.log('Modal aberto:', this.isModalOpen);
   }
-
-  // Método para fechar o modal ao clicar fora dele
-  closeSearchModal(event: Event) {
-    const modalContent = document.querySelector('.modal-container');
-    if (modalContent && !modalContent.contains(event.target as Node)) {
-      this.isSearchModalOpen = false;
-    }
+  
+  closeModal(): void {
+    this.isModalOpen = false;
+    console.log('Modal fechado:', this.isModalOpen);
   }
+  search() {
+    console.log("Fazendo busca...");
+    this.closeModal();
 
-  // Método executado ao clicar em "Fazer busca"
-  onSearch() {
-    console.log('Buscando...');
-    // Insira a lógica da busca aqui, como chamadas para a API ou filtros
+    // Redirecionar para /navBar
+    this.router.navigate(['/navBar']).then(success => {
+      console.log("Navegação bem-sucedida:", success);
+    }).catch(err => {
+      console.error("Erro ao navegar:", err);
+    });
   }
+  reloadPage() {
+    window.location.href = '/navBar'; // Redireciona e recarrega a página
+  }
+  
 }

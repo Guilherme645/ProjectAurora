@@ -1,54 +1,125 @@
-<div class="main-container">
-  <div class="login-form">
-    <div class="login-container">
-      <img src="assets/col.png" alt="Logo" class="logo">
-      <h1>Entre na sua conta BlueBossa<br><p>Acesse já e veja as novas inovações.</p></h1>
-      
-      
-      <form (ngSubmit)="onLogin()">
-        <!-- Campo de Email -->
-        <div class="input-container" [ngClass]="{ 'error': emailError }">
-          <label for="email" class="sr-only">Email</label>
-          <input
-            type="email"
-            id="email"
-            [(ngModel)]="email"
-            name="email"
-            placeholder="Email"
-            (blur)="validateEmail()"
-            required
-          />
+<div class="flex h-screen w-screen">
+  <!-- Formulário -->
+  <div class="w-full md:w-1/2 flex justify-center items-center">
+    <main class="w-full max-w-[32rem] mx-auto p-6">
+      <div class="mt-7 bg-white">
+        <div class="p-4 sm:p-7">
+          <div class="text-center flex flex-col items-center">
+            <img src="assets/col.png" alt="Logo" height="28" width="24" loading="lazy" fetchpriority="auto">
+            <h1 class="block mt-1 text-[20px] font-semibold text-gray-800">
+              Entre na sua conta BlueBossa
+            </h1>
+            <p class="mt-1 text-[14px] font-normal text-gray-500">
+              Acesse já e veja as novas menções.
+            </p>
+          </div>
+          <div class="mt-10">
+            <div class="grid">
+              <form (ngSubmit)="onLogin()">
+                <div class="flex flex-col rounded-lg">
+
+                  <!-- Campo de Email -->
+                  <div class="relative w-full">
+                    <input 
+                      type="email" 
+                      id="email" 
+                      [(ngModel)]="email" 
+                      name="email" 
+                      placeholder="Email" 
+                      class="w-full w-[328px] h-[46px] sm:w-[328px] md:w-[400px] md:h-[46px] px-4 border border-gray-300 shadow-sm text-sm font-medium text-black 
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                             rounded-tl-[8px] rounded-tr-[8px] rounded-b-none"
+                      [ngClass]="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': emailError }"
+                      (blur)="validateEmail()" 
+                      required
+                    />
+                  </div>
+
+                  <!-- Campo de Senha -->
+                  <div class="relative w-full mt-0">
+                    <input 
+                      id="password" 
+                      type="password" 
+                      [(ngModel)]="password" 
+                      name="password" 
+                      placeholder="Senha" 
+                      class="w-full w-[328px] h-[46px] sm:w-[328px] md:w-[400px] md:h-[46px] px-4 block w-full border border-gray-300 shadow-sm text-sm font-medium text-black 
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                             rounded-t-none rounded-bl-[8px] rounded-br-[8px]"
+                      [ngClass]="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': passwordError }"
+                      (blur)="validatePassword()" 
+                      required
+                    />
+                    <button type="button" 
+                            (click)="togglePassword()" 
+                            class="absolute top-1/2 right-4 transform -translate-y-1/2 
+                                   bg-transparent hover:bg-transparent focus:bg-transparent 
+                                   p-1 rounded-md focus:outline-none">
+                      <svg width="30" height="30" viewBox="0 0 48 44" fill="none" 
+                           stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                           stroke-linejoin="round" class="">
+                        <path *ngIf="!showPassword" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                        <circle *ngIf="!showPassword" cx="12" cy="12" r="3"></circle>
+                        <path *ngIf="showPassword" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                        <path *ngIf="showPassword" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <!-- Mensagem de erro geral (Todas as mensagens aparecem aqui) -->
+                  <p class="text-red-500 text-[14px] mt-2" *ngIf="errorMessage">
+                    {{ errorMessage }}
+                  </p>
+
+                </div>
+
+                <!-- Esqueceu sua senha? -->
+                <div class="w-[328px] h-[46px] sm:w-[328px] md:w-[400px] md:h-[46px] text-left mt-2">
+                  <a routerLink="/esqueceu" class="font-medium text-[14px] text-gray-800 hover:text-gray-500">Esqueceu sua senha?</a>
+                </div>
+
+                <!-- Botão de Login -->
+                <button type="submit" class="mt-4 w-full py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
+                  Entrar
+                </button>
+
+                <!-- Criar Conta -->
+                <div class="text-center mt-4">
+                  <p class="text-[14px] text-gray-500">
+                    Não tem uma conta? 
+                    <a routerLink="/criar" class="text-blue-600 hover:text-blue-800 font-medium">Crie agora</a>
+                  </p>
+                </div>
+              </form>
+
+            </div>
+          </div>
         </div>
-
-        <!-- Campo de Senha -->
-        <div class="input-container" [ngClass]="{ 'error': passwordError }">
-          <label for="password" class="sr-only">Senha</label>
-          <input
-            type="password"
-            id="password"
-            [(ngModel)]="password"
-            name="password"
-            placeholder="Senha"
-            (blur)="validatePassword()"
-            required
-          />
-          <p class="error-message" *ngIf="passwordError">{{ passwordError }}</p>    
-                <p class="error-message" *ngIf="emailError">{{ emailError }}</p>
-
-        </div>
-
-        <a [routerLink]="'/esqueceu'" class="forgot-password">Esqueceu sua senha?</a>
-
-        <button type="submit" class="button">Entrar</button>
-
-        <p class="register-link">
-          Não tem uma conta? <a [routerLink]="'/criar'">Crie agora</a>
-        </p>
-      </form>
-    </div>
+      </div>
+    </main>
   </div>
-  
-  <div class="img">
-    <div class="image-section"></div>
+
+  <!-- Imagem ao lado (somente para desktop) -->
+  <div class="hidden md:block md:w-1/2 h-full">
+    <img src="assets/foto.png" alt="Imagem ao lado" style="width: 676px; height: 785px; border-radius: 8px; object-fit: cover;">
   </div>
 </div>
+
+<!-- Alerta de erro -->
+<div *ngIf="showError"
+     class="fixed top-5 right-5 flex items-center w-[324px] h-[52px] p-4 text-sm text-red-800 bg-red-100 border border-red-400 rounded-[12px] shadow"
+     role="alert">
+
+  <span>Ocorreu algum erro, tente novamente.</span>
+  <button type="button"
+          class="ml-auto -mx-1.5 -my-1.5 bg-red-100 text-red-800 rounded-lg p-1.5 inline-flex items-center justify-center h-8 w-8 hover:bg-red-200"
+          (click)="showError = false">
+    <span class="sr-only">Fechar</span>
+    <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd"
+            d="M10 8.586L15.293 3.293a1 1 0 10-1.414-1.414L10 7.172 5.707 2.879A1 1 0 104.293 4.293L8.586 8.586 3.293 13.293a1 1 0 101.414 1.414L10 9.828l4.293 4.293a1 1 0 001.414-1.414L11.414 8.586z"
+            clip-rule="evenodd"></path>
+    </svg>
+  </button>
+</div>
+

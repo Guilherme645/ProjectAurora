@@ -1,18 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-tag-filter',
   templateUrl: './tag-filter.component.html',
   styleUrls: ['./tag-filter.component.css']
 })
-export class TagFilterComponent {
+export class TagFilterComponent implements OnInit {
   entidades: any = {}; // Dados carregados do JSON
   filteredEntities: any[] = []; // Lista de entidades filtradas
   isMobileModalOpen: boolean = false;
   isMobile: boolean = false;
   selectedCategory: string = 'Data'; // Categoria selecionada
   searchQuery: string = ''; // Texto de busca
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>(); // 🔥 Evento para fechar o modal
 
   categorias = [
     { nome: 'Data', itens: ['sexta-feira', 'janeiro', '2024'] },
@@ -21,7 +22,6 @@ export class TagFilterComponent {
     { nome: 'Lugar', itens: ['Rio Grande do Sul', 'Brasília'] },
     { nome: 'Organização', itens: ['STF', 'OAB'] }
   ];
-
 
   constructor(private http: HttpClient) {}
 
@@ -58,29 +58,44 @@ export class TagFilterComponent {
   // Detecta redimensionamento de tela para verificar se é mobile
   @HostListener('window:resize')
   checkScreenSize(): void {
-    this.isMobile = window.innerWidth <= 480;
+    this.isMobile = window.innerWidth <= 480; // Mantém o limite de 480px para mobile
+    if (!this.isMobile) {
+      this.isMobileModalOpen = false; // Fecha o modal se mudar para desktop
+    }
   }
 
- 
- 
-   // Fecha o modal ao pressionar a tecla Escape
-   @HostListener('window:keydown.escape', ['$event'])
-   handleEscape(event: KeyboardEvent): void {
-     this.closeMobileModal();
-   }
-   // Abre o modal mobile
-   openMobileModal(): void {
+  // Abre o modal mobile
+  openMobileModal(): void {
     this.isMobileModalOpen = true;
   }
 
-  // Fecha o modal mobile com animação; aguarda 300ms antes de removê-lo do DOM
   closeMobileModal(): void {
-    this.isMobile = false; // Fecha o modal ao definir isMobile como false
+    this.closeModal.emit(); // 🔥 Emite o evento para o componente pai
   }
 
   // Atualiza a categoria selecionada
   selectCategory(category: string): void {
     this.selectedCategory = category;
+    this.filterEntities();
   }
 
+  // Fecha o modal ao clicar fora (mantém a versão mobile se isMobile for true)
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    const modal = this.getModalElement();
+    if (modal && !modal.contains(event.target as Node) && this.isMobileModalOpen) {
+      this.closeMobileModal(); // Fecha o modal mobile
+    }
+  }
+
+  // Obtém o elemento do modal mobile no DOM
+  private getModalElement(): HTMLElement | null {
+    return document.querySelector('.mobile-modal-container') as HTMLElement;
+  }
+
+  // Fecha o modal ao pressionar a tecla Escape (mantém a versão mobile)
+  @HostListener('window:keydown.escape', ['$event'])
+  handleEscape(event: KeyboardEvent): void {
+    this.closeMobileModal();
+  }
 }

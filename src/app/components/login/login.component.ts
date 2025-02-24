@@ -9,60 +9,77 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   email: string = '';
   password: string = '';
-  showPassword: boolean = false; // Estado para alternar a senha visível
-  emailError: string = '';
-  passwordError: string = '';
-  loginError: string = '';
+  emailError: string | null = null;
+  passwordError: string | null = null;
+  errorMessage: string | null = null;
+  showPassword: boolean = false;
+  showError: boolean = false;
+  invalidLogin: boolean = false;
 
-  private readonly correctEmail: string = 'guilherme@gmail.com';
-  private readonly correctPassword: string = '123456';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {} // Injeção do Router
 
-  // Validação de Email
-  validateEmail(): void {
-    this.email = this.email.trim(); // Remove espaços desnecessários
-
-    if (!this.email) {
-      this.emailError = 'Insira os dados para acessar sua conta.';
-    } else if (!this.email.includes('@') || !this.email.includes('.')) {
-      this.emailError = 'Insira um email válido.';
-    } else {
-      this.emailError = '';
-    }
-  }
-
-  // Validação de Senha
-  validatePassword(): void {
-    this.password = this.password.trim(); // Remove espaços desnecessários
-
-    if (!this.password) {
-      this.passwordError = 'Insira a senha para acessar sua conta.';
-    } else {
-      this.passwordError = '';
-    }
-  }
-
-  // Lógica de Login
-  onLogin(): void {
+  onLogin() {
     this.validateEmail();
     this.validatePassword();
 
-    // Se houver erros, interrompe o login
+    // Limpa mensagem de erro geral
+    this.errorMessage = null;
+
+    // Se houver erro nos inputs, concatena as mensagens e exibe
     if (this.emailError || this.passwordError) {
+      this.invalidLogin = false;
+      this.errorMessage = "Insira os dados corretos para acessar sua conta.";
+      this.showError = true;
+      setTimeout(() => { this.showError = false; }, 5000);
       return;
     }
 
-    // Verifica credenciais fixas
-    if (this.email === this.correctEmail && this.password === this.correctPassword) {
-      this.router.navigate(['/navBar']);
+    // Simulação de credenciais corretas
+    const emailCorreto = "admin@gmail.com";
+    const senhaCorreta = "123456";
+
+    if (this.email !== emailCorreto || this.password !== senhaCorreta) {
+      this.invalidLogin = true;
+      this.errorMessage = "Insira os dados corretos para acessar sua conta.";
+      this.showError = true;
+      setTimeout(() => { this.showError = false; }, 5000);
+      return;
+    }
+
+    // Se o login for bem-sucedido
+    this.invalidLogin = false;
+    this.showError = false;
+    console.log("Login realizado com sucesso:", this.email);
+    this.router.navigate(['/navBar']); // Redirecionamento para a página NavBar
+  }
+
+  validateEmail() {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!this.email) {
+      this.emailError = "O email é obrigatório.";
+    } else if (!emailPattern.test(this.email)) {
+      this.emailError = "Insira um email válido.";
     } else {
-      this.loginError = 'Email ou senha incorretos.';
+      this.emailError = null;
     }
   }
 
-  // Alternar a visibilidade da senha
-  togglePasswordVisibility(): void {
+  validatePassword() {
+    if (!this.password) {
+      this.passwordError = "A senha é obrigatória.";
+    } else if (this.password.length < 6) {
+      this.passwordError = "A senha deve ter pelo menos 6 caracteres.";
+    } else {
+      this.passwordError = null;
+    }
+  }
+
+  togglePassword() {
     this.showPassword = !this.showPassword;
+    let passwordInput = document.getElementById("password") as HTMLInputElement;
+    if (passwordInput) {
+      passwordInput.type = this.showPassword ? "text" : "password";
+    }
   }
 }

@@ -3,7 +3,8 @@ html, body {
   height: 100%;
   overflow-y: auto; /* Ativa rolagem global */
   scrollbar-width: thin;
-  scrollbar-color: #d1d5db transparent;
+  scrollbar-color: #ffffff transparent;
+  background-color: white;
 }
 
 /* Layout principal */
@@ -27,18 +28,28 @@ html, body {
   flex: 1;
   margin-left: 280px; /* Ajusta a posição ao lado da sidebar */
   padding: 16px 24px;
+  background-color: white;
+
 }
 
 /* Cabeçalho fixo */
+/* Estilo do Header antes do Scroll */
 .header {
   position: fixed;
   top: 0;
   left: 280px;
   right: 0;
-  background: white;
   padding: 16px 24px;
   z-index: 10;
-  margin-left: 390px;
+  margin-left: 405px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Estilo do Header após o Scroll */
+.header-scrolled {
+  width: 10px;
+  margin-left: 10px;
+  margin-top: -16px;
 }
 
 /* Wrapper para Filtros + Conteúdo Principal */
@@ -53,6 +64,10 @@ html, body {
   width: 350px; /* Ajustado conforme imagem */
   flex-shrink: 0;
   position: relative;
+  margin-top: -85px;
+  background-color: white;
+  margin-left: 15px;
+
 }
 
 /* Conteúdo principal */
@@ -60,8 +75,10 @@ html, body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: -25px;
-  margin-top: 10px;
+  margin-left: -15px;
+  margin-top: -85px;
+  background-color: white;
+
 }
 
 /* Tabs no topo */

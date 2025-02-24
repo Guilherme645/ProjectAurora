@@ -1,136 +1,157 @@
-<!-- Versão Desktop (intacta) -->
-<div *ngIf="!isMobile">
-  <div class="overlay" [class.show]="isBuscaOpen"></div>
-  <div class="header-container" [ngClass]="{ 'hidden': isScrolled }">
-    <!-- Linha Principal do Cabeçalho -->
-    <div class="header-main-row">
-      <div>
-        <h1 class="header-title">Resultados do Workspace</h1>
-        <p class="header-subtitle">9840 resultados em Superior Tribunal Federal</p>
-      </div>
+<!-- Contêiner Principal -->
+<div class="relative w-full h-auto bg-white" id="workspaceContainer">
   
-      <div class="button-group">
-        <button class="action-buttonone" (click)="openBusca()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide text-black">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
-          <span>Fazer busca</span>
-        </button>
-                <button class="action-buttontwo">Busca avançada</button>
-      </div>
-    </div>
-  </div>
-  <!-- Barra de Filtros Fixa -->
-  <div class="header-filters-row">
-    <div class="filters">
-      <input type="checkbox" class="filter-checkbox" (change)="toggleSelectAll()" [checked]="selectAll" />
-      <label class="filter-tab">
-        <span [ngClass]="{ 'active': selectedTab === 'todos' }">Todos os resultados</span>
-      </label>
-  
-      <label class="filter-tab" (click)="selectTab('brutos')">
-        <span [ngClass]="{ 'active': selectedTab === 'brutos' }" class="brutos-tab">
-          <div class="brutos-text">Resultados brutos</div>
-          <div class="tooltip-container">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 16v-4"></path>
-              <path d="M12 8h.01"></path>
-            </svg>
-            <div class="tooltip">Os resultados brutos só retornam menções das mídias: TV, Rádio e Impressos</div>
-          </div>
-        </span>
-      </label>
-      
-      <label class="filter-tab" (click)="selectTab('tratados')">
-        <span [ngClass]="{ 'active': selectedTab === 'tratados' }">Clippings</span>
-      </label>
-    </div>
+  <!-- Cabeçalho -->
+  <div class="bg-white px-6 pt-6 transition-all duration-300"
+       [ngClass]="{ 'h-0 opacity-0 overflow-hidden': isCollapsed, 'h-auto opacity-100': !isCollapsed }">
     
-    <div class="sorting-group">
-      <span>Ordenar por:</span>
-      <div class="dropdown">
-        <button class="dropdown-toggle" (click)="toggleDropdown()">
-          {{ selectedOption }}
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="dropdown-icon" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
-          </svg>
-        </button>
-      
-        <ul class="dropdown-menu" [class.show]="isDropdownOpen">
-          <li (click)="selectOption('Mais relevantes')">Mais relevantes</li>
-          <li (click)="selectOption('Mais recentes')">Mais recentes</li>
-        </ul>
+    <!-- Linha superior: Título e botões de busca -->
+    <div class="flex items-start justify-between flex-wrap gap-4">
+      <div>
+        <h1 class="font-inter font-semibold text-[20px] leading-[24px] tracking-[-0.018em] text-gray-900">
+          Resultados do Workspace
+        </h1>
+        <p class="font-inter font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-gray-500 text-center">
+          9840 resultados em Superior Tribunal Federal
+        </p>
       </div>
-      <div class="filter-icon-container">
-        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-        </svg>
-        <div class="tooltipI">Filtros</div>
-      </div>
-  </div>
-  
-  <!-- Componente de busca -->
-  <app-input-busca *ngIf="isBuscaOpen" (close)="closeBusca()"></app-input-busca>
-</div>
 
-<!-- Versão Mobile -->
-<div *ngIf="isMobile" class="mobile-header">
-  <nav class="sticky top-0 z-10 bg-white shadow">
-    <div class="flex items-center justify-between px-4 py-3">
-      <!-- Ícone e título -->
-      <div class="flex items-center gap-2">
-        <div class="icon-placeholder h-8 w-8 bg-gray-300 rounded-full"></div>
-        <div class="flex flex-col">
-          <h3 class="text-base font-semibold text-gray-800">Workspace</h3>
-          <p class="text-xs text-gray-500">9800 resultados</p>
+      <div class="flex flex-wrap justify-end">
+        <div class="inline-flex items-center max-w-[277px] h-[46px] border border-gray-300 rounded-md overflow-hidden">
+   <!-- Botão para abrir o InputBuscaComponent -->
+<button type="button"
+class="inline-flex items-center gap-x-2 px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 border-r border-gray-300 h-full"
+(click)="openBusca()">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="11" cy="11" r="8"></circle>
+<path d="m21 21-4.3-4.3"></path>
+</svg>
+Fazer busca
+</button>
+
+<!-- Componente InputBuscaComponent (renderizado quando isBuscaOpen = true) -->
+<app-input-busca  #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
+
+
+          <button type="button" class="inline-flex items-center justify-center px-3 text-sm font-medium 
+                 text-gray-800 hover:bg-gray-100 h-full">
+            Busca avançada
+          </button>
         </div>
       </div>
-      <!-- Botão de busca -->
-      <button class="p-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </button>
     </div>
-    <!-- Tabs -->
-    <div class="border-b border-gray-200">
-      <div class="flex space-x-4 px-4">
-        <button class="tab-item active">Todos os resultados</button>
-        <button class="tab-item">Resultados brutos</button>
+  </div>
+
+  <!-- Linha inferior SEMPRE visível -->
+  <div class="sticky top-0 w-auto bg-white border-b border-gray-200 transition-all duration-300">
+    <div class="flex items-center justify-between py-2 px-6">
+      <div class="flex items-center gap-3">
+        <input type="checkbox" class="h-4 w-4 accent-blue-600 rounded" (change)="toggleSelectAll()" [checked]="selectAll"/>
+  
+        <!-- Botão Todos os Resultados -->
+        <button type="button"
+                class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
+                [ngClass]="selectedTab === 'todos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
+                (click)="selectTab('todos')">
+          Todos os resultados
+        </button>
+  
+        <!-- Botão Resultados Brutos -->
+ <button type="button"
+  class="inline-flex items-center gap-1 px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
+  [ngClass]="selectedTab === 'brutos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
+  (click)="selectTab('brutos')">
+  
+  Resultados brutos
+
+  <!-- Tooltip (Preline UI) -->
+  <div class="hs-tooltip [--placement:bottom] inline-block relative">
+    <button type="button" class="hs-tooltip-toggle flex h-4 w-4 items-center justify-center rounded-full bg-gray-900 text-white">
+      <!-- Ícone "i" com tamanho 20x20 -->
+      <span class="text-[10px] font-bold cursor-pointer">i</span>
+    </button>
+
+    <!-- Tooltip que aparece ao passar o mouse -->
+    <span role="tooltip"
+      class="max-w-64 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity absolute invisible z-10 py-2 px-3 bg-gray-900 text-xs font-normal text-gray-300 rounded-lg shadow-md">
+      Os resultados brutos só retornam menções das mídias: TV, Rádio e Impressos
+    </span>
+  </div>
+</button>
+
+
+      
+  
+        <!-- Botão Clippings -->
+        <button type="button"
+                class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
+                [ngClass]="selectedTab === 'clippings' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
+                (click)="selectTab('clippings')">
+          Clippings
+        </button>
       </div>
-    </div>
-    
-    <!-- Seção de Ordenação e Filtros -->
-    <div class="sorting-container">
-      <div class="sorting-group">
-        <span>Ordenar por:</span>
-        <div class="dropdown relative">
-          <button class="dropdown-toggle" (click)="toggleDropdown()">
-            {{ selectedOption }}
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
+ 
+  
+   
+  
+
+      <div class="flex items-center gap-1">
+        <div class="flex items-center gap-1 text-sm text-gray-800">
+          <span class="text-gray-500">Ordenar por:</span>
+      
+          <!-- Dropdown -->
+          <div class="relative">
+            <button type="button"
+                    class="inline-flex items-center gap-x-1 px-2 py-1.5 rounded-md bg-transparent hover:bg-gray-100"
+                    (click)="isDropdownOpen = !isDropdownOpen">
+              {{ selectedOption }}
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               class="lucide"><path d="m6 9 6 6 6-6" key="qrunsl"></path></svg>
+            </button>
+      
+            <!-- Dropdown Menu -->
+            <div *ngIf="isDropdownOpen"
+                 class="absolute mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
+              <ul class="text-sm text-gray-800">
+                <li (click)="selectOption('Mais relevantes')" 
+                    class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    [class.text-blue-600]="selectedOption === 'Mais relevantes'">
+                  Mais relevantes
+                </li>
+                <li (click)="selectOption('Mais recentes')" 
+                    class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    [class.text-blue-600]="selectedOption === 'Mais recentes'">
+                  Mais recentes
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+
+        <!-- Ícone de Filtro -->
+        <div class="hs-tooltip [--placement:bottom] inline-block relative">
+          <!-- Botão do Filtro -->
+          <button type="button"
+            class="w-[46px] h-[46px] bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded flex items-center justify-center hs-tooltip-toggle">
+            
+            <!-- Ícone de Filtro -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
             </svg>
           </button>
-          <ul class="dropdown-menu" [class.show]="isDropdownOpen">
-            <li (click)="selectOption('Mais relevantes')">Mais relevantes</li>
-            <li (click)="selectOption('Mais recentes')">Mais recentes</li>
-          </ul>
+        
+          <!-- Tooltip que aparece ao passar o mouse -->
+          <span role="tooltip"
+            class="max-w-32 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity absolute invisible z-10 py-2 px-3 bg-gray-900 text-xs font-normal text-white rounded-lg shadow-md">
+            Filtros
+          </span>
         </div>
-      </div>
-      <!-- Ícone de Filtro -->
-      <div class="filter-icon-container">
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-          </svg>
-        </button>
-        <div class="tooltip">Filtros</div>
+        
       </div>
     </div>
-    
-
+  </div>
+</div>

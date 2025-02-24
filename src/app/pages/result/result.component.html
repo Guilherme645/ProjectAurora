@@ -7,9 +7,13 @@
   <!-- Main Content -->
   <div class="main-content">
     <!-- Cabeçalho Fixo -->
-    <header class="header fixed-header">
-      <app-searc-basic></app-searc-basic>
-    </header>
+    <div class="header transition-all duration-300"
+    [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
+ 
+ <!-- Componente Filho (Header de Busca) -->
+<app-searc-basic></app-searc-basic>
+</div>
+<div class="content h-[2000px] bg-gray-100 mt-[80px]">
 
     <div class="content-wrapper">
       <!-- Filtros fixos -->
@@ -19,19 +23,6 @@
 
       <!-- Conteúdo Principal -->
       <main class="main">
-        <div class="tab">
-          <label class="tab-label">
-            <input type="checkbox" class="checkbox-input"   />
-            <span class="tab">Todos os resultados</span>
-          </label>
-          <label class="tab-label">
-            <span class="tab">Resultados brutos</span>
-          </label>
-          <label class="tab-label">
-            <span class="tab">Clippings</span>
-          </label>
-        </div>
-
         <div class="card" *ngFor="let noticias of noticias">
           <app-card [noticias]="noticias"></app-card>
         </div>
@@ -39,7 +30,7 @@
     </div>
   </div>
 </div>
-  
+</div>
  <!-- Versão Mobile -->
 <div *ngIf="isMobile" class="mobile-layout-container">
     <!-- Sidebar Mobile -->
@@ -139,4 +130,9 @@
     </div>
   </main>
 </div>
+   aqui ele esta usando aversão desktop mas deveria sera mobile    <div *ngIf="filtrosAbertos" class="filtros-overlay">
+      <div class="filtros-container animate-slide-up">
+        <app-filtros></app-filtros>
+      </div>
+    </div>    
   

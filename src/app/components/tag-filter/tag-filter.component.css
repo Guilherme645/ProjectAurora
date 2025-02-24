@@ -253,4 +253,13 @@ color: #6B7280;
 height: 1px;
 
     }
+    .mobile-modal-drag-bar {
+      width: 40px;
+      height: 5px;
+      background-color: #000000;
+      border-radius: 3px;
+      margin: 8px auto;
+      cursor: pointer;
+    }
+    
 }

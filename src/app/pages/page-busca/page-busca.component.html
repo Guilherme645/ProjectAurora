@@ -1,36 +1,22 @@
-<div *ngIf="!isMobileSidebarOpen" class="flex h-screen">
+<!-- Container principal -->
+<div class="flex h-screen">
   <!-- Sidebar Desktop -->
-  <div *ngIf="!isMobile" class="sidebar">
+  <div *ngIf="!isMobile" class="sidebar bg-neutral-800 text-white w-80 fixed h-full">
     <app-side-bar></app-side-bar>
   </div>
 
-  <!-- Main Content -->
-  <div class="flex-1 bg-neutral-80 flex items-center justify-center">
-    <div class="buscar-container">
+  <!-- Main Content (único para desktop e mobile) -->
+  <div class="flex-1 bg-neutral-50 flex items-center justify-center ml-0 md:ml-80">
+    <div class="buscar-container max-w-lg w-full text-center p-4">
       <app-buscar></app-buscar>
     </div>
   </div>
+
+ 
+
+<!-- Sidebar Mobile (Overlay) -->
+<div *ngIf="isMobile" class="fixed inset-0 z-50 bg-neutral-800 text-white transform transition-transform duration-300 ease-in-out"
+     [class.translate-x-0]="isMobileSidebarOpen"
+     [class.-translate-x-full]="!isMobileSidebarOpen">
+  <app-side-bar></app-side-bar>
 </div>
-
-  <!-- Sidebar Mobile -->
-
-    <!-- Sidebar Mobile -->
-    <div *ngIf="isMobileSidebarOpen" class="sidebar-mobile open">
-      <app-side-bar></app-side-bar>
-      <button class="close-button" (click)="closeMobileSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-    
-  
-    <!-- Main Content -->
-    <div class="flex-1 bg-neutral-80 flex items-center justify-center">
-      <div class="buscar-container">
-        <app-buscar></app-buscar>
-      </div></div>
-    </div>
-  
-  
-  

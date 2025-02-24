@@ -1,347 +1,305 @@
-<div *ngIf="!isMobile" class="advanced-search-container">
-  <h2 class="title">Busca Avançada <br> <p class="subtitle">Selecione o tipo de busca e insira os parâmetros desejados</p></h2>
-  
-
-  <!-- Palavras-chave -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('keywords')">
-      Palavras-chave
-      <svg [ngClass]="{ 'rotate': isSectionOpen.keywords }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
+<div role="dialog" class="hs-overlay fixed shadow-xl top-0 end-0 transition-all duration-300 transform h-full max-w-lg w-full z-[80] bg-white border-s flex flex-col translate-x-0" [ngClass]="{'hidden': isMobile}">
+  <!-- Cabeçalho -->
+  <div class="pt-8">
+    <div class="flex px-3 items-center justify-between lg:hidden">
+      <div class="flex flex-col justify-between py-3 px-4">
+        <h2 class="text-lg font-semibold text-black">Busca Avançada</h2>
+        <p class="text-xs font-medium text-gray-500">Insira os parâmetros desejados</p>
+      </div>
+      <button class="absolute left-[315px] top-12 border border-gray-200 p-3 rounded-lg shadow-sm lg:hidden" (click)="closeModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.keywords }">
-      <div class="input-container">
-        <input class="input-field" placeholder="Todas essas palavras" type="text" />
-        <div class="tooltip-container">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="hidden lg:block">
+      <button type="button"
+      class="absolute p-6 top-10 -left-16 size-8 inline-flex shadow-sm justify-center items-center rounded-md border border-transparent bg-white text-gray-800 hover:bg-gray-200 text-2xl font-bold">
+      ×
+    </button>
+    
+      <div class="flex flex-col justify-between py-3 px-4">
+        <h2 class="text-lg font-semibold text-black">Busca Avançada</h2>
+        <p class="text-xs font-medium text-gray-500">Selecione o tipo de busca e insira os parâmetros desejados</p>
+      </div>
+    </div>
+    <span class="flex items-center py-3 px-6 text-sm font-medium text-blue-500 lg:hidden" (click)="navigateToSimpleSearch()">
+      Voltar para busca simples
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </span>
+  </div>
+
+  <!-- Corpo com rolagem -->
+  <div class="flex-1 overflow-y-auto advanced-search-container">
+ <!-- Palavras-chave -->
+<div class="accordion-section pt-4 pb-4 border-b">
+  <div
+    class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer"
+    (click)="toggleSection('keywords')"
+  >
+  <span class="text-sm font-bold text-gray-900">Palavras-chave</span>
+  <svg
+      [ngClass]="{ 'rotate-180': isSectionOpen.keywords }"
+      class="icon size-5 text-gray-500 transition-transform duration-200"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </div>
+
+  <div
+    class="px-4 overflow-hidden transition-all duration-200 ease-in-out"
+    [ngClass]="{ 'max-h-[600px] opacity-100 pb-4': isSectionOpen.keywords, 'max-h-0 opacity-0': !isSectionOpen.keywords }"
+  >
+    <div class="space-y-4">
+      <!-- Campo 1 -->
+      <div class="relative flex items-center bg-gray-100 rounded-lg px-4 py-3">
+        <input
+          type="text"
+          class="w-full text-sm border-none bg-transparent focus:outline-none"
+          placeholder="Todas essas palavras"
+        />
+        <div class="tooltip-container ml-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M12 16v-4"></path>
             <path d="M12 8h.01"></path>
           </svg>
           <div class="tooltip">Digite as palavras que você deseja</div>
         </div>
+      </div>
 
-        <input class="input-field" placeholder="Qualquer uma dessas palavras" type="text" />
-        <div class="tooltip-container">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Campo 2 -->
+      <div class="relative flex items-center bg-gray-100 rounded-lg px-4 py-3">
+        <input
+          type="text"
+          class="w-full text-sm border-none bg-transparent focus:outline-none"
+          placeholder="Qualquer uma dessas palavras"
+        />
+        <div class="tooltip-container ml-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M12 16v-4"></path>
             <path d="M12 8h.01"></path>
           </svg>
           <div class="tooltip">Digite as palavras que podem aparecer</div>
-        </div>    
-        <input class="input-field" placeholder="Frase ou palavra exata" type="text" />
-    <div class="tooltip-container">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="M12 16v-4"></path>
-        <path d="M12 8h.01"></path>
-      </svg>
-      <div class="tooltip">Digite as palavras ou frase que devem aparecer</div>
-    </div>
-    <input class="input-field" placeholder="Nenhuma dessas palavras" type="text" />
-    <div class="tooltip-container">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="M12 16v-4"></path>
-        <path d="M12 8h.01"></path>
-      </svg>
-      <div class="tooltip">Digite as palavras que não devem aparecer</div>
-    </div>
-  </div>
-    </div>
-  </div>
-
-  <!-- Data -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('date')">
-      Data
-      <svg [ngClass]="{ 'rotate': isSectionOpen.date }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.date }">
-      <div class="date-container">
-        <!-- Campo Data Início -->
-        <div class="datepicker-container">
-          <input
-            class="date-field"
-            type="text"
-            placeholder="Data Início"
-            (focus)="openCalendar('start')"
-            [value]="selectedStartDate | date: 'dd/MM/yyyy'"
-            readonly
-          />
-        </div>
-    
-        <!-- Campo Data Fim -->
-        <div class="datepicker-container">
-          <input
-            class="date-field"
-            type="text"
-            placeholder="Data Fim"
-            (focus)="openCalendar('end')"
-            [value]="selectedEndDate | date: 'dd/MM/yyyy'"
-            readonly
-          />
         </div>
       </div>
-    
-      <!-- Calendário Reutilizável -->
-      <div class="custom-calendar-panel" *ngIf="showCalendar">
-        <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
+
+      <!-- Campo 3 -->
+      <div class="relative flex items-center bg-gray-100 rounded-lg px-4 py-3">
+        <input
+          type="text"
+          class="w-full text-sm border-none bg-transparent focus:outline-none"
+          placeholder="Frase ou palavra exata"
+        />
+        <div class="tooltip-container ml-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <div class="tooltip">Digite as palavras ou frase que devem aparecer</div>
+        </div>
+      </div>
+
+      <!-- Campo 4 -->
+      <div class="relative flex items-center bg-gray-100 rounded-lg px-4 py-3">
+        <input
+          type="text"
+          class="w-full text-sm border-none bg-transparent focus:outline-none"
+          placeholder="Nenhuma dessas palavras"
+        />
+        <div class="tooltip-container ml-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <div class="tooltip">Digite as palavras que não devem aparecer</div>
+        </div>
       </div>
     </div>
   </div>
-   <!-- Tipo de midia -->
-   <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('media')">
-      Tipo de mídia
-      <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.media }">
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.positive" />
-        <span class="checkmark"></span>
-        Áudio
-      </label>
-
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.neutral" />
-        <span class="checkmark"></span>
-        Texto (Impressos e Web)
-      </label>
-
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.negative" />
-        <span class="checkmark"></span>
-       Vídeo (Canais de televisão)
-      </label>
-    </div>
-  </div>
-
-  <!-- Tipos de Mídia -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('vehicles')">
-      Veículos
-      <svg [ngClass]="{ 'rotate': isSectionOpen.vehicles }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.vehicles }">
-      <!-- Componente de veículos aparece diretamente -->
-      <app-veiculos></app-veiculos>
-    </div>
-  
-<!-- Fundo escuro -->
-<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
-
-<!-- Modal centralizado -->
-<div class="modal-container" *ngIf="isModalOpen">
-  <app-veiculos></app-veiculos>
-</div>
-</div>
-
-  <!-- Sentimento -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('sentiment')">
-      Sentimento
-      <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.sentiment }">
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.positive" />
-        <span class="checkmark"></span>
-        Positivo
-      </label>
-
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.neutral" />
-        <span class="checkmark"></span>
-        Neutro
-      </label>
-
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.negative" />
-        <span class="checkmark"></span>
-        Negativo
-      </label>
-    </div>
-  </div>
-
-  <!-- Localização -->
-   <!-- Tipos de Mídia -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('location')">
-      Localização
-      <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.location }">
-      <!-- Componente de veículos aparece diretamente -->
-<app-localizacao></app-localizacao>   
-</div>
-  
-<!-- Fundo escuro -->
-<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
-
-<!-- Modal centralizado -->
-<div class="modal-container" *ngIf="isModalOpen">
-  <app-veiculos></app-veiculos>
-</div>
-</div>
-  
-
-  <!-- Botões -->
-   <div class="modal-footer">
-    <button class="clear-button" (click)="closeModal()">Limpar busca</button>
-    <button class="search-button" (click)="navigateToResults()">Fazer busca</button>
-  </div>
 </div>
 
 
-<div *ngIf="isMobile" class="advanced-search-mobile">
-  <div class="mobile-header">
-    <h2 class="title">Busca Avançada</h2>
-    <p class="subtitle">Insira os parâmetros desejados</p>
-  </div>
-  <div class="back-to-simple-search" >
-    <span class="text">Voltar para busca simples</span>
-    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m9 18 6-6-6-6"></path>
+<!-- Seção Data -->
+<div class="accordion-section pt-4 pb-4 border-b"> 
+  <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('date')">
+    <span class="text-sm font-bold text-gray-900">Data</span>
+    <svg [ngClass]="{ 'rotate': isSectionOpen.date }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="m6 9 6 6 6-6"></path>
     </svg>
   </div>
-  
-   
+  <div class="accordion-content left-[924px] px-4" [ngClass]="{ 'show': isSectionOpen.date }">
+    <div class="date-container flex gap-2">
+      <!-- Campo Data Início -->
+      <div class="datepicker-container relative">
+        <input
+          class="date-field w-[190px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600"
+          type="text"
+          placeholder="Data Início"
+          (click)="openCalendar('start')"
+          [value]="selectedStartDate | date: 'dd/MM/yyyy'"
+          readonly
+        />
+      </div>
 
-  <!-- Palavras-chave -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('keywords')">
-      Palavras-chave
-      <svg [ngClass]="{ 'rotate': isSectionOpen.keywords }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.keywords }">
-      <input class="input-field" placeholder="Todas essas palavras" type="text" />
-      <input class="input-field" placeholder="Qualquer uma dessas palavras" type="text" />
-      <input class="input-field" placeholder="Frase ou palavra exata" type="text" />
-      <input class="input-field" placeholder="Nenhuma dessas palavras" type="text" />
-    </div>
-  </div>
-
-  <!-- Data -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('date')">
-      Data
-      <svg [ngClass]="{ 'rotate': isSectionOpen.date }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.date }">
-      <div class="date-container">
-        <input id="start-date" class="date-field" type="date" placeholder="Data Início"[(ngModel)]="startDate"/>
-        <input id="end-date" class="date-field" type="date" placeholder="Data Final" [(ngModel)]="endDate"/>
+      <!-- Campo Data Fim -->
+      <div class="datepicker-container relative">
+        <input
+          class="date-field w-[206px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600"
+          type="text"
+          placeholder="Data Fim"
+          (click)="openCalendar('end')"
+          [value]="selectedEndDate | date: 'dd/MM/yyyy'"
+          readonly
+        />
       </div>
     </div>
   </div>
 
-  <!-- Tipos de Mídia -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('media')">
-      Tipos de Mídia
-      <svg [ngClass]="{ 'rotate': isSectionOpen.media }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.media }">
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="mediaTypes.audio" />
-        <span class="checkmark"></span>
-        Áudio (Rádio)
-      </label>
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="mediaTypes.text" />
-        <span class="checkmark"></span>
-        Texto (Impressos e Web)
-      </label>
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="mediaTypes.video" />
-        <span class="checkmark"></span>
-        Vídeo (Canais de televisão)
-      </label>
-    </div>
-  </div>
 
-  <!-- Veículos -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="openModal()">
-      Veículos
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-    </div>
-  </div>
+<!-- Overlay para o calendário (fora do componente pai, ao lado esquerdo) -->
+<div class="modal-overlay" *ngIf="showCalendar" (click)="closeCalendar()"></div>
+<div class="calendar-modal-container" *ngIf="showCalendar">
+  <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
+</div>
 
-  <!-- Modal de Veículos -->
-  <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
-  <div class="modal-container" *ngIf="isModalOpen">
-    <app-veiculos></app-veiculos>
+  <!-- Overlay para o calendário (similiar ao modal de Veículos) -->
+  <div class="modal-overlay" *ngIf="showCalendar"></div>
+  <div class="calendar-modal-container" *ngIf="showCalendar">
+    <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
   </div>
+</div>
+    <!-- Tipo de Mídia -->
+    <div class="accordion-section pt-8 pb-4 border-b">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('media')">
+        <span class="text-sm font-bold text-gray-900">Tipo de Mídia</span>
+        <svg [ngClass]="{ 'rotate': isSectionOpen.media }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </div>
+      <div class="accordion-content px-4" [ngClass]="{ 'show': isSectionOpen.media }">
+        <label class="custom-checkbox flex items-center space-y-2">
+          <input type="checkbox" [(ngModel)]="mediaTypes.audio" />
+          <span class="checkmark"></span>
+          Áudio
+        </label>
+        <label class="custom-checkbox flex items-center space-y-2">
+          <input type="checkbox" [(ngModel)]="mediaTypes.text" />
+          <span class="checkmark"></span>
+          Texto (Impressos e Web)
+        </label>
+        <label class="custom-checkbox flex items-center space-y-2">
+          <input type="checkbox" [(ngModel)]="mediaTypes.video" />
+          <span class="checkmark"></span>
+          Vídeo (Canais de televisão)
+        </label>
+      </div>
+    </div>
 
-  <!-- Sentimento -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('sentiment')">
-      Sentimento
-      <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
+    <!-- Veículos -->
+    <div class="accordion-section pt-4 pb-4 border-b">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="openModal()">
+        <span class="text-sm font-bold text-gray-900">Veículos</span>
+        <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </div>
+      
+      <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()"></div>
+      <div class="modal-container" *ngIf="isModalOpen">
+        <app-veiculos (closeSection)="onCloseSection()"></app-veiculos>
+      </div>
     </div>
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.sentiment }">
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.positive" />
-        <span class="checkmark"></span>
-        Positivo
-      </label>
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.neutral" />
-        <span class="checkmark"></span>
-        Neutro
-      </label>
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="sentiments.negative" />
-        <span class="checkmark"></span>
-        Negativo
-      </label>
-    </div>
-  </div>
 
-  <!-- Localização -->
-  <div class="accordion-section">
-    <div class="accordion-header" (click)="toggleSection('location')">
-      Localização
-      <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
+    <!-- Sentimento -->
+    <div class="accordion-section pt-4 pb-4 border-b">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('sentiment')">
+        <span class="text-sm font-bold text-gray-900">Sentimento</span>
+        <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </div>
+      <div class="accordion-content px-4" [ngClass]="{ 'show': isSectionOpen.sentiment }">
+        <label class="custom-checkbox flex items-center space-y-2">
+          <input type="checkbox" [(ngModel)]="sentiments.positive" />
+          <span class="checkmark"></span>
+          Positivo
+        </label>
+        <label class="custom-checkbox flex items-center space-y-2">
+          <input type="checkbox" [(ngModel)]="sentiments.neutral" />
+          <span class="checkmark"></span>
+          Neutro
+        </label>
+        <label class="custom-checkbox flex items-center space-y-2">
+          <input type="checkbox" [(ngModel)]="sentiments.negative" />
+          <span class="checkmark"></span>
+          Negativo
+        </label>
+      </div>
     </div>
-    
-    <div class="accordion-content" [ngClass]="{ 'show': isSectionOpen.location }">
-      <!-- Quando 'location' estiver aberto, exibe o componente -->
-      <app-localizacao *ngIf="isSectionOpen.location"></app-localizacao>
-    </div>
-  </div>
-  
 
-  <!-- Botões de ação -->
-  <div class="action-buttons">
-    <button class="search-button" (click)="performSearch()">Fazer Busca</button>
+    <!-- Localização -->
+    <div class="accordion-section pt-4 pb-4 border-b">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('location')">
+        <span class="text-sm font-bold text-gray-900">Localização</span>
+        
+        <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </div>
+      <div class="accordion-content px-4" [ngClass]="{ 'show': isSectionOpen.location }">
+        <app-localizacao (closeSection)="onCloseSection()"></app-localizacao>
+      </div>
+    </div>
+
+  <!-- Rodapé com botões -->
+  <div class="modal-footer flex-shrink-0 p-4 bg-white border-t shadow-xl">
+    <button class="clear-button w-full py-3 px-4 text-sm font-semibold text-gray-800 bg-gray-200 rounded-lg lg:w-auto lg:float-start" (click)="clearSearch()">Limpar busca</button>
+    <button class="search-button w-full py-3 px-4 text-sm font-semibold text-white bg-gray-800 rounded-lg lg:w-auto lg:float-end" (click)="navigateToResults()">Fazer busca</button>
   </div>
 </div>

@@ -1,19 +1,22 @@
+// localizacao.component.ts
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-localizacao',
   templateUrl: './localizacao.component.html',
   styleUrls: ['./localizacao.component.css']
 })
-export class LocalizacaoComponent implements OnInit {
-
-  vehiclesList: { [key: string]: string[] } = {}; // Dados carregados do JSON
-  selectedCategory: string = 'texto'; // Categoria padrão
-  searchQuery: string = ''; // Texto de busca
-  isMobile: boolean = false; // Identifica se está em mobile
+export class LocalizacaoComponent {
+  vehiclesList: { [key: string]: string[] } = {};
+  selectedCategory: string = 'texto';
+  searchQuery: string = '';
+  isMobile: boolean = false;
   selectAll: boolean = false;
-  isModalOpen: boolean = true; // Controla a visibilidade do modal
+  isModalOpen: boolean = true;
+
+  // Evento para notificar o pai (HighSearchComponent) quando o modal mobile deve fechar a seção
+  @Output() closeSection = new EventEmitter<void>();
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +29,7 @@ export class LocalizacaoComponent implements OnInit {
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
+
   estados = [
     { nome: "Acre (AC)", selecionado: false },
     { nome: "Alagoas (AL)", selecionado: false },
@@ -65,16 +69,16 @@ export class LocalizacaoComponent implements OnInit {
   updateSelectAll() {
     this.selectAll = this.estados.every(estado => estado.selecionado);
   }
-     // Método para fechar o modal
-     closeModal() {
-      this.isModalOpen = false;
-    }
-  
-    // Detectar a tecla ESC e fechar o modal
-    @HostListener('document:keydown.escape', ['$event'])
-    handleEscapeKey(event: KeyboardEvent) {
-      this.closeModal();
-    }
-  
-}
 
+  // Método para fechar o modal e notificar o pai
+  closeModal() {
+    this.isModalOpen = false;
+    this.closeSection.emit(); // Emite o evento para fechar a seção no HighSearchComponent
+  }
+
+  // Detectar a tecla ESC e fechar o modal
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: KeyboardEvent) {
+    this.closeModal();
+  }
+}

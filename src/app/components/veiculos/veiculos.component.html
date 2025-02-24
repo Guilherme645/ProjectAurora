@@ -1,5 +1,5 @@
 <!-- Modal Wrapper -->
-<div *ngIf="isModalOpen" id="modalWrapper" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+<div *ngIf="isModalOpen && !isMobile" id="modalWrapper" class="fixed inset-0 flex items-center justify-center ">
 
   <!-- Container do Modal -->
   <div id="modalContainer" class="modal-container w-[645px] h-[500px] bg-white shadow-lg rounded-2xl border border-gray-200 flex flex-col">
@@ -118,7 +118,7 @@
 
 <!-- MODAL MOBILE -->
 <!-- Modal Mobile - Surge de Baixo para Cima -->
-<div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-end">
+<div *ngIf="isModalOpen && isMobile" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-end">
   
   <!-- Container do Modal -->
   <div class="mobile-modal-container w-full bg-white shadow-lg rounded-t-2xl border border-gray-200 flex flex-col transform translate-y-full animate-slide-up">
@@ -133,10 +133,9 @@
         </svg>
         <input type="text" placeholder="Procurar veículos" class="w-full bg-white text-gray-900 placeholder-gray-400 focus:outline-none pl-10 py-2 border-none"/>
       </div>
-      <button class="text-xs text-gray-600 flex justify-center items-center w-[30px] h-[18px] border border-gray-300 rounded-lg hover:bg-gray-200"
-        (click)="closeModal()">
-        ESC
-      </button>
+      <div class="veiculos-container">
+      </div>
+      
     </div>
 
     <!-- Conteúdo do Modal -->
@@ -171,7 +170,7 @@
 
     <!-- Rodapé -->
     <div class="w-full border-t p-4 flex justify-end">
-      <button type="button" class="py-3 px-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800">
+      <button type="button" class="py-3 px-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800"(click)="closeModal()">
         Utilizar veículos selecionados
       </button>
     </div>

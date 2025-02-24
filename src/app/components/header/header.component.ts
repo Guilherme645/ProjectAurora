@@ -14,6 +14,10 @@ export class HeaderComponent {
   selectedTab: string = 'brutos';
   selectAll: boolean = false;
   exibirBuscaAvancada: boolean = false;
+  isCollapsed: boolean = false; // Novo estado para recolher o cabeçalho
+
+
+
 
   @Output() selectAllEvent = new EventEmitter<boolean>();
   @Output() filterNewsEvent = new EventEmitter<string>();
@@ -26,7 +30,7 @@ export class HeaderComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-    this.isScrolled = scrollTop > 100;  // Esconde o cabeçalho após 100px de rolagem
+    this.isCollapsed = scrollTop > 50; // Recolhe o cabeçalho após 50px de rolagem
   }
   abrirBuscaAvancada() {
     this.exibirBuscaAvancada = !this.exibirBuscaAvancada;
@@ -41,28 +45,23 @@ export class HeaderComponent {
     this.isMobile = window.innerWidth <= 768; 
   }
 
-  // Ações para abrir e fechar a busca
   openBusca(): void {
     this.isBuscaOpen = true;
-    document.querySelector('.mensoes-container')?.classList.add('blurred');
   }
 
   closeBusca(): void {
     this.isBuscaOpen = false;
-    document.querySelector('.mensoes-container')?.classList.remove('blurred');
   }
 
-  // Escuta cliques no documento para fechar a busca ao clicar fora
+  @HostListener('document:keydown.escape')
+  handleEscape(): void {
+    this.closeBusca();
+  }
+  
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: Event): void {
-    const targetElement = event.target as HTMLElement;
-
-    // Verifica se o clique foi dentro do componente de busca
-    const isInsideBusca = targetElement.closest('app-input-busca') !== null;
-    const isButtonBusca = targetElement.classList.contains('action-buttonone');
-
-    // Se o clique NÃO foi dentro do input de busca ou do botão de busca, ele fecha
-    if (!isInsideBusca && !isButtonBusca) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('app-input-busca') && !target.closest('app-header')) {
       this.closeBusca();
     }
   }
@@ -89,4 +88,27 @@ export class HeaderComponent {
     this.selectedTab = tab;
     this.filterNewsEvent.emit(tab);
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }

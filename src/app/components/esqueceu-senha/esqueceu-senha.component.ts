@@ -7,22 +7,25 @@ import { Component } from '@angular/core';
 })
 export class EsqueceuSenhaComponent {
   email: string = '';
-  password: string = '';
+  emailError: string | null = null;
+  contaCriada: boolean = false; // Controla a exibição da tela de sucesso
 
-  emailError: string = '';
-  passwordError: string = '';
-  loginError: string = '';
-
-  
-  // Validação de Email
-  validateEmail(): void {
-    if (!this.email) {
-      this.emailError = 'Insira os dados para acessar sua conta.';
-    } else if (!this.email.includes('@') || !this.email.includes('.')) {
-      this.emailError = 'Insira um email válido.';
-    } else {
-      this.emailError = '';
+  onSubmit() {
+    this.validateEmail();
+    if (!this.emailError) {
+      // Simula o envio do email e muda para a tela de sucesso
+      setTimeout(() => {
+        this.contaCriada = true;
+      }, 500); // Simula um pequeno delay para feedback do usuário
     }
   }
 
+  validateEmail() {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    this.emailError = !this.email
+      ? "O email é obrigatório."
+      : !emailPattern.test(this.email)
+      ? "Insira um email válido."
+      : null;
+  }
 }

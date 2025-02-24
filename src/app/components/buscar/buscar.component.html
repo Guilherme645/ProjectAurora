@@ -1,80 +1,106 @@
-<div *ngIf="!isMobile" class="busca-container">
-  <!-- Logo -->
-  <div class="logo">
-    <img src="assets/logo2.png" alt="Logo" />
-  </div>
+<div class="w-full min-h-screen flex flex-col items-center bg-gray-50">
 
-  <!-- Opções de busca -->
-  <div class="busca-opcoes">
-    <button class="ativo">Busca simples</button>
-    <button (click)="openAdvancedSearch()">Busca avançada</button>
-  </div>
-
-  <!-- Barra de busca -->
- <div class="busca-barra">
-  <div class="search-container">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
-      <circle cx="11" cy="11" r="8"></circle>
-      <path d="m21 21-4.3-4.3"></path>
-    </svg>
-    <input type="text" placeholder="O que você deseja buscar?" [(ngModel)]="searchQuery" />
-  <button (click)="onSearch()">Buscar</button>
-  </div>
-</div>
-
-  <!-- Fundo desfocado -->
-  <div
-    class="blur-background"
-    [ngClass]="{ 'active': isDrawerOpen }"
-    (click)="closeDrawer()"
-  ></div>
-
-  <!-- Drawer -->
-  <div
-    class="drawer"
-    [ngClass]="{ 'translate-x-full': !isDrawerOpen, 'translate-x-0': isDrawerOpen }"
-  >
-    <div class="drawer-content">
-      <!-- Conteúdo do Drawer -->
-      <app-high-search></app-high-search>
-    </div>
-  </div>
-</div>
-
-
-<!-- Versão Mobile -->
-<div *ngIf="isMobile" class="mobile-search-container relative">
-  <div class="mobile-modal-container">
-    <!-- Botão no canto superior direito -->
-    <button class="absolute top-3 right-3 border border-gray-200 p-3 rounded-lg shadow-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-black">
-        <line x1="4" y1="12" x2="20" y2="12"></line>
-        <line x1="4" y1="6" x2="20" y2="6"></line>
-        <line x1="4" y1="18" x2="20" y2="18"></line>
-      </svg>
-    </button>
-
-    <!-- Cabeçalho do Modal -->
-    <div class="mobile-modal-header">
-
-      <input placeholder="Buscar entidade" class="mobile-search-input" />
+  <!-- 🔹 Versão Mobile -->
+  <div *ngIf="isMobile" class="absolute top-0 left-0 w-full p-4 bg-white">
+    
+    <!-- Input de busca fixo no topo -->
+    <div class="w-full flex justify-center">
+      <div class="w-[328px] h-[46px] flex items-center bg-white border border-gray-300 rounded-[8px] px-4 shadow-sm 
+                  focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500">
+        <input type="text" 
+          class="w-full text-gray-900 text-[16px] font-normal bg-transparent focus:outline-none" 
+          placeholder="O que você deseja buscar?" 
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()">
+      </div>
     </div>
 
     <!-- Link para busca avançada -->
-    <span 
-    class="flex lg:hidden items-center justify-center py-3 px-4 mt-3 text-sm font-medium text-blue-500 cursor-pointer" 
-    (click)="isAdvancedSearchOpen = true"
-  >
-    Fazer busca avançada
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
-      <path d="m9 18 6-6-6-6"></path>
-    </svg>
-  </span>
-</div>
+    <div class="w-full flex justify-center mt-2">
+      <span class="flex items-center justify-center py-3 px-4 text-sm font-medium text-blue-500 cursor-pointer" 
+            (click)="isAdvancedSearchOpen = true">
+        Fazer busca avançada
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </span>
+    </div>
 
-<div *ngIf="isAdvancedSearchOpen" class="overlay">
-  <div class="high-search-container">
-    <button class="close-button" (click)="isAdvancedSearchOpen = false">Fechar</button>
-    <app-high-search></app-high-search>
   </div>
+
+  <!-- 🔹 Modal de busca avançada (Mobile: ocupa a tela toda) -->
+  <div *ngIf="isMobile && isAdvancedSearchOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-end transition-all duration-300">
+    <div class="bg-white w-full h-full max-h-screen rounded-t-[16px] p-4 shadow-lg transform transition-transform duration-300 ease-in-out"
+         [class.translate-y-full]="!isAdvancedSearchOpen" 
+         [class.translate-y-0]="isAdvancedSearchOpen">
+  
+      <!-- Cabeçalho com botão fechar -->
+      <div class="flex justify-between items-center pb-4 border-b">
+     
+      </div>
+  
+      <!-- Componente de busca avançada -->
+      <app-high-search></app-high-search>
+    </div>
+  </div>
+
+  <!-- 🔹 Versão Desktop -->
+  <div *ngIf="!isMobile" class="flex flex-col items-center justify-center w-full h-screen bg-gray-50">
+
+    <!-- Logo -->
+    <div class="flex justify-center mb-6">
+      <img src="assets/logo2.png" alt="Logo" class="h-14">
+    </div>
+
+    <!-- Opções de busca -->
+    <div class="flex justify-center gap-2 mb-4">
+      <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg shadow-sm hover:bg-gray-300 transition-all">
+        Busca simples
+      </button>
+      <button (click)="isAdvancedSearchOpen = true"
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-transparent hover:bg-gray-100 rounded-lg transition-all">
+        Busca avançada
+      </button>
+    </div>
+
+    <!-- Barra de busca e botão -->
+    <div class="flex items-center gap-2">
+      
+      <!-- Campo de busca -->
+      <div class="flex items-center w-[480px] h-[56px] rounded-[8px] px-4  
+                  focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500">
+        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input type="text" 
+          class="w-full px-4 py-2 text-gray-800 bg-transparent focus:outline-none" 
+          placeholder="O que você deseja buscar?" [(ngModel)]="searchQuery">
+      </div>
+
+      <!-- Botão de busca -->
+      <button class="w-[140px] h-[56px] text-white bg-gray-900 rounded-[8px] hover:bg-gray-700 transition-all"
+        (click)="onSearch()">
+        Buscar
+      </button>
+
+    </div>
+  </div>
+
+  <!-- 🔹 Drawer da Busca Avançada (Somente Desktop) -->
+  <div *ngIf="!isMobile && isAdvancedSearchOpen" class="fixed inset-y-0 right-0 w-[400px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out"
+       [class.translate-x-full]="!isAdvancedSearchOpen"
+       [class.translate-x-0]="isAdvancedSearchOpen">
+    
+    <!-- Cabeçalho do Drawer -->
+
+
+    <!-- Conteúdo da busca avançada -->
+    <div class="p-4 w-[476px] h-[809px]">
+      <app-high-search></app-high-search>
+    </div>
+    
+
+  </div>
+
 </div>

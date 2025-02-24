@@ -1,37 +1,130 @@
-<div class="main-container">
-    <div class="login-form">
-      <div class="login-container">
-        <img src="assets/col.png" alt="Logo" class="logo">
-        <h1>Criar conta <br><p>Insira o email da nova conta abaixo</p></h1>
-        
-        <form>
-           <!-- Campo de Email -->
-           <div class="input-container" [ngClass]="{ 'error': emailError }">
-            <label for="email" class="sr-only">Email</label>
-            <input
-              type="email"
-              id="email"
-              [(ngModel)]="email"
-              name="email"
-              placeholder="Email"
-              (blur)="validateEmail()"
-              required
-            />
-          </div>
-          <p class="error-message" *ngIf="emailError">{{ emailError }}</p>
+<div class="flex h-screen w-screen">
+  <!-- Formulário -->
+  <div class="w-full md:w-1/2 flex justify-center items-center">
+    <main class="w-full max-w-[32rem] mx-auto p-6">
+      <div class="mt-7 bg-white">
 
-          
-          <button type="submit" class="button">
-            Continuar
-          </button>
-          <p class="register-link">
-            Já tenho uma conta <a href="#">Voltar ao login</a>
+        <!-- Tela de Sucesso -->
+        <div *ngIf="contaCriada" class="p-4 sm:p-7 text-center flex flex-col items-center">
+          <img src="assets/col.png" alt="Logo" height="28" width="24" loading="lazy" fetchpriority="auto">
+          <h1 class="block mt-1 text-[20px] font-semibold text-gray-800">
+            Conta criada com sucesso!
+          </h1>
+          <p class="mt-1 text-[14px] font-normal text-gray-500">
+            Uma nova conta para foi criada com o email: <strong>{{ email }}</strong>
           </p>
-        </form>
+          <button routerLink="/login" class="mt-4 py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
+            Ir para o login
+          </button>
+        </div>
+
+        <!-- Formulário de criação de conta -->
+        <div *ngIf="!contaCriada">
+          <div class="p-4 sm:p-7">
+            <div class="text-center flex flex-col items-center">
+              <img src="assets/col.png" alt="Logo" height="28" width="24" loading="lazy" fetchpriority="auto">
+              <h1 class="block mt-1 text-[20px] font-semibold text-gray-800">
+                Criar conta
+              </h1>
+              <p class="mt-1 text-[14px] font-normal text-gray-500">
+                {{ etapa === 'email' ? 'Insira o email da nova conta abaixo' : 'Finalize a nova conta, inserindo uma senha.' }}
+              </p>
+            </div>
+
+            <div class="mt-2">
+              <div class="grid">
+                <form (ngSubmit)="onSubmit()">
+                  <div class="flex flex-col rounded-lg">
+                    
+                    <!-- Campo de Email -->
+                    <div *ngIf="etapa === 'email'" class="relative w-full">
+                      <input 
+                        type="email" 
+                        id="email" 
+                        [(ngModel)]="email" 
+                        name="email" 
+                        placeholder="Email" 
+                        class="w-full w-[328px] h-[46px] sm:w-[328px] md:w-[400px] md:h-[46px] px-4 border shadow-sm text-sm font-medium text-black 
+                               focus:outline-none focus:ring-2 rounded-[8px]"
+                        [ngClass]="{ 
+                          'border-gray-300 focus:ring-blue-500 focus:border-blue-500': !emailError, 
+                          'border-red-500 focus:ring-red-500 focus:border-red-500': emailError 
+                        }"
+                        (blur)="validateEmail()" 
+                        required
+                      />
+                      <p class="text-red-500 text-[14px] mt-1" *ngIf="emailError">{{ emailError }}</p>
+                    </div>
+
+                    <!-- Campo de Senha -->
+                    <div *ngIf="etapa === 'senha'" class="relative w-full">
+                      <input 
+                        id="password" 
+                        type="{{ showPassword ? 'text' : 'password' }}" 
+                        [(ngModel)]="password" 
+                        name="password" 
+                        placeholder="Senha" 
+                        class="w-full w-[328px] h-[46px] sm:w-[328px] md:w-[400px] md:h-[46px] px-4 border shadow-sm text-sm font-medium text-black 
+                               focus:outline-none focus:ring-2 rounded-[8px]"
+                        [ngClass]="{ 
+                          'border-gray-300 focus:ring-blue-500 focus:border-blue-500': !passwordError, 
+                          'border-red-500 focus:ring-red-500 focus:border-red-500': passwordError 
+                        }"
+                        (blur)="validatePassword()" 
+                        required
+                      />
+                      <button type="button" 
+                              (click)="togglePassword()" 
+                              class="absolute top-1/2 right-4 transform -translate-y-1/2 
+                                     bg-transparent hover:bg-transparent focus:bg-transparent 
+                                     p-1 rounded-md focus:outline-none">
+                        <svg width="16" height="16" viewBox="0 0 48 44" fill="none" 
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                             stroke-linejoin="round">
+                          <path *ngIf="!showPassword" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                          <circle *ngIf="!showPassword" cx="12" cy="12" r="3"></circle>
+                          <path *ngIf="showPassword" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                          <path *ngIf="showPassword" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                        </svg>
+                      </button>
+                      <p class="text-red-500 text-[14px] mt-1" *ngIf="passwordError">{{ passwordError }}</p>
+                    </div>
+
+                  </div>
+
+                  <!-- Requisitos da Senha -->
+                  <div *ngIf="etapa === 'senha'" class="mt-2 text-left text-[14px] text-gray-700">
+                    <p>A senha deve ter:</p>
+                    <p [ngClass]="{'': password.length < 8, 'text-green-600': password.length >= 8}">
+                      <span *ngIf="password.length < 8">X</span>
+                      <span *ngIf="password.length >= 8">✔</span> Mínimo de 8 caracteres;
+                    </p>
+                  </div>
+
+                  <!-- Botão -->
+                  <button type="submit" class="mt-4 w-full py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
+                    {{ etapa === 'email' ? 'Continuar' : 'Criar conta' }}
+                  </button>
+
+                  <!-- Voltar ao Login -->
+                  <div class="text-center mt-4">
+                    <p class="text-[14px] text-gray-500">
+                      Já tenho uma conta
+                      <a routerLink="/login" class="text-blue-600 hover:text-blue-800 font-medium">Voltar ao login</a>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-    </div>
-    <div class="img">
-      <div class="image-section"></div>
-    </div>
+    </main>
   </div>
-  
+
+  <!-- Imagem ao lado -->
+  <div class="hidden md:block md:w-1/2 h-full">
+    <img src="assets/foto.png" alt="Imagem ao lado" style="width: 676px; height: 785px; border-radius: 8px; object-fit: cover;">
+  </div>
+</div>

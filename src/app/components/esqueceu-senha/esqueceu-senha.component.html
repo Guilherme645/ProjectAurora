@@ -1,35 +1,91 @@
-<div class="main-container">
-  <div class="login-form">
-    <div class="login-container">
-      <img src="assets/col.png" alt="Logo" class="logo">
-      <h1>Esqueceu sua senha?<br><p>Insira o email cadastrado, nós enviaremos uma nova senha, e você precisará redefini-lá após o acesso.</p>
-</h1>
-      <form>
-         <!-- Campo de Email -->
-         <div class="input-container" [ngClass]="{ 'error': emailError }">
-          <label for="email" class="sr-only">Email</label>
-          <input
-            type="email"
-            id="email"
-            [(ngModel)]="email"
-            name="email"
-            placeholder="Email"
-            (blur)="validateEmail()"
-            required
-          />
+<div class="flex h-screen w-screen">
+  <!-- Formulário -->
+  <div class="w-full md:w-1/2 flex justify-center items-center">
+    <main class="w-full max-w-[32rem] mx-auto p-6">
+      <div class="mt-7 bg-white">
+
+        <!-- Tela de Sucesso -->
+        <div *ngIf="contaCriada" class="p-4 sm:p-7 text-center flex flex-col items-center">
+          <img src="assets/col.png" alt="Logo" height="28" width="24" loading="lazy" fetchpriority="auto">
+          <h1 class="block mt-1 text-[20px] font-semibold text-gray-800">
+            Confira o seu Email!
+                    </h1>
+                    <p class="mt-1 text-[14px] font-normal text-gray-500">
+                      Uma nova senha foi enviada para: <br> <strong>{{ email }}</strong>.
+          </p>
+          <button routerLink="/login" type="submit" class="mt-4 w-full py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
+            Enviar novamente          </button>
+            <div class="text-center mt-4">
+          <p class="text-[14px] text-gray-500">
+            <a routerLink="/login" class="text-blue-600 hover:text-blue-800 font-medium">Voltar ao login</a>
+          </p>
         </div>
-        <p class="error-message" *ngIf="emailError">{{ emailError }}</p>
+        </div>
         
-        <button type="submit" class="button">
-          Enviar uma nova senha
-        </button>
-        <p class="register-link">
-          <a href="#">Voltar ao login</a>
-        </p>
-      </form>
-    </div>
+
+        <!-- Formulário de recuperação de senha -->
+        <div *ngIf="!contaCriada">
+          <div class="p-4 sm:p-7">
+            <div class="text-center flex flex-col items-center">
+              <img src="assets/col.png" alt="Logo" height="28" width="24" loading="lazy" fetchpriority="auto">
+              <h1 class="block mt-1 text-[20px] font-semibold text-gray-800">
+                Esqueceu sua senha?
+              </h1>
+              <p class="mt-1 text-[14px] font-normal text-gray-500">
+                Insira o email cadastrado, nós enviaremos um link para redefinir sua senha.
+              </p>
+            </div>
+
+            <div class="mt-2">
+              <div class="grid">
+                <form (ngSubmit)="onSubmit()">
+                  <div class="flex flex-col rounded-lg">
+                    
+                    <!-- Campo de Email -->
+                    <div class="relative w-full">
+                      <input 
+                        type="email" 
+                        id="email" 
+                        [(ngModel)]="email" 
+                        name="email" 
+                        placeholder="Email cadastrado" 
+                        class="w-[400px] h-[46px] px-4 border shadow-sm text-sm font-medium text-black 
+                               focus:outline-none focus:ring-2 rounded-[8px]"
+                        [ngClass]="{ 
+                          'border-gray-300 focus:ring-blue-500 focus:border-blue-500': !emailError, 
+                          'border-red-500 focus:ring-red-500 focus:border-red-500': emailError 
+                        }"
+                        (blur)="validateEmail()" 
+                        required
+                      />
+                      <p class="text-red-500 text-[14px] mt-1" *ngIf="emailError">{{ emailError }}</p>
+                    </div>
+
+                  </div>
+
+                  <!-- Botão -->
+                  <button type="submit" class="mt-4 w-full py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
+                    Enviar nova senha
+                  </button>
+
+                  <!-- Voltar ao Login -->
+                  <div class="text-center mt-4">
+                    <p class="text-[14px] text-gray-500">
+                      <a routerLink="/login" class="text-blue-600 hover:text-blue-800 font-medium">Voltar ao login</a>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
   </div>
-  <div class="img">
-    <div class="image-section"></div>
+
+  <!-- Imagem ao lado -->
+  <div class="hidden md:block md:w-1/2 h-full">
+    <img src="assets/foto.png" alt="Imagem ao lado" style="width: 676px; height: 785px; border-radius: 8px; object-fit: cover;">
   </div>
 </div>
