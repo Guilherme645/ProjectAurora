@@ -13,6 +13,8 @@ export class HighSearchComponent {
   selectedEndDate!: Date;
   selectedInput: 'start' | 'end' | null = null;
   @Output() fecharComponente = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<void>(); // Evento para fechar
+
   constructor(private router: Router) {}
 
   isSectionOpen: { 
@@ -95,9 +97,7 @@ export class HighSearchComponent {
     this.isModalOpen = true;
   }
 
-  closeModal() {
-    this.isModalOpen = false;
-  }
+
 
   navigateToSimpleSearch() {
     window.location.href = '/busca'; // Redireciona e recarrega a página
@@ -107,5 +107,8 @@ export class HighSearchComponent {
     this.isSectionOpen.location = false;
   }
 
+  close() {
+    this.closeModal.emit(); // Emite o evento para o componente pai
+  }
   
 }

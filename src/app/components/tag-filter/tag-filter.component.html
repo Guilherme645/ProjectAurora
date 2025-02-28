@@ -3,8 +3,6 @@
   <div class="modal-container">
     <div class="modal-content">
 
-
-      <!-- Cabeçalho do Modal -->
       <div class="modal-header">    
 
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
@@ -20,36 +18,29 @@
         <button class="esc-button" (click)="closeMobileModal()"><p>ESC</p></button>
       </div>
 
-      <!-- Corpo do Modal -->
       <div class="modal-body">
-        <!-- Menu de Categorias -->
         <nav class="category-menu">
           <ul class="space-y-2">
-            <!-- Item: Data -->
             <li class="select">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M8 2v4" key="1cmpym"></path><path d="M16 2v4" key="4m81vk"></path><rect width="18" height="18" x="3" y="4" rx="2" key="1hopcy"></rect><path d="M3 10h18" key="8toen8"></path><path d="M8 14h.01" key="6423bh"></path><path d="M12 14h.01" key="1etili"></path><path d="M16 14h.01" key="1gbofw"></path><path d="M8 18h.01" key="lrp35t"></path><path d="M12 18h.01" key="mhygvu"></path><path d="M16 18h.01" key="kzsmim"></path></svg>
               Data
             </li>
         
-            <!-- Item: Profissão -->
             <li class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M12 17v5" key="bb1du9"></path><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" key="1nkz8b"></path></svg>
               Profissão
             </li>
         
-            <!-- Item: Pessoa -->
             <li class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" key="1yyitq"></path><circle cx="9" cy="7" r="4" key="nufk8"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87" key="kshegd"></path><path d="M16 3.13a4 4 0 0 1 0 7.75" key="1da9ce"></path></svg>
               Pessoa
             </li>
         
-            <!-- Item: Lugar -->
             <li class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><line x1="2" x2="5" y1="12" y2="12" key="bvdh0s"></line><line x1="19" x2="22" y1="12" y2="12" key="1tbv5k"></line><line x1="12" x2="12" y1="2" y2="5" key="11lu5j"></line><line x1="12" x2="12" y1="19" y2="22" key="x3vr5v"></line><circle cx="12" cy="12" r="7" key="fim9np"></circle><circle cx="12" cy="12" r="3" key="1v7zrd"></circle></svg>
               Lugar
             </li>
         
-            <!-- Item: Organização -->
             <li class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><rect width="16" height="20" x="4" y="2" rx="2" ry="2" key="76otgf"></rect><path d="M9 22v-4h6v4" key="r93iot"></path><path d="M8 6h.01" key="1dz90k"></path><path d="M16 6h.01" key="1x0f13"></path><path d="M12 6h.01" key="1vi96p"></path><path d="M12 10h.01" key="1nrarc"></path><path d="M12 14h.01" key="1etili"></path><path d="M16 10h.01" key="1m94wz"></path><path d="M16 14h.01" key="1gbofw"></path><path d="M8 10h.01" key="19clt8"></path><path d="M8 14h.01" key="6423bh"></path></svg>            
             Organização
@@ -57,7 +48,6 @@
             </ul>
         </nav>
 
-        <!-- Lista de Entidades -->
         <div class="entity-list">
           <ul class="entity-group">
             <li class="entity-item">
@@ -109,14 +99,11 @@
   </div>
 </div>
 
-<!-- Modal para Mobile -->
 <div *ngIf="isMobile" class="mobile-modal-overlay">
   <div *ngIf="isMobile" class="mobile-modal-container" (click)="$event.stopPropagation()">
     
-    <!-- Barra horizontal para fechar o modal -->
     <div class="mobile-modal-drag-bar" (click)="closeMobileModal()"></div>
 
-    <!-- Cabeçalho do Modal -->
     <div class="mobile-modal-header">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-search">
         <circle cx="11" cy="11" r="8"></circle>
@@ -125,7 +112,6 @@
       <input placeholder="Buscar entidade" class="mobile-search-input" />
     </div>
 
-    <!-- Tabs -->
     <nav class="mobile-tab-menu">
       <button class="mobile-tab active">Data</button>
       <button class="mobile-tab">Profissão</button>
@@ -134,7 +120,6 @@
       <button class="mobile-tab">Organização</button>
     </nav>
 
-    <!-- Lista de Entidades -->
     <div class="mobile-entity-list">
       <div class="entity-group">
         <span class="entity-title">Data</span>

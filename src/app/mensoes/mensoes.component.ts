@@ -8,18 +8,20 @@ import { Component, Input } from '@angular/core';
 export class MensoesComponent {
   dropdownOpen: boolean = false;
   modalAberto: boolean = false;
+  isBlurred: boolean = false; 
   @Input() selectedCount: number = 0;
 
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
   }
-    // Método para abrir o modal do relatório
-    abrirRelatorioModal() {
-      this.modalAberto = true;
-    }
-  
-    // Método para fechar o modal do relatório
-    fecharRelatorioModal() {
-      this.modalAberto = false;
-    }
+
+  abrirRelatorioModal(): void {
+    this.modalAberto = true;
+    this.isBlurred = true; 
+  }
+
+  fecharRelatorioModal(): void {
+    this.modalAberto = false;
+    this.isBlurred = false; 
+  }
 }

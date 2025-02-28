@@ -1,0 +1,10 @@
+{
+    "categorias": [
+      { "nome": "Data", "itens": ["sexta-feira", "janeiro", "2024"] },
+      { "nome": "Profissão", "itens": ["ministros", "advogados", "juiz"] },
+      { "nome": "Pessoa", "itens": ["Dias Toffoli", "Rosa Weber", "Alexandre de Moraes"] },
+      { "nome": "Lugar", "itens": ["Rio Grande do Sul", "Brasília"] },
+      { "nome": "Organização", "itens": ["STF", "OAB"] }
+    ]
+  }
+  

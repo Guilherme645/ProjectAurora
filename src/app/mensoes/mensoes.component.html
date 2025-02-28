@@ -1,13 +1,10 @@
 <div class="mensoes-container fixed bottom-4 right-4">
   <div class="mention-box">
-    <!-- Texto de Menções Selecionadas -->
     <p class="mention-text">Menções selecionadas ({{ selectedCount }})</p>
 
-    <!-- Botão de Ações (Dropdown) -->
     <div class="relative inline-flex">
       <button id="mention-dropdown" type="button" class="dropdown-toggle" (click)="toggleDropdown()">
         <span class="dropdown-icon">
-          <!-- Ícone de Três Pontos -->
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide">
             <circle cx="12" cy="12" r="1"></circle>
             <circle cx="12" cy="5" r="1"></circle>
@@ -16,14 +13,12 @@
         </span>
       </button>
 
-      <!-- Menu Dropdown -->
       <div id="mention-dropdown-menu" class="dropdown-menu" [class.show]="dropdownOpen">
         <a (click)="abrirRelatorioModal()" class="mention-item">Incluir em Relatório(s) <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">R</kbd></span></a>
         <a class="mention-item">Compartilhar <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">C</kbd></span></a>
         <a class="mention-item">Imprimir menções <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">P</kbd></span></a>
       </div>
 
-      <!-- Modal do Relatório -->
       <app-relatorio-modal *ngIf="modalAberto" (fechar)="fecharRelatorioModal()"></app-relatorio-modal>
     </div>
   </div>

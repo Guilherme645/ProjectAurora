@@ -1,112 +1,97 @@
+<!-- Versão Desktop -->
 <div *ngIf="!isMobile">
-<div class="layout-container">
+  <div class="layout-container">
+    
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class=" bg-neutral-800 text-white w-80 fixed h-full">
       <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
     </div>
-
+    
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Cabeçalho Fixo -->
-        <header class="header fixed-header">
-          <app-header (filterNewsEvent)="onFilterNews($event)" (selectAllEvent)="onSelectAll($event)"></app-header>
-        </header>
+      <header class="header fixed-header">
+        <app-header (filterNewsEvent)="onFilterNews($event)" (selectAllEvent)="onSelectAll($event)"></app-header>
+      </header>
 
-        <!-- Conteúdo Principal -->
-        <main class="main">
-            <!-- Cartões -->
-            <div *ngFor="let noticia of filteredNoticias" class="card">
-              <app-card 
-                [noticias]="noticia" 
-                [isSelected]="allSelected"
-                (selectionChange)="onSelectionChange($event)">
-              </app-card>
-            </div>
-            
-            <br>
-         
-        </main>
-        <div class="scroll">
-<app-scroll-top></app-scroll-top>
+      <!-- Conteúdo Principal -->
+      <main class="main">
+        <div *ngFor="let noticia of filteredNoticias" class="card">
+          <app-card 
+            [noticias]="noticia" 
+            [isSelected]="allSelected"
+            (selectionChange)="onSelectionChange($event)">
+          </app-card>
         </div>
-        <app-mensoes [selectedCount]="selectedMentionsCount"></app-mensoes>
+      </main>
+
+      <!-- Botão Scroll Top -->
+      <div class="scroll">
+        <app-scroll-top></app-scroll-top>
       </div>
+
+      <!-- Menções Selecionadas -->
+      <app-mensoes [selectedCount]="selectedMentionsCount"></app-mensoes>
+    </div>
+  </div>
 </div>
-</div>
-  
-  <!-- Versão Mobile -->
-  <div *ngIf="isMobile">
-    <!-- Sidebar Mobile -->
-  
-    <!-- Cabeçalho e Conteúdo Principal -->
-    <nav class="sticky top-0 z-10 bg-white transition-transform duration-300 ease-in-out">
-      <div class="flex flex-row items-center justify-between p-4">
-        <!-- Ícone e Nome -->
-        <div class="flex items-center">
-          <div class="icon-container">
-            <span class="icon-text">ST</span>
-          </div>
-          <div class="flex flex-col ml-3">
-            <h3 class="workspace-title">Workspace</h3>
-            <h2 class="workspace-results">9800 resultados</h2>
-          </div>
+
+<!-- Versão Mobile -->
+<div *ngIf="isMobile">
+  <!-- Navbar Mobile -->
+  <nav class="sticky top-0 z-10 bg-white transition-transform duration-300 ease-in-out">
+    <div class="flex flex-row items-center justify-between p-4">
+   
+      <!-- Ícone e Nome -->
+      <div class="flex items-center">
+        <div class="icon-container">
+          <span class="icon-text">ST</span>
         </div>
-        <div class="flex items-center space-x-4">
-          <button class="p-2 rounded-full bg-gray-100">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="M21 21l-4.35-4.35"></path>
-            </svg>
-          </button>
-          <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="4" y1="6" x2="20" y2="6"></line>
-              <line x1="4" y1="12" x2="20" y2="12"></line>
-              <line x1="4" y1="18" x2="20" y2="18"></line>
-            </svg>
-          </button>
-        
-          <!-- Sidebar Mobile (só aparece quando `isSidebarOpen` for true) -->
-          <div *ngIf="isSidebarOpen" class="sidebar-mobile">
-            <div class="sidebar-header">
-          
-            </div>
-        
-            <!-- Componente de Sidebar -->
-            <app-side-bar></app-side-bar>
-          </div>
+        <div class="flex flex-col ml-3">
+          <h3 class="workspace-title">Workspace</h3>
+          <h2 class="workspace-results">9800 resultados</h2>
         </div>
       </div>
-      <div class="border-t border-gray-200">
-        <div class="flex justify-around">
-          <button 
-            class="tab-button" 
-            [class.active]="selectedTab === 'todos'"
-            (click)="setSelectedTab('todos')">
-            Todos os resultados
-          </button>
-      
-          <button 
-            class="tab-button" 
-            [class.active]="selectedTab === 'brutos'"
-            (click)="setSelectedTab('brutos')">
-            Resultados brutos
-          </button>
-      
-          <button 
-            class="tab-button" 
-            [class.active]="selectedTab === 'clippings'"
-            (click)="setSelectedTab('clippings')">
-            Clippings
-          </button>
+
+      <!-- Ícones de Busca e Menu -->
+      <div class="flex items-center space-x-4">
+        <button class="p-2 rounded-full bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="M21 21l-4.35-4.35"></path>
+          </svg>
+        </button>
+        <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+        </button>
+
+        <!-- Sidebar Mobile -->
+        <div *ngIf="isSidebarOpen" class="sidebar-mobile">
+          <div class="sidebar-header"></div>
+          <app-side-bar></app-side-bar>
         </div>
       </div>
-      
-    </nav>
-   <!-- Seção de Ordenação e Filtros -->
-   <div class="sorting-container">
+    </div>
+
+    <!-- Tabs de Filtro -->
+    <div class="border-t border-gray-200">
+      <div class="flex justify-around">
+        <button class="tab-button" [class.active]="selectedTab === 'todos'" (click)="setSelectedTab('todos')">Todos os resultados</button>
+        <button class="tab-button" [class.active]="selectedTab === 'brutos'" (click)="setSelectedTab('brutos')">Resultados brutos</button>
+        <button class="tab-button" [class.active]="selectedTab === 'clippings'" (click)="setSelectedTab('clippings')">Clippings</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Seção de Ordenação e Filtros -->
+  <div class="sorting-container">
     <div class="sorting-group">
       <span>Ordenar por:</span>
+      
+      <!-- Dropdown de Ordenação -->
       <div class="dropdown relative">
         <button class="dropdown-toggle" (click)="toggleDropdown()">
           {{ selectedOption }}
@@ -120,6 +105,7 @@
         </ul>
       </div>
     </div>
+
     <!-- Ícone de Filtro -->
     <div class="filter-icon-container">
       <button>
@@ -130,15 +116,16 @@
       </button>
     </div>
   </div>
-  
-    <!-- Conteúdo Principal Mobile -->
-    <main class="p-4">
-      <div *ngFor="let noticias of noticias">
-        <app-card [noticias]="noticias"></app-card>
-      </div>
-    </main>
-    <div class="scroll">
-      <app-scroll-top></app-scroll-top>
-              </div>
+
+  <!-- Conteúdo Principal Mobile -->
+  <main class="p-4">
+    <div *ngFor="let noticias of noticias">
+      <app-card [noticias]="noticias"></app-card>
+    </div>
+  </main>
+
+  <!-- Botão Scroll Top -->
+  <div class="scroll">
+    <app-scroll-top></app-scroll-top>
   </div>
-  
+</div>

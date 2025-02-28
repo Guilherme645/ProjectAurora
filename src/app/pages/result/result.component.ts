@@ -19,7 +19,7 @@ export class ResultComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.checkScreenSize();  // Verifica o tamanho da tela no carregamento inicial
+    this.checkScreenSize();  // Verifica o tamanho da tela ao carregar a página
 
     this.dataService.getData().subscribe(
       (data) => {
@@ -28,9 +28,13 @@ export class ResultComponent implements OnInit {
       (error) => console.error('Erro ao carregar os dados:', error)
     );
   }  
-  
-  // Método para verificar o tamanho da tela e definir o estado de `isMobile`
-  @HostListener('window:resize', [])
+
+  // Detecta mudanças no tamanho da tela e ajusta `isMobile`
+  @HostListener('window:resize')
+  onResize(): void {
+    this.checkScreenSize();
+  }
+
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
@@ -38,14 +42,16 @@ export class ResultComponent implements OnInit {
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
-  setSelectedTab(tab: string) {
+
+  setSelectedTab(tab: string): void {
     this.selectedTab = tab;
   }
 
-  toggleDropdown() {
+  toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-  selectOption(option: string) {
+
+  selectOption(option: string): void {
     this.selectedOption = option;
     this.isDropdownOpen = false;
   }
@@ -54,9 +60,9 @@ export class ResultComponent implements OnInit {
     this.filtrosAbertos = !this.filtrosAbertos;
   }
 
-
+  // Detecta rolagem e altera estado do cabeçalho
   @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.isScrolled = window.scrollY > 100; // Muda o estado após 100px de rolagem
+  onWindowScroll(): void {
+    this.isScrolled = window.scrollY > 100;
   }
 }

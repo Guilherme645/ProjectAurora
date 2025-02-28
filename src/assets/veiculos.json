@@ -1,13 +1,50 @@
 {
-    "texto": [
-      "O dia", "O Globo", "Jornal do Brasil", "Jornal do Comércio",
-      "A tribuna da Imprensa", "Folha Dirigida"
-    ],
-    "video": [
-      "Agência Brasil", "Diario Oficial", "Globo - Ideal TV", "Amazonas", "Bahia Audio"
-    ],
-    "audio": [
-      "Acre Video", "Alagoas Video", "Amapá Video", "Amazonas Video", "Bahia Video"
-    ]
-  }
-  
+  "Texto": [
+    { "nome": "O Dia", "selecionado": false },
+    { "nome": "O Globo", "selecionado": false },
+    { "nome": "Jornal do Brasil", "selecionado": false },
+    { "nome": "Jornal do Comércio", "selecionado": false },
+    { "nome": "A Tribuna da Imprensa", "selecionado": false },
+    { "nome": "Folha Dirigida", "selecionado": false },
+    { "nome": "A Voz da Serra", "selecionado": false },
+    { "nome": "Tribuna de Petrópolis", "selecionado": false },
+    { "nome": "Inverta - Jornal pra Ver...", "selecionado": false },
+    { "nome": "Correio Brasiliense", "selecionado": false },
+    { "nome": "Brasil em Tempo Real", "selecionado": false },
+    { "nome": "Zero Hora", "selecionado": false },
+    { "nome": "Correio do Povo", "selecionado": false },
+    { "nome": "Diário Popular", "selecionado": false },
+    { "nome": "Folha da Cidade", "selecionado": false },
+    { "nome": "Jornal do Comércio", "selecionado": false },
+    { "nome": "Jornal NH", "selecionado": false },
+    { "nome": "Jornal VS", "selecionado": false },
+    { "nome": "Diário de Canoas", "selecionado": false },
+    { "nome": "A Razão", "selecionado": false }
+  ],
+
+  "Vídeo": [
+    { "nome": "Agência Brasil", "selecionado": false },
+    { "nome": "Diário Oficial", "selecionado": false },
+    { "nome": "Globo - Ideal TV", "selecionado": false },
+    { "nome": "Amazonas", "selecionado": false },
+    { "nome": "Bahia Video", "selecionado": false },
+    { "nome": "Ceará Video", "selecionado": false },
+    { "nome": "Distrito Federal Video", "selecionado": false },
+    { "nome": "Espírito Santo Video", "selecionado": false },
+    { "nome": "Goiás Video", "selecionado": false },
+    { "nome": "Minas Gerais Video", "selecionado": false }
+  ],
+
+  "Áudio": [
+    { "nome": "Acre Audio", "selecionado": false },
+    { "nome": "Alagoas Audio", "selecionado": false },
+    { "nome": "Amapá Audio", "selecionado": false },
+    { "nome": "Amazonas Audio", "selecionado": false },
+    { "nome": "Bahia Audio", "selecionado": false },
+    { "nome": "Ceará Audio", "selecionado": false },
+    { "nome": "Distrito Federal Audio", "selecionado": false },
+    { "nome": "Espírito Santo Audio", "selecionado": false },
+    { "nome": "Goiás Audio", "selecionado": false },
+    { "nome": "Minas Gerais Audio", "selecionado": false }
+  ]
+}

@@ -1,68 +1,54 @@
-import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
   @Input() noticias: any;
   @Input() isSelected: boolean = false;
   @Output() selectionChange = new EventEmitter<boolean>();
-  
   allSelected: boolean = false;
-  showTagFilter: boolean = false;
-  isMobile: boolean = false;
+
+  isMobile: boolean = window.innerWidth <= 768;
   isMenuOpen: boolean = false;
   isEntitiesModalOpen: boolean = false;
-
-  ngOnInit(): void {
-    this.checkScreenSize();
-  }
+  showTagFilter: boolean = false;
 
   @HostListener('window:resize')
   checkScreenSize(): void {
-    this.isMobile = window.innerWidth <= 768; // Define se está em mobile
+    this.isMobile = window.innerWidth <= 768;
   }
 
-  // Função para abrir o modal de tag filter
+  @HostListener('document:keydown.escape')
+  closeModals(): void {
+    this.showTagFilter = false;
+    this.isEntitiesModalOpen = false;
+  }
+
+  closeTagFilter(): void {
+    this.showTagFilter = false;
+  }
+  closeEntitiesModal() {
+    this.isEntitiesModalOpen = false;
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  openEntitiesModal(): void {
+    this.isEntitiesModalOpen = true;
+    this.isMenuOpen = false; 
+  }
+
   openTagFilter(event: Event): void {
     event.preventDefault();
     this.showTagFilter = true;
   }
 
-  // Função para fechar o modal de tag filter
-  closeTagFilter(): void {
-    this.showTagFilter = false;
-  }
-
-  // Detecta a tecla "Escape" para fechar o modal
-  @HostListener('document:keydown.escape', ['$event'])
-  handleEscapeKey(event: KeyboardEvent): void {
-    if (this.showTagFilter) {
-      this.closeTagFilter();
-    }
-  }
-
-  toggleAllCards(selectAll: boolean): void {
-    this.allSelected = selectAll;
-  }
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-
-  openEntitiesModal() {
-    this.isEntitiesModalOpen = true;
-    this.isMenuOpen = false; // Fecha o menu ao abrir o modal
-  }
-
-  closeEntitiesModal() {
-    this.isEntitiesModalOpen = false;
-  }
-
   onCheckboxChange(event: Event): void {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    this.selectionChange.emit(isChecked);
+    this.selectionChange.emit((event.target as HTMLInputElement).checked);
   }
 }

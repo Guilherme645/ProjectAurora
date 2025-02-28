@@ -1,84 +1,90 @@
-// localizacao.component.ts
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, HostListener, Output, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-localizacao',
   templateUrl: './localizacao.component.html',
   styleUrls: ['./localizacao.component.css']
 })
-export class LocalizacaoComponent {
-  vehiclesList: { [key: string]: string[] } = {};
-  selectedCategory: string = 'texto';
-  searchQuery: string = '';
+export class LocalizacaoComponent implements OnInit {
+  @Output() closeSection = new EventEmitter<void>(); // Evento para fechar modal
+
   isMobile: boolean = false;
   selectAll: boolean = false;
   isModalOpen: boolean = true;
+  estados: { nome: string; selecionado: boolean }[] = [];
+  estadosFiltrados: { nome: string; selecionado: boolean }[] = []; // Nova lista filtrada
 
-  // Evento para notificar o pai (HighSearchComponent) quando o modal mobile deve fechar a seção
-  @Output() closeSection = new EventEmitter<void>();
-
-  constructor(private http: HttpClient) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
+    this.loadEstados();
   }
 
-  // Detecta se está em um dispositivo móvel
+  /** 🔹 Detecta mudança no tamanho da tela */
   @HostListener('window:resize')
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  estados = [
-    { nome: "Acre (AC)", selecionado: false },
-    { nome: "Alagoas (AL)", selecionado: false },
-    { nome: "Amapá (AP)", selecionado: false },
-    { nome: "Amazonas (AM)", selecionado: false },
-    { nome: "Bahia (BA)", selecionado: false },
-    { nome: "Ceará (CE)", selecionado: false },
-    { nome: "Distrito Federal (DF)", selecionado: false },
-    { nome: "Espírito Santo (ES)", selecionado: false },
-    { nome: "Goiás (GO)", selecionado: false },
-    { nome: "Maranhão (MA)", selecionado: false },
-    { nome: "Mato Grosso (MT)", selecionado: false },
-    { nome: "Mato Grosso do Sul (MS)", selecionado: false },
-    { nome: "Minas Gerais (MG)", selecionado: false },
-    { nome: "Pará (PA)", selecionado: false },
-    { nome: "Paraíba (PB)", selecionado: false },
-    { nome: "Paraná (PR)", selecionado: false },
-    { nome: "Pernambuco (PE)", selecionado: false },
-    { nome: "Piauí (PI)", selecionado: false },
-    { nome: "Rio de Janeiro (RJ)", selecionado: false },
-    { nome: "Rio Grande do Norte (RN)", selecionado: false },
-    { nome: "Rio Grande do Sul (RS)", selecionado: false },
-    { nome: "Rondônia (RO)", selecionado: false },
-    { nome: "Roraima (RR)", selecionado: false },
-    { nome: "Santa Catarina (SC)", selecionado: false },
-    { nome: "São Paulo (SP)", selecionado: false },
-    { nome: "Sergipe (SE)", selecionado: false },
-    { nome: "Tocantins (TO)", selecionado: false }
-  ];
-
-  // Função para marcar/desmarcar todos os estados
-  toggleAll() {
-    this.estados.forEach(estado => estado.selecionado = this.selectAll);
+  /** 🔹 Carrega os estados do serviço */
+  private loadEstados(): void {
+    this.dataService.getEstados().subscribe(
+      (estados) => {
+        if (Array.isArray(estados)) {
+          this.estados = estados.map(estado => ({
+            nome: estado.nome,
+            selecionado: estado.selecionado || false
+          }));
+          this.estadosFiltrados = [...this.estados]; // Inicializa os filtrados
+        } else {
+          console.error('Erro: Os estados retornados não são um array válido', estados);
+        }
+      },
+      (error) => {
+        console.error('Erro ao carregar estados:', error);
+      }
+    );
   }
 
-  // Atualiza "Selecionar todos" baseado nos checkboxes individuais
-  updateSelectAll() {
-    this.selectAll = this.estados.every(estado => estado.selecionado);
+  /** 🔹 Método para filtrar estados com base na entrada do usuário */
+  filtrarEstados(event: Event): void {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    this.estadosFiltrados = this.estados.filter(estado =>
+      estado.nome.toLowerCase().includes(query)
+    );
   }
 
-  // Método para fechar o modal e notificar o pai
-  closeModal() {
+  /** 🔹 Seleciona ou desmarca todos os estados */
+  toggleAll(): void {
+    this.estadosFiltrados.forEach(estado => estado.selecionado = this.selectAll);
+    this.syncSelection();
+  }
+
+  /** 🔹 Atualiza o "Selecionar Todos" conforme os estados marcados */
+  updateSelectAll(): void {
+    this.selectAll = this.estadosFiltrados.every(estado => estado.selecionado);
+    this.syncSelection();
+  }
+
+  /** 🔹 Mantém a seleção dos estados filtrados e a lista completa sincronizadas */
+  private syncSelection(): void {
+    this.estados.forEach(estado => {
+      const match = this.estadosFiltrados.find(f => f.nome === estado.nome);
+      if (match) estado.selecionado = match.selecionado;
+    });
+  }
+
+  /** 🔹 Fecha o modal e emite evento para o componente pai */
+  closeModal(): void {
     this.isModalOpen = false;
-    this.closeSection.emit(); // Emite o evento para fechar a seção no HighSearchComponent
+    this.closeSection.emit();
   }
 
-  // Detectar a tecla ESC e fechar o modal
-  @HostListener('document:keydown.escape', ['$event'])
-  handleEscapeKey(event: KeyboardEvent) {
+  /** 🔹 Fecha o modal ao pressionar a tecla ESC */
+  @HostListener('document:keydown.escape')
+  handleEscapeKey(): void {
     this.closeModal();
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-account',
@@ -7,19 +8,21 @@ import { Component } from '@angular/core';
 })
 export class ModalAccountComponent {
   isOpen = false;
+
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
     console.log('ModalAccountComponent carregado');
   }
+
   toggleMenu() {
     this.isOpen = !this.isOpen;
   }
 
-  openAccount() {
-    console.log('Abrindo configurações da conta...');
-  }
-
   logout() {
     console.log('Saindo da conta...');
-    // Adicione a lógica de logout real aqui
+    localStorage.removeItem('token'); 
+    sessionStorage.removeItem('token'); 
+    this.router.navigate(['/login']);
   }
 }

@@ -1,4 +1,4 @@
-/* Estilo do container principal */
+/* 🟢 Estilo do container principal */
 .hs-overlay {
   max-width: 476px;
   height: 100vh;
@@ -12,9 +12,10 @@
   position: fixed;
   box-sizing: border-box;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
 }
 
-/* Estilo da barra de rolagem */
+/* 🟢 Estilo da barra de rolagem */
 .advanced-search-container {
   flex: 1;
   overflow-y: auto;
@@ -33,7 +34,7 @@
   background-color: #9ca3af;
 }
 
-/* Títulos */
+/* 🟢 Títulos */
 .text-lg {
   font-size: 18px;
   font-weight: bold;
@@ -48,7 +49,7 @@
   line-height: 1.5;
 }
 
-/* Seção do Accordion */
+/* 🟢 Seção do Accordion */
 .accordion-section {
   flex-shrink: 0;
   border-bottom: 1px solid #e5e7eb;
@@ -75,7 +76,7 @@
   margin-left: 12px;
 }
 
-/* Campos de entrada */
+/* 🟢 Campos de entrada */
 .input-field,
 .date-field {
   width: 100%;
@@ -88,9 +89,13 @@
   margin-bottom: 10px;
 }
 
+.date-field:focus {
+  border-color: #2563eb;
+  background: white;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
 
-
-/* Checkbox */
+/* 🟢 Checkbox */
 .custom-checkbox {
   display: flex;
   align-items: center;
@@ -132,7 +137,7 @@
   transform: rotate(45deg);
 }
 
-/* Footer fixo com botões */
+/* 🟢 Footer fixo com botões */
 .modal-footer {
   display: flex;
   justify-content: space-between;
@@ -140,33 +145,31 @@
   border-top: 1px solid #e5e7eb;
 }
 
-/* Botões */
-.clear-button {
+/* 🟢 Botões */
+.clear-button,
+.search-button {
   width: 128px;
   height: 46px;
   font-weight: bold;
-  background: #ddd;
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
 
+.clear-button {
+  background: #ddd;
+}
+
 .search-button {
-  width: 128px;
-  height: 46px;
   background-color: #4B5563;
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
 }
 
 .search-button:hover {
   background-color: #1f2937;
 }
 
-/* Ícone do Accordion */
+/* 🟢 Ícone do Accordion */
 .icon {
   transition: transform 0.3s ease;
 }
@@ -175,7 +178,7 @@
   transform: rotate(180deg);
 }
 
-/* Tooltip */
+/* 🟢 Tooltip */
 .tooltip-container {
   position: relative;
   cursor: pointer;
@@ -195,7 +198,7 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #4B5563;
+  background-color: #1F2937;
   color: white;
   padding: 8px;
   border-radius: 4px;
@@ -208,11 +211,9 @@
 .tooltip-container:hover .tooltip {
   display: block;
   opacity: 1;
-  background-color: #1F2937;
 }
 
-/* Calendário */
-/* Estilo do container de data */
+/* 🟢 Estilo do Calendário */
 .date-container {
   position: relative;
   display: flex;
@@ -220,43 +221,25 @@
   width: 100%;
 }
 
-/* Estilo dos campos de data */
-.date-field {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #f3f4f6;
-  outline: none;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.date-field:focus {
-  border-color: #2563eb;
-  background: white;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
-}
-
-/* Overlay para o calendário (similar ao modal-overlay de Veículos) */
+/* 🟢 Overlay do Modal */
 .modal-overlay {
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
-  z-index: 1999; /* Menor que o calendário para permitir interação */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
   cursor: default;
 }
 
-/* Container do calendário (similar ao modal-container de Veículos, posicionado ao lado esquerdo) */
+/* 🟢 Container do Calendário */
 .calendar-modal-container {
-  position: fixed; /* Posicionamento fixo para aparecer fora do componente */
-  top: 50%; /* Centraliza verticalmente */
-  left: calc(50% + 238px); /* Posiciona ao lado esquerdo do componente (ajuste o valor conforme a largura do componente) */
-  transform: translateY(-50%); /* Centraliza verticalmente */
+  position: fixed;
+  top: 50%;
+  left: calc(50% + 238px);
+  transform: translateY(-50%);
   z-index: 2000;
-  width: 300px; /* Ajuste o tamanho conforme necessário */
+  width: 300px;
   background-color: white;
   border: 1px solid #d1d5db;
   border-radius: 12px;
@@ -264,7 +247,7 @@
   margin-left: -768px;
 }
 
-/* Ajuste para telas menores */
+/* 🟢 Ajuste para telas menores */
 @media (max-width: 768px) {
   .calendar-modal-container {
     position: fixed;
@@ -276,6 +259,7 @@
     max-width: 300px;
     border-radius: 0 0 12px 12px;
   }
+
   .close-button {
     background-color: #ff4444;
     color: white;
@@ -285,7 +269,7 @@
     cursor: pointer;
     margin-top: 10px;
   }
-  
+
   .close-button:hover {
     background-color: #cc0000;
   }

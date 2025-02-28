@@ -29,13 +29,15 @@ fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke
 </svg>
 Fazer busca
 </button>
-
+<div class="p-4 w-[476px] h-[809px]" *ngIf="isSearchOpen">
+  <app-high-search (closeModal)="toggleSearch()"></app-high-search>
+</div>
 <!-- Componente InputBuscaComponent (renderizado quando isBuscaOpen = true) -->
 <app-input-busca  #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
 
 
           <button type="button" class="inline-flex items-center justify-center px-3 text-sm font-medium 
-                 text-gray-800 hover:bg-gray-100 h-full">
+                 text-gray-800 hover:bg-gray-100 h-full" (click)="toggleSearch()">
             Busca avançada
           </button>
         </div>

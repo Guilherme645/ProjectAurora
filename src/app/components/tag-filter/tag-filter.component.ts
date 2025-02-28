@@ -7,13 +7,13 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
   styleUrls: ['./tag-filter.component.css']
 })
 export class TagFilterComponent implements OnInit {
-  entidades: any = {}; // Dados carregados do JSON
-  filteredEntities: any[] = []; // Lista de entidades filtradas
+  entidades: any = {}; 
+  filteredEntities: any[] = []; 
   isMobileModalOpen: boolean = false;
   isMobile: boolean = false;
-  selectedCategory: string = 'Data'; // Categoria selecionada
-  searchQuery: string = ''; // Texto de busca
-  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>(); // 🔥 Evento para fechar o modal
+  selectedCategory: string = 'Data'; 
+  searchQuery: string = ''; 
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
 
   categorias = [
     { nome: 'Data', itens: ['sexta-feira', 'janeiro', '2024'] },
@@ -30,12 +30,11 @@ export class TagFilterComponent implements OnInit {
     this.loadEntidades();
   }
 
-  // Carrega entidades do arquivo JSON
   loadEntidades(): void {
     this.http.get<any>('assets/data.json').subscribe({
       next: (data) => {
         this.entidades = data.entidades;
-        this.filterEntities(); // Filtra entidades ao carregar
+        this.filterEntities(); 
       },
       error: (err) => {
         console.error('Erro ao carregar entidades:', err);
@@ -43,7 +42,6 @@ export class TagFilterComponent implements OnInit {
     });
   }
 
-  // Filtra entidades com base na categoria selecionada e no texto de busca
   filterEntities(): void {
     if (!this.entidades || !this.entidades[this.selectedCategory]) {
       this.filteredEntities = [];
@@ -55,31 +53,27 @@ export class TagFilterComponent implements OnInit {
     );
   }
 
-  // Detecta redimensionamento de tela para verificar se é mobile
   @HostListener('window:resize')
   checkScreenSize(): void {
-    this.isMobile = window.innerWidth <= 480; // Mantém o limite de 480px para mobile
+    this.isMobile = window.innerWidth <= 480; 
     if (!this.isMobile) {
-      this.isMobileModalOpen = false; // Fecha o modal se mudar para desktop
+      this.isMobileModalOpen = false; 
     }
   }
 
-  // Abre o modal mobile
   openMobileModal(): void {
     this.isMobileModalOpen = true;
   }
 
   closeMobileModal(): void {
-    this.closeModal.emit(); // 🔥 Emite o evento para o componente pai
+    this.closeModal.emit(); 
   }
 
-  // Atualiza a categoria selecionada
   selectCategory(category: string): void {
     this.selectedCategory = category;
     this.filterEntities();
   }
 
-  // Fecha o modal ao clicar fora (mantém a versão mobile se isMobile for true)
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {
     const modal = this.getModalElement();
@@ -88,12 +82,10 @@ export class TagFilterComponent implements OnInit {
     }
   }
 
-  // Obtém o elemento do modal mobile no DOM
   private getModalElement(): HTMLElement | null {
     return document.querySelector('.mobile-modal-container') as HTMLElement;
   }
 
-  // Fecha o modal ao pressionar a tecla Escape (mantém a versão mobile)
   @HostListener('window:keydown.escape', ['$event'])
   handleEscape(event: KeyboardEvent): void {
     this.closeMobileModal();

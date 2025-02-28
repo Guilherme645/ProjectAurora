@@ -11,50 +11,41 @@ export class LoginComponent {
   password: string = '';
   emailError: string | null = null;
   passwordError: string | null = null;
-  errorMessage: string | null = null;
+  credentialsError: string | null = null;
   showPassword: boolean = false;
   showError: boolean = false;
-  invalidLogin: boolean = false;
 
+  private readonly emailCorreto = "admin@gmail.com";
+  private readonly senhaCorreta = "123456";
 
-  constructor(private router: Router) {} // Injeção do Router
+  constructor(private router: Router) {}
 
-  onLogin() {
+  /** 🔹 Método para realizar login */
+  onLogin(): void {
     this.validateEmail();
     this.validatePassword();
 
-    // Limpa mensagem de erro geral
-    this.errorMessage = null;
-
-    // Se houver erro nos inputs, concatena as mensagens e exibe
+    // Se houver erro em email ou senha, não prosseguir
     if (this.emailError || this.passwordError) {
-      this.invalidLogin = false;
-      this.errorMessage = "Insira os dados corretos para acessar sua conta.";
       this.showError = true;
-      setTimeout(() => { this.showError = false; }, 5000);
       return;
     }
 
-    // Simulação de credenciais corretas
-    const emailCorreto = "admin@gmail.com";
-    const senhaCorreta = "123456";
-
-    if (this.email !== emailCorreto || this.password !== senhaCorreta) {
-      this.invalidLogin = true;
-      this.errorMessage = "Insira os dados corretos para acessar sua conta.";
+    // Verifica credenciais
+    if (this.email !== this.emailCorreto || this.password !== this.senhaCorreta) {
+      this.credentialsError = "Email ou senha incorretos.";
       this.showError = true;
-      setTimeout(() => { this.showError = false; }, 5000);
       return;
     }
 
-    // Se o login for bem-sucedido
-    this.invalidLogin = false;
-    this.showError = false;
+    // Se passar por todas as validações, limpa erros e faz login
+    this.limparErros();
     console.log("Login realizado com sucesso:", this.email);
-    this.router.navigate(['/navBar']); // Redirecionamento para a página NavBar
+    this.router.navigate(['/navBar']);
   }
 
-  validateEmail() {
+  /** 🔹 Validação do email */
+  validateEmail(): void {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!this.email) {
       this.emailError = "O email é obrigatório.";
@@ -65,7 +56,8 @@ export class LoginComponent {
     }
   }
 
-  validatePassword() {
+  /** 🔹 Validação da senha */
+  validatePassword(): void {
     if (!this.password) {
       this.passwordError = "A senha é obrigatória.";
     } else if (this.password.length < 6) {
@@ -75,11 +67,20 @@ export class LoginComponent {
     }
   }
 
-  togglePassword() {
+  /** 🔹 Alternar visibilidade da senha */
+  togglePassword(): void {
     this.showPassword = !this.showPassword;
-    let passwordInput = document.getElementById("password") as HTMLInputElement;
+    const passwordInput = document.getElementById("password") as HTMLInputElement;
     if (passwordInput) {
       passwordInput.type = this.showPassword ? "text" : "password";
     }
+  }
+
+  /** 🔹 Limpa todas as mensagens de erro */
+  private limparErros(): void {
+    this.emailError = null;
+    this.passwordError = null;
+    this.credentialsError = null;
+    this.showError = false;
   }
 }

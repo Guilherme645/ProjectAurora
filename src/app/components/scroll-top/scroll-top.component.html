@@ -1,15 +1,26 @@
-<!-- Botão de Voltar ao Topo -->
-<button class="back-to-top" *ngIf="isVisible" (click)="scrollToTop()" aria-label="Voltar ao topo">
+<!-- Botão de Voltar ao Topo - Desktop (Movido para Direita) -->
+<button 
+  class="back-to-top hs-tooltip [--placement:top] fixed bottom-6 left-[950px] flex items-center justify-center 
+         bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg transition-all hover:bg-gray-700 hover:scale-110"
+  *ngIf="isVisible" 
+  (click)="scrollToTop()" 
+  aria-label="Voltar ao topo">
+  
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
     <path d="M5 2h14"></path>    
     <path d="M12 18V6"></path>
     <path d="M5 12l7-7 7 7"></path>
   </svg>
-  
-  </button>
+</button>
 
-<!-- Botão de Voltar ao Topo - Versão Mobile -->
-<button class="back-to-top mobile" *ngIf="isMobile && isVisible" (click)="scrollToTop()" aria-label="Voltar ao topo">
+<!-- Botão de Voltar ao Topo - Mobile -->
+<button 
+  class="back-to-top mobile hs-tooltip [--placement:top] fixed bottom-4 right-4 flex items-center justify-center 
+         bg-gray-900 text-white w-11 h-11 rounded-full shadow-md transition-all hover:bg-gray-700 hover:scale-110"
+  *ngIf="isMobile && isVisible" 
+  (click)="scrollToTop()" 
+  aria-label="Voltar ao topo">
+
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
     <path d="M5 2h14"></path>    
     <path d="M12 18V6"></path>

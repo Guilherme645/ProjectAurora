@@ -6,23 +6,22 @@ import { Component, HostListener } from '@angular/core';
   styleUrls: ['./scroll-top.component.css']
 })
 export class ScrollTopComponent {
-  isVisible: boolean = false;
-  isMobile: boolean = window.innerWidth <= 480; // Define se é mobile
+  isVisible = false;
+  isMobile = window.innerWidth <= 480; 
 
-  constructor() {
-    this.checkScreenSize(); // Checa tamanho da tela ao iniciar
-  }
-
-  @HostListener('window:scroll', [])
+  // Detecta rolagem para exibir/esconder botão
+  @HostListener('window:scroll')
   onScroll(): void {
-    this.isVisible = window.pageYOffset > 200; // Exibe o botão após rolagem
+    this.isVisible = window.pageYOffset > 200;
   }
 
-  @HostListener('window:resize', [])
-  checkScreenSize(): void {
-    this.isMobile = window.innerWidth <= 480; // Atualiza o valor ao redimensionar
+  // Detecta redimensionamento da tela para ajustar mobile
+  @HostListener('window:resize')
+  onResize(): void {
+    this.isMobile = window.innerWidth <= 480;
   }
 
+  // Volta suavemente ao topo
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }

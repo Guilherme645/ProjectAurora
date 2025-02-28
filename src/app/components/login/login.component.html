@@ -67,8 +67,11 @@
                   </div>
 
                   <!-- Mensagem de erro geral (Todas as mensagens aparecem aqui) -->
-                  <p class="text-red-500 text-[14px] mt-2" *ngIf="errorMessage">
-                    {{ errorMessage }}
+                  <p class="text-red-500 text-[14px] mt-1" *ngIf="emailError">
+                    {{ emailError }}
+                  </p>
+                  <p class="text-red-500 text-[14px] mt-1" *ngIf="passwordError">
+                    {{ passwordError }}
                   </p>
 
                 </div>
@@ -101,7 +104,7 @@
 
   <!-- Imagem ao lado (somente para desktop) -->
   <div class="hidden md:block md:w-1/2 h-full">
-    <img src="assets/foto.png" alt="Imagem ao lado" style="width: 676px; height: 785px; border-radius: 8px; object-fit: cover;">
+    <img src="assets/foto.png" alt="Imagem ao lado" style="width: 676px; height: 585px; margin-top: 5px; border-radius: 8px; object-fit: cover;">
   </div>
 </div>
 
@@ -122,4 +125,3 @@
     </svg>
   </button>
 </div>
-

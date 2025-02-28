@@ -1,6 +1,6 @@
 <div *ngIf="!isMobile" class="filtro-container">
-  <!-- Informações da Busca -->
-  <div *ngIf="!isMobile" class="search-info">
+  <!-- Informações da Busca (Desktop) -->
+  <div class="search-info">
     <nav class="breadcrumb">
       <span>Busca Geral</span> /
       <span class="active">Dias Toffoli</span>
@@ -9,13 +9,12 @@
     <p class="search-results">9840 resultados</p>
   </div>
 
-  <!-- Botão de Salvar Busca -->
+  <!-- Botão de Salvar Busca (Desktop) -->
   <div class="save-search">
     <div class="save-search-text">
       <p class="title">Monitore essa busca</p>
       <p class="subtitle">Atualizações automáticas</p>
     </div>
-    <!-- Botão que abre o modal -->
     <button class="save-button" (click)="openModal()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
@@ -25,8 +24,8 @@
   </div>
 
 
-   <!-- Modal (Aparece somente quando modalAberto for true) -->
-   <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">
+  <!-- Modal (Desktop) -->
+  <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-container">
       <div class="modal-content">
         <button type="button" aria-label="Fechar" class="close-modal-button" (click)="fecharModal()">
@@ -39,7 +38,8 @@
       </div>
     </div>
   </div>
-  <!-- Seções de Filtros -->
+
+  <!-- Seções de Filtros (Desktop) -->
   <div *ngFor="let filtro of filtros" class="filter-section">
     <div class="filter-header" (click)="toggleSection(filtro.nome)">
       <h2>{{ filtro.nome }}</h2>
@@ -47,7 +47,6 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
       </svg>
     </div>
-
     <div class="accordion-content" *ngIf="filtro.aberto">
       <div *ngIf="filtro.nome === 'Data'" class="date-container">
         <input class="date-field" placeholder="Data Início" type="text" />
@@ -63,35 +62,41 @@
   </div>
 </div>
 
-
-<div *ngIf="isMobile && modalAberto" class="mobile-modal-overlay">
-  <div class="mobile-modal-container">
-    <div class="mobile-modal-header">
-      <h2>Salvar Busca</h2>
-      <button class="close-button" (click)="fecharModal()">✖</button>
+<!-- Versão Mobile -->
+<div *ngIf="isMobile" class="mobile-layout-container">
+  <!-- Modal (Mobile) -->
+  <div *ngIf="modalAberto" class="mobile-modal-overlay">
+    <div class="mobile-modal-container">
+      <div class="mobile-modal-header">
+        <h2>Salvar Busca</h2>
+        <button class="close-button" (click)="fecharModal()">✖</button>
+      </div>
+      <app-save-search></app-save-search>
     </div>
   </div>
-</div>
 
-<!-- Seções de Filtros -->
-<div *ngFor="let filtro of filtros" class="filter-section">
-  <div class="filter-header" (click)="toggleSection(filtro.nome)">
-    <h2>{{ filtro.nome }}</h2>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-    </svg>
-  </div>
+  <!-- Seções de Filtros (Mobile) -->  
+     <div class="mobile-modal-drag-bar" (click)="closeMobileModal()"></div>
 
-  <div class="accordion-content" *ngIf="filtro.aberto">
-    <div *ngIf="filtro.nome === 'Data'" class="date-container">
-      <input class="date-field" placeholder="Data Início" type="text" />
-      <input class="date-field" placeholder="Data Fim" type="text" />
+  <div *ngFor="let filtro of filtros" class="filter-section">
+
+    <div class="filter-header" (click)="toggleSection(filtro.nome)">
+      <h2>{{ filtro.nome }}</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
     </div>
-    <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
-      <ul>
-        <li *ngFor="let item of filtro.itens">{{ item }}</li>
-      </ul>
-      <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+    <div class="accordion-content" *ngIf="filtro.aberto">
+      <div *ngIf="filtro.nome === 'Data'" class="date-container">
+        <input class="date-field" placeholder="Data Início" type="text" />
+        <input class="date-field" placeholder="Data Fim" type="text" />
+      </div>
+      <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
+        <ul>
+          <li *ngFor="let item of filtro.itens">{{ item }}</li>
+        </ul>
+        <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+      </div>
     </div>
   </div>
 </div>

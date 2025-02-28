@@ -7,33 +7,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./input-busca.component.css']
 })
 export class InputBuscaComponent {
-  @Input() isModalOpen: boolean = false; // Recebe estado do HeaderComponent
+  @Input() isModalOpen: boolean = false;
 
-
-  
   constructor(private router: Router) {}
+
   openModal(): void {
     this.isModalOpen = true;
-    console.log('Modal aberto:', this.isModalOpen);
   }
   
   closeModal(): void {
     this.isModalOpen = false;
-    console.log('Modal fechado:', this.isModalOpen);
   }
-  search() {
-    console.log("Fazendo busca...");
-    this.closeModal();
 
-    // Redirecionar para /navBar
-    this.router.navigate(['/navBar']).then(success => {
-      console.log("Navegação bem-sucedida:", success);
-    }).catch(err => {
-      console.error("Erro ao navegar:", err);
-    });
+  search(): void {
+    this.closeModal();
+    this.router.navigateByUrl('/navBar');
   }
-  reloadPage() {
-    window.location.href = '/navBar'; // Redireciona e recarrega a página
+
+  reloadPage(): void {
+    this.router.navigateByUrl('/navBar').then(() => window.location.reload());
   }
-  
 }

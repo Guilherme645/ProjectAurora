@@ -2,28 +2,12 @@
 <div class="flex h-screen">
   <!-- Navegador Compacto Lateral -->
   <div class="compact-sidebar">
-    <button 
-      class="sidebar-button" 
-      (click)="changeUser('ST')" 
-      [ngClass]="{ 'active-button': currentUser.name === 'Superior Tribunal Federal' }">
-      ST
-      <div class="active-indicator" *ngIf="currentUser.name === 'Superior Tribunal Federal'"></div>
-    </button>
-  
-    <button 
-      class="sidebar-button" 
-      (click)="changeUser('PG')" 
-      [ngClass]="{ 'active-button': currentUser.name === 'Procuradoria Geral' }">
-      PG
-      <div class="active-indicator" *ngIf="currentUser.name === 'Procuradoria Geral'"></div>
-    </button>
-  
-    <button 
-      class="sidebar-button" 
-      (click)="changeUser('SE')" 
-      [ngClass]="{ 'active-button': currentUser.name === 'Secretaria de Educação' }">
-      SE
-      <div class="active-indicator" *ngIf="currentUser.name === 'Secretaria de Educação'"></div>
+    <button *ngFor="let key of userKeys" 
+            class="sidebar-button" 
+            (click)="changeUser(key)" 
+            [ngClass]="{ 'active-button': currentUser.name === users[key] }">
+      {{ getInitials(users[key]) }}
+      <div class="active-indicator" *ngIf="currentUser.name === users[key]"></div>
     </button>
   </div>
   

@@ -1,3 +1,4 @@
+<!-- Versão Desktop -->
 <div *ngIf="!isMobile" class="layout-container">
   <!-- Sidebar -->
   <div class="sidebar">
@@ -8,35 +9,36 @@
   <div class="main-content">
     <!-- Cabeçalho Fixo -->
     <div class="header transition-all duration-300"
-    [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
- 
- <!-- Componente Filho (Header de Busca) -->
-<app-searc-basic></app-searc-basic>
-</div>
-<div class="content h-[2000px] bg-gray-100 mt-[80px]">
+      [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
+      <!-- Componente Filho (Header de Busca) -->
+      <app-searc-basic></app-searc-basic>
+    </div>
 
-    <div class="content-wrapper">
-      <!-- Filtros fixos -->
-      <div class="filters">
-        <app-filtros></app-filtros>
-      </div>
-
-      <!-- Conteúdo Principal -->
-      <main class="main">
-        <div class="card" *ngFor="let noticias of noticias">
-          <app-card [noticias]="noticias"></app-card>
+    <div class="content h-[2000px] bg-gray-100 mt-[80px]">
+      <div class="content-wrapper">
+        <!-- Filtros fixos no desktop -->
+        <div class="filters">
+          <app-filtros></app-filtros> <!-- Filtro versão desktop -->
         </div>
-      </main>
+
+        <!-- Conteúdo Principal -->
+        <main class="main">
+          <div class="card" *ngFor="let noticias of noticias">
+            <app-card [noticias]="noticias"></app-card>
+          </div>
+        </main>
+      </div>
     </div>
   </div>
 </div>
-</div>
- <!-- Versão Mobile -->
+
+<!-- Versão Mobile -->
 <div *ngIf="isMobile" class="mobile-layout-container">
-    <!-- Sidebar Mobile -->
-    <div class="mobile-sidebar" >
-      <app-side-bar></app-side-bar>
-    </div>
+  <!-- Sidebar Mobile -->
+  <div class="mobile-sidebar">
+    <app-side-bar></app-side-bar>
+  </div>
+
   <!-- Cabeçalho e Conteúdo Principal -->
   <nav class="sticky top-0 z-10 bg-white transition-transform duration-300 ease-in-out">
     <div class="flex flex-row items-center justify-between p-4">
@@ -44,18 +46,20 @@
       <div class="flex items-center">
         <div class="flex flex-col ml-3">
           <h3 class="workspace-title">Dias Toffoli</h3>
-          <h2 class="workspace-results">9840 resultados </h2>
+          <h2 class="workspace-results">9840 resultados</h2>
         </div>
       </div>
       <div class="flex items-center space-x-4">
         <button class="p-2 rounded-full bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="M21 21l-4.35-4.35"></path>
           </svg>
         </button>
         <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="6" x2="20" y2="6"></line>
             <line x1="4" y1="12" x2="20" y2="12"></line>
             <line x1="4" y1="18" x2="20" y2="18"></line>
@@ -63,76 +67,62 @@
         </button>
       </div>
     </div>
+
     <div class="border-t border-gray-200">
       <div class="flex justify-around">
-        <button 
-          class="tab-button" 
-          [class.active]="selectedTab === 'todos'"
-          (click)="setSelectedTab('todos')">
+        <button class="tab-button" [class.active]="selectedTab === 'todos'" (click)="setSelectedTab('todos')">
           Todos os resultados
         </button>
-    
-        <button 
-          class="tab-button" 
-          [class.active]="selectedTab === 'brutos'"
-          (click)="setSelectedTab('brutos')">
+        <button class="tab-button" [class.active]="selectedTab === 'brutos'" (click)="setSelectedTab('brutos')">
           Resultados brutos
         </button>
-    
-        <button 
-          class="tab-button" 
-          [class.active]="selectedTab === 'clippings'"
-          (click)="setSelectedTab('clippings')">
+        <button class="tab-button" [class.active]="selectedTab === 'clippings'" (click)="setSelectedTab('clippings')">
           Clippings
         </button>
       </div>
     </div>
-    
   </nav>
-<!-- Seção de Ordenação e Filtros -->
-<div class="sorting-container">
-  <div class="sorting-group">
-    <span>Ordenar por:</span>
-    <div class="dropdown relative">
-      <button class="dropdown-toggle" (click)="toggleDropdown()">
-        {{ selectedOption }}
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
+
+  <!-- Seção de Ordenação e Filtros -->
+  <div class="sorting-container">
+    <div class="sorting-group">
+      <span>Ordenar por:</span>
+      <div class="dropdown relative">
+        <button class="dropdown-toggle" (click)="toggleDropdown()">
+          {{ selectedOption }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
+          </svg>
+        </button>
+        <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+          <li (click)="selectOption('Mais relevantes')">Mais relevantes</li>
+          <li (click)="selectOption('Mais recentes')">Mais recentes</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Ícone de Filtro -->
+    <div class="filter-icon-container">
+      <button (click)="toggleFiltros()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
         </svg>
       </button>
-      <ul class="dropdown-menu" [class.show]="isDropdownOpen">
-        <li (click)="selectOption('Mais relevantes')">Mais relevantes</li>
-        <li (click)="selectOption('Mais recentes')">Mais recentes</li>
-      </ul>
     </div>
   </div>
-  <!-- Ícone de Filtro -->
-  <div class="filter-icon-container">
-    <button (click)="toggleFiltros()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-      </svg>
-    </button>
-    
-    <!-- Componente de Filtros com animação -->
-    <div *ngIf="filtrosAbertos" class="filtros-overlay">
-      <div class="filtros-container animate-slide-up">
-        <app-filtros></app-filtros>
-      </div>
-    </div>    
-  </div>
-</div>
+
   <!-- Conteúdo Principal Mobile -->
   <main class="p-4">
     <div *ngFor="let noticias of noticias">
       <app-card [noticias]="noticias"></app-card>
     </div>
   </main>
+
+  <!-- Filtros para Mobile (Somente quando ativados) -->
+  <div *ngIf="filtrosAbertos" class="filtros-overlay">
+    <div class="filtros-container animate-slide-up">
+      <app-filtros (closeModal)="filtrosAbertos = false"></app-filtros> <!-- 🔥 Fecha o modal corretamente -->
+    </div>
+  </div>
 </div>
-   aqui ele esta usando aversão desktop mas deveria sera mobile    <div *ngIf="filtrosAbertos" class="filtros-overlay">
-      <div class="filtros-container animate-slide-up">
-        <app-filtros></app-filtros>
-      </div>
-    </div>    
-  

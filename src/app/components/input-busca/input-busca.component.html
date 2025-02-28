@@ -1,7 +1,7 @@
-<div  class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center" (click)="closeModal()">
+<div class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center" (click)="closeModal()">
   
   <!-- Modal de busca -->
-  <div class="bg-white shadow-lg rounded-lg p-5 relative flex flex-col w-[592px] h-[151px]" (click)="$event.stopPropagation()">
+  <div class="bg-white shadow-lg rounded-lg p-5 relative flex flex-col w-[592px] h-[151px] hs-overlay" (click)="$event.stopPropagation()">
     
     <!-- Cabeçalho com ícone e input -->
     <div class="flex items-center gap-2 border-b pb-2">
@@ -9,12 +9,12 @@
         <circle cx="11" cy="11" r="8"></circle>
         <path d="m21 21-4.3-4.3"></path>
       </svg>
-      <input type="text" class="w-full text-lg font-medium text-gray-700 placeholder-gray-500 focus:outline-none" placeholder="Busque no Workspace">
+      <input type="text" class="w-full text-lg font-medium text-gray-700 placeholder-gray-500 focus:outline-none input-field" placeholder="Busque no Workspace">
     </div>
 
     <!-- Corpo com dica de pesquisa e botão -->
     <div class="flex justify-between items-center mt-3">
-      <div class="text-gray-600 flex items-center gap-2 text-sm">
+      <div class="text-gray-600 flex items-center gap-2 text-sm tooltip-container">
         <p class="whitespace-nowrap">Use as</p>
         <span class="p-1 border rounded flex items-center justify-center w-6 h-6">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500">
@@ -27,11 +27,10 @@
 
       <!-- Botão de busca -->
       <button 
-      class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition font-medium text-sm"
-      (click)="reloadPage()">
-      Fazer busca
-    </button>
-    
+        class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition font-medium text-sm search-button"
+        (click)="reloadPage()">
+        Fazer busca
+      </button>
     </div>
 
   </div>

@@ -6,55 +6,50 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent {
-  currentMonth: Date = new Date();
-  selectedDate: Date | null = null;
+  currentDate = new Date();
+  currentMonth = new Date();
   days: Date[] = [];
 
-  // Evento para emitir a data selecionada
   @Output() dateSelected = new EventEmitter<Date>();
 
   constructor() {
     this.generateCalendar();
   }
 
-  changeMonth(delta: number) {
-    this.currentMonth.setMonth(this.currentMonth.getMonth() + delta);
-    this.currentMonth = new Date(this.currentMonth); // Atualiza a referência
+  generateCalendar(): void {
+    const firstDay = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
+    const lastDay = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
+    
+    this.days = [];
+    for (let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)) {
+      this.days.push(new Date(d));
+    }
+  }
+
+  changeMonth(offset: number): void {
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + offset, 1);
     this.generateCalendar();
   }
 
-  generateCalendar() {
-    const firstDayOfMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
-    const lastDayOfMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
+  isToday(day: Date): boolean {
+    return day.toDateString() === this.currentDate.toDateString();
+  }
 
-    this.days = [];
+  isFutureDate(day: Date): boolean {
+    return day > this.currentDate;
+  }
 
-    // Preenche os dias em branco antes do primeiro dia do mês
-    for (let i = 0; i < firstDayOfMonth.getDay(); i++) {
-      this.days.push(null as any);
+  isFutureMonth(): boolean {
+    return this.currentMonth > this.currentDate;
+  }
+
+  isSelected(day: Date): boolean {
+    return false; // Ajuste isso se precisar marcar datas selecionadas
+  }
+
+  selectDate(day: Date): void {
+    if (!this.isFutureDate(day)) {
+      this.dateSelected.emit(day);
     }
-
-    // Preenche os dias do mês
-    for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-      this.days.push(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), i));
-    }
-  }
-
-  isToday(date: Date): boolean {
-    if (!date) return false;
-    const today = new Date();
-    return date.getDate() === today.getDate() &&
-           date.getMonth() === today.getMonth() &&
-           date.getFullYear() === today.getFullYear();
-  }
-
-  isSelected(date: Date): boolean {
-    if (!this.selectedDate || !date) return false;
-    return date.getTime() === this.selectedDate.getTime();
-  }
-
-  selectDate(date: Date) {
-    this.selectedDate = date;
-    this.dateSelected.emit(date); // Emite o evento para o componente pai
   }
 }

@@ -337,4 +337,13 @@ border-bottom: none;
   .date-field {
     width: 100%;
   }
+  .mobile-modal-drag-bar {
+    width: 40px;
+    height: 5px;
+    background-color: #000000;
+    border-radius: 3px;
+    margin: 8px auto;
+    cursor: pointer;
+  }
+  
 }
