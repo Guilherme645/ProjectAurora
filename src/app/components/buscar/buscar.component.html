@@ -43,17 +43,30 @@
     <div class="flex justify-center mb-6">
       <img src="assets/logo2.png" alt="Logo" class="h-14">
     </div>
-
     <div class="flex justify-center gap-2 mb-4">
-      <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg shadow-sm hover:bg-gray-300 transition-all">
+      <!-- Botão Busca Simples -->
+      <button 
+        (click)="selecionarModo('simples')" 
+        class="px-4 py-2 text-sm font-medium rounded-lg shadow-sm transition-all"
+        [ngClass]="{
+          'bg-gray-300 text-gray-700 hover:bg-gray-300': modoSelecionado === 'simples',
+          'bg-transparent text-gray-700 hover:bg-gray-100': modoSelecionado !== 'simples'
+        }">
         Busca simples
       </button>
-      <button (click)="isAdvancedSearchOpen = true"
-        class="px-4 py-2 text-sm font-medium text-gray-700 bg-transparent hover:bg-gray-100 rounded-lg transition-all">
+    
+      <!-- Botão Busca Avançada -->
+      <button 
+        (click)="selecionarModo('avancada'); isAdvancedSearchOpen = true"
+        class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
+        [ngClass]="{
+          'bg-gray-300 text-gray-700 hover:bg-gray-300': modoSelecionado === 'avancada',
+          'bg-transparent text-gray-700 hover:bg-gray-100': modoSelecionado !== 'avancada'
+        }">
         Busca avançada
       </button>
     </div>
-
+    
     <div class="flex items-center gap-2">
       
       <div class="flex items-center w-[480px] h-[56px] rounded-[8px] px-4  
@@ -80,7 +93,7 @@
        [class.translate-x-0]="isAdvancedSearchOpen">
     
     <div class="p-4 w-[476px] h-[809px]">
-      <app-high-search></app-high-search>
+<app-high-search *ngIf="isHighSearchVisible" (closeModal)="isHighSearchVisible = false"></app-high-search>
     </div>
     
 

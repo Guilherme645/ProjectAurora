@@ -1,4 +1,5 @@
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -20,32 +21,28 @@ export class SideBarComponent implements OnInit {
     { label: 'Clippings', link: '/home/clippings', icon: 'clip' },
     { label: 'Dashboard', link: '/home/dashboard', icon: 'dashboard' }
   ];
-  users: { [key: string]: string } = {}; // Armazena os usuários carregados
+  users: { [key: string]: string } = {}; 
   @Output() userChange = new EventEmitter<string>();
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
 
-  /** 🔹 Inicializa o componente */
   ngOnInit(): void {
     this.checkScreenSize();
     this.loadUsers();
   }
 
-  /** 🔹 Obtém as chaves dos usuários carregados */
   get userKeys(): string[] {
     return Object.keys(this.users);
   }
 
-  /** 🔹 Obtém as iniciais do nome do usuário */
   getInitials(fullName: string): string {
     return fullName
-      .split(' ') // Divide o nome em palavras
-      .map(word => word[0]) // Captura a primeira letra de cada palavra
-      .join('') // Junta as iniciais
-      .toUpperCase(); // Converte para maiúsculas
+      .split(' ')
+      .map(word => word[0]) 
+      .join('') 
+      .toUpperCase(); 
   }
 
-  /** 🔹 Carrega os usuários do JSON via serviço */
   private loadUsers(): void {
     this.dataService.getUsers().subscribe(
       (data) => this.users = data,
@@ -53,25 +50,26 @@ export class SideBarComponent implements OnInit {
     );
   }
 
-  /** 🔹 Alterna a visibilidade do sidebar */
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  /** 🔹 Alterna a visibilidade do modal */
   toggleModal(): void {
     this.isModalVisible = !this.isModalVisible;
   }
 
-  /** 🔹 Detecta e ajusta o tamanho da tela */
   @HostListener('window:resize')
   private checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  /** 🔹 Altera o usuário ativo e emite evento */
   changeUser(userKey: string): void {
     this.currentUser.name = this.users[userKey] || 'Usuário Desconhecido';
     this.userChange.emit(this.currentUser.name);
+  }
+  logout() {
+    console.log('Usuário deslogado');
+    this.isSidebarOpen = false;
+    this.router.navigate(['/login']);
   }
 }

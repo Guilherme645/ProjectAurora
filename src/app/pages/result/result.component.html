@@ -1,8 +1,8 @@
 <!-- Versão Desktop -->
 <div *ngIf="!isMobile" class="layout-container">
   <!-- Sidebar -->
-  <div class="sidebar">
-    <app-side-bar></app-side-bar>
+  <div class=" bg-neutral-800 text-white w-80 fixed h-full">
+    <app-side-bar ></app-side-bar>
   </div>
 
   <!-- Main Content -->
@@ -122,7 +122,7 @@
   <!-- Filtros para Mobile (Somente quando ativados) -->
   <div *ngIf="filtrosAbertos" class="filtros-overlay">
     <div class="filtros-container animate-slide-up">
-      <app-filtros (closeModal)="filtrosAbertos = false"></app-filtros> <!-- 🔥 Fecha o modal corretamente -->
+      <app-filtros (closeModal)="filtrosAbertos = false"></app-filtros> 
     </div>
   </div>
 </div>

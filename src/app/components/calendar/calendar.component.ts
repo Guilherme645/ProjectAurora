@@ -6,50 +6,86 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent {
-  currentDate = new Date();
-  currentMonth = new Date();
-  days: Date[] = [];
+  currentDate: Date = new Date(); 
+  today: Date = new Date(); 
+  selectedDate: Date | null = null; 
+  daysInMonth: number[] = [];
+  firstDayOfMonth: number = 0;
+  daysInPrevMonth: number[] = [];
+  daysInNextMonth: number[] = [];
+  monthNames: string[] = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
 
-  @Output() dateSelected = new EventEmitter<Date>();
+  @Output() dateSelected = new EventEmitter<Date>(); 
 
-  constructor() {
-    this.generateCalendar();
+  ngOnInit() {
+    this.renderCalendar();
   }
 
-  generateCalendar(): void {
-    const firstDay = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
-    const lastDay = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
-    
-    this.days = [];
-    for (let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)) {
-      this.days.push(new Date(d));
+  renderCalendar() {
+    const month = this.currentDate.getMonth();
+    const year = this.currentDate.getFullYear();
+    this.firstDayOfMonth = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    this.daysInMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+    const daysInPrevMonth = new Date(year, month, 0).getDate();
+    this.daysInPrevMonth = Array.from({ length: this.firstDayOfMonth }, (_, i) => daysInPrevMonth - this.firstDayOfMonth + i + 1);
+    const totalCells = this.firstDayOfMonth + daysInMonth;
+    const remainingCells = (7 - (totalCells % 7)) % 7; 
+    this.daysInNextMonth = Array.from({ length: remainingCells }, (_, i) => i + 1);
+  }
+
+  prevMonth() {
+    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
+    this.renderCalendar();
+  }
+
+  nextMonth() {
+    const nextMonthDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
+    if (nextMonthDate <= this.today) {
+      this.currentDate = nextMonthDate;
+      this.renderCalendar();
     }
   }
 
-  changeMonth(offset: number): void {
-    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + offset, 1);
-    this.generateCalendar();
+  getMonthYear(): string {
+    return `${this.monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
   }
 
-  isToday(day: Date): boolean {
-    return day.toDateString() === this.currentDate.toDateString();
+  isToday(day: number): boolean {
+    return (
+      day === this.today.getDate() &&
+      this.currentDate.getMonth() === this.today.getMonth() &&
+      this.currentDate.getFullYear() === this.today.getFullYear()
+    );
   }
 
-  isFutureDate(day: Date): boolean {
-    return day > this.currentDate;
+  isSelected(day: number): boolean {
+    if (!this.selectedDate) return false;
+    return (
+      day === this.selectedDate.getDate() &&
+      this.currentDate.getMonth() === this.selectedDate.getMonth() &&
+      this.currentDate.getFullYear() === this.selectedDate.getFullYear()
+    );
   }
 
-  isFutureMonth(): boolean {
-    return this.currentMonth > this.currentDate;
+  isSelectable(day: number): boolean {
+    const dateToCheck = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
+    return dateToCheck <= this.today;
   }
 
-  isSelected(day: Date): boolean {
-    return false; // Ajuste isso se precisar marcar datas selecionadas
-  }
-
-  selectDate(day: Date): void {
-    if (!this.isFutureDate(day)) {
-      this.dateSelected.emit(day);
+  selectDay(day: number) {
+    if (this.isSelectable(day)) {
+      const selected = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
+      this.selectedDate = selected;
+      this.dateSelected.emit(selected); 
     }
+  }
+
+  isFutureDate(day: number): boolean {
+    const dateToCheck = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
+    return dateToCheck > this.today;
   }
 }

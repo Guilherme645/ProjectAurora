@@ -9,12 +9,14 @@ export class CardComponent {
   @Input() noticias: any;
   @Input() isSelected: boolean = false;
   @Output() selectionChange = new EventEmitter<boolean>();
+
+  isModalOpen: boolean = false;
   allSelected: boolean = false;
 
   isMobile: boolean = window.innerWidth <= 768;
   isMenuOpen: boolean = false;
   isEntitiesModalOpen: boolean = false;
-  showTagFilter: boolean = false;
+  showTagFilter: boolean = false; 
 
   @HostListener('window:resize')
   checkScreenSize(): void {
@@ -30,7 +32,8 @@ export class CardComponent {
   closeTagFilter(): void {
     this.showTagFilter = false;
   }
-  closeEntitiesModal() {
+
+  closeEntitiesModal(): void {
     this.isEntitiesModalOpen = false;
   }
 
@@ -50,5 +53,9 @@ export class CardComponent {
 
   onCheckboxChange(event: Event): void {
     this.selectionChange.emit((event.target as HTMLInputElement).checked);
+  }
+
+  openModal(): void {
+    this.isModalOpen = true;
   }
 }

@@ -65,4 +65,5 @@ export class ResultComponent implements OnInit {
   onWindowScroll(): void {
     this.isScrolled = window.scrollY > 100;
   }
+  
 }

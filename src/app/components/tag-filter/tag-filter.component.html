@@ -1,168 +1,121 @@
-<!-- Modal para Desktop -->
-<div *ngIf="!isMobile" class="modal-overlay">
-  <div class="modal-container">
-    <div class="modal-content">
-
-      <div class="modal-header">    
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+<!-- Modal Desktop -->
+<div *ngIf="!isMobile" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+  <div class="bg-white w-[645px] h-[535px] rounded-2xl shadow-lg overflow-hidden">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 border-b">
+      <div class="flex items-center gap-3">
+        <svg class="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.3-4.3"></path>
         </svg>
         <input 
+          type="text" 
+          class="w-full border-none outline-none text-gray-700 text-sm placeholder-gray-400" 
           placeholder="Procurar entidades" 
-          class="search-input" 
-          [(ngModel)]="searchQuery" 
+          [(ngModel)]="searchQuery"
           (input)="filterEntities()"
         />
-        <button class="esc-button" (click)="closeMobileModal()"><p>ESC</p></button>
       </div>
+<button class="w-[30px] h-[18px] text-gray-700 border rounded-md hover:bg-gray-100 text-xs flex items-center justify-center"
+        (click)="closeMobileModal()">
+  ESC
+</button>    </div>
 
-      <div class="modal-body">
-        <nav class="category-menu">
-          <ul class="space-y-2">
-            <li class="select">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M8 2v4" key="1cmpym"></path><path d="M16 2v4" key="4m81vk"></path><rect width="18" height="18" x="3" y="4" rx="2" key="1hopcy"></rect><path d="M3 10h18" key="8toen8"></path><path d="M8 14h.01" key="6423bh"></path><path d="M12 14h.01" key="1etili"></path><path d="M16 14h.01" key="1gbofw"></path><path d="M8 18h.01" key="lrp35t"></path><path d="M12 18h.01" key="mhygvu"></path><path d="M16 18h.01" key="kzsmim"></path></svg>
-              Data
-            </li>
-        
-            <li class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M12 17v5" key="bb1du9"></path><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" key="1nkz8b"></path></svg>
-              Profissão
-            </li>
-        
-            <li class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" key="1yyitq"></path><circle cx="9" cy="7" r="4" key="nufk8"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87" key="kshegd"></path><path d="M16 3.13a4 4 0 0 1 0 7.75" key="1da9ce"></path></svg>
-              Pessoa
-            </li>
-        
-            <li class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><line x1="2" x2="5" y1="12" y2="12" key="bvdh0s"></line><line x1="19" x2="22" y1="12" y2="12" key="1tbv5k"></line><line x1="12" x2="12" y1="2" y2="5" key="11lu5j"></line><line x1="12" x2="12" y1="19" y2="22" key="x3vr5v"></line><circle cx="12" cy="12" r="7" key="fim9np"></circle><circle cx="12" cy="12" r="3" key="1v7zrd"></circle></svg>
-              Lugar
-            </li>
-        
-            <li class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><rect width="16" height="20" x="4" y="2" rx="2" ry="2" key="76otgf"></rect><path d="M9 22v-4h6v4" key="r93iot"></path><path d="M8 6h.01" key="1dz90k"></path><path d="M16 6h.01" key="1x0f13"></path><path d="M12 6h.01" key="1vi96p"></path><path d="M12 10h.01" key="1nrarc"></path><path d="M12 14h.01" key="1etili"></path><path d="M16 10h.01" key="1m94wz"></path><path d="M16 14h.01" key="1gbofw"></path><path d="M8 10h.01" key="19clt8"></path><path d="M8 14h.01" key="6423bh"></path></svg>            
-            Organização
-            </li>
-            </ul>
-        </nav>
+    <!-- Body -->
+    <div class="flex h-full">
+      
+      <!-- Sidebar -->
+      <nav class="w-[169px] border-r p-4 space-y-2">
+        <button (click)="selectCategory('Data')"
+          [class.text-blue-600]="selectedCategory === 'Data'"
+          class="flex items-center gap-2 text-[14px] text-[##2563EB] hover:text-blue-600 focus:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M8 2v4" key="1cmpym"></path><path d="M16 2v4" key="4m81vk"></path><rect width="18" height="18" x="3" y="4" rx="2" key="1hopcy"></rect><path d="M3 10h18" key="8toen8"></path><path d="M8 14h.01" key="6423bh"></path><path d="M12 14h.01" key="1etili"></path><path d="M16 14h.01" key="1gbofw"></path><path d="M8 18h.01" key="lrp35t"></path><path d="M12 18h.01" key="mhygvu"></path><path d="M16 18h.01" key="kzsmim"></path></svg>
+          Data
+        </button>
+      
+        <button (click)="selectCategory('Profissão')"
+          [class.text-blue-600]="selectedCategory === 'Profissão'"
+          class="flex items-center gap-2 text-[14px] text-[##2563EB] hover:text-blue-600 focus:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M12 17v5" key="bb1du9"></path><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" key="1nkz8b"></path></svg>
+          Profissão
+        </button>
+      
+        <button (click)="selectCategory('Pessoa')"
+          [class.text-blue-600]="selectedCategory === 'Pessoa'"
+          class="flex items-center gap-2 text-[14px] text-[##2563EB] hover:text-blue-600 focus:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" key="1yyitq"></path><circle cx="9" cy="7" r="4" key="nufk8"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87" key="kshegd"></path><path d="M16 3.13a4 4 0 0 1 0 7.75" key="1da9ce"></path></svg>
+          Pessoa
+        </button>
+      
+        <button (click)="selectCategory('Lugar')"
+          [class.text-blue-600]="selectedCategory === 'Lugar'"
+          class="flex items-center gap-2 text-[14px] text-[##2563EB] hover:text-blue-600 focus:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><line x1="2" x2="5" y1="12" y2="12" key="bvdh0s"></line><line x1="19" x2="22" y1="12" y2="12" key="1tbv5k"></line><line x1="12" x2="12" y1="2" y2="5" key="11lu5j"></line><line x1="12" x2="12" y1="19" y2="22" key="x3vr5v"></line><circle cx="12" cy="12" r="7" key="fim9np"></circle><circle cx="12" cy="12" r="3" key="1v7zrd"></circle></svg>
+          Lugar
+        </button>
+      
+        <button (click)="selectCategory('Organização')"
+          [class.text-blue-600]="selectedCategory === 'Organização'"
+          class="flex items-center gap-2 text-[14px] text-[##2563EB] hover:text-blue-600 focus:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+          </svg>
+          Organização
+        </button>
+      </nav>
 
-        <div class="entity-list">
-          <ul class="entity-group">
-            <li class="entity-item">
-              <span class="entity-title">Data</span>
-              <div class="badge-container">
-                <span class="badge">sexta-feira</span>
-                <span class="badge">janeiro</span>
-                <span class="badge">2024</span>
-              </div>
-              <hr />
-            </li>
-            <li class="entity-item">
-              <span class="entity-title">Profissão</span>
-              <div class="badge-container">
-                <span class="badge">ministros</span>
-                <span class="badge">advogados</span>
-                <span class="badge">juiz</span>
-              </div>
-              <hr />
-            </li>
-            <li class="entity-item">
-              <span class="entity-title">Pessoa</span>
-              <div class="badge-container">
-                <span class="badge">Dias Toffoli</span>
-                <span class="badge">Rosa Weber</span>
-                <span class="badge">Alexandre de Moraes</span>
-              </div>
-              <hr />
-            </li>
-            <li class="entity-item">
-              <span class="entity-title">Lugar</span>
-              <div class="badge-container">
-                <span class="badge">Rio Grande do Sul</span>
-                <span class="badge">Brasília</span>
-              </div>
-              <hr />
-            </li>
-            <li class="entity-item">
-              <span class="entity-title">Organização</span>
-              <div class="badge-container">
-                <span class="badge">STF</span>
-                <span class="badge">OAB</span>
-              </div>
-            </li>
-          </ul>
+      <!-- Entity List -->
+      <div class="flex-1 p-4 space-y-4 overflow-y-auto">
+        <div *ngIf="filteredEntities.length > 0">
+          <span class="text-[12px] font-semibold text-gray-500">{{ selectedCategory }}</span>
+          <div class="flex flex-wrap gap-2 mt-1">
+            <span *ngFor="let item of filteredEntities" 
+              class="bg-gray-100 text-[12px] text-gray-700 px-3 py-1 rounded-md shadow-sm border border-gray-200">
+              {{ item }}
+</span>
+          </div>
+          <hr class="mt-2">
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div *ngIf="isMobile" class="mobile-modal-overlay">
-  <div *ngIf="isMobile" class="mobile-modal-container" (click)="$event.stopPropagation()">
-    
-    <div class="mobile-modal-drag-bar" (click)="closeMobileModal()"></div>
+<!-- Modal Mobile -->
+<div *ngIf="isMobile" class="fixed inset-x-0 bottom-0 bg-white rounded-t-xl shadow-lg z-50 p-4 max-h-[80vh] overflow-y-auto">
+  
+  <!-- Drag Bar -->
+  <div class="w-10 h-1 bg-gray-400 mx-auto rounded-full mb-2"(click)="closeMobileModal()"></div>
 
-    <div class="mobile-modal-header">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-search">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path>
-      </svg>
-      <input placeholder="Buscar entidade" class="mobile-search-input" />
-    </div>
+  <!-- Search Bar -->
+  <div class="flex items-center gap-3 border-b pb-2">
+    <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </svg>
+    <input type="text" class="flex-1 border-none outline-none text-gray-700 text-sm placeholder-gray-400" placeholder="Buscar entidade">
+  </div>
 
-    <nav class="mobile-tab-menu">
-      <button class="mobile-tab active">Data</button>
-      <button class="mobile-tab">Profissão</button>
-      <button class="mobile-tab">Pessoa</button>
-      <button class="mobile-tab">Lugar</button>
-      <button class="mobile-tab">Organização</button>
-    </nav>
+  <!-- Categories -->
+  <div class="flex space-x-3 mt-3 overflow-x-auto pb-2">
+    <button class="px-3 py-1 text-sm text-gray-500 border-b-2 border-transparent hover:border-blue-600">Data</button>
+    <button class="px-3 py-1 text-sm text-gray-500 border-b-2 border-transparent hover:border-blue-600">Profissão</button>
+    <button class="px-3 py-1 text-sm text-gray-500 border-b-2 border-transparent hover:border-blue-600">Pessoa</button>
+    <button class="px-3 py-1 text-sm text-gray-500 border-b-2 border-transparent hover:border-blue-600">Lugar</button>
+    <button class="px-3 py-1 text-sm text-gray-500 border-b-2 border-transparent hover:border-blue-600">Organização</button>
+  </div>
 
-    <div class="mobile-entity-list">
-      <div class="entity-group">
-        <span class="entity-title">Data</span>
-        <div class="badge-container">
-          <span class="badge">sexta-feira</span>
-          <span class="badge">janeiro</span>
-          <span class="badge">2024</span>
-        </div>
+  <!-- Entity List -->
+  <div class="mt-4">
+    <div *ngFor="let category of entidades | keyvalue">
+      <span class="text-sm font-semibold text-gray-500">{{ category.key }}</span>
+      <div class="flex flex-wrap gap-2 mt-1">
+        <span *ngFor="let item of category.value" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">
+          {{ item }}
+        </span>
       </div>
-      <hr>
-      <div class="entity-group">
-        <span class="entity-title">Profissão</span>
-        <div class="badge-container">
-          <span class="badge">ministros</span>
-          <span class="badge">advogados</span>
-          <span class="badge">juiz</span>
-        </div>
-      </div>
-      <hr>
-      <div class="entity-group">
-        <span class="entity-title">Pessoa</span>
-        <div class="badge-container">
-          <span class="badge">Dias Toffoli</span>
-          <span class="badge">Rosa Weber</span>
-          <span class="badge">Alexandre de Moraes</span>
-        </div>
-      </div>
-      <hr>
-      <div class="entity-group">
-        <span class="entity-title">Lugar</span>
-        <div class="badge-container">
-          <span class="badge">Rio Grande do Sul</span>
-          <span class="badge">Brasília</span>
-        </div>
-      </div>
-      <hr>
-      <div class="entity-group">
-        <span class="entity-title">Organização</span>
-        <div class="badge-container">
-          <span class="badge">STF</span>
-          <span class="badge">OAB</span>
-        </div>
-      </div>
+      <hr class="mt-2">
     </div>
   </div>
 </div>

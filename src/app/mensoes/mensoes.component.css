@@ -131,8 +131,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 46px;
+  height: 46px;
   border-radius: 5px;
   border: 1px solid var(--Components-Button-White-Border-Color, #E5E7EB);
   background-color: white;

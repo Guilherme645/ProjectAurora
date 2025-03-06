@@ -12,6 +12,7 @@ export class LoginComponent {
   emailError: string | null = null;
   passwordError: string | null = null;
   credentialsError: string | null = null;
+  dadosVaziosError: string | null = null;
   showPassword: boolean = false;
   showError: boolean = false;
 
@@ -20,31 +21,34 @@ export class LoginComponent {
 
   constructor(private router: Router) {}
 
-  /** 🔹 Método para realizar login */
   onLogin(): void {
+    this.limparErros(); 
+
+    if (!this.email && !this.password) {
+      this.dadosVaziosError = "Insira os dados para acessar sua conta.";
+      this.showError = true;
+      return;
+    }
+
     this.validateEmail();
     this.validatePassword();
 
-    // Se houver erro em email ou senha, não prosseguir
     if (this.emailError || this.passwordError) {
       this.showError = true;
       return;
     }
 
-    // Verifica credenciais
     if (this.email !== this.emailCorreto || this.password !== this.senhaCorreta) {
-      this.credentialsError = "Email ou senha incorretos.";
+      this.credentialsError = "Insira os dados corretos para acessar sua conta.";
       this.showError = true;
       return;
     }
 
-    // Se passar por todas as validações, limpa erros e faz login
     this.limparErros();
     console.log("Login realizado com sucesso:", this.email);
     this.router.navigate(['/navBar']);
   }
 
-  /** 🔹 Validação do email */
   validateEmail(): void {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!this.email) {
@@ -56,18 +60,14 @@ export class LoginComponent {
     }
   }
 
-  /** 🔹 Validação da senha */
   validatePassword(): void {
     if (!this.password) {
-      this.passwordError = "A senha é obrigatória.";
-    } else if (this.password.length < 6) {
-      this.passwordError = "A senha deve ter pelo menos 6 caracteres.";
+      this.passwordError = "Insira a senha para acessar sua conta.";
     } else {
       this.passwordError = null;
     }
   }
 
-  /** 🔹 Alternar visibilidade da senha */
   togglePassword(): void {
     this.showPassword = !this.showPassword;
     const passwordInput = document.getElementById("password") as HTMLInputElement;
@@ -76,11 +76,11 @@ export class LoginComponent {
     }
   }
 
-  /** 🔹 Limpa todas as mensagens de erro */
   private limparErros(): void {
     this.emailError = null;
     this.passwordError = null;
     this.credentialsError = null;
+    this.dadosVaziosError = null;
     this.showError = false;
   }
 }

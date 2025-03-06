@@ -1,10 +1,9 @@
 {
-    "entidades": {
-      "Data": ["sexta-feira", "janeiro", "2024"],
-      "Profissão": ["ministros", "advogados", "juiz"],
-      "Pessoa": ["Dias Toffoli", "Rosa Weber", "Alexandre de Moraes"],
-      "Lugar": ["Rio Grande do Sul", "Brasília"],
-      "Organização": ["OAB", "STF", "Supremo Tribunal"]
-    }
+  "entidades": {
+    "Data": ["sexta-feira", "janeiro", "2024"],
+    "Profissão": ["ministros", "advogados", "juiz"],
+    "Pessoa": ["Dias Toffoli", "Rosa Weber", "Alexandre de Moraes"],
+    "Lugar": ["Rio Grande do Sul", "Brasília"],
+    "Organização": ["STF", "OAB"]
   }
-  
+}

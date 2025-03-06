@@ -10,6 +10,9 @@ export class BuscarComponent {
   searchQuery: string = '';
   isMobile = window.innerWidth <= 768;
   isAdvancedSearchOpen = false;
+  modoSelecionado: string = 'simples'; 
+  isHighSearchVisible = true; 
+  isSearchOpen: boolean = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -23,7 +26,17 @@ export class BuscarComponent {
     this.router.navigate(['/navBar'], { queryParams: { query: this.searchQuery } });
   }
 
+  toggleSearch(): void {
+    this.isSearchOpen = !this.isSearchOpen;
+  }
+
+  selecionarModo(modo: string) {
+    this.modoSelecionado = modo;
+  }
+
   toggleAdvancedSearch(): void {
     this.isAdvancedSearchOpen = !this.isAdvancedSearchOpen;
   }
+
+  
 }

@@ -1,5 +1,4 @@
 <div class="flex h-screen w-screen">
-  <!-- Formulário -->
   <div class="w-full md:w-1/2 flex justify-center items-center">
     <main class="w-full max-w-[32rem] mx-auto p-6">
       <div class="mt-7 bg-white">
@@ -18,7 +17,6 @@
               <form (ngSubmit)="onLogin()">
                 <div class="flex flex-col rounded-lg">
 
-                  <!-- Campo de Email -->
                   <div class="relative w-full">
                     <input 
                       type="email" 
@@ -29,13 +27,12 @@
                       class="w-full w-[328px] h-[46px] sm:w-[328px] md:w-[400px] md:h-[46px] px-4 border border-gray-300 shadow-sm text-sm font-medium text-black 
                              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                              rounded-tl-[8px] rounded-tr-[8px] rounded-b-none"
-                      [ngClass]="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': emailError }"
+                      [ngClass]="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': passwordError || dadosVaziosError || credentialsError }"
                       (blur)="validateEmail()" 
                       required
                     />
                   </div>
 
-                  <!-- Campo de Senha -->
                   <div class="relative w-full mt-0">
                     <input 
                       id="password" 
@@ -46,8 +43,8 @@
                       class="w-full w-[328px] h-[46px] sm:w-[328px] md:w-[400px] md:h-[46px] px-4 block w-full border border-gray-300 shadow-sm text-sm font-medium text-black 
                              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                              rounded-t-none rounded-bl-[8px] rounded-br-[8px]"
-                      [ngClass]="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': passwordError }"
-                      (blur)="validatePassword()" 
+                             [ngClass]="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': passwordError || dadosVaziosError || credentialsError }"
+                             (blur)="validatePassword()" 
                       required
                     />
                     <button type="button" 
@@ -66,27 +63,25 @@
                     </button>
                   </div>
 
-                  <!-- Mensagem de erro geral (Todas as mensagens aparecem aqui) -->
-                  <p class="text-red-500 text-[14px] mt-1" *ngIf="emailError">
-                    {{ emailError }}
-                  </p>
-                  <p class="text-red-500 text-[14px] mt-1" *ngIf="passwordError">
-                    {{ passwordError }}
-                  </p>
+                <p class="text-red-500 text-[14px] mt-1" *ngIf="dadosVaziosError">
+                  {{ dadosVaziosError }}
+                </p>
 
+                <div *ngIf="!dadosVaziosError" class="text-red-500 text-[14px] mt-1 inline-flex space-x-2">
+                  <p *ngIf="emailError">{{ emailError }}</p>
+                  <p *ngIf="passwordError">{{ passwordError }}</p>
+                  <p *ngIf="credentialsError">{{ credentialsError }}</p>
                 </div>
-
-                <!-- Esqueceu sua senha? -->
+                </div>
+                
                 <div class="w-[328px] h-[46px] sm:w-[328px] md:w-[400px] md:h-[46px] text-left mt-2">
                   <a routerLink="/esqueceu" class="font-medium text-[14px] text-gray-800 hover:text-gray-500">Esqueceu sua senha?</a>
                 </div>
 
-                <!-- Botão de Login -->
                 <button type="submit" class="mt-4 w-full py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
                   Entrar
                 </button>
 
-                <!-- Criar Conta -->
                 <div class="text-center mt-4">
                   <p class="text-[14px] text-gray-500">
                     Não tem uma conta? 
@@ -102,13 +97,14 @@
     </main>
   </div>
 
-  <!-- Imagem ao lado (somente para desktop) -->
-  <div class="hidden md:block md:w-1/2 h-full">
-    <img src="assets/foto.png" alt="Imagem ao lado" style="width: 676px; height: 585px; margin-top: 5px; border-radius: 8px; object-fit: cover;">
+  <div class="hidden md:flex md:w-[57%] h-screen p-4">
+    <img src="assets/foto.png" 
+         alt="Imagem ao lado" 
+         class="w-full h-full object-cover rounded-xl">
   </div>
-</div>
+  
+  
 
-<!-- Alerta de erro -->
 <div *ngIf="showError"
      class="fixed top-5 right-5 flex items-center w-[324px] h-[52px] p-4 text-sm text-red-800 bg-red-100 border border-red-400 rounded-[12px] shadow"
      role="alert">

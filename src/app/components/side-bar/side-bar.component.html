@@ -1,6 +1,5 @@
 <div *ngIf="!isMobile">
 <div class="flex h-screen">
-  <!-- Navegador Compacto Lateral -->
   <div class="compact-sidebar">
     <button *ngFor="let key of userKeys" 
             class="sidebar-button" 
@@ -12,9 +11,7 @@
   </div>
   
 
-  <!-- Sidebar -->
   <div [ngClass]="{ 'sidebar-expanded': isExpanded, 'sidebar-collapsed': !isExpanded }" class="sidebar">
-    <!-- Header -->
     <div class="sidebar-header">
       <div>
         <h2>{{ currentUser.name }}</h2>
@@ -24,7 +21,6 @@
       </div>
     </div>
 
-    <!-- Menu -->
     <nav class="menu">
       <ul >
         <li>
@@ -97,22 +93,17 @@
       
     </nav>
 
-    <!-- Footer -->
     <div class="sidebar-footer">
       <div class="footer-content">
-        <!-- Avatar -->
         <div class="avatar-container">
           <div class="avatar">NA</div>
           <div class="status-indicator"></div>
         </div>
-  
-        <!-- Nome e Cargo -->
         <div class="user-info">
           <p class="user-name">Antônio Costa</p>
           <p class="user-role">Analista</p>
         </div>
   
-        <!-- Botão do menu -->
         <button (click)="toggleModal()" class="menu-button">⋮</button>
 <div *ngIf="isModalVisible" class="overlay"></div>
 <app-modal-account *ngIf="isModalVisible" class="dropdown-menu"></app-modal-account>
@@ -125,9 +116,7 @@
 
 <div *ngIf="isMobile">
   <div class="mobile-layout">
-    <!-- Botão para abrir Sidebar -->
 
-    <!-- Sidebar Mobile -->
   <div [ngClass]="{ 'sidebar-open': isSidebarOpen, 'sidebar-closed': !isSidebarOpen }" class="sidebar-mobile">
       <div class="sidebar-header">
         <div class="workspace-info">
@@ -209,11 +198,14 @@
           </div>
         </div>
         <div class="logout-container">
-          <button class="menu-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" key="1uf3rs"></path><polyline points="16 17 21 12 16 7" key="1gabdz"></polyline><line x1="21" x2="9" y1="12" y2="12" key="1uyos4"></line></svg>
+          <button class="button-close" (click)="logout()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" key="1uf3rs"></path>
+              <polyline points="16 17 21 12 16 7" key="1gabdz"></polyline>
+              <line x1="21" x2="9" y1="12" y2="12" key="1uyos4"></line>
+            </svg>
             Sair da conta
           </button>
-        </div>
       </div>
     </div>
   </div>

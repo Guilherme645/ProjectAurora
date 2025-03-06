@@ -1,10 +1,8 @@
-/* Geral */
 .layout-container {
     display: flex;
     height: 100vh;
   }
   
-  /* Sidebar */
   .sidebar {
     width: 314px; 
     color: white;
@@ -12,15 +10,12 @@
     height: 809px;
   }
   
-  /* Main Content */
   .main-content {
-    margin-left: 16rem; /* Espaço igual à largura da sidebar */
-    flex: 1;
+    margin-left: 16rem; 
     min-height: 100vh;
   padding-top: 20px;
   }
   
-  /* Cabeçalho */
   .header {
     position: fixed;
     width: 1086px;
@@ -33,7 +28,6 @@
    
   }
   
-  /* Conteúdo Principal */
   .main {
     flex-grow: 1;
   padding: 20px;
@@ -130,7 +124,6 @@ margin-left: -50px;
     }
 
     @media (max-width: 480px) {
-      /* Container da ordenação e filtro */
       .sorting-container {
         display: flex;
         align-items: center;
@@ -149,7 +142,6 @@ border-bottom-width: 1px;
 
       }
     
-      /* Grupo da ordenação */
       .sorting-group {
         display: flex;
         align-items: center;
@@ -162,7 +154,6 @@ border-bottom-width: 1px;
         font-weight: 500;
       }
     
-      /* Dropdown de ordenação */
       .dropdown {
         position: relative;
       }
@@ -249,13 +240,11 @@ border-bottom-width: 1px;
       
     }
   
-    /* Aba ativa */
     .tab-button.active {
-      color: #2563eb; /* Azul vibrante */
+      color: #2563eb; 
       font-weight: 600;
     }
   
-    /* Linha azul abaixo da aba ativa */
     .tab-button.active::after {
       content: "";
       position: absolute;
@@ -266,14 +255,13 @@ border-bottom-width: 1px;
       background-color: #2563eb;
       transition: width 0.2s ease-in-out;
     }
-     /* Ícone quadrado com texto centralizado */
   .icon-container {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: #111827; /* Preto escuro */
+    background-color: #111827; 
     color: white;
     font-weight: bold;
     font-size: 14px;
@@ -289,7 +277,6 @@ border-bottom-width: 1px;
     text-align: center;
   }
 
-  /* Ajuste no alinhamento do texto */
   .workspace-title {
     font-size: 18px;
     color: #111827;

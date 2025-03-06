@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output, Renderer2 } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-tag-filter',
@@ -7,34 +7,28 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
   styleUrls: ['./tag-filter.component.css']
 })
 export class TagFilterComponent implements OnInit {
-  entidades: any = {}; 
-  filteredEntities: any[] = []; 
-  isMobileModalOpen: boolean = false;
+  entidades: { [key: string]: string[] } = {};
+  filteredEntities: string[] = [];
   isMobile: boolean = false;
-  selectedCategory: string = 'Data'; 
-  searchQuery: string = ''; 
+  selectedCategory: string = 'Data';
+  searchQuery: string = '';
+  isMobileModalOpen: boolean = false;
+  
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
 
-  categorias = [
-    { nome: 'Data', itens: ['sexta-feira', 'janeiro', '2024'] },
-    { nome: 'Profissão', itens: ['ministros', 'advogados', 'juiz'] },
-    { nome: 'Pessoa', itens: ['Dias Toffoli', 'Rosa Weber', 'Alexandre de Moraes'] },
-    { nome: 'Lugar', itens: ['Rio Grande do Sul', 'Brasília'] },
-    { nome: 'Organização', itens: ['STF', 'OAB'] }
-  ];
-
-  constructor(private http: HttpClient) {}
+  constructor(private dataservice: DataService, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
     this.loadEntidades();
   }
 
+  /** 🔹 Carrega as entidades do Service */
   loadEntidades(): void {
-    this.http.get<any>('assets/data.json').subscribe({
+    this.dataservice.getEntidades().subscribe({
       next: (data) => {
         this.entidades = data.entidades;
-        this.filterEntities(); 
+        this.filterEntities();
       },
       error: (err) => {
         console.error('Erro ao carregar entidades:', err);
@@ -42,33 +36,36 @@ export class TagFilterComponent implements OnInit {
     });
   }
 
+
+  @HostListener('window:resize')
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 480;
+    if (!this.isMobile) {
+      this.isMobileModalOpen = false;
+    }
+  }
+
+  /** 🔹 Abre o modal e adiciona fundo borrado */
+  openMobileModal(): void {
+    this.isMobileModalOpen = true;
+    this.renderer.addClass(document.body, 'backdrop-blur');
+  }
+
+  /** 🔹 Fecha o modal e remove o fundo borrado */
+  closeMobileModal(): void {
+    this.renderer.removeClass(document.body, 'backdrop-blur');
+    this.isMobileModalOpen = false;
+    this.closeModal.emit();
+  }
   filterEntities(): void {
     if (!this.entidades || !this.entidades[this.selectedCategory]) {
       this.filteredEntities = [];
       return;
     }
-
-    this.filteredEntities = this.entidades[this.selectedCategory].filter((entity: string) =>
-      entity.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+    this.filteredEntities = this.entidades[this.selectedCategory];
   }
 
-  @HostListener('window:resize')
-  checkScreenSize(): void {
-    this.isMobile = window.innerWidth <= 480; 
-    if (!this.isMobile) {
-      this.isMobileModalOpen = false; 
-    }
-  }
-
-  openMobileModal(): void {
-    this.isMobileModalOpen = true;
-  }
-
-  closeMobileModal(): void {
-    this.closeModal.emit(); 
-  }
-
+  /** 🔹 Seleciona uma categoria e atualiza os itens */
   selectCategory(category: string): void {
     this.selectedCategory = category;
     this.filterEntities();
@@ -78,7 +75,7 @@ export class TagFilterComponent implements OnInit {
   onClickOutside(event: MouseEvent): void {
     const modal = this.getModalElement();
     if (modal && !modal.contains(event.target as Node) && this.isMobileModalOpen) {
-      this.closeMobileModal(); // Fecha o modal mobile
+      this.closeMobileModal();
     }
   }
 

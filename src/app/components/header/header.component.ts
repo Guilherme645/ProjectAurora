@@ -23,40 +23,33 @@ export class HeaderComponent {
     this.checkScreenSize();
   }
 
-  /** 📌 Detecta rolagem para recolher o cabeçalho */
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.isCollapsed = window.scrollY > 50;
   }
 
-  /** 📌 Detecta redimensionamento da tela */
   @HostListener('window:resize', [])
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  /** 📌 Alternar estado da busca avançada */
   toggleSearch(): void {
     this.isSearchOpen = !this.isSearchOpen;
   }
 
-  /** 📌 Abrir modal de busca */
   openBusca(): void {
     this.isBuscaOpen = true;
   }
 
-  /** 📌 Fechar modal de busca */
   closeBusca(): void {
     this.isBuscaOpen = false;
   }
 
-  /** 📌 Fechar busca ao pressionar "Esc" */
   @HostListener('document:keydown.escape')
   handleEscape(): void {
     this.closeBusca();
   }
 
-  /** 📌 Fechar busca ao clicar fora */
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: Event): void {
     const target = event.target as HTMLElement;
@@ -65,13 +58,10 @@ export class HeaderComponent {
     }
   }
 
-  /** 📌 Alternar seleção de todos os resultados */
   toggleSelectAll(): void {
     this.selectAll = !this.selectAll;
     this.selectAllEvent.emit(this.selectAll);
   }
-
- 
 
   selectOption(option: string): void {
     this.selectedOption = option;

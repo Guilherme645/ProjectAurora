@@ -1,10 +1,8 @@
 <div class="flex h-screen w-screen">
-  <!-- Formulário -->
   <div class="w-full md:w-1/2 flex justify-center items-center">
     <main class="w-full max-w-[32rem] mx-auto p-6">
       <div class="mt-7 bg-white">
 
-        <!-- Tela de Sucesso -->
         <div *ngIf="contaCriada" class="p-4 sm:p-7 text-center flex flex-col items-center">
           <img src="assets/col.png" alt="Logo" height="28" width="24" loading="lazy" fetchpriority="auto">
           <h1 class="block mt-1 text-[20px] font-semibold text-gray-800">
@@ -16,14 +14,17 @@
           <button routerLink="/login" type="submit" class="mt-4 w-full py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
             Enviar novamente          </button>
             <div class="text-center mt-4">
-          <p class="text-[14px] text-gray-500">
-            <a routerLink="/login" class="text-blue-600 hover:text-blue-800 font-medium">Voltar ao login</a>
-          </p>
+              <p class="text-[14px] text-gray-500 flex items-center justify-center">
+                <span class="mx-3">
+                  <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-600">
+                    <path d="M4.75 8.75L1.25 5.25L4.75 1.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                </span>
+                <a routerLink="/login" class="text-blue-600 hover:text-blue-800 font-medium">Voltar ao login</a>
+              </p>
         </div>
         </div>
         
-
-        <!-- Formulário de recuperação de senha -->
         <div *ngIf="!contaCriada">
           <div class="p-4 sm:p-7">
             <div class="text-center flex flex-col items-center">
@@ -41,7 +42,6 @@
                 <form (ngSubmit)="onSubmit()">
                   <div class="flex flex-col rounded-lg">
                     
-                    <!-- Campo de Email -->
                     <div class="relative w-full">
                       <input 
                         type="email" 
@@ -63,14 +63,17 @@
 
                   </div>
 
-                  <!-- Botão -->
                   <button type="submit" class="mt-4 w-full py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
                     Enviar nova senha
                   </button>
 
-                  <!-- Voltar ao Login -->
                   <div class="text-center mt-4">
-                    <p class="text-[14px] text-gray-500">
+                    <p class="text-[14px] text-gray-500 flex items-center justify-center">
+                      <span class="mx-3">
+                        <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-600">
+                          <path d="M4.75 8.75L1.25 5.25L4.75 1.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                      </span>
                       <a routerLink="/login" class="text-blue-600 hover:text-blue-800 font-medium">Voltar ao login</a>
                     </p>
                   </div>
@@ -84,8 +87,9 @@
     </main>
   </div>
 
-  <!-- Imagem ao lado -->
-  <div class="hidden md:block md:w-1/2 h-full">
-    <img src="assets/foto.png" alt="Imagem ao lado" style="width: 676px; height: 585px; margin-top: 5px; border-radius: 8px; object-fit: cover;">
+  <div class="hidden md:flex md:w-[57%] h-screen p-4">
+    <img src="assets/foto.png" 
+         alt="Imagem ao lado" 
+         class="w-full h-full object-cover rounded-xl">
   </div>
 </div>

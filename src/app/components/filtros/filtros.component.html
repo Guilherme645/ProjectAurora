@@ -64,7 +64,6 @@
 
 <!-- Versão Mobile -->
 <div *ngIf="isMobile" class="mobile-layout-container">
-  <!-- Modal (Mobile) -->
   <div *ngIf="modalAberto" class="mobile-modal-overlay">
     <div class="mobile-modal-container">
       <div class="mobile-modal-header">
@@ -75,7 +74,6 @@
     </div>
   </div>
 
-  <!-- Seções de Filtros (Mobile) -->  
      <div class="mobile-modal-drag-bar" (click)="closeMobileModal()"></div>
 
   <div *ngFor="let filtro of filtros" class="filter-section">

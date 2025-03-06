@@ -26,13 +26,10 @@ export class CriarContaComponent {
       }
     }
   }
-
  
   validateEmail(): void {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     this.emailError = !this.email
-      ? 'O email é obrigatório.'
-      : !emailPattern.test(this.email)
       ? 'Insira um email válido.'
       : null;
   }

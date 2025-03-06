@@ -2,11 +2,7 @@
   display: flex;
   height: 100vh;
 }
-.flex h-screen{
-  width: 314px;
-  height: 809px;
-  
-}
+
 .compact-sidebar {
   display: flex;
   flex-direction: column;
@@ -27,16 +23,16 @@
   background-color: #262f3d;
   color: #ffffff;
   margin-bottom: 12px;
-
 }
 
 .active-button {
   background-color: #1E40AF;
   color: white;
   width: 38px;
-height: 38px;
-gap: 6px;
+  height: 38px;
+  gap: 6px;
 }
+
 .active-indicator {
   position: absolute;
   left: 60px;
@@ -52,11 +48,19 @@ gap: 6px;
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #1E293B;
+  padding-top: 16px;
+}
+
+.sidebar-expanded {
   width: 260px;
-  height: 777px;
-  background-color: #151F2D;
-  justify-content: space-between;
-  
+}
+
+.sidebar-collapsed {
+  width: 64px;
 }
 
 .sidebar-header {
@@ -70,50 +74,35 @@ gap: 6px;
 }
 
 .sidebar-header h2 {
-font-weight: 700;
-font-size: 14px;
-line-height: 20px;
-letter-spacing: -1%;
-margin-top: 14px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -1%;
+  margin-top: 14px;
 }
 
 .sidebar-header h3 {
   width: 260px;
   height: 24px;
-font-weight: 600px;
-font-size: 12px;
-line-height: 16px;
-letter-spacing: -1%;
-color: #6F809A;
-padding-right: 14px;
-padding-top: 14px;
-padding-bottom: 14px;
-  }
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -1%;
+  color: #6F809A;
+  padding-right: 14px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
 
 .sidebar-header p {
   width: 64px;
   height: 16px;
-font-weight: 500px;
-font-size: 12px;
-line-height: 16px;
-letter-spacing: -1%;
-text-align: center;
-color: #6F809A;
-}
-
-.toggle-button {
-  width: 32px;
-  height: 32px;
-  background-color: #374151;
-  border: none;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.toggle-button:hover {
-  background-color: #FFFFFF;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -1%;
+  text-align: center;
+  color: #6F809A;
 }
 
 .menu {
@@ -142,48 +131,6 @@ color: #6F809A;
 .menu-item:hover {
   background-color: #2c3542;
   color: white;
-}
-
-.sidebar-footer {
-  margin-top: auto;
-  padding: 16px;
-  background-color: #111827;
-  border-top: 1px solid #374151;
-}
-
-.footer-content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.user-name {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.user-role {
-  font-size: 12px;
-  color: #9ca3af;
-}
-
-.menu-button {
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  color: white;
-}
-
-.menu-button:hover {
-  background-color: #374151;
-  border-radius: 8px;
-}
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #1E293B;
-  padding-top: 16px;
 }
 
 .sidebar-footer {
@@ -219,15 +166,13 @@ color: #6F809A;
 .status-indicator {
   width: 10px;
   height: 10px;
-  background-color: #34D399; /* Verde para "online" */
-  border: 2px solid #1E293B; /* Cor do fundo para borda */
+  background-color: #34D399;
+  border: 2px solid #1E293B;
   border-radius: 50%;
   position: absolute;
   top: -1px;
   right: 3px;
 }
-
-
 
 .user-info {
   flex-grow: 1;
@@ -258,12 +203,8 @@ color: #6F809A;
   background-color: #374151;
   border-radius: 4px;
   width: 38px;
-  font-size: 24px;
-border-radius: 8px;
   height: 38px;
 }
-
-
 
 .dropdown-menu {
   position: absolute;
@@ -271,6 +212,17 @@ border-radius: 8px;
   margin-top: -80px;
   z-index: 1000;
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
 @media (max-width: 480px) {
   .sidebar-mobile {
     background-color: #1F2937;
@@ -286,11 +238,15 @@ border-radius: 8px;
     flex-direction: column;
     color: white;
   }
-  
+
   .sidebar-open {
     transform: translateX(0);
   }
-  
+
+  .sidebar-closed {
+    transform: translateX(-100%);
+  }
+
   .sidebar-header {
     display: flex;
     justify-content: space-between;
@@ -298,26 +254,24 @@ border-radius: 8px;
     background-color: white;
     border-bottom: 1px solid white;
     width: 100%;
-  height: 94px;
-  top: 48px;
-  gap: 28px;
-  border-bottom-width: 1px;
-  padding: 24px;
-  
+    height: 94px;
+    top: 48px;
+    gap: 28px;
+    border-bottom-width: 1px;
+    padding: 24px;
   }
-  
+
   .workspace-info {
     display: flex;
     align-items: center;
     gap: 12px;
     background-color: white;
     width: 327px;
-  height: 46px;
-  justify-content: space-between;
-  white-space: nowrap; 
-  
+    height: 46px;
+    justify-content: space-between;
+    white-space: nowrap;
   }
-  
+
   .workspace-icon {
     background-color: #1f2937;
     color: white;
@@ -326,47 +280,48 @@ border-radius: 8px;
     padding: 8px 12px;
     border-radius: 8px;
   }
-  
+
   .workspace-title-container {
     width: 144px;
     height: 42px;
     gap: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-  
+
   .workspace-title {
     color: #000000;
     margin: 0;
     width: 96px;
-  height: 22px;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 21.78px;
-  letter-spacing: -1.8%;
-  margin-left: -80px;
+    height: 22px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21.78px;
+    letter-spacing: -1.8%;
+    margin-left: -80px;
   }
-  
+
   .workspace-subtitle {
     font-size: 12px;
     color: #6b7280;
     width: 144px;
-  height: 16px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: -1%;
-  text-align: center;
-  margin-left: -80px;
-  
-  
+    height: 16px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -1%;
+    text-align: center;
+    margin-left: -80px;
   }
-  
+
   .close-button {
-    border: 1px solid rgb(189, 188, 188); /* Adiciona uma borda fina preta */
+    border: 1px solid rgb(189, 188, 188);
     border-radius: 8px;
     margin-left: auto;
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza o ícone dentro do botão */
+    justify-content: center;
     color: black;
     background-color: white;
     width: 46px;
@@ -376,31 +331,27 @@ border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease;
   }
-  
-  .workspace-title-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+
   .menu {
     padding: 16px;
+    flex-grow: 1;
   }
-  
+
   .menu-title {
     font-size: 12px;
     font-weight: 700;
     margin-bottom: 16px;
     color: #9CA3AF;
   }
-  
+
   .menu ul {
     padding: 0;
     margin: 0;
     list-style: none;
   }
-  
+
   .menu-item {
-    padding: 12px ;
+    padding: 12px;
     width: 327px;
     height: 44px;
     display: flex;
@@ -411,21 +362,21 @@ border-radius: 8px;
     transition: background 0.3s ease;
     border-radius: 8px;
   }
-  
+
   .menu-item.active {
     background-color: #374151;
   }
-  
+
   .menu-item:hover {
     background-color: #4B5563;
   }
-  
+
   .menu-item svg {
     margin-right: 12px;
     stroke-width: 1.5;
     stroke: #9CA3AF;
   }
-  
+
   .sidebar-footer {
     display: flex;
     flex-direction: column;
@@ -433,20 +384,18 @@ border-radius: 8px;
     padding: 16px;
     border-top: 1px solid #374151;
     width: 100%;
-  height: 130px;
-  gap: 20px;
-  
+    height: 130px;
+    gap: 20px;
   }
-  
+
   .footer-content {
     width: 375px;
     height: 46px;
     gap: 24px;
     padding-right: 24px;
     padding-left: 24px;
-    
   }
-  
+
   .avatar {
     width: 46px;
     height: 46px;
@@ -456,107 +405,50 @@ border-radius: 8px;
     display: flex;
     border-radius: 50%;
   }
-  
+
   .user-info {
     width: 269px;
-  height: 38px;
-  gap: 2px;
-  
+    height: 38px;
+    gap: 2px;
+    flex-grow: 1;
   }
-  
+
   .user-name {
     font-size: 14px;
     font-weight: bold;
   }
-  
+
   .user-role {
     font-size: 12px;
-    color: #9ca3af;
+    color: #9CA3AF;
   }
-  
+
   .logout-container {
     width: 375px;
     height: 44px;
     padding-right: 24px;
     padding-left: 24px;
     gap: 8px;
-    
   }
-  
-  .menu-button {
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: white;
-    padding: 8px;
+
+  .button-close {
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .menu-button:hover {
-    background-color: #374151;
+    color: white;
+    padding: 10px 16px;
+    border: none;
     border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
-  
-  .menu-icon {
+
+  .button-close svg {
+    order: -1;
     width: 20px;
     height: 20px;
-  }
-  
-  
-  
-  .user-info {
-    flex-grow: 1;
-  }
-  
-  .user-name {
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  .user-role {
-    font-size: 12px;
-    color: #9CA3AF;
-  }
-  
-  .menu-button {
-    background: none;
-    border: none;
-    font-size: 14px;
-    color: white;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Espaçamento entre o ícone e o texto */
-    width: 100%;
-    text-align: left;
-}
-
-.menu-button svg {
-    width: 16px;
-    height: 16px;
-    stroke-width: 2;
-    color: white;
-}
-
-/* Efeito de hover para indicar interação */
-.menu-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-}
-
-  .sidebar-toggle {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 60;
+    stroke: white;
   }
 }

@@ -5,7 +5,6 @@
     </header>
   
     <div class="form-layout">
-      <!-- Passos de Navegação -->
       <nav class="steps">
         <div class="step" [class.active]="currentStep === 1">
           <div class="step-icon" [class.active-icon]="currentStep >= 1">1</div>
@@ -21,16 +20,13 @@
           </div>
         </div>
       </nav>
-      
   
-      <!-- Etapa 1: Informações básicas -->
       <section *ngIf="currentStep === 1" class="form-step-save-search">
         <form [formGroup]="salvarBuscaForm">
           <div class="flex-header-save-search">
             <h2 class="text-sm font-semibold text-gray-800">Informações básicas Busca Salva</h2>
           </div>
-          
-          <!-- Campo Nome da Busca -->
+  
           <div class="form-item-save-search">
             <div class="input-wrapper-save-search">
               <label class="block text-sm font-medium mb-1">Nome da busca salva <span class="text-red-500">*</span></label>
@@ -39,8 +35,7 @@
             <input type="text" formControlName="searchName" class="input-field-save-search" placeholder="Digite o nome da busca">
           </div>
           <hr class="mx-6">
-          
-          <!-- Campo Início do Monitoramento -->
+  
           <div class="form-item-save-search">
             <div class="input-wrapper-save-search">
               <label class="block text-sm font-medium mb-1">Início do monitoramento <span class="text-red-500">*</span></label>
@@ -49,8 +44,7 @@
             <input type="date" formControlName="startDate" class="input-field-save-search">
           </div>
           <hr class="mx-6">
-          
-          <!-- Campo Fim do Monitoramento -->
+  
           <div class="form-item-save-search">
             <div class="input-wrapper-save-search">
               <label class="block text-sm font-medium mb-1">Fim do monitoramento</label>
@@ -59,131 +53,104 @@
             <input type="date" formControlName="endDate" class="input-field-save-search">
           </div>
           <div class="form-footer-save-search">
-          <button type="button" class="btn-next-save-search" (click)="nextStep()">Continuar</button>
-        </div>
-        </form>
-        
-      </section>
-      
-  
-      
-  
-   
-      <section *ngIf="currentStep === 2">
-       <div class="alert-container">
-  <!-- Passo 1 -->
-  <section class="step-section">
-    <div class="step-header">
-      <h2>Passo 1: Parâmetros do alerta</h2>
-    </div>
-    <div class="parameter-item">
-      <div class="parameter-label">
-        <label>Ativar alerta <span class="required">*</span></label>
-        <p class="parameter-description">Enviar um alerta sempre que houver uma nova menção</p>
-      </div>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" class="sr-only peer" [(ngModel)]="isAlertActive" (change)="onToggleAlert()" />
-        <div
-          class="w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none peer-checked:bg-none peer-checked:text-blue-600 peer-checked:border-blue-600 focus:peer-checked:border-blue-600
-            before:inline-block before:size-6 before:bg-white peer-checked:before:bg-blue-200 before:translate-x-0 peer-checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200">
-        </div>
-      </label>
-       </div>
-    <hr>
-    <div class="parameter-item">
-      <div class="parameter-label">
-        <label>Ativar alerta somente para menções negativas <span class="required">*</span></label>
-        <p class="parameter-description">Enviar um alerta apenas quando uma nova menção for analisada com sentimento negativo</p>
-      </div>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" class="sr-only peer" [(ngModel)]="isNegativeAlertActive" (change)="onToggleNegativeAlert()" />
-        <div
-          class="w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none peer-checked:bg-none peer-checked:text-blue-600 peer-checked:border-blue-600 focus:peer-checked:border-blue-600
-            before:inline-block before:size-6 before:bg-white peer-checked:before:bg-blue-200 before:translate-x-0 peer-checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200">
-        </div>
-      </label>
-    </div>
-  </section>
-
-  <!-- Passo 2 -->
-  <section class="step-section">
-    <div class="step-header">
-      <h2>Passo 2: Selecione os usuários do Workspace que devem receber os alertas</h2>
-    </div>
-    
-    <!-- Seleção de todos -->
-    <div class="select-all">
-      <input type="checkbox" id="select-all" />
-      <label for="select-all">Selecionar todos do Workspace</label>
-    </div>
-    
-    <!-- Lista de Usuários -->
-    <ul class="user-list">
-      <li class="user-item">
-        <input type="checkbox" class="user-select" />
-        <div class="user-avatar">GS</div>
-        <span class="user-info">Guilherme Sousa (guilhermesousa&#64;stf.org)</span>
-      </li>
-      <li class="user-item">
-        <input type="checkbox" class="user-select" />
-        <div class="user-avatar">MC</div>
-        <span class="user-info">Marina Campos (marinacampos&#64;stf.org)</span>
-      </li>
-      <li class="user-item">
-        <input type="checkbox" class="user-select" />
-        <div class="user-avatar">GM</div>
-        <span class="user-info">Gilberto Menezes (gilbertomenezes&#64;stf.org)</span>
-      </li>
-      <li class="user-item">
-        <input type="checkbox" class="user-select" />
-        <div class="user-avatar">SB</div>
-        <span class="user-info">Sarah Bastos (sarahbastos&#64;stf.org)</span>
-      </li>
-    </ul>
-  
-    <!-- Formulário para adicionar novo destinatário -->
-    <div class="add-destination-form" *ngIf="showAddDestinationForm">
-      <div class="flex items-center gap-3 margim-bott">
-        <!-- Campo Nome -->
-        <div class="relative flex-1">
-          <input type="text" [(ngModel)]="newUserName" placeholder="Nome do destinatário" class="form-input" />
-        </div>
-        
-        <!-- Campo Email -->
-        <div class="relative flex-1">
-          <input type="email" [(ngModel)]="newUserEmail" placeholder="Email do destinatário" class="form-input" />
-          <div class="absolute inset-y-0 left-2 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide shrink-0 size-4 stroke-1 text-gray-500"><rect width="20" height="16" x="2" y="4" rx="2" key="18n3k1"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" key="1ocrg3"></path></svg>    
+            <button type="button" class="btn-next-save-search" (click)="nextStep()">Continuar</button>
           </div>
+        </form>
+      </section>
+  
+      <!-- Etapa 2: Alertas -->
+      <section *ngIf="currentStep === 2">
+        <div class="alert-container">
+          <section class="step-section">
+            <div class="step-header">
+              <h2>Passo 1: Parâmetros do alerta</h2>
+            </div>
+            <div class="parameter-item">
+              <div class="parameter-label">
+                <label>Ativar alerta <span class="required">*</span></label>
+                <p class="parameter-description">Enviar um alerta sempre que houver uma nova menção</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" [(ngModel)]="isAlertActive" (change)="onToggleAlert()" />
+                <div
+                  class="w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none peer-checked:bg-none peer-checked:text-blue-600 peer-checked:border-blue-600 focus:peer-checked:border-blue-600
+                  before:inline-block before:size-6 before:bg-white peer-checked:before:bg-blue-200 before:translate-x-0 peer-checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200">
+                </div>
+              </label>
+            </div>
+            <hr>
+            <div class="parameter-item">
+              <div class="parameter-label">
+                <label>Ativar alerta somente para menções negativas <span class="required">*</span></label>
+                <p class="parameter-description">Enviar um alerta apenas quando uma nova menção for analisada com sentimento negativo</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" [(ngModel)]="isNegativeAlertActive" (change)="onToggleNegativeAlert()" />
+                <div
+                  class="w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none peer-checked:bg-none peer-checked:text-blue-600 peer-checked:border-blue-600 focus:peer-checked:border-blue-600
+                  before:inline-block before:size-6 before:bg-white peer-checked:before:bg-blue-200 before:translate-x-0 peer-checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200">
+                </div>
+              </label>
+            </div>
+          </section>
+  
+          <section class="step-section">
+            <div class="step-header">
+              <h2>Passo 2: Selecione os usuários do Workspace que devem receber os alertas</h2>
+            </div>
+  
+            <div class="select-all">
+              <input type="checkbox" id="select-all" />
+              <label for="select-all">Selecionar todos do Workspace</label>
+            </div>
+  
+            <ul class="user-list">
+              <li *ngFor="let user of userList" class="user-item">
+                <input type="checkbox" class="user-select" />
+                <div class="user-avatar">{{ user.avatar }}</div>
+                <span class="user-info">{{ user.name }} ({{ user.email }})</span>
+              </li>
+            </ul>
+  
+            <div class="add-destination-form" *ngIf="showAddDestinationForm">
+              <div class="flex items-center gap-3 margim-bott">
+                <div class="relative flex-1">
+                  <input type="text" [(ngModel)]="newUserName" placeholder="Nome do destinatário" class="form-input" />
+                </div>
+  
+                <div class="relative flex-1">
+                  <input type="email" [(ngModel)]="newUserEmail" placeholder="Email do destinatário" class="form-input" />
+                  <div class="absolute inset-y-0 left-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide shrink-0 size-4 stroke-1 text-gray-500"><rect width="20" height="16" x="2" y="4" rx="2" key="18n3k1"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" key="1ocrg3"></path></svg>
+                  </div>
+                </div>
+  
+                <button type="button" class="btn-cancel" (click)="cancelAddDestination()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18"></path>
+                    <path d="M6 6l12 12"></path>
+                  </svg>
+                </button>
+  
+                <button type="button" class="btn-add" (click)="addDestination()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6L9 17l-5-5"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+  
+            <div class="add-destination-container">
+              <a href="#" *ngIf="!showAddDestinationForm" (click)="toggleAddDestinationForm($event)" class="add-destination-link">
+                Adicionar outro destinatário
+              </a>
+            </div>
+          </section>
         </div>
-  
-        <!-- Botão Cancelar -->
-        <button type="button" class="btn-cancel" (click)="cancelAddDestination()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18"></path>
-            <path d="M6 6l12 12"></path>
-          </svg>
-        </button>
-  
-        <!-- Botão Adicionar -->
-        <button type="button" class="btn-add" (click)="addDestination()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 6L9 17l-5-5"></path>
-          </svg>
-        </button>
-      </div>
+        <div class="form-actions-fixed">
+          <button class="btn-secondary" (click)="previousStep()">Voltar</button>
+          <button class="btn-primary">Salvar busca</button>
+        </div>
+      </section>
     </div>
-  
-    <!-- Link para adicionar novo destinatário -->
-    <div class="add-destination-container">
-      <a href="#" *ngIf="!showAddDestinationForm" (click)="toggleAddDestinationForm($event)" class="add-destination-link">
-        Adicionar outro destinatário
-      </a>
-    </div>
-  </section>
-  
-</div> 
-<div class="form-actions-fixed">
-  <button class="btn-secondary" (click)="previousStep()">Voltar</button>
-    <button class="btn-primary">Salvar busca</button>
   </div>
