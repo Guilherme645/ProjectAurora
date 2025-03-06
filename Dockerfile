@@ -29,7 +29,7 @@ COPY nginx.conf /etc/nginx/conf.d/
 COPY --from=build /app/dist/bluebossa /usr/share/nginx/html
 
 # Exponha a porta 80
-EXPOSE 8080
+EXPOSE 8282
 
 # Inicie o servidor Nginx
 CMD ["nginx", "-g", "daemon off;"]
