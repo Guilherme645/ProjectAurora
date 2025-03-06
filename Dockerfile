@@ -26,7 +26,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/
 
 # Copie os arquivos construídos para o diretório padrão do Nginx
-COPY --from=build /app/dist/bluebossa/browser /usr/share/nginx/html
+COPY --from=build /app/dist/bluebossa /usr/share/nginx/html
 
 # Exponha a porta 80
 EXPOSE 8080
