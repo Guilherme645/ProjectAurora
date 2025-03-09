@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-modal-account',
-  templateUrl: './modal-account.component.html',
-  styleUrls: ['./modal-account.component.css']
+    selector: 'app-modal-account',
+    templateUrl: './modal-account.component.html',
+    styleUrls: ['./modal-account.component.css'],
+    standalone: false
 })
 export class ModalAccountComponent {
   isOpen = false;

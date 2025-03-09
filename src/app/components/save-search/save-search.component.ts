@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService, User } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-save-search',
-  templateUrl: './save-search.component.html',
-  styleUrls: ['./save-search.component.css']
+    selector: 'app-save-search',
+    templateUrl: './save-search.component.html',
+    styleUrls: ['./save-search.component.css'],
+    standalone: false
 })
 export class SaveSearchComponent implements OnInit {
   salvarBuscaForm: FormGroup;

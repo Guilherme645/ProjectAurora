@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-criar-conta',
-  templateUrl: './criar-conta.component.html',
-  styleUrls: ['./criar-conta.component.css']
+    selector: 'app-criar-conta',
+    templateUrl: './criar-conta.component.html',
+    styleUrls: ['./criar-conta.component.css'],
+    standalone: false
 })
 export class CriarContaComponent {
   email: string = '';

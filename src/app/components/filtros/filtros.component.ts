@@ -1,9 +1,10 @@
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-filtros',
-  templateUrl: './filtros.component.html',
-  styleUrls: ['./filtros.component.css']
+    selector: 'app-filtros',
+    templateUrl: './filtros.component.html',
+    styleUrls: ['./filtros.component.css'],
+    standalone: false
 })
 export class FiltrosComponent implements OnInit {
   modalAberto = false;

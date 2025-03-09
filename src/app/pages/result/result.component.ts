@@ -2,9 +2,10 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-result',
-  templateUrl: './result.component.html',
-  styleUrls: ['./result.component.css']
+    selector: 'app-result',
+    templateUrl: './result.component.html',
+    styleUrls: ['./result.component.css'],
+    standalone: false
 })
 export class ResultComponent implements OnInit {
   noticias: any[] = []; 

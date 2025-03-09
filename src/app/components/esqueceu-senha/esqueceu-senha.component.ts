@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-esqueceu-senha',
-  templateUrl: './esqueceu-senha.component.html',
-  styleUrls: ['./esqueceu-senha.component.css']
+    selector: 'app-esqueceu-senha',
+    templateUrl: './esqueceu-senha.component.html',
+    styleUrls: ['./esqueceu-senha.component.css'],
+    standalone: false
 })
 export class EsqueceuSenhaComponent {
   email: string = '';

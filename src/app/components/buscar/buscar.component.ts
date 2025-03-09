@@ -2,9 +2,10 @@ import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-buscar',
-  templateUrl: './buscar.component.html',
-  styleUrls: ['./buscar.component.css'],
+    selector: 'app-buscar',
+    templateUrl: './buscar.component.html',
+    styleUrls: ['./buscar.component.css'],
+    standalone: false
 })
 export class BuscarComponent {
   searchQuery: string = '';

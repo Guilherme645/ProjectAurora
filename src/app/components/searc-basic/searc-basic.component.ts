@@ -1,9 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-searc-basic',
-  templateUrl: './searc-basic.component.html',
-  styleUrls: ['./searc-basic.component.css']
+    selector: 'app-searc-basic',
+    templateUrl: './searc-basic.component.html',
+    styleUrls: ['./searc-basic.component.css'],
+    standalone: false
 })
 export class SearcBasicComponent {
 isScrolled = false;

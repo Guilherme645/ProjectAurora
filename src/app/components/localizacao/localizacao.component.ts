@@ -2,9 +2,10 @@ import { Component, EventEmitter, HostListener, Output, OnInit } from '@angular/
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-localizacao',
-  templateUrl: './localizacao.component.html',
-  styleUrls: ['./localizacao.component.css']
+    selector: 'app-localizacao',
+    templateUrl: './localizacao.component.html',
+    styleUrls: ['./localizacao.component.css'],
+    standalone: false
 })
 export class LocalizacaoComponent implements OnInit {
   @Output() closeSection = new EventEmitter<void>(); // Evento para fechar modal

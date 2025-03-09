@@ -2,9 +2,10 @@ import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-high-search',
-  templateUrl: './high-search.component.html',
-  styleUrls: ['./high-search.component.css']
+    selector: 'app-high-search',
+    templateUrl: './high-search.component.html',
+    styleUrls: ['./high-search.component.css'],
+    standalone: false
 })
 export class HighSearchComponent {
   isMobile = window.innerWidth <= 768;

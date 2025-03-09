@@ -2,9 +2,10 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { DataService, Relatorio } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-relatorio-modal',
-  templateUrl: './relatorio-modal.component.html',
-  styleUrls: ['./relatorio-modal.component.css']
+    selector: 'app-relatorio-modal',
+    templateUrl: './relatorio-modal.component.html',
+    styleUrls: ['./relatorio-modal.component.css'],
+    standalone: false
 })
 export class RelatorioModalComponent implements OnInit {
   @Output() fechar = new EventEmitter<void>();

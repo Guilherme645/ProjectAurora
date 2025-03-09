@@ -2,9 +2,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-veiculos',
-  templateUrl: './veiculos.component.html',
-  styleUrls: ['./veiculos.component.css']
+    selector: 'app-veiculos',
+    templateUrl: './veiculos.component.html',
+    styleUrls: ['./veiculos.component.css'],
+    standalone: false
 })
 export class VeiculosComponent implements OnInit {
   isMobile: boolean = window.innerWidth <= 768;

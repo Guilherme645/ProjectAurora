@@ -1,9 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-page-busca',
-  templateUrl: './page-busca.component.html',
-  styleUrls: ['./page-busca.component.css'],
+    selector: 'app-page-busca',
+    templateUrl: './page-busca.component.html',
+    styleUrls: ['./page-busca.component.css'],
+    standalone: false
 })
 export class PageBuscaComponent {
   isMobile: boolean = window.innerWidth <= 480; 

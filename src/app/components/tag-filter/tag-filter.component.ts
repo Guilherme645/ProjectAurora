@@ -2,9 +2,10 @@ import { Component, EventEmitter, HostListener, OnInit, Output, Renderer2 } from
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-tag-filter',
-  templateUrl: './tag-filter.component.html',
-  styleUrls: ['./tag-filter.component.css']
+    selector: 'app-tag-filter',
+    templateUrl: './tag-filter.component.html',
+    styleUrls: ['./tag-filter.component.css'],
+    standalone: false
 })
 export class TagFilterComponent implements OnInit {
   entidades: { [key: string]: string[] } = {};

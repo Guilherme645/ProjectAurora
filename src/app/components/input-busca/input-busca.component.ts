@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-input-busca',
-  templateUrl: './input-busca.component.html',
-  styleUrls: ['./input-busca.component.css']
+    selector: 'app-input-busca',
+    templateUrl: './input-busca.component.html',
+    styleUrls: ['./input-busca.component.css'],
+    standalone: false
 })
 export class InputBuscaComponent {
   @Input() isModalOpen: boolean = false;
