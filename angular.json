@@ -63,10 +63,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "bluebossa:build:production"
+              "buildTarget": "bluebossa:build:production"
             },
             "development": {
-              "browserTarget": "bluebossa:build:development"
+              "buildTarget": "bluebossa:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +74,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bluebossa:build"
+            "buildTarget": "bluebossa:build"
           }
         },
         "test": {
