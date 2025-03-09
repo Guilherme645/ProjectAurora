@@ -8,7 +8,7 @@ import { RouterOutlet } from '@angular/router';
 import { PageLoginComponent } from './pages/page-login/page-login.component';
 import { CardComponent } from './components/card/card.component';
 import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,47 +34,38 @@ import { SaveSearchComponent } from './components/save-search/save-search.compon
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { LocalizacaoComponent } from './components/localizacao/localizacao.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    PageLoginComponent,
-    CardComponent,
-    NavBarComponent,
-    SideBarComponent,
-    HeaderComponent,
-    BuscarComponent,
-    PageBuscaComponent,
-    CriarContaComponent,
-    EsqueceuSenhaComponent,
-    PageEsqueceuSenhaComponent,
-    PageCriarContaComponent,
-    HighSearchComponent,
-    InputBuscaComponent,
-    RelatorioModalComponent,
-    MensoesComponent,
-    ScrollTopComponent,
-    ModalAccountComponent,
-    TagFilterComponent,
-    VeiculosComponent,
-    ResultComponent,
-    FiltrosComponent,
-    SearcBasicComponent,
-    SaveSearchComponent,
-    CalendarComponent,
-    LocalizacaoComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterOutlet,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule
-
-
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        PageLoginComponent,
+        CardComponent,
+        NavBarComponent,
+        SideBarComponent,
+        HeaderComponent,
+        BuscarComponent,
+        PageBuscaComponent,
+        CriarContaComponent,
+        EsqueceuSenhaComponent,
+        PageEsqueceuSenhaComponent,
+        PageCriarContaComponent,
+        HighSearchComponent,
+        InputBuscaComponent,
+        RelatorioModalComponent,
+        MensoesComponent,
+        ScrollTopComponent,
+        ModalAccountComponent,
+        TagFilterComponent,
+        VeiculosComponent,
+        ResultComponent,
+        FiltrosComponent,
+        SearcBasicComponent,
+        SaveSearchComponent,
+        CalendarComponent,
+        LocalizacaoComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        RouterOutlet,
+        FormsModule,
+        ReactiveFormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
