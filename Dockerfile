@@ -10,7 +10,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 # Instale o Angular CLI (localmente para evitar conflitos globais)
-RUN npm install @angular/cli@16
+RUN npm install @angular/cli
 
 # Copie o restante dos arquivos do projeto
 COPY . .
