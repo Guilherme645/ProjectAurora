@@ -7,14 +7,14 @@ import { PageCriarContaComponent } from './pages/page-criar-conta/page-criar-con
 import { PageEsqueceuSenhaComponent } from './pages/page-esqueceu-senha/page-esqueceu-senha.component';
 import { ResultComponent } from './pages/result/result.component';
 
-const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
-  {path: 'login', component: PageLoginComponent},
-  {path: 'navBar', component: NavBarComponent},
-  {path: 'busca', component: PageBuscaComponent},
-  {path: 'esqueceu', component: PageEsqueceuSenhaComponent},
-  {path: 'criar', component: PageCriarContaComponent},
-  {path: 'resultado', component: ResultComponent}
+export const routes: Routes = [  // ✅ Adicionado "export" aqui
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: PageLoginComponent },
+  { path: 'navBar', component: NavBarComponent },
+  { path: 'busca', component: PageBuscaComponent },
+  { path: 'esqueceu', component: PageEsqueceuSenhaComponent },
+  { path: 'criar', component: PageCriarContaComponent },
+  { path: 'resultado', component: ResultComponent }
 ];
 
 @NgModule({

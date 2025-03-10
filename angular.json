@@ -13,10 +13,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "dist/bluebossa"
-            },
+            "outputPath": "dist/bluebossa",
             "index": "src/index.html",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -30,9 +29,7 @@
 ],
 "scripts": [
   "node_modules/preline/dist/preline.js"
-],
-"browser": "src/main.ts"
-
+]
           },
           "configurations": {
             "production": {
