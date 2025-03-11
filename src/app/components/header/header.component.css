@@ -4,6 +4,15 @@
   max-width: 1200px; 
   margin: 0 auto; 
   margin-top: 20px;
+  flex-grow: 1; 
+  width: calc(100vw - 220px); 
+  max-width: calc(100vw - 220px); 
+  height: auto;
+  padding-right: 0; 
+  box-sizing: border-box; 
+  padding-left: 20px;
+  padding-right: 150px;
+
 }
 
 

@@ -1,11 +1,8 @@
-<!-- Contêiner Principal -->
 <div class="relative w-full h-auto bg-white" id="workspaceContainer">
   
-  <!-- Cabeçalho -->
   <div class="bg-white px-6 pt-6 transition-all duration-300"
        [ngClass]="{ 'h-0 opacity-0 overflow-hidden': isCollapsed, 'h-auto opacity-100': !isCollapsed }">
     
-    <!-- Linha superior: Título e botões de busca -->
     <div class="flex items-start justify-between flex-wrap gap-4">
       <div>
         <h1 class="font-inter font-semibold text-[20px] leading-[24px] tracking-[-0.018em] text-gray-900">
@@ -18,7 +15,6 @@
 
       <div class="flex flex-wrap justify-end">
         <div class="inline-flex items-center max-w-[277px] h-[46px] border border-gray-300 rounded-md overflow-hidden">
-   <!-- Botão para abrir o InputBuscaComponent -->
 <button type="button"
 class="inline-flex items-center gap-x-2 px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 border-r border-gray-300 h-full"
 (click)="openBusca()">
@@ -32,7 +28,6 @@ Fazer busca
 <div class="p-4 w-[476px] h-[809px]" *ngIf="isSearchOpen">
   <app-high-search (closeModal)="toggleSearch()"></app-high-search>
 </div>
-<!-- Componente InputBuscaComponent (renderizado quando isBuscaOpen = true) -->
 <app-input-busca  #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
 
 
@@ -45,13 +40,11 @@ Fazer busca
     </div>
   </div>
 
-  <!-- Linha inferior SEMPRE visível -->
   <div class="sticky top-0 w-auto bg-white border-b border-gray-200 transition-all duration-300">
     <div class="flex items-center justify-between py-2 px-6">
       <div class="flex items-center gap-3">
         <input type="checkbox" class="h-4 w-4 accent-blue-600 rounded" (change)="toggleSelectAll()" [checked]="selectAll"/>
   
-        <!-- Botão Todos os Resultados -->
         <button type="button"
                 class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
                 [ngClass]="selectedTab === 'todos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
@@ -60,27 +53,31 @@ Fazer busca
         </button>
   
         <!-- Botão Resultados Brutos -->
- <button type="button"
+<!-- Botão Resultados Brutos com Tooltip -->
+<button type="button"
   class="inline-flex items-center gap-1 px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
   [ngClass]="selectedTab === 'brutos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
   (click)="selectTab('brutos')">
   
   Resultados brutos
 
-  <!-- Tooltip (Preline UI) -->
-  <div class="hs-tooltip [--placement:bottom] inline-block relative">
-    <button type="button" class="hs-tooltip-toggle flex h-4 w-4 items-center justify-center rounded-full bg-gray-900 text-white">
-      <!-- Ícone "i" com tamanho 20x20 -->
-      <span class="text-[10px] font-bold cursor-pointer">i</span>
-    </button>
+  <!-- Tooltip que aparece ao passar o mouse -->
+  <div class="relative inline-block group">
+    <!-- Ícone "i" que ativa o Tooltip -->
+    <div class="inline-block">
+      <button type="button" class="flex h-4 w-4 items-center justify-center rounded-full bg-gray-900 text-white">
+        <span class="text-[10px] font-bold cursor-pointer">i</span>
+      </button>
 
-    <!-- Tooltip que aparece ao passar o mouse -->
-    <span role="tooltip"
-      class="max-w-64 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity absolute invisible z-10 py-2 px-3 bg-gray-900 text-xs font-normal text-gray-300 rounded-lg shadow-md">
-      Os resultados brutos só retornam menções das mídias: TV, Rádio e Impressos
-    </span>
+      <!-- Tooltip -->
+      <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
+        Os resultados brutos só retornam menções <br> das mídias: TV, Rádio e Impressos
+      </span>
+    </div>
   </div>
 </button>
+
+
 
 
       
@@ -93,10 +90,6 @@ Fazer busca
           Clippings
         </button>
       </div>
- 
-  
-   
-  
 
       <div class="flex items-center gap-1">
         <div class="flex items-center gap-1 text-sm text-gray-800">
@@ -134,24 +127,25 @@ Fazer busca
       
 
         <!-- Ícone de Filtro -->
-        <div class="hs-tooltip [--placement:bottom] inline-block relative">
-          <!-- Botão do Filtro -->
-          <button type="button"
-            class="w-[46px] h-[46px] bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded flex items-center justify-center hs-tooltip-toggle">
-            
-            <!-- Ícone de Filtro -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-            </svg>
-          </button>
-        
-          <!-- Tooltip que aparece ao passar o mouse -->
-          <span role="tooltip"
-            class="max-w-32 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity absolute invisible z-10 py-2 px-3 bg-gray-900 text-xs font-normal text-white rounded-lg shadow-md">
-            Filtros
-          </span>
-        </div>
+       <!-- Container do Tooltip -->
+<div class="relative inline-block group">
+  <!-- Botão do Filtro -->
+  <button type="button"
+    class="w-[46px] h-[46px] bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded flex items-center justify-center">
+    
+    <!-- Ícone de Filtro -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </svg>
+  </button>
+
+  <!-- Tooltip que aparece ao passar o mouse -->
+  <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
+    Filtros
+  </span>
+</div>
+
         
       </div>
     </div>

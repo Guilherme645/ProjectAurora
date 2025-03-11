@@ -16,6 +16,8 @@ export class ResultComponent implements OnInit {
   selectedOption: string = 'Mais relevantes';
   filtrosAbertos: boolean = false;
   isScrolled = false;
+  currentUser: string = 'Superior Tribunal Federal'; // Usuário padrão
+  filteredNoticias: any[] = []; // Notícias filtradas para exibição
 
   constructor(private dataService: DataService) {}
 
@@ -40,10 +42,39 @@ export class ResultComponent implements OnInit {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  toggleSidebar(): void {
-    this.isSidebarOpen = !this.isSidebarOpen;
+  onUserChange(user: string) {
+    console.log('Usuário mudou para:', user);
+    this.currentUser = user;
+    this.loadNoticias(); // Recarrega as notícias para o novo usuário
+  }
+  loadNoticias() {
+    this.dataService.getData().subscribe(
+      (data) => {
+        console.log('Dados recebidos:', data);
+        if (data && data.noticias) {
+          this.noticias = data.noticias;
+          console.log('Todas as notícias:', this.noticias);
+          
+          this.filteredNoticias = this.noticias.filter(
+            noticia => noticia.usuario === this.currentUser
+          );
+  
+          if (this.filteredNoticias.length === 0) {
+            console.warn(`Nenhuma notícia encontrada para ${this.currentUser}`);
+          }
+  
+          console.log('Notícias filtradas para', this.currentUser, ':', this.filteredNoticias);
+        } else {
+          console.warn('Nenhuma notícia encontrada');
+        }
+      },
+      (error) => console.error('Erro ao carregar os dados:', error)
+    );
   }
 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
   setSelectedTab(tab: string): void {
     this.selectedTab = tab;
   }

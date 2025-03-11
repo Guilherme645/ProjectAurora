@@ -2,7 +2,7 @@
 <div *ngIf="!isMobile" class="layout-container">
   <!-- Sidebar -->
   <div class=" bg-neutral-800 text-white w-80 fixed h-full">
-    <app-side-bar ></app-side-bar>
+    <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
   </div>
 
   <!-- Main Content -->
@@ -35,7 +35,8 @@
 <!-- Versão Mobile -->
 <div *ngIf="isMobile" class="mobile-layout-container">
   <!-- Sidebar Mobile -->
-  <div class="mobile-sidebar">
+  <div *ngIf="isSidebarOpen" class="sidebar-mobile">
+    <div class="sidebar-header"></div>
     <app-side-bar></app-side-bar>
   </div>
 
@@ -58,8 +59,7 @@
           </svg>
         </button>
         <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="6" x2="20" y2="6"></line>
             <line x1="4" y1="12" x2="20" y2="12"></line>
             <line x1="4" y1="18" x2="20" y2="18"></line>
