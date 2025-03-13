@@ -2,17 +2,17 @@ import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-buscar',
-    templateUrl: './buscar.component.html',
-    styleUrls: ['./buscar.component.css'],
-    standalone: false
+  selector: 'app-buscar',
+  templateUrl: './buscar.component.html',
+  styleUrls: ['./buscar.component.css'],
+  standalone: false
 })
 export class BuscarComponent {
   searchQuery: string = '';
   isMobile = window.innerWidth <= 768;
   isAdvancedSearchOpen = false;
-  modoSelecionado: string = 'simples'; 
-  isHighSearchVisible = true; 
+  modoSelecionado: string = 'simples';
+  isHighSearchVisible = true;
   isSearchOpen: boolean = false;
 
   @HostListener('window:resize', ['$event'])
@@ -39,5 +39,8 @@ export class BuscarComponent {
     this.isAdvancedSearchOpen = !this.isAdvancedSearchOpen;
   }
 
-  
+  closeHighSearch() {
+    this.isAdvancedSearchOpen = false;
+    this.isHighSearchVisible = false;
+  }
 }

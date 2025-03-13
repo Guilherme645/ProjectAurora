@@ -8,112 +8,130 @@ import { DataService } from 'src/app/services/data.service';
     standalone: false
 })
 export class NavBarComponent implements OnInit {
-  noticias: any[] = []; // Todas as notícias
-  filteredNoticias: any[] = []; // Notícias filtradas para exibição
+  noticias: any[] = [];
+  filteredNoticias: any[] = [];
   isMobile: boolean = false;
   isSidebarOpen = true;
   allSelected: boolean = false;
-  currentUser: string = 'Superior Tribunal Federal'; // Usuário padrão
-selectedTab: string = 'todos';
-
+  currentUser: string = 'Superior Tribunal Federal';
+  selectedTab: string = 'todos';
   selectedOption: string = 'Mais relevantes';
   isDropdownOpen: boolean = false;
-
-
   selectedMentionsCount: number = 0;
+
+  page: number = 1;
+  pageSize: number = 10;
+  isLoading: boolean = false;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
-    this.loadNoticias(); // Carregar as notícias ao inicializar
+    this.loadNoticias();
   }
 
   @HostListener('window:resize', [])
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    if (scrollPosition >= documentHeight - 100 && !this.isLoading) {
+      this.loadMoreNoticias();
+    }
+  }
+
   setSelectedTab(tab: string) {
     this.selectedTab = tab;
+    this.page = 1;
+    this.noticias = [];
+    this.filteredNoticias = [];
+    this.loadNoticias();
   }
+
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
   loadNoticias() {
-    this.dataService.getData().subscribe(
+    this.isLoading = true;
+    // Pass the currentUser to the data service to fetch user-specific data
+    this.dataService.getData(this.page, this.pageSize, this.currentUser).subscribe(
       (data) => {
-        console.log('Dados recebidos:', data);
+        console.log('Dados recebidos (página ' + this.page + ', usuário ' + this.currentUser + '):', data);
         if (data && data.noticias) {
-          this.noticias = data.noticias;
-          console.log('Todas as notícias:', this.noticias);
-          
-          this.filteredNoticias = this.noticias.filter(
-            noticia => noticia.usuario === this.currentUser
-          );
-  
-          if (this.filteredNoticias.length === 0) {
-            console.warn(`Nenhuma notícia encontrada para ${this.currentUser}`);
-          }
-  
-          console.log('Notícias filtradas para', this.currentUser, ':', this.filteredNoticias);
+          this.noticias = this.noticias.concat(data.noticias);
+          this.filterNoticias();
         } else {
-          console.warn('Nenhuma notícia encontrada');
+          console.warn('Nenhuma notícia encontrada para o usuário:', this.currentUser);
+          this.filteredNoticias = []; // Clear if no data
         }
+        this.isLoading = false;
       },
-      (error) => console.error('Erro ao carregar os dados:', error)
+      (error) => {
+        console.error('Erro ao carregar os dados:', error);
+        this.isLoading = false;
+      }
     );
   }
-  
-  
-  onFilterNews(tab: string) {
-    console.log('Filtro selecionado:', tab);
-    if (tab === 'todos') {
-      this.filteredNoticias = this.noticias.filter(
-        noticia => noticia.usuario === this.currentUser
-      );
-    } else if (tab === 'brutos') {
+
+  loadMoreNoticias() {
+    this.page++;
+    this.loadNoticias();
+  }
+
+  filterNoticias() {
+    if (this.selectedTab === 'todos') {
+      this.filteredNoticias = this.noticias.filter(noticia => noticia.usuario === this.currentUser);
+    } else if (this.selectedTab === 'brutos') {
       this.filteredNoticias = this.noticias.filter(
         noticia => (noticia.tipo === 'Vídeo' || noticia.tipo === 'Áudio') && noticia.usuario === this.currentUser
       );
-    } else if (tab === 'tratados') {
+    } else if (this.selectedTab === 'clippings') {
       this.filteredNoticias = this.noticias.filter(
         noticia => noticia.tipo === 'Texto' && noticia.usuario === this.currentUser
       );
     }
-    console.log('Notícias filtradas:', this.filteredNoticias);
+    console.log('Notícias filtradas para ' + this.currentUser + ':', this.filteredNoticias);
   }
-  
+
+  onFilterNews(tab: string) {
+    this.selectedTab = tab;
+    this.filterNoticias();
+  }
+
   onSelectAll(selectAll: boolean) {
     this.allSelected = selectAll;
     console.log('Seleção de todas as notícias:', this.allSelected);
   }
-  
+
   onUserChange(user: string) {
     console.log('Usuário mudou para:', user);
     this.currentUser = user;
-    this.loadNoticias(); // Recarrega as notícias para o novo usuário
+    this.page = 1;
+    this.noticias = [];
+    this.filteredNoticias = [];
+    this.loadNoticias(); // Fetch new data for the selected user
   }
- 
-  
-
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-    // Seleciona uma opção de ordenação
-    selectOption(option: string) {
-      this.selectedOption = option;
-      this.isDropdownOpen = false;
-    }
-  
 
-    onSelectionChange(isSelected: boolean) {
-      if (isSelected) {
-        this.selectedMentionsCount++;
-      } else {
-        this.selectedMentionsCount--;
-      }
+  selectOption(option: string) {
+    this.selectedOption = option;
+    this.isDropdownOpen = false;
+  }
+
+  onSelectionChange(isSelected: boolean) {
+    if (isSelected) {
+      this.selectedMentionsCount++;
+    } else {
+      this.selectedMentionsCount--;
     }
-  
+  }
 }

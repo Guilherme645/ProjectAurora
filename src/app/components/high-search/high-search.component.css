@@ -1,4 +1,10 @@
 /* 🟢 Estilo do container principal */
+html, body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 .hs-overlay {
   max-width: 476px;
   height: 100vh;

@@ -66,8 +66,9 @@ export class SideBarComponent implements OnInit {
 
   changeUser(userKey: string): void {
     this.currentUser.name = this.users[userKey] || 'Usuário Desconhecido';
-    this.userChange.emit(this.currentUser.name);
+    this.userChange.emit(this.currentUser.name); // Emite o usuário atualizado
   }
+  
   logout() {
     console.log('Usuário deslogado');
     this.isSidebarOpen = false;

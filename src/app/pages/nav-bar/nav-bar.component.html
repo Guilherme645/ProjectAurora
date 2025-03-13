@@ -1,9 +1,8 @@
 <!-- Versão Desktop -->
 <div *ngIf="!isMobile">
   <div class="layout-container">
-    
     <!-- Sidebar -->
-    <div class=" bg-neutral-800 text-white w-80 fixed h-full">
+    <div class="bg-neutral-800 text-white w-80 fixed h-full">
       <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
     </div>
     
@@ -13,7 +12,7 @@
         <app-header (filterNewsEvent)="onFilterNews($event)" (selectAllEvent)="onSelectAll($event)"></app-header>
       </header>
 
-      <!-- Conteúdo Principal -->
+      <!-- Conteúdo Principal Desktop -->
       <main class="main">
         <div *ngFor="let noticia of filteredNoticias" class="card">
           <app-card 
@@ -22,6 +21,7 @@
             (selectionChange)="onSelectionChange($event)">
           </app-card>
         </div>
+        <div *ngIf="isLoading" class="loading">Carregando mais notícias...</div>
       </main>
 
       <!-- Botão Scroll Top -->
@@ -40,7 +40,6 @@
   <!-- Navbar Mobile -->
   <nav class="sticky top-0 z-10 bg-white transition-transform duration-300 ease-in-out">
     <div class="flex flex-row items-center justify-between p-4">
-   
       <!-- Ícone e Nome -->
       <div class="flex items-center">
         <div class="icon-container">
@@ -90,8 +89,6 @@
   <div class="sorting-container">
     <div class="sorting-group">
       <span>Ordenar por:</span>
-      
-      <!-- Dropdown de Ordenação -->
       <div class="dropdown relative">
         <button class="dropdown-toggle" (click)="toggleDropdown()">
           {{ selectedOption }}
@@ -119,9 +116,10 @@
 
   <!-- Conteúdo Principal Mobile -->
   <main class="p-4">
-    <div *ngFor="let noticias of noticias">
-      <app-card [noticias]="noticias"></app-card>
+    <div *ngFor="let noticia of filteredNoticias">
+      <app-card [noticias]="noticia"></app-card>
     </div>
+    <div *ngIf="isLoading" class="loading">Carregando mais notícias...</div>
   </main>
 
   <!-- Botão Scroll Top -->

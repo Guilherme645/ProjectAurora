@@ -68,7 +68,8 @@ import { LocalizacaoComponent } from './components/localizacao/localizacao.compo
     AppRoutingModule,
     RouterModule, // ✅ IMPORTANTE PARA AS ROTAS FUNCIONAREM
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent] // ✅ GARANTA QUE ESTÁ CORRETO

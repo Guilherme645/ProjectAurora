@@ -1,12 +1,11 @@
-<div role="dialog" class="hs-overlay fixed shadow-xl top-0 end-0 transition-all duration-300 transform h-full max-w-lg w-full z-[80] bg-white border-s flex flex-col translate-x-0" [ngClass]="{'hidden': isMobile}">
-  <!-- Cabeçalho -->
-  <div class="pt-8">
+<div role="dialog" class="fixed top-0 end-0 h-screen w-full max-w-lg z-[80] bg-white border-s flex flex-col" [ngClass]="{'hidden': isMobile}">  <!-- Cabeçalho -->
+  <div class="pt-8 flex-shrink-0">
     <div class="flex px-3 items-center justify-between lg:hidden">
       <div class="flex flex-col justify-between py-3 px-4">
         <h2 class="text-lg font-semibold text-black">Busca Avançada</h2>
         <p class="text-xs font-medium text-gray-500">Insira os parâmetros desejados</p>
       </div>
-      <button class="absolute left-[315px] top-12 border border-gray-200 p-3 rounded-lg shadow-sm lg:hidden" (click)="close()">
+      <button class="absolute left-[315px] top-12 border border-gray-200 p-3 rounded-lg shadow-sm lg:hidden" (click)="onClose()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="4" x2="20" y1="12" y2="12"></line>
           <line x1="4" x2="20" y1="6" y2="6"></line>
@@ -15,12 +14,9 @@
       </button>
     </div>
     <div class="hidden lg:block">
-      <button type="button"
-      class="absolute p-6 top-10 -left-16 size-8 inline-flex shadow-sm justify-center items-center rounded-md border border-transparent bg-white text-gray-800 hover:bg-gray-200 text-2xl font-bold"
-      >
-    ×
-  </button>
-    
+      <button type="button" class="absolute p-6 top-10 -left-16 size-8 inline-flex shadow-sm justify-center items-center rounded-md border border-transparent bg-white text-gray-800 hover:bg-gray-200 text-2xl font-bold" (click)="onClose()">
+        ×
+      </button>
       <div class="flex flex-col justify-between py-3 px-4">
         <h2 class="text-lg font-semibold text-black">Busca Avançada</h2>
         <p class="text-xs font-medium text-gray-500">Selecione o tipo de busca e insira os parâmetros desejados</p>
@@ -36,41 +32,22 @@
 
   <!-- Corpo com rolagem -->
   <div class="flex-1 overflow-y-auto advanced-search-container">
- <!-- Palavras-chave -->
-<div class="accordion-section pt-4 pb-4 border-b">
-  <div
-    class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer"
-    (click)="toggleSection('keywords')"
-  >
-  <span class="text-sm font-bold text-gray-900">Palavras-chave</span>
-  <svg
-      [ngClass]="{ 'rotate-180': isSectionOpen.keywords }"
-      class="icon size-5 text-gray-500 transition-transform duration-200"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-    >
-      <path d="m6 9 6 6 6-6"></path>
-    </svg>
-  </div>
-
-  <div
-    class="px-4 overflow-hidden transition-all duration-200 ease-in-out"
-    [ngClass]="{ 'max-h-[600px] opacity-100 pb-4': isSectionOpen.keywords, 'max-h-0 opacity-0': !isSectionOpen.keywords }"
-  >
+    <!-- Palavras-chave -->
+    <div class="accordion-section pt-4 pb-4 border-b">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('keywords')">
+        <span class="text-sm font-bold text-gray-900">Palavras-chave</span>
+        <svg [ngClass]="{ 'rotate-180': isSectionOpen.keywords }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </div>
+      <div class="px-4 overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{ 'max-h-[600px] opacity-100 pb-4': isSectionOpen.keywords, 'max-h-0 opacity-0': !isSectionOpen.keywords }">
         <!-- Campo: Todas essas palavras -->
         <div class="space-y-4">
           <div class="px-4 overflow-hidden transition-all duration-200 ease-in-out max-h-[600px] opacity-100 pb-4 flex flex-col gap-2">
-          
             <div class="flex items-center">
-              <!-- Container do input com fundo cinza -->
               <div class="flex items-center rounded-lg bg-gray-100 p-4" style="width: 380px; height: 61px;">
                 <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Todas essas palavras">
               </div>
-              <!-- Ícone fora do container, à direita -->
               <div class="ml-2">
                 <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10" fill="#4B5563" />
@@ -79,14 +56,11 @@
                 </svg>
               </div>
             </div>
-        
             <!-- Campo: Qualquer uma dessas palavras -->
             <div class="flex items-center">
-              <!-- Container do input com fundo cinza -->
               <div class="flex items-center rounded-lg bg-gray-100 p-4" style="width: 380px; height: 61px;">
                 <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Qualquer uma dessas palavras">
               </div>
-              <!-- Ícone fora do container, à direita -->
               <div class="ml-2">
                 <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10" fill="#4B5563" />
@@ -95,14 +69,11 @@
                 </svg>
               </div>
             </div>
-        
             <!-- Campo: Frase ou palavra exata -->
             <div class="flex items-center">
-              <!-- Container do input com fundo cinza -->
               <div class="flex items-center rounded-lg bg-gray-100 p-4" style="width: 380px; height: 61px;">
                 <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Frase ou palavra exata">
               </div>
-              <!-- Ícone fora do container, à direita -->
               <div class="ml-2">
                 <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10" fill="#4B5563" />
@@ -111,13 +82,10 @@
                 </svg>
               </div>
             </div>
-        
             <div class="flex items-center">
-              <!-- Container do input com fundo cinza -->
               <div class="flex items-center rounded-lg bg-gray-100 p-4" style="width: 380px; height: 61px;">
                 <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Nenhuma dessas palavras">
               </div>
-              <!-- Ícone fora do container, à direita -->
               <div class="ml-2">
                 <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10" fill="#4B5563" />
@@ -126,66 +94,40 @@
                 </svg>
               </div>
             </div>
-        
           </div>
         </div>
       </div>
-      </div>
+    </div>
 
-<!-- Seção Data -->
-<div class="accordion-section pt-4 pb-4 border-b"> 
-  <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('date')">
-    <span class="text-sm font-bold text-gray-900">Data</span>
-    <svg [ngClass]="{ 'rotate': isSectionOpen.date }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="m6 9 6 6 6-6"></path>
-    </svg>
-  </div>
-  <div class="accordion-content left-[924px] px-4" [ngClass]="{ 'show': isSectionOpen.date }">
-    <div class="date-container flex gap-2">
-      <!-- Campo Data Início -->
-      <div class="datepicker-container relative">
-        <input
-          class="date-field w-[190px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600"
-          type="text"
-          placeholder="Data Início"
-          (click)="openCalendar('start')"
-          [value]="selectedStartDate | date: 'dd/MM/yyyy'"
-          readonly
-        />
+    <!-- Seção Data -->
+    <div class="accordion-section pt-4 pb-4 border-b">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('date')">
+        <span class="text-sm font-bold text-gray-900">Data</span>
+        <svg [ngClass]="{ 'rotate-180': isSectionOpen.date }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
       </div>
-
-      <!-- Campo Data Fim -->
-      <div class="datepicker-container relative">
-        <input
-          class="date-field w-[206px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600"
-          type="text"
-          placeholder="Data Fim"
-          (click)="openCalendar('end')"
-          [value]="selectedEndDate | date: 'dd/MM/yyyy'"
-          readonly
-        />
+      <div class="accordion-content left-[924px] px-4" [ngClass]="{ 'show': isSectionOpen.date }">
+        <div class="date-container flex gap-2">
+          <div class="datepicker-container relative">
+            <input class="date-field w-[190px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600" type="text" placeholder="Data Início" (click)="openCalendar('start')" [value]="selectedStartDate | date: 'dd/MM/yyyy'" readonly />
+          </div>
+          <div class="datepicker-container relative">
+            <input class="date-field w-[206px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600" type="text" placeholder="Data Fim" (click)="openCalendar('end')" [value]="selectedEndDate | date: 'dd/MM/yyyy'" readonly />
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" *ngIf="showCalendar" (click)="closeCalendar()"></div>
+      <div class="calendar-modal-container" *ngIf="showCalendar">
+        <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
       </div>
     </div>
-  </div>
 
-
-<!-- Overlay para o calendário (fora do componente pai, ao lado esquerdo) -->
-<div class="modal-overlay" *ngIf="showCalendar" (click)="closeCalendar()"></div>
-<div class="calendar-modal-container" *ngIf="showCalendar">
-  <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
-</div>
-
-  <!-- Overlay para o calendário (similiar ao modal de Veículos) -->
-  <div class="modal-overlay" *ngIf="showCalendar"></div>
-  <div class="calendar-modal-container" *ngIf="showCalendar">
-    <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
-  </div>
-</div>
     <!-- Tipo de Mídia -->
     <div class="accordion-section pt-8 pb-4 border-b">
       <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('media')">
         <span class="text-sm font-bold text-gray-900">Tipo de Mídia</span>
-        <svg [ngClass]="{ 'rotate': isSectionOpen.media }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg [ngClass]="{ 'rotate-180': isSectionOpen.media }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="m6 9 6 6 6-6"></path>
         </svg>
       </div>
@@ -194,12 +136,10 @@
           <input type="checkbox" [(ngModel)]="mediaTypes.audio" class="w-4 h-4 accent-blue-600 cursor-pointer" />
           <span class="text-sm font-bold text-gray-900">Áudio (Rádio)</span>
         </label>
-    
         <label class="flex items-center gap-2 py-1">
           <input type="checkbox" [(ngModel)]="mediaTypes.text" class="w-4 h-4 accent-blue-600 cursor-pointer" />
           <span class="text-sm font-bold text-gray-900">Texto (Impressos e Web)</span>
         </label>
-    
         <label class="flex items-center gap-2 py-1">
           <input type="checkbox" [(ngModel)]="mediaTypes.video" class="w-4 h-4 accent-blue-600 cursor-pointer" />
           <span class="text-sm font-bold text-gray-900">Vídeo (Canais de televisão)</span>
@@ -211,12 +151,11 @@
     <div class="accordion-section pt-4 pb-4 border-b">
       <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="openModal()">
         <span class="text-sm font-bold text-gray-900">Veículos</span>
-        <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg [ngClass]="{ 'rotate-180': isSectionOpen.location }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="m6 9 6 6 6-6"></path>
         </svg>
       </div>
-      
-      <div class="modal-overlay" *ngIf="isModalOpen" (click)="close()"></div>
+      <div class="modal-overlay" *ngIf="isModalOpen" (click)="onClose()"></div>
       <div class="modal-container" *ngIf="isModalOpen">
         <app-veiculos (closeSection)="onCloseSection()"></app-veiculos>
       </div>
@@ -226,7 +165,7 @@
     <div class="accordion-section pt-4 pb-4 border-b">
       <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('sentiment')">
         <span class="text-sm font-bold text-gray-900">Sentimento</span>
-        <svg [ngClass]="{ 'rotate': isSectionOpen.sentiment }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg [ngClass]="{ 'rotate-180': isSectionOpen.sentiment }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="m6 9 6 6 6-6"></path>
         </svg>
       </div>
@@ -235,12 +174,10 @@
           <input type="checkbox" [(ngModel)]="sentiments.positive" class="w-4 h-4 accent-blue-600 cursor-pointer" />
           <span class="text-sm font-bold text-gray-900">Positivo</span>
         </label>
-    
         <label class="flex items-center gap-2 py-1">
           <input type="checkbox" [(ngModel)]="sentiments.neutral" class="w-4 h-4 accent-blue-600 cursor-pointer" />
           <span class="text-sm font-bold text-gray-900">Neutro</span>
         </label>
-    
         <label class="flex items-center gap-2 py-1">
           <input type="checkbox" [(ngModel)]="sentiments.negative" class="w-4 h-4 accent-blue-600 cursor-pointer" />
           <span class="text-sm font-bold text-gray-900">Negativo</span>
@@ -252,8 +189,7 @@
     <div class="accordion-section pt-4 pb-4 border-b">
       <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('location')">
         <span class="text-sm font-bold text-gray-900">Localização</span>
-        
-        <svg [ngClass]="{ 'rotate': isSectionOpen.location }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg [ngClass]="{ 'rotate-180': isSectionOpen.location }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="m6 9 6 6 6-6"></path>
         </svg>
       </div>
@@ -261,32 +197,17 @@
         <app-localizacao (closeSection)="onCloseSection()"></app-localizacao>
       </div>
     </div>
-
-  <!-- Container do modal -->
-<div class="relative bg-white rounded-lg shadow-xl">
-    
-  <!-- Conteúdo do modal -->
-  <div class="p-6">
-      <!-- Aqui vai o conteúdo do modal -->
   </div>
 
-  <!-- Rodapé fixo dentro do modal -->
-  <div class="flex justify-end gap-2 p-4 bg-white border-t shadow-md">
-    <button class="py-2 px-4 text-sm font-bold text-gray-900 bg-transparent rounded-lg hover:bg-gray-100 transition-colors"
-    (click)="clearSearch()">
-    Limpar busca
-</button>
-
-      <button class="w-[119px] h-[46px] py-2 px-4 text-sm font-medium text-white bg-gray-700 rounded-lg hover:bg-gray-900 transition-colors"
-      (click)="navigateToResults()">
-      Fazer busca
-  </button>
-  
+  <!-- Rodapé fixo -->
+  <div class="flex-shrink-0 p-4 bg-white border-t shadow-md">
+    <div class="flex justify-end gap-2">
+      <button class="py-2 px-4 text-sm font-bold text-gray-900 bg-transparent rounded-lg hover:bg-gray-100 transition-colors" (click)="clearSearch()">
+        Limpar busca
+      </button>
+      <button class="w-[119px] h-[46px] py-2 px-4 text-sm font-medium text-white bg-gray-700 rounded-lg hover:bg-gray-900 transition-colors" (click)="navigateToResults()">
+        Fazer busca
+      </button>
+    </div>
   </div>
-
-</div>
-
-
-
-
 </div>

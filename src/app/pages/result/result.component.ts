@@ -18,6 +18,7 @@ export class ResultComponent implements OnInit {
   isScrolled = false;
   currentUser: string = 'Superior Tribunal Federal'; // Usuário padrão
   filteredNoticias: any[] = []; // Notícias filtradas para exibição
+  isModalVisible: boolean = false;
 
   constructor(private dataService: DataService) {}
 
@@ -91,6 +92,12 @@ export class ResultComponent implements OnInit {
   toggleFiltros(): void {
     this.filtrosAbertos = !this.filtrosAbertos;
   }
+
+  toggleModal() {
+    this.isModalVisible = !this.isModalVisible;
+    console.log('Estado do modal:', this.isModalVisible); // 🔍 Teste no console
+  }
+  
 
   // Detecta rolagem e altera estado do cabeçalho
   @HostListener('window:scroll', [])
