@@ -25,9 +25,12 @@ fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke
 </svg>
 Fazer busca
 </button>
-<div class="p-4 w-[176px] h-[809px]" *ngIf="isSearchOpen">
-  <app-high-search ></app-high-search>
-</div>
+<div *ngIf="isSearchOpen" class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out"
+       [class.translate-x-full]="!isSearchOpen" [class.translate-x-0]="isSearchOpen">
+    <div class="p-4 w-full h-full">
+      <app-high-search ></app-high-search>
+    </div>
+  </div>
 <app-input-busca  #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
 
 
