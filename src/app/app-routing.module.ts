@@ -7,7 +7,7 @@ import { PageCriarContaComponent } from './pages/page-criar-conta/page-criar-con
 import { PageEsqueceuSenhaComponent } from './pages/page-esqueceu-senha/page-esqueceu-senha.component';
 import { ResultComponent } from './pages/result/result.component';
 
-export const routes: Routes = [  // ✅ Adicionado "export" aqui
+export const routes: Routes = [ 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: PageLoginComponent },
   { path: 'navBar', component: NavBarComponent },

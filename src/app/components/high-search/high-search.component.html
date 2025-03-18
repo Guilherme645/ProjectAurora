@@ -106,29 +106,68 @@
     </div>
 
     <!-- Seção Data -->
-    <div class="accordion-section py-4 border-b">
-      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('date')">
-        <span class="text-sm font-bold text-gray-900">Data</span>
-        <svg [ngClass]="{'rotate-180': isSectionOpen['date']}" class="w-5 h-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="m6 9 6 6 6-6"></path>
-        </svg>
+   <!-- Seção Data -->
+<div class="accordion-section py-4 border-b">
+  <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('date')">
+    <span class="text-sm font-bold text-gray-900">Data</span>
+    <svg [ngClass]="{'rotate-180': isSectionOpen['date']}" class="w-5 h-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </div>
+  <div class="overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{'max-h-[600px] opacity-100 pb-4': isSectionOpen['date'], 'max-h-0 opacity-0': !isSectionOpen['date']}">
+    <!-- Condição para mobile (telas menores que lg) -->
+    <div class="flex flex-col gap-2 lg:hidden">
+      <div class="datepicker-container relative">
+        <input 
+          type="date" 
+          class="w-full h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600 appearance-none"
+          placeholder="Data Início" 
+          [(ngModel)]="selectedStartDateMobile" 
+          (change)="onMobileDateChange('start', $event)" 
+        />
       </div>
-      <div class="overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{'max-h-[600px] opacity-100 pb-4': isSectionOpen['date'], 'max-h-0 opacity-0': !isSectionOpen['date']}">
-        <div class="flex flex-col sm:flex-row gap-2">
-          <div class="datepicker-container relative">
-            <input class="w-full sm:w-[190px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600" type="text" placeholder="Data Início" (click)="openCalendar('start')" [value]="selectedStartDate | date: 'dd/MM/yyyy'" readonly />
-          </div>
-          <div class="datepicker-container relative">
-            <input class="w-full sm:w-[206px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600" type="text" placeholder="Data Fim" (click)="openCalendar('end')" [value]="selectedEndDate | date: 'dd/MM/yyyy'" readonly />
-          </div>
-        </div>
-      </div>
-      <div class="fixed inset-0 " *ngIf="showCalendar" (click)="closeCalendar()"></div>
-      <div class="calendar-modal-container fixed top-1/2 left-[20%] transform -translate-x-[40%] -translate-y-1/2 bg-white rounded-lg shadow-xl" *ngIf="showCalendar">
-        <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
+      <div class="datepicker-container relative">
+        <input 
+          type="date" 
+          class="w-full h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600 appearance-none"
+          placeholder="Data Fim" 
+          [(ngModel)]="selectedEndDateMobile" 
+          (change)="onMobileDateChange('end', $event)" 
+        />
       </div>
     </div>
 
+    <!-- Condição para desktop (telas grandes) - mantida como está -->
+    <div class="hidden lg:flex flex-col sm:flex-row gap-2">
+      <div class="datepicker-container relative">
+        <input 
+          class="w-full sm:w-[190px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600" 
+          type="text" 
+          placeholder="Data Início" 
+          (click)="openCalendar('start')" 
+          [value]="selectedStartDate | date: 'dd/MM/yyyy'" 
+          readonly 
+        />
+      </div>
+      <div class="datepicker-container relative">
+        <input 
+          class="w-full sm:w-[206px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600" 
+          type="text" 
+          placeholder="Data Fim" 
+          (click)="openCalendar('end')" 
+          [value]="selectedEndDate | date: 'dd/MM/yyyy'" 
+          readonly 
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendário para desktop -->
+  <div class="fixed inset-0" *ngIf="showCalendar" (click)="closeCalendar()"></div>
+  <div class="calendar-modal-container fixed top-1/2 left-[20%] transform -translate-x-[40%] -translate-y-1/2 bg-white rounded-lg shadow-xl" *ngIf="showCalendar">
+    <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
+  </div>
+</div>
     <!-- Tipo de Mídia -->
     <div class="accordion-section py-4 border-b">
       <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('media')">

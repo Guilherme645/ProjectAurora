@@ -281,4 +281,36 @@ html, body {
   .close-button:hover {
     background-color: #cc0000;
   }
+input[type="date"] {
+  -webkit-appearance: none; 
+  -moz-appearance: textfield; 
+  appearance: none; 
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input[type="date"]::-moz-calendar-picker-indicator {
+  display: none; 
+}
+
+input[type="date"] {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px 12px;
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type="date"]:placeholder-shown {
+  color: #9ca3af;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 }

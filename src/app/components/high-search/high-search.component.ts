@@ -14,9 +14,11 @@ export class HighSearchComponent {
   selectedEndDate: Date | null = null;
   selectedInput: 'start' | 'end' | null = null;
   dateError: string | null = null;
-  @Input() isVisible: boolean = false; // Controla a visibilidade do modal
-  @Output() close = new EventEmitter<void>(); // Evento para fechar o modal
+  @Input() isVisible: boolean = false;
+  @Output() close = new EventEmitter<void>(); 
   isSidebarOpen: boolean = false;
+  selectedStartDateMobile: string = ''; 
+  selectedEndDateMobile: string = '';   
 
   constructor(private router: Router) {}
 
@@ -56,13 +58,14 @@ export class HighSearchComponent {
   }
 
   onClose() {
-    this.close.emit(); // Emite o evento para o componente pai fechar o modal
+    this.close.emit(); 
   }
 
   onSidebarToggle(isOpen: boolean) {
     this.isSidebarOpen = isOpen;
     console.log('Sidebar foi', isOpen ? 'aberto' : 'fechado');
   }
+
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
@@ -80,8 +83,10 @@ export class HighSearchComponent {
   onDateSelected(date: Date) {
     if (this.selectedInput === 'start') {
       this.selectedStartDate = date;
+      this.selectedStartDateMobile = this.formatDateToInput(date); 
     } else if (this.selectedInput === 'end') {
       this.selectedEndDate = date;
+      this.selectedEndDateMobile = this.formatDateToInput(date); 
     }
     this.validateDates();
     this.closeCalendar();
@@ -90,6 +95,26 @@ export class HighSearchComponent {
   closeCalendar() {
     this.showCalendar = false;
     this.selectedInput = null;
+  }
+
+  onMobileDateChange(type: 'start' | 'end', event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    const date = value ? new Date(value) : null;
+    if (type === 'start') {
+      this.selectedStartDate = date;
+      this.selectedStartDateMobile = value; 
+    } else {
+      this.selectedEndDate = date;
+      this.selectedEndDateMobile = value; 
+    }
+    this.validateDates();
+  }
+
+  private formatDateToInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   validateDates() {
@@ -113,6 +138,8 @@ export class HighSearchComponent {
     this.sentiments = { positive: false, neutral: false, negative: false };
     this.selectedStartDate = null;
     this.selectedEndDate = null;
+    this.selectedStartDateMobile = ''; 
+    this.selectedEndDateMobile = '';  
     this.dateError = null;
     Object.keys(this.isSectionOpen).forEach((key) => {
       this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;

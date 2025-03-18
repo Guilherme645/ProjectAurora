@@ -49,13 +49,18 @@
 
 <!-- MODAL MOBILE -->
 <div *ngIf="isMobile" class="mobile-modal-container">
-  <!-- Barra de busca -->
-  <div class="mobile-search">
-    <i class="icon-search"></i>
-    <input type="text" placeholder="Procurar estados" class="mobile-search-input" (input)="filtrarEstados($event)" />
+  <!-- Barra de busca (fixa no topo) -->
+  <div class="mobile-search-container">
+
+    <div class="w-12 h-1.5 bg-gray-400 rounded-full mx-auto mt-2"></div>
+<br>
+    <div class="mobile-search">
+      <i class="icon-search"></i>
+      <input type="text" placeholder="Procurar estados" class="mobile-search-input" (input)="filtrarEstados($event)" />
+    </div>
   </div>
 
-  <!-- Lista de Estados (Mobile) -->
+  <!-- Lista de Estados (rolável) -->
   <div class="mobile-entity-list">
     <div class="mobile-category-section">
       <span class="section-title">Estados</span>
@@ -68,8 +73,9 @@
     </div>
   </div>
 
-  <!-- Rodapé -->
+  <!-- Rodapé fixo -->
   <div class="mobile-modal-footer">
     <button class="mobile-action-button" (click)="closeModal()">Confirmar Seleção</button>
   </div>
 </div>
+
