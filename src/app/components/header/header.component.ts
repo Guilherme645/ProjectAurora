@@ -1,10 +1,11 @@
+// header.component.ts
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css'],
-    standalone: false
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
+  standalone: false
 })
 export class HeaderComponent {
   isScrolled: boolean = false;
@@ -26,6 +27,7 @@ export class HeaderComponent {
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
+    this.isScrolled = window.scrollY > 50;
     this.isCollapsed = window.scrollY > 50;
   }
 
@@ -36,6 +38,10 @@ export class HeaderComponent {
 
   toggleSearch(): void {
     this.isSearchOpen = !this.isSearchOpen;
+  }
+
+  closeHighSearch(): void {
+    this.isSearchOpen = false;
   }
 
   openBusca(): void {

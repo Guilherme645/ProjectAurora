@@ -7,19 +7,24 @@
         <h2 class="text-lg font-semibold text-black">Busca Avançada</h2>
         <p class="text-xs font-medium text-gray-500">Insira os parâmetros desejados</p>
       </div>
-      <button class="right-4 top-12 border border-gray-200 p-3 rounded-lg shadow-sm" (click)="onClose()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" x2="20" y1="12" y2="12"></line>
-          <line x1="4" x2="20" y1="6" y2="6"></line>
-          <line x1="4" x2="20" y1="18" y2="18"></line>
+      <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
         </svg>
       </button>
+
+      <!-- Sidebar Mobile -->
+      <div *ngIf="isSidebarOpen" class="sidebar-mobile">
+        <div class="sidebar-header"></div>
+        <app-side-bar (sidebarToggled)="onSidebarToggle($event)"></app-side-bar>
+      </div>
+
     </div>
     <!-- Versão Desktop -->
     <div class="hidden lg:block">
-      <button type="button" class="absolute p-6 top-10 -left-16 w-8 h-8 flex justify-center items-center rounded-md border border-transparent bg-white text-gray-800 hover:bg-gray-200 text-2xl font-bold shadow-sm" (click)="onClose()">
-        ×
-      </button>
+      <app-botaox (onClose)="onClose()"></app-botaox>
       <div class="flex flex-col justify-between py-3 px-4">
         <h2 class="text-lg font-semibold text-black">Busca Avançada</h2>
         <p class="text-xs font-medium text-gray-500">Selecione o tipo de busca e insira os parâmetros desejados</p>

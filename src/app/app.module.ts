@@ -32,6 +32,7 @@ import { SearcBasicComponent } from './components/searc-basic/searc-basic.compon
 import { SaveSearchComponent } from './components/save-search/save-search.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { LocalizacaoComponent } from './components/localizacao/localizacao.component';
+import { BotaoxComponent } from './components/botaox/botaox.component';
 
 @NgModule({
   declarations: [
@@ -61,14 +62,15 @@ import { LocalizacaoComponent } from './components/localizacao/localizacao.compo
     SearcBasicComponent,
     SaveSearchComponent,
     CalendarComponent,
-    LocalizacaoComponent
+    LocalizacaoComponent,
+    BotaoxComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule, // ✅ IMPORTANTE PARA AS ROTAS FUNCIONAREM
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
     
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],

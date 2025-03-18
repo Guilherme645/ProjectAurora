@@ -1,19 +1,17 @@
+<!-- nav-bar.component.html -->
 <!-- Versão Desktop -->
 <div *ngIf="!isMobile">
   <div class="layout-container">
-    <!-- Sidebar -->
     <div class="bg-neutral-800 text-white w-80 fixed h-full">
       <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
     </div>
     
-    <!-- Main Content -->
     <div class="main-content">
       <header class="header fixed-header">
         <app-header (filterNewsEvent)="onFilterNews($event)" (selectAllEvent)="onSelectAll($event)"></app-header>
       </header>
 
-      <!-- Conteúdo Principal Desktop -->
-      <main class="main">
+      <main class="main pt-20">
         <div *ngFor="let noticia of filteredNoticias" class="card">
           <app-card 
             [noticias]="noticia" 
@@ -21,20 +19,24 @@
             (selectionChange)="onSelectionChange($event)">
           </app-card>
         </div>
-        <div *ngIf="isLoading" class="loading">Carregando mais notícias...</div>
+        <div *ngIf="isLoading" class="loading text-center py-4">Carregando mais notícias...</div>
       </main>
 
-      <!-- Botão Scroll Top -->
-      <div class="scroll">
-        <app-scroll-top></app-scroll-top>
+      <div class="scroll fixed bottom-4 right-4 z-20" *ngIf="showScrollTop">
+        <button 
+          class="bg-blue-600 text-white rounded-full p-3 shadow-lg hover:bg-blue-700"
+          (click)="scrollToTop()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" 
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+          </svg>
+        </button>
       </div>
 
-      <!-- Menções Selecionadas -->
       <app-mensoes [selectedCount]="selectedMentionsCount"></app-mensoes>
     </div>
   </div>
 </div>
-
 <!-- Versão Mobile -->
 <div *ngIf="isMobile">
   <!-- Navbar Mobile -->
@@ -70,7 +72,7 @@
         <!-- Sidebar Mobile -->
         <div *ngIf="isSidebarOpen" class="sidebar-mobile">
           <div class="sidebar-header"></div>
-          <app-side-bar></app-side-bar>
+          <app-side-bar (sidebarToggled)="onSidebarToggle($event)"></app-side-bar>
         </div>
       </div>
     </div>
@@ -123,7 +125,6 @@
   </main>
 
   <!-- Botão Scroll Top -->
-  <div class="scroll">
+  <div class="scroll" *ngIf="showScrollTopButton" (click)="scrollToTop()">
     <app-scroll-top></app-scroll-top>
   </div>
-</div>

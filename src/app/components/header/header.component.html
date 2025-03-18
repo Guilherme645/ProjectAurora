@@ -1,8 +1,9 @@
+<!-- header.component.html -->
 <div class="relative w-full h-auto bg-white" id="workspaceContainer">
   
+  <!-- Seção superior que recolhe -->
   <div class="bg-white px-6 pt-6 transition-all duration-300"
        [ngClass]="{ 'h-0 opacity-0 overflow-hidden': isCollapsed, 'h-auto opacity-100': !isCollapsed }">
-    
     <div class="flex items-start justify-between flex-wrap gap-4">
       <div>
         <h1 class="font-inter font-semibold text-[20px] leading-[24px] tracking-[-0.018em] text-gray-900">
@@ -15,27 +16,19 @@
 
       <div class="flex flex-wrap justify-end">
         <div class="inline-flex items-center max-w-[277px] h-[46px] border border-gray-300 rounded-md overflow-hidden">
-<button type="button"
-class="inline-flex items-center gap-x-2 px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 border-r border-gray-300 h-full"
-(click)="openBusca()">
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<circle cx="11" cy="11" r="8"></circle>
-<path d="m21 21-4.3-4.3"></path>
-</svg>
-Fazer busca
-</button>
-<div *ngIf="isSearchOpen" class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out"
-       [class.translate-x-full]="!isSearchOpen" [class.translate-x-0]="isSearchOpen">
-    <div class="p-4 w-full h-full">
-      <app-high-search ></app-high-search>
-    </div>
-  </div>
-<app-input-busca  #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
-
-
-          <button type="button" class="inline-flex items-center justify-center px-3 text-sm font-medium 
-                 text-gray-800 hover:bg-gray-100 h-full" (click)="toggleSearch()">
+          <button type="button"
+                  class="inline-flex items-center gap-x-2 px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 border-r border-gray-300 h-full"
+                  (click)="openBusca()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+            Fazer busca
+          </button>
+          <button type="button" 
+                  class="inline-flex items-center justify-center px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 h-full"
+                  (click)="toggleSearch()">
             Busca avançada
           </button>
         </div>
@@ -43,49 +36,38 @@ Fazer busca
     </div>
   </div>
 
-  <div class="sticky top-0 w-auto bg-white border-b border-gray-200 transition-all duration-300">
+  <!-- Barra de navegação fixa -->
+  <div class="sticky top-0 w-full bg-white border-b border-gray-200 transition-all duration-300 z-10 shadow-sm">
     <div class="flex items-center justify-between py-2 px-6">
       <div class="flex items-center gap-3">
-        <input type="checkbox" class="h-4 w-4 accent-blue-600 rounded" (change)="toggleSelectAll()" [checked]="selectAll"/>
-  
+        <input type="checkbox" 
+               class="h-4 w-4 accent-blue-600 rounded" 
+               (change)="toggleSelectAll()" 
+               [checked]="selectAll"/>
+        
         <button type="button"
                 class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
                 [ngClass]="selectedTab === 'todos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
                 (click)="selectTab('todos')">
           Todos os resultados
         </button>
-  
-        <!-- Botão Resultados Brutos -->
-<!-- Botão Resultados Brutos com Tooltip -->
-<button type="button"
-  class="inline-flex items-center gap-1 px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
-  [ngClass]="selectedTab === 'brutos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
-  (click)="selectTab('brutos')">
-  
-  Resultados brutos
 
-  <!-- Tooltip que aparece ao passar o mouse -->
-  <div class="relative inline-block group">
-    <!-- Ícone "i" que ativa o Tooltip -->
-    <div class="inline-block">
-      <button type="button" class="flex h-4 w-4 items-center justify-center rounded-full bg-gray-900 text-white">
-        <span class="text-[10px] font-bold cursor-pointer">i</span>
-      </button>
+        <button type="button"
+                class="inline-flex items-center gap-1 px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
+                [ngClass]="selectedTab === 'brutos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
+                (click)="selectTab('brutos')">
+          Resultados brutos
+          <div class="relative inline-block group">
+            <button type="button" 
+                    class="flex h-4 w-4 items-center justify-center rounded-full bg-gray-900 text-white">
+              <span class="text-[10px] font-bold cursor-pointer">i</span>
+            </button>
+            <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
+              Os resultados brutos só retornam menções <br> das mídias: TV, Rádio e Impressos
+            </span>
+          </div>
+        </button>
 
-      <!-- Tooltip -->
-      <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
-        Os resultados brutos só retornam menções <br> das mídias: TV, Rádio e Impressos
-      </span>
-    </div>
-  </div>
-</button>
-
-
-
-
-      
-  
-        <!-- Botão Clippings -->
         <button type="button"
                 class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
                 [ngClass]="selectedTab === 'clippings' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
@@ -97,21 +79,18 @@ Fazer busca
       <div class="flex items-center gap-1">
         <div class="flex items-center gap-1 text-sm text-gray-800">
           <span class="text-gray-500">Ordenar por:</span>
-      
-          <!-- Dropdown -->
           <div class="relative">
             <button type="button"
                     class="inline-flex items-center gap-x-1 px-2 py-1.5 rounded-md bg-transparent hover:bg-gray-100"
                     (click)="isDropdownOpen = !isDropdownOpen">
               {{ selectedOption }}
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-               class="lucide"><path d="m6 9 6 6 6-6" key="qrunsl"></path></svg>
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
             </button>
-      
-            <!-- Dropdown Menu -->
             <div *ngIf="isDropdownOpen"
-                 class="absolute mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg left-[-70px]">
+                 class="absolute mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg left-[-70px] z-20">
               <ul class="text-sm text-gray-800">
                 <li (click)="selectOption('Mais relevantes')" 
                     class="px-4 py-2 cursor-pointer hover:bg-gray-100"
@@ -127,30 +106,31 @@ Fazer busca
             </div>
           </div>
         </div>
-      
 
-        <!-- Ícone de Filtro -->
-       <!-- Container do Tooltip -->
-<div class="relative inline-block group">
-  <!-- Botão do Filtro -->
-  <button type="button"
-    class="w-[46px] h-[46px] bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded flex items-center justify-center">
-    
-    <!-- Ícone de Filtro -->
-    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-    </svg>
-  </button>
-
-  <!-- Tooltip que aparece ao passar o mouse -->
-  <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
-    Filtros
-  </span>
-</div>
-
-        
+        <div class="relative inline-block group">
+          <button type="button"
+                  class="w-[46px] h-[46px] bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+          </button>
+          <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
+            Filtros
+          </span>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Componentes de busca mantidos fora do fluxo principal -->
+  <div *ngIf="isSearchOpen" 
+       class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-20"
+       [ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}">
+    <div class="p-4 w-full h-full">
+      <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
+    </div>
+  </div>
+
+  <app-input-busca #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
 </div>

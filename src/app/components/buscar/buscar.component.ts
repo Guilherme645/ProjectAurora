@@ -34,12 +34,12 @@ export class BuscarComponent {
   selecionarModo(modo: string) {
     this.modoSelecionado = modo;
   }
-
   toggleAdvancedSearch(): void {
     this.isAdvancedSearchOpen = !this.isAdvancedSearchOpen;
+    this.isHighSearchVisible = this.isAdvancedSearchOpen;
   }
 
-  closeHighSearch() {
+  closeHighSearch(): void {
     this.isAdvancedSearchOpen = false;
     this.isHighSearchVisible = false;
   }

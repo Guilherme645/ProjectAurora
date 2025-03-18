@@ -13,8 +13,5 @@
   padding-left: 20px;
   padding-right: 150px;
 }
-.fixed {
-  z-index: 9999; /* Garante que o modal esteja sobre todos os outros elementos */
-}
 
 

@@ -24,6 +24,7 @@ export class SideBarComponent implements OnInit {
   ];
   users: { [key: string]: string } = {}; 
   @Output() userChange = new EventEmitter<string>();
+  @Output() sidebarToggled = new EventEmitter<boolean>(); // Emissor de eventos para o componente pai
 
   constructor(private dataService: DataService, private router: Router) {}
 
@@ -53,8 +54,8 @@ export class SideBarComponent implements OnInit {
 
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarToggled.emit(this.isSidebarOpen); // Emitindo o evento para o componente pai
   }
-
   toggleModal(): void {
     this.isModalVisible = !this.isModalVisible;
   }

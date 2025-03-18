@@ -10,12 +10,14 @@ import { Router } from '@angular/router';
 export class HighSearchComponent {
   isMobile = window.innerWidth <= 768;
   showCalendar: boolean = false;
-  selectedStartDate: Date | null = null; // Alterado para permitir null
-  selectedEndDate: Date | null = null;   // Alterado para permitir null
+  selectedStartDate: Date | null = null;
+  selectedEndDate: Date | null = null;
   selectedInput: 'start' | 'end' | null = null;
-  dateError: string | null = null;       // Mensagem de erro para datas inválidas
-  @Input() isVisible: boolean = false; // Controla se o componente está visível
-  @Output() close = new EventEmitter<void>(); // Evento emitido ao fechar
+  dateError: string | null = null;
+  @Input() isVisible: boolean = false; // Controla a visibilidade do modal
+  @Output() close = new EventEmitter<void>(); // Evento para fechar o modal
+  isSidebarOpen: boolean = false;
+
   constructor(private router: Router) {}
 
   isSectionOpen: { 
@@ -54,7 +56,15 @@ export class HighSearchComponent {
   }
 
   onClose() {
-    this.close.emit();
+    this.close.emit(); // Emite o evento para o componente pai fechar o modal
+  }
+
+  onSidebarToggle(isOpen: boolean) {
+    this.isSidebarOpen = isOpen;
+    console.log('Sidebar foi', isOpen ? 'aberto' : 'fechado');
+  }
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 
   toggleSection(section: keyof typeof this.isSectionOpen) {
@@ -73,7 +83,7 @@ export class HighSearchComponent {
     } else if (this.selectedInput === 'end') {
       this.selectedEndDate = date;
     }
-    this.validateDates(); // Validar após selecionar uma data
+    this.validateDates();
     this.closeCalendar();
   }
 
@@ -82,7 +92,6 @@ export class HighSearchComponent {
     this.selectedInput = null;
   }
 
-  // Método para validar as datas
   validateDates() {
     if (this.selectedStartDate && this.selectedEndDate) {
       if (this.selectedEndDate < this.selectedStartDate) {
@@ -95,9 +104,8 @@ export class HighSearchComponent {
     }
   }
 
-  // Verifica se o botão "Fazer busca" deve estar habilitado
   isSearchValid(): boolean {
-    return !this.dateError; // Retorna true se não houver erro
+    return !this.dateError;
   }
 
   clearSearch(): void {
@@ -105,7 +113,7 @@ export class HighSearchComponent {
     this.sentiments = { positive: false, neutral: false, negative: false };
     this.selectedStartDate = null;
     this.selectedEndDate = null;
-    this.dateError = null; // Limpar erro ao limpar busca
+    this.dateError = null;
     Object.keys(this.isSectionOpen).forEach((key) => {
       this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
     });

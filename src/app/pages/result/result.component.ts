@@ -10,7 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 export class ResultComponent implements OnInit {
   noticias: any[] = []; 
   isMobile: boolean = false;
-  isSidebarOpen = true;  
+  isSidebarOpen: boolean = false;
   selectedTab: string = 'todos';
   isDropdownOpen: boolean = false;
   selectedOption: string = 'Mais relevantes';
