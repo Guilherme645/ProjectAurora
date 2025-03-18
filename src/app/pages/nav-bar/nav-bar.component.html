@@ -22,16 +22,10 @@
         <div *ngIf="isLoading" class="loading text-center py-4">Carregando mais notícias...</div>
       </main>
 
-      <div class="scroll fixed bottom-4 right-4 z-20" *ngIf="showScrollTop">
-        <button 
-          class="bg-blue-600 text-white rounded-full p-3 shadow-lg hover:bg-blue-700"
-          (click)="scrollToTop()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" 
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 19V5M5 12l7-7 7 7"/>
-          </svg>
-        </button>
+      <div class="scroll">
+        <app-scroll-top></app-scroll-top>
       </div>
+
 
       <app-mensoes [selectedCount]="selectedMentionsCount"></app-mensoes>
     </div>
@@ -125,6 +119,6 @@
   </main>
 
   <!-- Botão Scroll Top -->
-  <div class="scroll" *ngIf="showScrollTopButton" (click)="scrollToTop()">
+  <div class="scroll"(click)="scrollToTop()">
     <app-scroll-top></app-scroll-top>
   </div>
