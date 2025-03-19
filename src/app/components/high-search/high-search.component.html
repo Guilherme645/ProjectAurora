@@ -41,72 +41,83 @@
 
   <!-- Corpo com rolagem -->
   <div class="flex-1 overflow-y-auto advanced-search-container px-4">
-    <!-- Palavras-chave -->
-    <div class="accordion-section py-4 border-b">
-      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('keywords')">
-        <span class="text-sm font-bold text-gray-900">Palavras-chave</span>
-        <svg [ngClass]="{'rotate-180': isSectionOpen['keywords']}" class="w-5 h-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="m6 9 6 6 6-6"></path>
-        </svg>
-      </div>
-      <div class="overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{'max-h-[600px] opacity-100 pb-4': isSectionOpen['keywords'], 'max-h-0 opacity-0': !isSectionOpen['keywords']}">
-        <div class="space-y-4">
-          <div class="flex flex-col gap-2">
-            <div class="flex items-center">
-              <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
-                <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Todas essas palavras">
-              </div>
-              <div class="ml-2">
-                <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10" fill="#4B5563" />
-                  <path d="M12 7v6h0.01" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                  <circle cx="12" cy="16" r="1.5" fill="#FFFFFF" />
-                </svg>
-              </div>
-            </div>
-            <div class="flex items-center">
-              <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
-                <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Qualquer uma dessas palavras">
-              </div>
-              <div class="ml-2">
-                <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10" fill="#4B5563" />
-                  <path d="M12 7v6h0.01" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                  <circle cx="12" cy="16" r="1.5" fill="#FFFFFF" />
-                </svg>
-              </div>
-            </div>
-            <div class="flex items-center">
-              <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
-                <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Frase ou palavra exata">
-              </div>
-              <div class="ml-2">
-                <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10" fill="#4B5563" />
-                  <path d="M12 7v6h0.01" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                  <circle cx="12" cy="16" r="1.5" fill="#FFFFFF" />
-                </svg>
-              </div>
-            </div>
-            <div class="flex items-center">
-              <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
-                <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Nenhuma dessas palavras">
-              </div>
-              <div class="ml-2">
-                <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10" fill="#4B5563" />
-                  <path d="M12 7v6h0.01" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                  <circle cx="12" cy="16" r="1.5" fill="#FFFFFF" />
-                </svg>
-              </div>
-            </div>
+   <!-- Palavras-chave -->
+<div class="accordion-section py-4 border-b">
+  <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('keywords')">
+    <span class="text-sm font-bold text-gray-900">Palavras-chave</span>
+    <svg [ngClass]="{'rotate-180': isSectionOpen['keywords']}" class="w-5 h-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </div>
+  <div class="overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{'max-h-[600px] opacity-100 pb-4': isSectionOpen['keywords'], 'max-h-0 opacity-0': !isSectionOpen['keywords']}">
+    <div class="space-y-4">
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center">
+          <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
+            <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Todas essas palavras">
+          </div>
+          <div class="ml-2 relative inline-block group">
+            <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="#4B5563" />
+              <path d="M12 7v6h0.01" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              <circle cx="12" cy="16" r="1.5" fill="#FFFFFF" />
+            </svg>
+            <span class="tooltip-all-words absolute left-0 top-full mt-2 whitespace-nowrap min-w-[180px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
+              Digite as palavras que você deseja
+            </span>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
+            <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Qualquer uma dessas palavras">
+          </div>
+          <div class="ml-2 relative inline-block group">
+            <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="#4B5563" />
+              <path d="M12 7v6h0.01" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              <circle cx="12" cy="16" r="1.5" fill="#FFFFFF" />
+            </svg>
+            <span class="tooltip-any-words absolute left-0 top-full mt-2 whitespace-nowrap min-w-[200px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
+              Digite as palavras que podem aparecer
+            </span>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
+            <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Frase ou palavra exata">
+          </div>
+          <div class="ml-2 relative inline-block group">
+            <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="#4B5563" />
+              <path d="M12 7v6h0.01" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              <circle cx="12" cy="16" r="1.5" fill="#FFFFFF" />
+            </svg>
+            <span class="tooltip-exact-phrase absolute left-0 top-full mt-2 whitespace-nowrap min-w-[280px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
+              Digite as palavras ou frase que devem aparecer
+            </span>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
+            <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Nenhuma dessas palavras">
+          </div>
+          <div class="ml-2 relative inline-block group">
+            <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="#4B5563" />
+              <path d="M12 7v6h0.01" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              <circle cx="12" cy="16" r="1.5" fill="#FFFFFF" />
+            </svg>
+            <span class="tooltip-none-words absolute left-0 top-full mt-2 whitespace-nowrap min-w-[240px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
+              Digite as palavras que não devem aparecer
+            </span>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Seção Data -->
-   <!-- Seção Data -->
+ <!-- Seção Data -->
 <div class="accordion-section py-4 border-b">
   <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('date')">
     <span class="text-sm font-bold text-gray-900">Data</span>
@@ -115,9 +126,9 @@
     </svg>
   </div>
   <div class="overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{'max-h-[600px] opacity-100 pb-4': isSectionOpen['date'], 'max-h-0 opacity-0': !isSectionOpen['date']}">
-    <!-- Condição para mobile (telas menores que lg) -->
-    <div class="flex flex-col gap-2 lg:hidden">
-      <div class="datepicker-container relative">
+    <!-- Condição para mobile (telas menores que lg) - inputs lado a lado -->
+    <div class="flex flex-row gap-2 lg:hidden">
+      <div class="datepicker-container relative w-1/2">
         <input 
           type="date" 
           class="w-full h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600 appearance-none"
@@ -126,7 +137,7 @@
           (change)="onMobileDateChange('start', $event)" 
         />
       </div>
-      <div class="datepicker-container relative">
+      <div class="datepicker-container relative w-1/2">
         <input 
           type="date" 
           class="w-full h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600 appearance-none"

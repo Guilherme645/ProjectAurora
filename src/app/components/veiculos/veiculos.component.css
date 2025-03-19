@@ -1,79 +1,115 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
 
-
-.modal-container {
+/* Container do Modal */
+.mobile-modal-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 80vh;
+  background: white;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
   display: flex;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      top: 295px;
-      transform: translate(-50%, -50%);
-      width: 645px;
-      height: 573px;
-      margin-left: -291px;
-}
-
-/* Estilo do Input do Preline UI */
-.hs-input {
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
+}
+
+/* Barra de busca fixa */
+.mobile-search-container {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mobile-search {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.mobile-search input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 8px;
   font-size: 14px;
-  line-height: 16.94px;
-  letter-spacing: -0.01em;
-  padding: 8px 12px;
 }
 
-/* Estiliza os nomes dos veículos */
-.veiculo-label {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: -0.01em;
-  color: #6B7280;
-}
-
-.category-title {
-  font-family: Inter;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: -1%;
-  color: #6B7280;
-
-}
-
-
-.category-item {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: -0.01em;
-  color: #1F2937; /* Cor padrão */
-  transition: color 0.3s ease-in-out;
-}
-
-.category-item:hover {
-  color: #2563EB; /* Cor ao passar o mouse */
-}
-
-.category-item.active {
-  color: #2563EB; /* Cor quando ativo */
-}
-
-
-/* Estilo da barra de rolagem */
-.veiculos-container {
-  max-height: 250px;
+/* Lista de Veículos (Rolável) */
+.mobile-entity-list {
+  flex-grow: 1;
   overflow-y: auto;
-  padding-right: 5px;
+  padding: 12px;
+  max-height: calc(80vh - 120px); /* Define altura máxima para o conteúdo rolável */
 }
 
-/* Custom Scroll */
+.mobile-category-section {
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Estilização dos Itens */
+.mobile-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-grid-container label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.mobile-grid-container input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* Rodapé fixo com botão SEMPRE visível */
+.mobile-modal-footer {
+  position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 16px;
+    border-top: 1px solid #e5e7eb;
+    z-index: 10;
+}
+
+.mobile-action-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1F2937;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mobile-action-button:hover {
+  background-color: #000000;
+}
+
+/* Personalização da Barra de Rolagem */
 ::-webkit-scrollbar {
   width: 6px;
-  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -87,32 +123,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #b6bcc5;
-}
-@media (max-width: 768px) {
-  .mobile-modal-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-height: 80vh;
-    background: white;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    z-index: 1000;
-    padding: 16px;
-  }
-  @keyframes slideUp {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  
-  .animate-slide-up {
-    animation: slideUp 0.3s ease-out forwards;
-  }
 }

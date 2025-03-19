@@ -5,8 +5,67 @@ html, body {
   padding: 0;
   overflow-x: hidden;
   z-index: 9999;
-
 }
+
+/* Estilos gerais dos tooltips */
+.tooltip-all-words,
+.tooltip-any-words,
+.tooltip-exact-phrase,
+.tooltip-none-words {
+  left: 50%; /* Centraliza o tooltip em relação ao ícone */
+  transform: translateX(-50%); /* Ajusta para centralizar */
+  top: 100%; /* Posiciona abaixo do ícone */
+  margin-top: 0.5rem; /* mt-2 */
+  white-space: nowrap; /* Impede quebra de texto */
+  background-color: #1f2937; /* bg-gray-900 */
+  color: #ffffff; /* text-white */
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 400; /* font-normal */
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 0.375rem; /* rounded-md */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 1000; /* Garante que o tooltip fique acima de outros elementos */
+}
+
+/* Ajuste da seta para todos os tooltips */
+.tooltip-all-words::after,
+.tooltip-any-words::after,
+.tooltip-exact-phrase::after,
+.tooltip-none-words::after {
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-color: transparent transparent #1f2937 transparent; /* Seta para cima */
+}
+
+/* Ajustes específicos de largura e posicionamento */
+.tooltip-all-words {
+  min-width: 180px; /* "Digite as palavras que você deseja" */
+}
+
+.tooltip-any-words {
+  min-width: 200px; /* "Digite as palavras que podem aparecer" */
+}
+
+.tooltip-exact-phrase {
+  min-width: 280px; /* "Digite as palavras ou frase que devem aparecer" */
+}
+
+.tooltip-none-words {
+  min-width: 240px; /* "Digite as palavras que não devem aparecer" */
+}
+
+/* Exibe o tooltip ao passar o mouse */
+.group:hover .tooltip-all-words,
+.group:hover .tooltip-any-words,
+.group:hover .tooltip-exact-phrase,
+.group:hover .tooltip-none-words {
+  opacity: 1;
+}
+
 .hs-overlay {
   max-width: 476px;
   height: 100vh;
@@ -50,11 +109,13 @@ html, body {
   text-align: left;
 }
 
+/* 🟢 Estilo do texto dentro dos tooltips (sem margin-left indesejado) */
 .text-xs {
   font-size: 13px;
-  color: #6B7280;
-  text-align: left;
+  color: #ffffff;
   line-height: 1.5;
+  margin-left: -150px;
+  margin-top: -5px;
 }
 
 /* 🟢 Seção do Accordion */
@@ -281,36 +342,37 @@ html, body {
   .close-button:hover {
     background-color: #cc0000;
   }
-input[type="date"] {
-  -webkit-appearance: none; 
-  -moz-appearance: textfield; 
-  appearance: none; 
-}
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-}
+  input[type="date"] {
+    -webkit-appearance: none; 
+    -moz-appearance: textfield; 
+    appearance: none; 
+  }
 
-input[type="date"]::-moz-calendar-picker-indicator {
-  display: none; 
-}
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+  }
 
-input[type="date"] {
-  background: #f9fafb;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  padding: 10px 12px;
-  width: 100%;
-  cursor: pointer;
-}
+  input[type="date"]::-moz-calendar-picker-indicator {
+    display: none; 
+  }
 
-input[type="date"]:placeholder-shown {
-  color: #9ca3af;
-}
+  input[type="date"] {
+    background: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 10px 12px;
+    width: 100%;
+    cursor: pointer;
+  }
 
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+  input[type="date"]:placeholder-shown {
+    color: #9ca3af;
+  }
+
+  input[type="date"]::-webkit-inner-spin-button,
+  input[type="date"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
