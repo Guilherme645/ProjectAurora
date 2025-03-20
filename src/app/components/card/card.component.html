@@ -49,12 +49,12 @@
 
 
 <!-- Versão Mobile -->
-<div *ngIf="isMobile" class="card-mobile">
+<!-- Versão Mobile -->
+<div *ngIf="isMobile" class="card-mobile" [attr.data-card-id]="noticias.id">
   <div class="mobile-header">
     <div class="left-info">
       <img class="mobile-logo" [src]="noticias.logo" alt="Logo do Veículo" />
       <div class="mobile-veiculo">
-        <!-- Nome do Veículo e Tipo -->
         <div class="veiculo-tipo">
           <span class="vehicle-name">{{ noticias.veiculo }}</span>
           <span *ngIf="noticias.tipo" class="tipo-icon">
@@ -66,8 +66,6 @@
             <span class="content-type">{{ noticias.tipo }}</span>
           </span>
         </div>
-
-        <!-- Local e Usuário -->
         <div class="additional-info-container">
           <span *ngIf="noticias.local" class="additional-info">{{ noticias.local }}</span>
           <span *ngIf="noticias.usuario" class="additional-info">{{ noticias.usuario }}</span>
@@ -75,9 +73,8 @@
       </div>
     </div>
 
-    <!-- Botão de Ações -->
     <div class="mobile-actions">
-      <button id="menu-trigger" type="button" class="dropdown-toggle" (click)="toggleMenu()">
+      <button id="menu-trigger" type="button" class="dropdown-toggle" (click)="toggleMenu($event)">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="1"></circle>
           <circle cx="12" cy="5" r="1"></circle>
@@ -85,17 +82,16 @@
         </svg>
       </button>
 
-      <!-- Modal Dropdown Estilizado -->
-      <div *ngIf="isMenuOpen && !isEntitiesModalOpen" class="custom-dropdown-menu">
+      <!-- Dropdown aparece apenas se o card atual for o ativo -->
+      <div *ngIf="isMenuOpen && activeCardId === noticias.id" class="custom-dropdown-menu" [style.top.px]="dropdownPosition.top" [style.left.px]="dropdownPosition.left">
         <a class="menu-item">Compartilhar</a>
         <a class="menu-item" (click)="openEntitiesModal()">Entidades extraídas</a>
         <hr class="divider" />
-        <button class="menu-item close-menu" (click)="toggleMenu()">Fechar menu</button>
+        <button class="menu-item close-menu" (click)="toggleMenu($event)">Fechar menu</button>
       </div>
     </div>
   </div>
 
-  <!-- Sentimento e Data na Mesma Linha -->
   <div class="sentiment-date-container">
     <div class="sentiment-wrapper">
       <span class="sentimento">Sentimento:</span>
@@ -103,9 +99,7 @@
     </div>
     <span class="date">{{ noticias.data }}</span>
   </div>
-  
 
-  <!-- Título e Descrição -->
   <p class="mobile-mention-title">{{ noticias.titulo }}</p>
   <p class="mobile-mention-description">{{ noticias.descricao }}</p>
 
@@ -118,13 +112,10 @@
     <div class="modal-header">
       <button class="close-button" (click)="closeEntitiesModal()">✕</button>
     </div>
-
     <div class="modal-body">
-      <!-- Somente exibe em dispositivos móveis -->
       <app-tag-filter *ngIf="isMobile" (closeModal)="closeEntitiesModal()"></app-tag-filter>
     </div>
   </div>
 </div>
-
 
 

@@ -21,8 +21,8 @@ export class NavBarComponent implements OnInit {
   selectedMentionsCount: number = 0;
   showScrollTop: boolean = false;
   showScrollTopButton: boolean = false;
-
-  page: number = 1;
+  isSearchOpen = false;
+    page: number = 1;
   pageSize: number = 10;
   isLoading: boolean = false;
   hasMoreData: boolean = true;
@@ -153,5 +153,10 @@ export class NavBarComponent implements OnInit {
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  
+
+  toggleSearch(): void {
+    console.log('Toggle search chamado. isSearchOpen antes:', this.isSearchOpen); // Debug
+    this.isSearchOpen = !this.isSearchOpen;
+    console.log('isSearchOpen depois:', this.isSearchOpen); // Debug
+  }
 }

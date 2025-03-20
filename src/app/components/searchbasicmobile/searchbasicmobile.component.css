@@ -1,0 +1,9 @@
+:host {
+    display: block;
+    width: 100%;
+  }#footer {
+    position: relative;
+    bottom: env(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom, 15px);
+  }
+  

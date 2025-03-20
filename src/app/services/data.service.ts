@@ -13,7 +13,8 @@ export interface Relatorio {
   nome: string;
   criadoPor: string;
   sigla: string;
-  cor: string;
+  corFundo: string;
+  corTexto: string;
   criadoEm: string;
 }
 

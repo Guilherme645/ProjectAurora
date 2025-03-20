@@ -51,4 +51,6 @@ export class FiltrosComponent implements OnInit {
   closeMobileModal(): void {
     this.closeModal.emit();
   }
+
+  
 }

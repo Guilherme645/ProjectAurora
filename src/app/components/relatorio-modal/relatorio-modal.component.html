@@ -67,8 +67,9 @@
                           <td class="p-3">{{ relatorio.nome }}</td>
                           <td class="p-3 flex items-center">
                             <div class="w-[38px] h-[38px] rounded-full text-white flex items-center justify-center shadow-sm"
-                            [style.backgroundColor]="relatorio.cor"
-                            style=" font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: -0.01em; text-align: center;">
+                            [style.backgroundColor]="relatorio.corFundo"
+                            [style.color]="relatorio.corTexto"
+                                                        style=" font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: -0.01em; text-align: center;">
                            {{ relatorio.sigla }}
                        </div>
 

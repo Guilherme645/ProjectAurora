@@ -33,6 +33,7 @@ import { SaveSearchComponent } from './components/save-search/save-search.compon
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { LocalizacaoComponent } from './components/localizacao/localizacao.component';
 import { BotaoxComponent } from './components/botaox/botaox.component';
+import { SearchbasicmobileComponent } from './components/searchbasicmobile/searchbasicmobile.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { BotaoxComponent } from './components/botaox/botaox.component';
     SaveSearchComponent,
     CalendarComponent,
     LocalizacaoComponent,
-    BotaoxComponent
+    BotaoxComponent,
+    SearchbasicmobileComponent
   ],
   imports: [
     BrowserModule,

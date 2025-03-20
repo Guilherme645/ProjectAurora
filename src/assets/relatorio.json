@@ -3,106 +3,119 @@
     "nome": "Ministros",
     "criadoPor": "Guilherme Sousa",
     "sigla": "GS",
-    "cor": "#1E3A8A",
+    "corFundo": "#BFDBFE", 
+    "corTexto": "#1E40AF", 
     "criadoEm": "10/02/24"
   },
   {
     "nome": "Supremo Tribunal Federal",
     "criadoPor": "Marina Campos",
     "sigla": "MC",
-    "cor": "#991B1B",
+    "corFundo": "#FCA5A5",
+    "corTexto": "#991B1B",
     "criadoEm": "24/01/24"
   },
   {
     "nome": "Judiciário",
     "criadoPor": "Gilberto Menezes",
     "sigla": "GM",
-    "cor": "#115E59",
+    "corFundo": "#86EFAC",
+    "corTexto": "#064E3B",
     "criadoEm": "12/01/24"
   },
   {
     "nome": "Legislativo",
     "criadoPor": "Guilherme Sousa",
     "sigla": "GS",
-    "cor": "#1E3A8A",
+    "corFundo": "#BFDBFE",
+    "corTexto": "#1E40AF",
     "criadoEm": "28/12/23"
   },
   {
     "nome": "Executivo",
     "criadoPor": "Guilherme Sousa",
     "sigla": "GS",
-    "cor": "#1E3A8A",
+    "corFundo": "#BFDBFE",
+    "corTexto": "#1E40AF",
     "criadoEm": "28/12/23"
   },
   {
-    "nome": "Orçamento Público",
-    "criadoPor": "Fernanda Lima",
-    "sigla": "FL",
-    "cor": "#8B5CF6",
-    "criadoEm": "20/12/23"
+    "nome": "Ministros",
+    "criadoPor": "Guilherme Sousa",
+    "sigla": "GS",
+    "corFundo": "#BFDBFE", 
+    "corTexto": "#1E40AF", 
+    "criadoEm": "10/02/24"
   },
   {
     "nome": "Supremo Tribunal Federal",
     "criadoPor": "Marina Campos",
     "sigla": "MC",
-    "cor": "#991B1B",
+    "corFundo": "#FCA5A5",
+    "corTexto": "#991B1B",
     "criadoEm": "24/01/24"
   },
   {
     "nome": "Judiciário",
     "criadoPor": "Gilberto Menezes",
     "sigla": "GM",
-    "cor": "#115E59",
+    "corFundo": "#86EFAC",
+    "corTexto": "#064E3B",
     "criadoEm": "12/01/24"
   },
   {
     "nome": "Legislativo",
     "criadoPor": "Guilherme Sousa",
     "sigla": "GS",
-    "cor": "#1E3A8A",
+    "corFundo": "#BFDBFE",
+    "corTexto": "#1E40AF",
     "criadoEm": "28/12/23"
   },
   {
     "nome": "Executivo",
     "criadoPor": "Guilherme Sousa",
     "sigla": "GS",
-    "cor": "#1E3A8A",
+    "corFundo": "#BFDBFE",
+    "corTexto": "#1E40AF",
     "criadoEm": "28/12/23"
+  },{
+    "nome": "Ministros",
+    "criadoPor": "Guilherme Sousa",
+    "sigla": "GS",
+    "corFundo": "#BFDBFE", 
+    "corTexto": "#1E40AF", 
+    "criadoEm": "10/02/24"
   },
   {
-    "nome": "Orçamento Público",
-    "criadoPor": "Fernanda Lima",
-    "sigla": "FL",
-    "cor": "#8B5CF6",
-    "criadoEm": "20/12/23"
+    "nome": "Supremo Tribunal Federal",
+    "criadoPor": "Marina Campos",
+    "sigla": "MC",
+    "corFundo": "#FCA5A5",
+    "corTexto": "#991B1B",
+    "criadoEm": "24/01/24"
   },
   {
     "nome": "Judiciário",
     "criadoPor": "Gilberto Menezes",
     "sigla": "GM",
-    "cor": "#115E59",
+    "corFundo": "#86EFAC",
+    "corTexto": "#064E3B",
     "criadoEm": "12/01/24"
   },
   {
     "nome": "Legislativo",
     "criadoPor": "Guilherme Sousa",
     "sigla": "GS",
-    "cor": "#1E3A8A",
+    "corFundo": "#BFDBFE",
+    "corTexto": "#1E40AF",
     "criadoEm": "28/12/23"
   },
   {
     "nome": "Executivo",
     "criadoPor": "Guilherme Sousa",
     "sigla": "GS",
-    "cor": "#1E3A8A",
+    "corFundo": "#BFDBFE",
+    "corTexto": "#1E40AF",
     "criadoEm": "28/12/23"
-  },
-  {
-    "nome": "Orçamento Público",
-    "criadoPor": "Fernanda Lima",
-    "sigla": "FL",
-    "cor": "#8B5CF6",
-    "criadoEm": "20/12/23"
   }
-
 ]

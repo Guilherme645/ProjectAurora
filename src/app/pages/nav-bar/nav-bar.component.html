@@ -48,20 +48,21 @@
       </div>
 
       <!-- Ícones de Busca e Menu -->
-      <div class="flex items-center space-x-4">
-        <button class="p-2 rounded-full bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="M21 21l-4.35-4.35"></path>
-          </svg>
-        </button>
-        <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="4" y1="6" x2="20" y2="6"></line>
-            <line x1="4" y1="12" x2="20" y2="12"></line>
-            <line x1="4" y1="18" x2="20" y2="18"></line>
-          </svg>
-        </button>
+     <!-- Ícones de Busca e Menu -->
+     <div class="flex items-center space-x-4">
+      <button class="p-2 rounded-full bg-gray-100" (click)="toggleSearch()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="M21 21l-4.35-4.35"></path>
+        </svg>
+      </button>
+      <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </button>
 
         <!-- Sidebar Mobile -->
         <div *ngIf="isSidebarOpen" class="sidebar-mobile">
@@ -122,3 +123,11 @@
   <div class="scroll"(click)="scrollToTop()">
     <app-scroll-top></app-scroll-top>
   </div>
+  <!-- Componente de Busca (aberto ao clicar no ícone de lupa) -->
+  <div
+    *ngIf="isSearchOpen"
+    class="fixed inset-0 bg-white z-50 flex flex-col p-4 overflow-y-auto"
+  >
+    <app-searchbasicmobile (close)="toggleSearch()"></app-searchbasicmobile>
+  </div>
+</div>

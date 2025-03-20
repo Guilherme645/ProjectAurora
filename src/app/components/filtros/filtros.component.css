@@ -331,5 +331,25 @@ border-bottom: none;
     margin: 8px auto;
     cursor: pointer;
   }
+  .mobile-modal-footer {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 16px;
+    border-top: 1px solid #e5e7eb;
+    z-index: 10;
+  }
+  
+  .mobile-action-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1F2937;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+  }
   
 }
