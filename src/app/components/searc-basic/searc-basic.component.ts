@@ -16,7 +16,7 @@ searchQuery: string = '';
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-    this.isScrolled = scrollTop > 100;  // Esconde o cabeçalho após 100px de rolagem
+    this.isScrolled = scrollTop > 100;  
   }
 
   openAdvancedSearch(): void {

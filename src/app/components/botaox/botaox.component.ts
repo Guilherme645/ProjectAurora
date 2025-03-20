@@ -10,6 +10,6 @@ export class BotaoxComponent {
   @Output() onClose = new EventEmitter<void>();
 
   close() {
-    this.onClose.emit(); // Emite o evento para os componentes pais
+    this.onClose.emit(); 
   }
 }

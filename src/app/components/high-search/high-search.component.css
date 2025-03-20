@@ -206,7 +206,6 @@ html, body {
   transform: rotate(45deg);
 }
 
-/* 🟢 Footer fixo com botões */
 .modal-footer {
   display: flex;
   justify-content: space-between;
@@ -214,7 +213,6 @@ html, body {
   border-top: 1px solid #e5e7eb;
 }
 
-/* 🟢 Botões */
 .clear-button,
 .search-button {
   width: 128px;
@@ -238,7 +236,6 @@ html, body {
   background-color: #1f2937;
 }
 
-/* 🟢 Ícone do Accordion */
 .icon {
   transition: transform 0.3s ease;
 }
@@ -247,7 +244,6 @@ html, body {
   transform: rotate(180deg);
 }
 
-/* 🟢 Tooltip */
 .tooltip-container {
   position: relative;
   cursor: pointer;
@@ -282,7 +278,6 @@ html, body {
   opacity: 1;
 }
 
-/* 🟢 Estilo do Calendário */
 .date-container {
   position: relative;
   display: flex;
@@ -290,7 +285,6 @@ html, body {
   width: 100%;
 }
 
-/* 🟢 Overlay do Modal */
 .modal-overlay {
   top: 0;
   left: 0;
@@ -301,7 +295,6 @@ html, body {
   cursor: default;
 }
 
-/* 🟢 Container do Calendário */
 .calendar-modal-container {
   position: fixed;
   top: 50%;
@@ -316,7 +309,6 @@ html, body {
   margin-left: -790px;
 }
 
-/* 🟢 Ajuste para telas menores */
 @media (max-width: 768px) {
   .calendar-modal-container {
     position: fixed;

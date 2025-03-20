@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class InputBuscaComponent {
   @Input() isModalOpen: boolean = false;
 
-  isMobile: boolean = window.innerWidth <= 768; // Verifica se é mobile
+  isMobile: boolean = window.innerWidth <= 768; 
 
   constructor(private router: Router) {}
 

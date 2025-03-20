@@ -1,9 +1,7 @@
 <div class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center" (click)="closeModal()">
   
-  <!-- Modal de busca -->
   <div class="bg-white shadow-lg  rounded-[16px] p-5 relative flex flex-col w-[592px] h-[151px] hs-overlay" (click)="$event.stopPropagation()">
     
-    <!-- Cabeçalho com ícone e input -->
     <div class="flex items-center gap-2 border-b pb-2">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500">
         <circle cx="11" cy="11" r="8"></circle>
@@ -12,7 +10,6 @@
       <input type="text" class="w-full text-lg font-medium text-gray-300 placeholder-gray-300 focus:outline-none  rounded-md px-3 py-2" placeholder="Busque no Workspace">
     </div>
 
-    <!-- Corpo com dica de pesquisa e botão -->
     <div class="flex justify-between items-center mt-3">
       <div class="text-gray-600 flex items-center gap-2 text-sm">
         <p class="whitespace-nowrap">Use as</p>
@@ -25,7 +22,6 @@
         <p class="whitespace-nowrap">para delimitar as palavras-chave</p>
       </div>
 
-      <!-- Botão de busca -->
       <button 
         class="px-4 py-2 bg-gray-700 text-white w-[119px] h-[46px] rounded-md hover:bg-gray-800 transition font-medium text-sm"(click)="reloadPage()">
         Fazer busca

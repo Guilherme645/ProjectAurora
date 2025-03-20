@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class SearchbasicmobileComponent {
   @Output() close = new EventEmitter<void>();
   isAdvancedSearchOpen = false;
-  isMobile = window.innerWidth <= 768; // Detecta mobile
+  isMobile = window.innerWidth <= 768;
   searchQuery: string = '';
 
   constructor(private router: Router) {}
@@ -36,10 +36,9 @@ export class SearchbasicmobileComponent {
   }
   onSearch() {
     if (this.searchQuery.trim()) {
-      // Redireciona para a Navbar com o parâmetro da pesquisa
       this.router.navigate(['/navBar'], { queryParams: { search: this.searchQuery } })
         .then(() => {
-          window.location.reload(); // Recarrega a página após a navegação
+          window.location.reload(); 
         });
     }
   }

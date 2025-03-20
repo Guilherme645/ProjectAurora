@@ -46,13 +46,11 @@ export class TagFilterComponent implements OnInit {
     }
   }
 
-  /** 🔹 Abre o modal e adiciona fundo borrado */
   openMobileModal(): void {
     this.isMobileModalOpen = true;
     this.renderer.addClass(document.body, 'backdrop-blur');
   }
 
-  /** 🔹 Fecha o modal e remove o fundo borrado */
   closeMobileModal(): void {
     this.renderer.removeClass(document.body, 'backdrop-blur');
     this.isMobileModalOpen = false;
@@ -66,7 +64,6 @@ export class TagFilterComponent implements OnInit {
     this.filteredEntities = this.entidades[this.selectedCategory];
   }
 
-  /** 🔹 Seleciona uma categoria e atualiza os itens */
   selectCategory(category: string): void {
     this.selectedCategory = category;
     this.filterEntities();

@@ -27,7 +27,6 @@ export class SaveSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Carrega os usuários do JSON ao inicializar o componente
     this.dataService.getSaveUsers().subscribe(users => {
       this.userList = users;
     });
@@ -67,11 +66,7 @@ export class SaveSearchComponent implements OnInit {
         email: this.newUserEmail,
         avatar: this.getInitials(this.newUserName),
       };
-
-      // Adiciona o novo usuário à lista existente
       this.userList.push(newUser);
-
-      // Limpa o formulário e oculta a área de adicionar destinatário
       this.newUserName = '';
       this.newUserEmail = '';
       this.showAddDestinationForm = false;

@@ -197,33 +197,29 @@ background-color: #2563EB;
   color: #6b7280;
 }
 
-/* Container geral do conteúdo */
 .overlay-container {
   transition: filter 0.3s ease-in-out;
 }
 
-/* Aplica o efeito de desfoque no fundo */
 .overlay-container.blurred {
-  filter: blur(6px); /* Ajuste o nível de blur conforme necessário */
-  pointer-events: none; /* Impede interações no fundo */
+  filter: blur(6px); 
+  pointer-events: none; 
 }
 
-/* Fundo semi-transparente para cobrir a tela */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.1); /* Fundo levemente escurecido */
-  backdrop-filter: blur(8px); /* Efeito de desfoque */
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px); 
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
 }
 
-/* Estilização do modal */
 .modal-overlay app-tag-filter {
   background: white;
   padding: 20px;
@@ -234,7 +230,6 @@ background-color: #2563EB;
 }
 
 @media (max-width: 480px) {
-  /* Estilização do card */
   .card-mobile {
     padding: 16px;
     background: white;
@@ -281,7 +276,6 @@ background-color: #2563EB;
     width: 14px;
     height: 14px;
   }
-    /* Container principal */
     .sentiment-date-container {
       display: flex;
       align-items: center;
@@ -291,11 +285,10 @@ background-color: #2563EB;
       color: #374151;
     }
   
-    /* Ajuste do texto "Sentimento: Neutro" */
     .sentiment-wrapper {
       display: flex;
       align-items: center;
-      gap: 4px; /* Ajuste fino do espaçamento */
+      gap: 4px;
     }
   
     .sentimento {
@@ -307,7 +300,6 @@ background-color: #2563EB;
       font-weight: bold;
     }
   
-    /* Estilização da data à direita */
     .date {
       font-size: 12px;
       color: #000000;
@@ -378,24 +370,22 @@ background-color: #2563EB;
     }
   }
 
-  /* Overlay do Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Escurece o fundo */
+  background: rgba(0, 0, 0, 0.5); 
   display: flex;
-  align-items: flex-end; /* Faz o modal surgir de baixo */
+  align-items: flex-end;
   justify-content: center;
   z-index: 1000;
 }
 
-/* Animação de surgimento do Modal */
 .modal-container {
   width: 100%;
-  max-height: 85vh; /* Ajustado para evitar cortes e manter a rolagem */
+  max-height: 85vh; 
   background: white;
   border-radius: 16px 16px 0 0;
   overflow: hidden;
@@ -405,7 +395,6 @@ background-color: #2563EB;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Animação do Modal */
 @keyframes slideUp {
   from {
     transform: translateY(100%);
@@ -417,21 +406,19 @@ background-color: #2563EB;
   }
 }
 
-/* Corpo do Modal */
 .modal-body {
   padding: 16px;
   overflow-y: auto;
   flex-grow: 1;
   display: flex;
-  flex-direction: column; /* Garante que o conteúdo se organize corretamente */
+  flex-direction: column; 
 }
 
-/* Garante que o <app-tag-filter> apareça corretamente */
 app-tag-filter {
   display: flex !important;
   flex-direction: column;
   width: 100%;
-  min-height: 400px !important; /* Aumentei para garantir visibilidade */
+  min-height: 400px !important; 
   background: white !important;
   border: 1px solid #ddd !important;
   padding: 16px !important;

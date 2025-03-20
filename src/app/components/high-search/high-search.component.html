@@ -15,7 +15,6 @@
         </svg>
       </button>
 
-      <!-- Sidebar Mobile -->
       <div *ngIf="isSidebarOpen" class="sidebar-mobile">
         <div class="sidebar-header"></div>
         <app-side-bar (sidebarToggled)="onSidebarToggle($event)"></app-side-bar>
@@ -32,7 +31,6 @@
         </p>
       </div>
     </div>
-    <!-- Link "Voltar para busca simples" apenas em mobile -->
     <span class="flex items-center py-3 px-6 text-sm font-medium text-blue-500 lg:hidden" (click)="navigateToSimpleSearch()">
       Voltar para busca simples
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
@@ -41,7 +39,6 @@
     </span>
   </div>
 
-  <!-- Corpo com rolagem -->
   <div class="flex-1 overflow-y-auto advanced-search-container px-4">
    <!-- Palavras-chave -->
 <div class="accordion-section py-4 border-b">
@@ -128,7 +125,6 @@
     </svg>
   </div>
   <div class="overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{'max-h-[600px] opacity-100 pb-4': isSectionOpen['date'], 'max-h-0 opacity-0': !isSectionOpen['date']}">
-    <!-- Condição para mobile (telas menores que lg) - inputs lado a lado -->
     <div class="flex flex-row gap-2 lg:hidden">
       <div class="datepicker-container relative w-1/2">
         <input 

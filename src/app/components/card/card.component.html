@@ -1,4 +1,3 @@
-<!-- Versão Desktop -->
 <div *ngIf="!isMobile">
   <div class="card">
     <div class="card-header">
@@ -46,10 +45,6 @@
   </div>
 </div>
 
-
-
-<!-- Versão Mobile -->
-<!-- Versão Mobile -->
 <div *ngIf="isMobile" class="card-mobile" [attr.data-card-id]="noticias.id">
   <div class="mobile-header">
     <div class="left-info">
@@ -82,7 +77,6 @@
         </svg>
       </button>
 
-      <!-- Dropdown aparece apenas se o card atual for o ativo -->
       <div *ngIf="isMenuOpen && activeCardId === noticias.id" class="custom-dropdown-menu" [style.top.px]="dropdownPosition.top" [style.left.px]="dropdownPosition.left">
         <a class="menu-item">Compartilhar</a>
         <a class="menu-item" (click)="openEntitiesModal()">Entidades extraídas</a>
@@ -106,7 +100,6 @@
   <div class="mobile-mention-footer"></div>
 </div>
 
-<!-- Modal para exibir o componente de entidades extraídas -->
 <div *ngIf="isEntitiesModalOpen" class="modal-overlay">
   <div class="modal-container">
     <div class="modal-header">

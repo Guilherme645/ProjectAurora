@@ -30,24 +30,20 @@
   letter-spacing: -0.01em; 
   color: #D1D5DB;
 }
-/* Barra de rolagem para navegadores WebKit (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
-  width: 6px; /* Largura fina da barra */
+  width: 6px;
   height: 144px;
 }
 
-/* Fundo da barra de rolagem */
 ::-webkit-scrollbar-track {
-  background: transparent; /* Fundo transparente */
+  background: transparent; 
 }
 
-/* Parte arrastável da barra (scroll thumb) */
 ::-webkit-scrollbar-thumb {
   background: #cfd4dc; 
   border-radius: 10px; 
 }
 
-/* Efeito ao passar o mouse sobre a barra */
 ::-webkit-scrollbar-thumb:hover {
   background: #b6bcc5; 
 }
@@ -68,7 +64,6 @@
     z-index: 1000;
   }
 
-  /* Barra de busca fixa */
   .mobile-search-container {
     position: sticky;
     top: 0;
@@ -95,7 +90,6 @@
     font-size: 14px;
   }
 
-  /* Lista de estados (rolável) */
   .mobile-entity-list {
     flex-grow: 1;
     overflow-y: auto;
@@ -131,7 +125,6 @@
     margin-right: 8px;
   }
 
-  /* Rodapé fixo */
   .mobile-modal-footer {
     position: sticky;
     bottom: 0;

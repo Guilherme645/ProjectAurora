@@ -1,5 +1,5 @@
 .close-button-container {
-    position: absolute; /* ou relative, dependendo do layout */
+    position: absolute;
     top: 16px;
 left: -55px;    
   }
@@ -7,10 +7,10 @@ left: -55px;
   .close-button {
     padding: 12px;
     border-radius: 8px;
-    border: 1px solid #E5E7EB; /* Cinza claro */
+    border: 1px solid #E5E7EB;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: #1F2937; /* Cinza escuro */
+    color: #1F2937;
     transition: background-color 0.2s ease-in-out;
   }
   

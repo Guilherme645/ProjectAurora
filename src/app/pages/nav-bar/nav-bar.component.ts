@@ -44,11 +44,7 @@ export class NavBarComponent implements OnInit {
   onScroll(): void {
     const scrollPosition = window.scrollY + window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
-
-    // Exibe o botão de Scroll Top após determinado ponto
     this.showScrollTopButton = scrollPosition > 500;
-
-    // Scroll infinito: carregar mais notícias se estiver perto do final da página
     if (scrollPosition >= documentHeight - 100 && !this.isLoading) {
       this.loadMoreNoticias();
     }
@@ -155,8 +151,8 @@ export class NavBarComponent implements OnInit {
   }
 
   toggleSearch(): void {
-    console.log('Toggle search chamado. isSearchOpen antes:', this.isSearchOpen); // Debug
+    console.log('Toggle search chamado. isSearchOpen antes:', this.isSearchOpen); 
     this.isSearchOpen = !this.isSearchOpen;
-    console.log('isSearchOpen depois:', this.isSearchOpen); // Debug
+    console.log('isSearchOpen depois:', this.isSearchOpen); 
   }
 }

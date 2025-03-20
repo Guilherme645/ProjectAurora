@@ -10,12 +10,11 @@ import { DataService } from 'src/app/services/data.service';
 export class VeiculosComponent implements OnInit {
   isMobile: boolean = window.innerWidth <= 768;
   isModalOpen: boolean = true;
-  selectedCategory: string = 'Texto'; // Categoria inicial selecionada
-  searchQuery: string = ''; // Campo de busca
-  vehicles: { [key: string]: { nome: string; selecionado: boolean }[] } = {}; // JSON de veículos
-  categorias: string[] = ['Texto', 'Vídeo', 'Áudio']; // Categorias fixas
-  selectAll: boolean = false; // Controle de seleção
-
+  selectedCategory: string = 'Texto'; 
+  searchQuery: string = ''; 
+  vehicles: { [key: string]: { nome: string; selecionado: boolean }[] } = {}; 
+  categorias: string[] = ['Texto', 'Vídeo', 'Áudio']; 
+  selectAll: boolean = false; 
   @Output() closeSection = new EventEmitter<void>();
 
   constructor(private dataservice: DataService) {}
@@ -24,7 +23,6 @@ export class VeiculosComponent implements OnInit {
     this.loadVeiculos();
   }
 
-  /** 🔹 Carrega os veículos do JSON */
   loadVeiculos(): void {
     this.dataservice.getVeiculos().subscribe({
       next: (data) => {
@@ -34,12 +32,10 @@ export class VeiculosComponent implements OnInit {
     });
   }
 
-  /** 🔹 Atualiza a categoria selecionada */
   selectCategory(categoria: string): void {
     this.selectedCategory = categoria;
   }
 
-  /** 🔹 Obtém veículos filtrados da categoria selecionada */
   getFilteredVehicles(): { nome: string; selecionado: boolean }[] {
     const allVehicles = this.vehicles[this.selectedCategory] || [];
     return allVehicles.filter(veiculo =>
@@ -47,7 +43,6 @@ export class VeiculosComponent implements OnInit {
     );
   }
 
-  /** 🔹 Alterna a seleção de todos os veículos da categoria */
   toggleSelectAll(): void {
     const vehicles = this.vehicles[this.selectedCategory];
     if (vehicles) {
@@ -55,13 +50,11 @@ export class VeiculosComponent implements OnInit {
     }
   }
 
-  /** 🔹 Atualiza o estado do checkbox "Selecionar todos" */
   updateSelectAll(): void {
     const vehicles = this.getFilteredVehicles();
     this.selectAll = vehicles.length > 0 && vehicles.every(v => v.selecionado);
   }
 
-  /** 🔹 Fecha o modal */
   closeModal(): void {
     this.isModalOpen = false;
     this.closeSection.emit();

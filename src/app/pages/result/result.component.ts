@@ -16,14 +16,14 @@ export class ResultComponent implements OnInit {
   selectedOption: string = 'Mais relevantes';
   filtrosAbertos: boolean = false;
   isScrolled = false;
-  currentUser: string = 'Superior Tribunal Federal'; // Usuário padrão
-  filteredNoticias: any[] = []; // Notícias filtradas para exibição
+  currentUser: string = 'Superior Tribunal Federal'; 
+  filteredNoticias: any[] = []; 
   isModalVisible: boolean = false;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.checkScreenSize();  // Verifica o tamanho da tela ao carregar a página
+    this.checkScreenSize();  
 
     this.dataService.getData().subscribe(
       (data) => {
@@ -33,7 +33,6 @@ export class ResultComponent implements OnInit {
     );
   }  
 
-  // Detecta mudanças no tamanho da tela e ajusta `isMobile`
   @HostListener('window:resize')
   onResize(): void {
     this.checkScreenSize();
@@ -46,7 +45,7 @@ export class ResultComponent implements OnInit {
   onUserChange(user: string) {
     console.log('Usuário mudou para:', user);
     this.currentUser = user;
-    this.loadNoticias(); // Recarrega as notícias para o novo usuário
+    this.loadNoticias(); 
   }
   loadNoticias() {
     this.dataService.getData().subscribe(
@@ -95,11 +94,9 @@ export class ResultComponent implements OnInit {
 
   toggleModal() {
     this.isModalVisible = !this.isModalVisible;
-    console.log('Estado do modal:', this.isModalVisible); // 🔍 Teste no console
+    console.log('Estado do modal:', this.isModalVisible);
   }
   
-
-  // Detecta rolagem e altera estado do cabeçalho
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.isScrolled = window.scrollY > 100;

@@ -105,7 +105,7 @@
   }
 
   .img {
-    display: none; /* Remove a imagem no layout mobile */
+    display: none;
   }
 }
 

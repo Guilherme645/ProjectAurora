@@ -8,7 +8,7 @@ import { DataService } from 'src/app/services/data.service';
     standalone: false
 })
 export class LocalizacaoComponent implements OnInit {
-  @Output() closeSection = new EventEmitter<void>(); // Evento para fechar modal
+  @Output() closeSection = new EventEmitter<void>(); 
 
   isMobile: boolean = false;
   selectAll: boolean = false;
@@ -28,7 +28,6 @@ export class LocalizacaoComponent implements OnInit {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  /** 🔹 Carrega os estados do serviço */
   private loadEstados(): void {
     this.dataService.getEstados().subscribe(
       (estados) => {

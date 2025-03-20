@@ -2,7 +2,6 @@
 <div *ngIf="!isMobile" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
   <div class="bg-white w-[645px] h-[535px] rounded-2xl shadow-lg overflow-hidden">
     
-    <!-- Header -->
     <div class="flex items-center justify-between p-4 border-b">
       <div class="flex items-center gap-3">
         <svg class="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -22,10 +21,8 @@
   ESC
 </button>    </div>
 
-    <!-- Body -->
     <div class="flex h-full">
       
-      <!-- Sidebar -->
       <nav class="w-[169px] border-r p-4 space-y-2">
         <button (click)="selectCategory('Data')"
           [class.text-blue-600]="selectedCategory === 'Data'"
@@ -65,7 +62,6 @@
         </button>
       </nav>
 
-      <!-- Entity List -->
       <div class="flex-1 p-4 space-y-4 overflow-y-auto">
         <div *ngIf="filteredEntities.length > 0">
           <span class="text-[12px] font-semibold text-gray-500">{{ selectedCategory }}</span>
@@ -85,10 +81,8 @@
 <!-- Modal Mobile -->
 <div *ngIf="isMobile" class="fixed inset-x-0 bottom-0 bg-white rounded-t-xl shadow-lg z-50 p-4 max-h-[80vh] overflow-y-auto">
   
-  <!-- Drag Bar -->
   <div class="w-10 h-1 bg-gray-400 mx-auto rounded-full mb-2"(click)="closeMobileModal()"></div>
 
-  <!-- Search Bar -->
   <div class="flex items-center gap-3 border-b pb-2">
     <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
       <circle cx="11" cy="11" r="8"></circle>
@@ -97,7 +91,6 @@
     <input type="text" class="flex-1 border-none outline-none text-gray-700 text-sm placeholder-gray-400" placeholder="Buscar entidade">
   </div>
 
-  <!-- Categories -->
   <div class="flex space-x-3 mt-3 overflow-x-auto pb-2">
     <button class="px-3 py-1 text-sm text-gray-500 border-b-2 border-transparent hover:border-blue-600">Data</button>
     <button class="px-3 py-1 text-sm text-gray-500 border-b-2 border-transparent hover:border-blue-600">Profissão</button>
@@ -106,7 +99,6 @@
     <button class="px-3 py-1 text-sm text-gray-500 border-b-2 border-transparent hover:border-blue-600">Organização</button>
   </div>
 
-  <!-- Entity List -->
   <div class="mt-4">
     <div *ngFor="let category of entidades | keyvalue">
       <span class="text-sm font-semibold text-gray-500">{{ category.key }}</span>
