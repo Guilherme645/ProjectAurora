@@ -1,0 +1,40 @@
+<div *ngIf="!isMobile" class="layout-container">
+    <!-- Sidebar fixa -->
+    <div class="bg-neutral-800 text-white w-80 fixed h-full">
+      <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
+    </div>
+  
+    <!-- Conteúdo principal -->
+    <div class="main-content ml-80">
+      <!-- Cabeçalho com título e busca -->
+      <app-header-saved-search></app-header-saved-search>
+      <br>
+  <hr>
+      <!-- Cards de monitoramento -->
+      <main class="main px-6 pt-4 pb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <app-monitor-card
+            *ngFor="let card of monitorCards"
+            [title]="card.title"
+            [startDate]="card.startDate"
+            [endDate]="card.endDate"
+            [status]="card.status"
+          ></app-monitor-card>  
+          <app-monitor-card
+          *ngFor="let card of monitorCards"
+          [title]="card.title"
+          [startDate]="card.startDate"
+          [endDate]="card.endDate"
+          [status]="card.status"
+        ></app-monitor-card>     
+        <app-monitor-card
+        *ngFor="let card of monitorCards"
+        [title]="card.title"
+        [startDate]="card.startDate"
+        [endDate]="card.endDate"
+        [status]="card.status"
+      ></app-monitor-card>             </div>
+      </main>
+    </div>
+  </div>
+  

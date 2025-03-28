@@ -1,0 +1,354 @@
+.filtro-container {
+    width: 308px;
+  height: 1340px;
+  gap: 40px;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: -85px;
+      margin-left: 23px;
+  }
+  
+  .search-info {
+      width: 198px;
+      height: 76px;
+      gap: 12px;
+      }
+  
+  .breadcrumb {
+      font-size: 12px;
+      color: #000000;
+  }
+  
+  .breadcrumb .active {
+      font-weight: bold;
+      color: #111827;
+  }
+  
+  .search-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #111827;
+      margin-top: 4px;
+  }
+  
+  .search-results {
+      font-size: 14px;
+      color: #111827;
+  }
+  
+  .save-search {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 308px;
+      height: 78px;
+      border-radius: 12px;
+      border-width: 1px;
+      justify-content: space-between;
+      padding: 16px;
+          border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      background: white;
+      margin-bottom: 20px;
+  }
+  
+  .save-search-text {
+      display: flex;
+      flex-direction: column;
+  }
+  
+  .save-search-text .title {
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+  }
+  
+  .save-search-text .subtitle {
+      font-size: 12px;
+      color: #777;
+  }
+  
+  .save-button {
+      display: flex;
+      align-items: center;
+      background: #e0f2fe;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: #0369a1;
+      font-weight: bold;
+      cursor: pointer;
+  }
+  
+  .save-button:hover {
+      background: #bae6fd;
+  }
+  
+  .filter-section {
+      width: 308px;
+      gap: 48px;
+      }
+  
+      .filter-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          cursor: pointer;
+          padding: 10px 0;
+          border-bottom: none; 
+      }
+  .date-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 8px;
+      border-bottom: none; 
+    }
+    
+    .date-field {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #F3F4F6;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+      width: 146px;
+  height: 62px;
+  border-bottom: none; 
+  
+    }
+    
+    .date-field:focus {
+      background: white;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+    }
+    
+    .filter-section {
+      margin-bottom: 16px;
+    }
+    
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 8px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .accordion-content {
+      padding: 8px 0;
+    }
+    
+    .icon {
+      transition: transform 0.3s ease;
+    }
+    
+    .icon.rotate {
+      transform: rotate(180deg);
+    }
+    
+  .filter-header h2 {
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+  }
+  
+  .icon {
+      transition: transform 0.3s;
+      width: 20px;
+      height: 20px;
+      color: #666;
+  }
+  
+  .icon.rotate {
+      transform: rotate(180deg);
+  }
+  
+  .filter-content {
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 4px;
+  }
+  
+  .filter-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+  
+  .filter-content li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: #000000;
+      cursor: pointer;
+  }
+  
+  .filter-content li:hover {
+      color: #0369a1;
+  }
+  
+  .show-more {
+      background: none;
+      border: none;
+      color: #0369a1;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+  }
+  
+  .show-more:hover {
+      text-decoration: underline;
+  }
+  .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center; 
+      overflow-y: auto;
+      z-index: 1000; 
+      width: 100%;
+      height: 100%;
+    }
+    
+    .modal-container {
+      position: absolute;
+      width: 1086px;
+      height: 667px;
+      top: 25px;
+      left: 157.5px;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .modal-content {
+      padding: 1.5rem;
+      height: calc(100% - 4rem); 
+        overflow: hidden; 
+    }
+    
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem;
+      background: #f3f4f6;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    .modal-close-button {
+      background-color: #4b5563;
+      color: white;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s ease;
+    }
+    
+   
+  .absolute {
+    position: absolute;
+  }
+  
+  .size-8 {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .p-6 {
+    padding: 6px;
+  }
+  
+  .shadow-sm {
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .text-gray-800 {
+    color: #1f2937;
+  }
+  
+  .bg-white {
+    background-color: white;
+  }
+  
+  .hover\:bg-gray-200:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .focus\:bg-gray-200:focus {
+    background-color: #e5e7eb;
+  }
+  
+  .rounded-md {
+    border-radius: 4px;
+  }
+  
+  .gap-x-2 {
+    column-gap: 8px;
+  }
+  
+  
+  .close-modal-button {
+    position: fixed;
+    top: 31px;
+    right: 62px;
+    z-index: 1000;
+    padding: 6px;
+    border-radius: 4px;
+    background: white;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .close-modal-button:hover {
+    background: #f3f4f6;
+  }
+  @media (max-width: 768px) {
+    .filtro-container {
+      width: 100%;
+      padding: 16px;
+      margin-top: 0;
+      margin-left: 0;
+    }
+  
+    .filter-section {
+      width: 100%;
+    }
+  
+    .date-field {
+      width: 100%;
+    }
+    .mobile-modal-drag-bar {
+      width: 40px;
+      height: 5px;
+      background-color: #000000;
+      border-radius: 3px;
+      margin: 8px auto;
+      cursor: pointer;
+    }
+    .mobile-modal-footer {
+      position: sticky;
+      bottom: 0;
+      background: white;
+      padding: 16px;
+      border-top: 1px solid #e5e7eb;
+      z-index: 10;
+    }
+    
+    .mobile-action-button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1F2937;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+  }

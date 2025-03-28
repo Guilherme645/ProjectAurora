@@ -41,6 +41,13 @@ import { ShareButtonComponent } from './components/share-button/share-button.com
 import { HeaderMentionDetailsComponent } from './components/header-mention-details/header-mention-details.component';
 import { PlayerComponent } from './components/player/player.component';
 import { ViewEntidadesSearchComponent } from './components/view-entidades-search/view-entidades-search.component';
+import { ResultSavedSearchComponent } from './pages/result-saved-search/result-saved-search.component';
+import { FiltrosSavedSearchComponent } from './components/filtros-saved-search/filtros-saved-search.component';
+import { SearchSavedSearchComponent } from './components/search-saved-search/search-saved-search.component';
+import { MonitorCardComponent } from './components/monitor-card/monitor-card.component';
+import { SimpleInputSearchComponent } from './components/simple-input-search/simple-input-search.component';
+import { HeaderSavedSearchComponent } from './components/header-saved-search/header-saved-search.component';
+import { PageSavedSearchComponent } from './pages/page-saved-search/page-saved-search.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +86,14 @@ import { ViewEntidadesSearchComponent } from './components/view-entidades-search
     ShareButtonComponent,
   HeaderMentionDetailsComponent,
   PlayerComponent,
-  ViewEntidadesSearchComponent
+  ViewEntidadesSearchComponent,
+  ResultSavedSearchComponent,
+  FiltrosSavedSearchComponent,
+  SearchSavedSearchComponent,
+  MonitorCardComponent, 
+  SimpleInputSearchComponent,
+  HeaderSavedSearchComponent,
+  PageSavedSearchComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,89 @@
+<div *ngIf="!isMobile" class="filtro-container">
+  <div class="search-info">
+    <nav class="breadcrumb">
+      <span>Buscas salvas</span> /
+      <span class="active">Ministros</span>
+    </nav>
+    <h2 class="search-title">Busca Ministros</h2>
+    <p class="search-results">9840 resultados</p>
+  </div>
+<br>
+<br>
+  <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-container">
+      <div class="modal-content">
+        <button type="button" aria-label="Fechar" class="close-modal-button" (click)="fecharModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="M6 6l12 12"></path>
+          </svg>
+        </button>
+        <app-save-search></app-save-search>
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor="let filtro of filtros" class="filter-section">
+    <div class="filter-header" (click)="toggleSection(filtro.nome)">
+      <h2>{{ filtro.nome }}</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </div>
+    <div class="accordion-content" *ngIf="filtro.aberto">
+      <div *ngIf="filtro.nome === 'Data'" class="date-container">
+        <input class="date-field" placeholder="Data Início" type="text" />
+        <input class="date-field" placeholder="Data Fim" type="text" />
+      </div>
+      <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
+        <ul>
+          <li *ngFor="let item of filtro.itens">{{ item }}</li>
+        </ul>
+        <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Versão Mobile -->
+<div *ngIf="isMobile" class="mobile-layout-container">
+  <div *ngIf="modalAberto" class="mobile-modal-overlay">
+    <div class="mobile-modal-container">
+      <div class="mobile-modal-header">
+        <h2>Salvar Busca</h2>
+        <button class="close-button" (click)="fecharModal()">✖</button>
+      </div>
+      <app-save-search></app-save-search>
+    </div>
+  </div>
+
+     <div class="mobile-modal-drag-bar" (click)="closeMobileModal()"></div>
+
+  <div *ngFor="let filtro of filtros" class="filter-section">
+
+    <div class="filter-header" (click)="toggleSection(filtro.nome)">
+      <h2>{{ filtro.nome }}</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </div>
+    <div class="accordion-content" *ngIf="filtro.aberto">
+      <div *ngIf="filtro.nome === 'Data'" class="date-container">
+        <input class="date-field" placeholder="Data Início" type="text" />
+        <input class="date-field" placeholder="Data Fim" type="text" />
+      </div>
+      <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
+        <ul>
+          <li *ngFor="let item of filtro.itens">{{ item }}</li>
+        </ul>
+        <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+      </div>
+    </div>
+  
+  </div> 
+   <div class="mobile-modal-footer">
+      <button type="button" class="mobile-action-button" >
+Aplicar filtros
+     </button>
+    </div>
+</div>

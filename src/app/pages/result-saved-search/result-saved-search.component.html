@@ -1,0 +1,115 @@
+<!-- Versão Desktop -->
+<div *ngIf="!isMobile" class="layout-container">
+  <div class=" bg-neutral-800 text-white w-80 fixed h-full">
+    <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
+  </div>
+
+  <div class="main-content">
+    <div class="header transition-all duration-300"
+      [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
+      <app-search-saved-search></app-search-saved-search>
+    </div>
+
+    <div class="content h-[2000px] bg-gray-100 mt-[80px]">
+      <div class="content-wrapper">
+        <div class="filters">
+          <app-filtros-saved-search></app-filtros-saved-search> 
+        </div>
+
+        <main class="main">
+          <div class="card" *ngFor="let noticias of noticias">
+            <app-card [noticias]="noticias"></app-card>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Versão Mobile -->
+<div *ngIf="isMobile" class="mobile-layout-container">
+  <div *ngIf="isSidebarOpen" class="sidebar-mobile">
+    <div class="sidebar-header"></div>
+    <app-side-bar></app-side-bar>
+  </div>
+
+  <nav class="sticky top-0 z-10 bg-white transition-transform duration-300 ease-in-out">
+    <div class="flex flex-row items-center justify-between p-4">
+      <div class="flex items-center">
+        <div class="flex flex-col ml-3">
+          <h3 class="workspace-title">Dias Toffoli</h3>
+          <h2 class="workspace-results">9840 resultados</h2>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button class="p-2 rounded-full bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="M21 21l-4.35-4.35"></path>
+          </svg>
+        </button>
+        <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-200">
+      <div class="flex justify-around">
+        <button class="tab-button" [class.active]="selectedTab === 'todos'" (click)="setSelectedTab('todos')">
+          Todos os resultados
+        </button>
+        <button class="tab-button" [class.active]="selectedTab === 'brutos'" (click)="setSelectedTab('brutos')">
+          Resultados brutos
+        </button>
+        <button class="tab-button" [class.active]="selectedTab === 'clippings'" (click)="setSelectedTab('clippings')">
+          Clippings
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sorting-container">
+    <div class="sorting-group">
+      <span>Ordenar por:</span>
+      <div class="dropdown relative">
+        <button class="dropdown-toggle" (click)="toggleDropdown()">
+          {{ selectedOption }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 5l6 6 6-6H1.5z" />
+          </svg>
+        </button>
+        <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+          <li (click)="selectOption('Mais relevantes')">Mais relevantes</li>
+          <li (click)="selectOption('Mais recentes')">Mais recentes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="filter-icon-container">
+      <button (click)="toggleFiltros()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <main class="p-4">
+    <div *ngFor="let noticias of noticias">
+      <app-card [noticias]="noticias"></app-card>
+    </div>
+  </main>
+
+  <div *ngIf="filtrosAbertos" class="filtros-overlay">
+    <div class="filtros-container animate-slide-up">
+      <app-filtros (closeModal)="filtrosAbertos = false"></app-filtros> 
+    </div>
+  </div>
+</div>

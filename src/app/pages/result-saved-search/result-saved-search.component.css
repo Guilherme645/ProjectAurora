@@ -1,0 +1,344 @@
+/* Remove qualquer overflow no HTML e BODY para garantir rolagem global */
+html, body {
+    height: 100%;
+    overflow-y: auto; /* Ativa rolagem global */
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff transparent;
+    background-color: white;
+  }
+  
+  /* Layout principal */
+  .layout-container {
+    display: flex;
+    min-height: 100vh; /* Permite rolagem completa */
+  }
+  
+  /* Sidebar fixa */
+  .sidebar {
+    width: 314px; 
+    color: white;
+    position: fixed;
+    height: 809px;
+  }
+  
+  /* Conteúdo principal */
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 280px; /* Ajusta a posição ao lado da sidebar */
+    padding: 16px 24px;
+    background-color: white;
+  
+  }
+  
+  /* Cabeçalho fixo */
+  /* Estilo do Header antes do Scroll */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 280px;
+    right: 0;
+    padding: 16px 24px;
+    z-index: 10;
+    margin-left: 405px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Estilo do Header após o Scroll */
+  .header-scrolled {
+    width: 10px;
+    margin-left: 10px;
+    margin-top: -16px;
+  }
+  
+  /* Wrapper para Filtros + Conteúdo Principal */
+  .content-wrapper {
+    display: flex;
+    flex: 1;
+    margin-top: 80px; 
+  }
+  
+  /* Filtros fixos */
+  .filters {
+    width: 350px; /* Ajustado conforme imagem */
+    flex-shrink: 0;
+    position: relative;
+    margin-top: -85px;
+    background-color: white;
+    margin-left: 15px;
+  
+  }
+  
+  /* Conteúdo principal */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: -15px;
+    margin-top: -85px;
+    background-color: white;
+  
+  }
+  
+  /* Tabs no topo */
+  .tab {
+    background: none;
+    border: none;
+    font-size: 14px;
+    padding: 8px 1px;
+    cursor: pointer;
+    border-radius: 8px;
+    color: #1F2937;
+    width: 580px;
+    height: 36px;
+    gap: 12px;
+    margin-left: 10px;
+    transition: background 0.3s ease, color 0.3s ease;
+    margin-left: 50px;
+  }
+  
+  .checkbox-input {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .tab.active {
+    background: #E5E7EB;
+    color: rgb(0, 0, 0);
+  }
+  
+  /* Container dos cartões */
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Cartões */
+  .card {
+    width: 620px;
+    height: auto;
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    margin-left: 23px;
+  }
+  
+  /* 📱 Estilos para versão Mobile */
+  @media (max-width: 480px) {
+    /* Container da ordenação e filtro */
+    .sorting-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid #e5e7eb;
+        background-color: white;
+        border-bottom: 1px solid #e5e7eb;
+        width: 375px;
+        height: 78px;
+        padding: 16px 24px;
+        gap: 10px;
+    }
+  
+    /* Grupo da ordenação */
+    .sorting-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+  
+    .sorting-group span {
+        font-size: 12px;
+        color: #6b7280;
+        font-weight: 500;
+    }
+  
+    /* Dropdown de ordenação */
+    .dropdown {
+        position: relative;
+    }
+  
+    .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+  
+    .dropdown-toggle svg {
+        margin-left: 4px;
+    }
+  
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 30px;
+        left: 0;
+        background: white;
+        border-radius: 6px;
+        overflow: hidden;
+        width: 140px;
+        border-bottom: 1px solid #e5e7eb;
+        z-index: 10;
+    }
+  
+    .dropdown-menu.show {
+        display: block;
+    }
+  
+    .dropdown-menu li {
+        padding: 10px;
+        font-size: 14px;
+        color: #374151;
+        cursor: pointer;
+        transition: background 0.2s ease-in-out;
+    }
+  
+    .dropdown-menu li:hover {
+        background: #f3f4f6;
+    }
+  
+    /* Botão de filtro */
+    .filter-icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        background: #f9fafb;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+        cursor: pointer;
+        transition: background 0.2s ease-in-out;
+        width: 46px;
+        height: 46px;
+    }
+  
+    .filter-icon-container:hover {
+        background: #e5e7eb;
+    }
+  
+    .filter-icon-container svg {
+        width: 18px;
+        height: 18px;
+        stroke: #374151;
+    }
+  }
+  
+  /* Estilos para os botões das abas */
+  .tab-button {
+    position: relative;
+    padding: 10px 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .tab-button.active {
+    color: #2563eb; /* Azul vibrante */
+    font-weight: 600;
+  }
+  
+  /* Linha azul abaixo da aba ativa */
+  .tab-button.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #2563eb;
+    transition: width 0.2s ease-in-out;
+  }
+  
+  /* Ícone quadrado com texto centralizado */
+  .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #111827; /* Preto escuro */
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 8px;
+    text-transform: uppercase;
+  }
+  
+  .icon-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Ajuste no alinhamento do texto */
+  .workspace-title {
+    font-size: 18px;
+    color: #111827;
+  }
+  
+  .workspace-results {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.2;
+  }
+  
+  /* Botão de scroll fixo */
+  .scroll {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  /* Fundo escuro quando os filtros estiverem abertos */
+  .filtros-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  /* Contêiner do modal */
+  .filtros-container {
+    width: 100%;
+    background: white;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  /* Animação para deslizar de baixo para cima */
+  @keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  

@@ -7,6 +7,8 @@ import { PageCriarContaComponent } from './pages/page-criar-conta/page-criar-con
 import { PageEsqueceuSenhaComponent } from './pages/page-esqueceu-senha/page-esqueceu-senha.component';
 import { ResultComponent } from './pages/result/result.component';
 import { PageMentionDetailComponent } from './pages/page-mention-detail/page-mention-detail.component';
+import { ResultSavedSearchComponent } from './pages/result-saved-search/result-saved-search.component';
+import { PageSavedSearchComponent } from './pages/page-saved-search/page-saved-search.component';
 
 export const routes: Routes = [ 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,7 +18,10 @@ export const routes: Routes = [
   { path: 'esqueceu', component: PageEsqueceuSenhaComponent },
   { path: 'criar', component: PageCriarContaComponent },
   { path: 'resultado', component: ResultComponent },
-  { path: 'mention-details', component: PageMentionDetailComponent }
+  { path: 'mention-details', component: PageMentionDetailComponent },
+  { path: 'result-saved-search', component: ResultSavedSearchComponent },
+  { path: 'saved-search', component: PageSavedSearchComponent }
+
 
 ];
 
