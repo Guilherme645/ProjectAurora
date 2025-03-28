@@ -27,8 +27,11 @@
       </div>
     </div>
 
-    <p class="mention-title">{{ noticias.titulo }}</p>
-    <p class="mention-description">{{ noticias.descricao }}</p>
+    <p class="mention-title cursor-pointer text-blue-600 hover:underline"
+    (click)="irParaDetalhes()">
+   {{ noticias.titulo }}
+ </p>
+     <p class="mention-description">{{ noticias.descricao }}</p>
 
     <div class="mention-footer">
       <span class="entities-label">Entidades extraídas:</span>

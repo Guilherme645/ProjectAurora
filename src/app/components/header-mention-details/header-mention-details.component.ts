@@ -1,0 +1,48 @@
+// header-mention-details.component.ts
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Observable, of } from 'rxjs';
+
+@Component({
+  selector: 'app-header-mention-details',
+  templateUrl: './header-mention-details.component.html',
+  styleUrls: ['./header-mention-details.component.css'],
+  standalone: false
+})
+export class HeaderMentionDetailsComponent implements OnInit {
+  @Output() backClicked = new EventEmitter<void>();
+  @Output() editClicked = new EventEmitter<void>();
+  @Output() shareClicked = new EventEmitter<void>();
+
+  noticia$: Observable<any> | null = null; // Observable para a notícia
+
+  // Valores fixos definidos no TypeScript
+  intervalo: string = '10:17:01 – 10:23:59';
+  horario: string = '10:17';
+  dataFixa: string = '07 de dezembro de 2024'; // Data fixa conforme a imagem
+
+  constructor() {}
+
+  ngOnInit() {
+    // Mock dos dados da notícia para corresponder à imagem
+    const mockNoticia = {
+      veiculo: 'Globo News',
+      local: 'São Paulo, SP',
+      sentimento: 'Neutro'
+    };
+
+    // Simula o retorno do DataService com um Observable
+    this.noticia$ = of(mockNoticia);
+  }
+
+  onBack() {
+    this.backClicked.emit();
+  }
+
+  onEditMention() {
+    this.editClicked.emit();
+  }
+
+  onShare() {
+    this.shareClicked.emit();
+  }
+}

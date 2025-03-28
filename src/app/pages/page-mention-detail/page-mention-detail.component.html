@@ -1,0 +1,24 @@
+<div class="layout-container flex min-h-screen">
+  <!-- Barra lateral fixa à esquerda -->
+  <div class="bg-neutral-800 text-white w-80 fixed h-full">
+    <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
+  </div>
+
+  <!-- Conteúdo principal à direita da barra lateral -->
+  <div
+    class="flex-1 flex flex-col"
+    style="margin-left: 410px; padding: 32px 16px 16px 16px; gap: 32px; width: 625px; height: 809px;"
+  >
+    <app-header-mention-details></app-header-mention-details>
+    <app-player></app-player>
+  </div>
+
+  <!-- Botão flutuante fixado fora do conteúdo -->
+
+
+</div>
+  <div
+  class="fixed bottom-4 right-4 z-50"
+>
+  <app-view-entidades-search></app-view-entidades-search>
+</div>

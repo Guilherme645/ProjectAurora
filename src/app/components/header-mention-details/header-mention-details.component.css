@@ -1,0 +1,63 @@
+/* Certifique-se de que o Tailwind CSS está incluído no projeto */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos para a seção de metadados */
+.metadata {
+  width: 274px;
+  height: 20px;
+  gap: 12px; /* Já está no HTML com Tailwind: gap-2 (ajustado para 12px abaixo) */
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -1%;
+}
+
+/* Ajustes para os componentes */
+app-back-button button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #4b5563; /* Tailwind's gray-600 */
+  font-size: 14px;
+  cursor: pointer;
+}
+
+app-back-button button:hover {
+  color: #1f2937; /* Tailwind's gray-800 */
+}
+
+app-back-button button::before {
+  content: '←';
+  margin-right: 8px;
+}
+
+app-edit-metion-button button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #3b82f6; /* Tailwind's blue-500 */
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+app-edit-metion-button button:hover {
+  color: #1d4ed8; /* Tailwind's blue-700 */
+}
+
+app-share-button button {
+  background-color: #f3f4f6; /* Tailwind's gray-100 */
+  border: none;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+app-share-button button:hover {
+  background-color: #e5e7eb; /* Tailwind's gray-200 */
+}

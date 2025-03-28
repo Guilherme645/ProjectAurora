@@ -6,6 +6,7 @@ import { PageBuscaComponent } from './pages/page-busca/page-busca.component';
 import { PageCriarContaComponent } from './pages/page-criar-conta/page-criar-conta.component';
 import { PageEsqueceuSenhaComponent } from './pages/page-esqueceu-senha/page-esqueceu-senha.component';
 import { ResultComponent } from './pages/result/result.component';
+import { PageMentionDetailComponent } from './pages/page-mention-detail/page-mention-detail.component';
 
 export const routes: Routes = [ 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,7 +15,9 @@ export const routes: Routes = [
   { path: 'busca', component: PageBuscaComponent },
   { path: 'esqueceu', component: PageEsqueceuSenhaComponent },
   { path: 'criar', component: PageCriarContaComponent },
-  { path: 'resultado', component: ResultComponent }
+  { path: 'resultado', component: ResultComponent },
+  { path: 'mention-details', component: PageMentionDetailComponent }
+
 ];
 
 @NgModule({

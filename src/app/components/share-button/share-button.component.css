@@ -1,0 +1,20 @@
+/* share-button.component.css */
+button {
+    width: 46px;
+    height: 46px;
+    background-color: #F3F4F6; /* Cor de fundo especificada */
+    border-radius: 8px; /* Mantém as bordas arredondadas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  button:hover {
+    background-color: #e5e7eb; /* Um tom mais escuro para o hover (equivalente a bg-gray-300) */
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke: #4b5563; /* Cor do ícone, mantida como cinza escuro */
+  }

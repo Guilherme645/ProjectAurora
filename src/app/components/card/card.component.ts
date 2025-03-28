@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -10,6 +11,8 @@ export class CardComponent {
   @Input() noticias: any; // Inclui o campo 'id'
   @Input() isSelected: boolean = false;
   @Output() selectionChange = new EventEmitter<boolean>();
+
+  constructor(private router: Router) {}
 
   isModalOpen: boolean = false;
   allSelected: boolean = false;
@@ -80,5 +83,9 @@ export class CardComponent {
 
   openModal(): void {
     this.isModalOpen = true;
+  }
+
+  irParaDetalhes() {
+    this.router.navigate(['/mention-details']);
   }
 }

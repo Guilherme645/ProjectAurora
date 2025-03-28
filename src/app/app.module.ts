@@ -34,6 +34,13 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { LocalizacaoComponent } from './components/localizacao/localizacao.component';
 import { BotaoxComponent } from './components/botaox/botaox.component';
 import { SearchbasicmobileComponent } from './components/searchbasicmobile/searchbasicmobile.component';
+import { BackButtonComponent } from './components/back-button/back-button.component';
+import { PageMentionDetailComponent } from './pages/page-mention-detail/page-mention-detail.component';
+import { EditMetionButtonComponent } from './components/edit-metion-button/edit-metion-button.component';
+import { ShareButtonComponent } from './components/share-button/share-button.component';
+import { HeaderMentionDetailsComponent } from './components/header-mention-details/header-mention-details.component';
+import { PlayerComponent } from './components/player/player.component';
+import { ViewEntidadesSearchComponent } from './components/view-entidades-search/view-entidades-search.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +72,14 @@ import { SearchbasicmobileComponent } from './components/searchbasicmobile/searc
     CalendarComponent,
     LocalizacaoComponent,
     BotaoxComponent,
-    SearchbasicmobileComponent
+    SearchbasicmobileComponent,
+    BackButtonComponent,
+    PageMentionDetailComponent,
+    EditMetionButtonComponent,
+    ShareButtonComponent,
+  HeaderMentionDetailsComponent,
+  PlayerComponent,
+  ViewEntidadesSearchComponent
   ],
   imports: [
     BrowserModule,

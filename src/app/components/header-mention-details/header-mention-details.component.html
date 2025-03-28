@@ -1,0 +1,41 @@
+<!-- header-mention-details.component.html -->
+<div class="flex flex-col justify-between px-4 py-3 w-[625px] h-[162px]" *ngIf="noticia$ | async as noticia">
+  
+  <!-- Topo: Voltar -->
+  <app-back-button (backClicked)="onBack()"></app-back-button>
+
+  <!-- Meio: Info + Data -->
+  <div class="flex justify-between items-start">
+    <!-- Esquerda -->
+    <div class="flex flex-col gap-1">
+      <!-- Metadados -->
+      <div class="flex items-center gap-2 text-[12px] text-gray-700 whitespace-nowrap leading-none">
+        <span class="font-semibold">{{ noticia.veiculo }}</span>
+        <span class="text-gray-400">•</span>
+        <span class="text-gray-600">{{ noticia.local }}</span>
+        <span class="text-gray-400">•</span>
+        <span class="text-gray-800 font-medium">{{ noticia.sentimento }}</span>
+      </div>
+
+      <!-- Intervalo -->
+      <div class="text-gray-900 text-lg font-semibold">
+        {{ intervalo }}
+      </div>
+    </div>
+
+    <!-- Direita: Data -->
+    <div class="text-[12px] text-gray-500 text-right leading-tight">
+      <div>{{ dataFixa }}</div>
+      <div>às {{ horario }}</div>
+    </div>
+  </div>
+
+  <!-- Rodapé: Botões -->
+  <div class="flex justify-between items-end mt-4">
+    <!-- Editar -->
+    <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
+
+    <!-- Compartilhar -->
+    <app-share-button (shareClicked)="onShare()"></app-share-button>
+  </div>
+</div>
