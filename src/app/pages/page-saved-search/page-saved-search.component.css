@@ -1,0 +1,7 @@
+.header-wrapper {
+    padding-left: 0; /* Remove left padding */
+    padding-right: 1.5rem; /* Match the main section's padding */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-left: 20px;
+  }
