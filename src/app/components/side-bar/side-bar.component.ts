@@ -18,7 +18,7 @@ export class SideBarComponent implements OnInit {
   menuItems = [
     { label: 'Início', link: '/home/workspace', icon: 'home' },
     { label: 'Busca Geral', link: '/home/general-search', icon: 'search' },
-    { label: 'Buscas Salvas', link: '/home/saved-search', icon: 'bookmark' },
+    { label: 'Buscas Salvas', link: 'saved-search', icon: 'bookmark' },
     { label: 'Clippings', link: '/home/clippings', icon: 'clip' },
     { label: 'Dashboard', link: '/home/dashboard', icon: 'dashboard' }
   ];

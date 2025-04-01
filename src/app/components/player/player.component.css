@@ -1,0 +1,36 @@
+.player-container {
+    /* Estilos existentes */
+  }
+  
+  .player-container.fixed {
+    cursor: grab;
+    transition: transform 0.1s ease-out;
+  }
+  
+  .player-container.fixed:active {
+    cursor: grabbing;
+  }
+  
+  /* Estilo para a descrição */
+  .player-container .p-4 {
+    background-color: #f9f9f9; /* Fundo claro para destacar a descrição */
+    border-top: 1px solid #e5e5e5; /* Linha separadora */
+  }
+  
+  .player-container .text-gray-700 {
+    font-family: 'Arial', sans-serif; /* Fonte limpa */
+    line-height: 1.6; /* Espaçamento entre linhas */
+    max-height: 150px; /* Limita a altura para evitar overflow */
+    overflow-y: auto; /* Adiciona scroll se o texto for muito longo */
+    padding-right: 8px; /* Espaço para o scroll */
+  }
+  
+  /* Estiliza a barra de scroll (opcional) */
+  .player-container .text-gray-700::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .player-container .text-gray-700::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+  }

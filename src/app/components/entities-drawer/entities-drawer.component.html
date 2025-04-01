@@ -1,0 +1,115 @@
+<div class="entities-drawer-container">
+  <!-- Cabeçalho com título e botão de fechar -->
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-lg font-semibold text-gray-800">Entidades</h2>
+    <button class="text-gray-600 hover:text-gray-800" (click)="closeDrawer()">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Card: Datas extraídas -->
+  <div class="card mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-sm font-semibold text-gray-700">
+        Datas extraídas <span class="text-blue-600">({{ dates.length }} resultados)</span>
+      </h3>
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="datesEnabled" (change)="toggleDates()" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <span *ngFor="let date of displayedDates" class="chip bg-blue-100 text-blue-800">
+        {{ date }}
+      </span>
+      <a
+        *ngIf="dates.length > displayedDates.length"
+        href="#"
+        class="text-blue-600 text-xs hover:underline"
+        (click)="showAllDates($event)"
+      >
+        Ver todos (+{{ dates.length - displayedDates.length }})
+      </a>
+    </div>
+  </div>
+
+  <!-- Card: Lugares extraídos -->
+  <div class="card mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-sm font-semibold text-gray-700">
+        Lugares extraídos <span class="text-green-600">({{ places.length }} resultados)</span>
+      </h3>
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="placesEnabled" (change)="togglePlaces()" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <span *ngFor="let place of displayedPlaces" class="chip bg-green-100 text-green-800">
+        {{ place }}
+      </span>
+      <a
+        *ngIf="places.length > displayedPlaces.length"
+        href="#"
+        class="text-green-600 text-xs hover:underline"
+        (click)="showAllPlaces($event)"
+      >
+        Ver todos (+{{ places.length - displayedPlaces.length }})
+      </a>
+    </div>
+  </div>
+
+  <!-- Card: Pessoas extraídas -->
+  <div class="card mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-sm font-semibold text-gray-700">
+        Pessoas extraídas <span class="text-yellow-600">({{ people.length }} resultados)</span>
+      </h3>
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="peopleEnabled" (change)="togglePeople()" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <span *ngFor="let person of displayedPeople" class="chip bg-yellow-100 text-yellow-800">
+        {{ person }}
+      </span>
+      <a
+        *ngIf="people.length > displayedPeople.length"
+        href="#"
+        class="text-yellow-600 text-xs hover:underline"
+        (click)="showAllPeople($event)"
+      >
+        Ver todos (+{{ people.length - displayedPeople.length }})
+      </a>
+    </div>
+  </div>
+
+  <!-- Card: Organizações extraídas -->
+  <div class="card mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-sm font-semibold text-gray-700">
+        Organizações extraídas <span class="text-gray-600">({{ organizations.length }} resultados)</span>
+      </h3>
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="organizationsEnabled" (change)="toggleOrganizations()" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <span *ngFor="let org of displayedOrganizations" class="chip bg-gray-100 text-gray-800">
+        {{ org }}
+      </span>
+      <a
+        *ngIf="organizations.length > displayedOrganizations.length"
+        href="#"
+        class="text-gray-600 text-xs hover:underline"
+        (click)="showAllOrganizations($event)"
+      >
+        Ver todos (+{{ organizations.length - displayedOrganizations.length }})
+      </a>
+    </div>
+  </div>
+</div>

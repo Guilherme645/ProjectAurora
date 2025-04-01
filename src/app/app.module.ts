@@ -48,6 +48,12 @@ import { MonitorCardComponent } from './components/monitor-card/monitor-card.com
 import { SimpleInputSearchComponent } from './components/simple-input-search/simple-input-search.component';
 import { HeaderSavedSearchComponent } from './components/header-saved-search/header-saved-search.component';
 import { PageSavedSearchComponent } from './pages/page-saved-search/page-saved-search.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { EntitiesDrawerComponent } from './components/entities-drawer/entities-drawer.component';
+import { OptionSearchComponent } from './components/option-search/option-search.component';
+import { EditSearchBasicInformationComponent } from './components/edit-search-basic-information/edit-search-basic-information.component';
+import { DuplicateSearchComponent } from './components/duplicate-search/duplicate-search.component';
+import { RemoveSavedSearchComponent } from './components/remove-saved-search/remove-saved-search.component';
 
 @NgModule({
   declarations: [
@@ -93,17 +99,24 @@ import { PageSavedSearchComponent } from './pages/page-saved-search/page-saved-s
   MonitorCardComponent, 
   SimpleInputSearchComponent,
   HeaderSavedSearchComponent,
-  PageSavedSearchComponent
+  PageSavedSearchComponent,
+  EntitiesDrawerComponent,
+  OptionSearchComponent,
+  EditSearchBasicInformationComponent,
+  DuplicateSearchComponent,
+  RemoveSavedSearchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule, // ✅ IMPORTANTE PARA AS ROTAS FUNCIONAREM
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule
     
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent] // ✅ GARANTA QUE ESTÁ CORRETO
+  
 })
 export class AppModule { }

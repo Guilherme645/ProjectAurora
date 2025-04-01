@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./page-mention-detail.component.css'],
   standalone: false
 })
-export class PageMentionDetailComponent  {
+export class PageMentionDetailComponent implements OnInit {
   noticias: any[] = [];
   filteredNoticias: any[] = [];
   isMobile: boolean = false;
@@ -20,11 +20,21 @@ export class PageMentionDetailComponent  {
   showScrollTop: boolean = false;
   showScrollTopButton: boolean = false;
   isSearchOpen = false;
-    page: number = 1;
+  page: number = 1;
   pageSize: number = 10;
   isLoading: boolean = false;
   hasMoreData: boolean = true;
+  videoDescription: string = '';
+  showEntitiesDrawer: boolean = false; // Variável para controlar a visibilidade do drawer
 
+  ngOnInit(): void {
+    // Qualquer inicialização necessária
+  }
+
+  onDescriptionReceived(description: string): void {
+    console.log('Descrição recebida:', description);
+    this.videoDescription = description;
+  }
 
   onUserChange(user: string) {
     // this.currentUser = user;
@@ -35,5 +45,7 @@ export class PageMentionDetailComponent  {
     // this.loadNoticias();
   }
 
-
+  verEntidadesExtraidas(): void {
+    this.showEntitiesDrawer = !this.showEntitiesDrawer; // Alterna a visibilidade do drawer
+  }
 }
