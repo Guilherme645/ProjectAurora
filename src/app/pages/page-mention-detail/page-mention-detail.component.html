@@ -1,49 +1,44 @@
 <div class="layout-container flex min-h-screen">
   <!-- Sidebar fixa -->
-  <div class="bg-neutral-800 text-white  fixed h-full">
-    <app-side-bar></app-side-bar>
+  <div class="bg-neutral-800 text-white fixed h-full">
+    <app-side-bar
+      [isSidebarOpen]="isSidebarOpen"
+      (sidebarToggled)="onSidebarToggled($event)"
+      (userChange)="onUserChange($event)">
+    </app-side-bar>
   </div>
 
   <!-- Conteúdo principal -->
   <div
     class="flex-1 flex flex-col relative"
-    style="margin-left: 390px; padding: 32px 0; max-width: calc(100% - 320px);"
+    [ngClass]="{
+      'ml-16': !isSidebarOpen, 
+      'ml-390px': isSidebarOpen
+    }"
+    style="padding: 32px 0;"
   >
-    <app-header-mention-details></app-header-mention-details>
-    
-    <!-- Player -->
-    <div class="px-4">
-      <app-player (descriptionEmitter)="onDescriptionReceived($event)"></app-player>
-    </div>
+    <!-- Container interno para centralizar -->
+    <div class="content-container">
+      <app-header-mention-details></app-header-mention-details>
+      
+      <!-- Player -->
+      <div class="px-4">
+        <app-player
+          (descriptionEmitter)="onDescriptionReceived($event)">
+        </app-player>
+      </div>
 
-    <!-- Descrição do vídeo -->
-    <div class="px-4" style="padding-top: 32px; max-width: 590px;">
-      <p class="text-gray-700 text-sm leading-relaxed">
-        {{ videoDescription || 'Nenhuma descrição disponível' }}
-      </p>
+      <!-- Descrição do vídeo com marcação de entidades -->
+      <div class="px-4" style="padding-top: 32px;">
+        <p class="text-gray-700 text-sm leading-relaxed" [innerHTML]="videoDescription || 'Nenhuma descrição disponível'"></p>
+      </div>
     </div>
   </div>
 
   <!-- Botão "Ver entidades extraídas" -->
   <div class="fixed bottom-4 right-4 z-50">
-    <app-view-entidades-search></app-view-entidades-search>
-    <div
-      class="fixed bottom-0 right-0 text-white px-4 py-2 rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-none flex items-center gap-2 shadow-lg z-50 cursor-pointer transition"
-      style="background-color: #2563EB;"
-      (click)="verEntidadesExtraidas()"
-    >
-      <span class="text-sm">Ver entidades extraídas</span>
-      <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-md">
-        144
-      </span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 3 21 3 21 9"></polyline>
-        <line x1="10" y1="14" x2="21" y2="3"></line>
-        <polyline points="3 9 3 21 15 21"></polyline>
-      </svg>
-    </div>
-  </div>
+    <app-view-entidades-search (click)="verEntidadesExtraidas()"></app-view-entidades-search>
+    
 
   <!-- Drawer com EntitiesDrawerComponent -->
   <div
@@ -51,6 +46,8 @@
     class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
     [ngClass]="showEntitiesDrawer ? 'translate-x-0' : 'translate-x-full'"
   >
-    <app-entities-drawer (close)="verEntidadesExtraidas()"></app-entities-drawer>
+    <app-entities-drawer
+      (close)="verEntidadesExtraidas()">
+    </app-entities-drawer>
   </div>
 </div>

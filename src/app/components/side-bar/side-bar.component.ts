@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 
@@ -9,9 +9,12 @@ import { DataService } from 'src/app/services/data.service';
   standalone: false
 })
 export class SideBarComponent implements OnInit {
+  @Input() isSidebarOpen = true; // Recebe o estado do componente pai
+  @Output() userChange = new EventEmitter<string>();
+  @Output() sidebarToggled = new EventEmitter<boolean>();
+
   isModalVisible = false;
   isExpanded = true;
-  isSidebarOpen = true;
   isMobile = window.innerWidth <= 768;
   currentUser = { name: 'Superior Tribunal Federal' };
   userName = 'Antônio Costa';
@@ -34,14 +37,17 @@ export class SideBarComponent implements OnInit {
     { label: 'Configurações', link: '/home/settings', icon: 'settings' }
   ];
 
-  @Output() userChange = new EventEmitter<string>();
-  @Output() sidebarToggled = new EventEmitter<boolean>();
-
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
     this.loadUsers();
+    this.isExpanded = this.isSidebarOpen; // Sincroniza o estado inicial
+  }
+
+  // Observa mudanças no @Input isSidebarOpen
+  ngOnChanges(): void {
+    this.isExpanded = this.isSidebarOpen; // Garante que isExpanded esteja sempre sincronizado
   }
 
   get userKeys(): string[] {
@@ -95,6 +101,7 @@ export class SideBarComponent implements OnInit {
       this.isSidebarOpen = false;
       this.isExpanded = false;
     }
+    this.sidebarToggled.emit(this.isSidebarOpen);
   }
 
   changeUser(userKey: string): void {
@@ -106,6 +113,7 @@ export class SideBarComponent implements OnInit {
     console.log('Usuário deslogado');
     this.isSidebarOpen = false;
     this.isExpanded = false;
+    this.sidebarToggled.emit(this.isSidebarOpen);
     this.router.navigate(['/login']);
   }
 
@@ -118,7 +126,6 @@ export class SideBarComponent implements OnInit {
     });
   }
 
-  // Method to return the SVG path based on the icon type
   getIconPath(icon: string): string {
     switch (icon) {
       case 'home':

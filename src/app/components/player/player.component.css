@@ -1,6 +1,4 @@
-.player-container {
-    /* Estilos existentes */
-  }
+
   
   .player-container.fixed {
     cursor: grab;
@@ -10,27 +8,46 @@
   .player-container.fixed:active {
     cursor: grabbing;
   }
-  
-  /* Estilo para a descrição */
-  .player-container .p-4 {
-    background-color: #f9f9f9; /* Fundo claro para destacar a descrição */
-    border-top: 1px solid #e5e5e5; /* Linha separadora */
-  }
-  
-  .player-container .text-gray-700 {
-    font-family: 'Arial', sans-serif; /* Fonte limpa */
-    line-height: 1.6; /* Espaçamento entre linhas */
-    max-height: 150px; /* Limita a altura para evitar overflow */
-    overflow-y: auto; /* Adiciona scroll se o texto for muito longo */
-    padding-right: 8px; /* Espaço para o scroll */
-  }
-  
-  /* Estiliza a barra de scroll (opcional) */
-  .player-container .text-gray-700::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .player-container .text-gray-700::-webkit-scrollbar-thumb {
-    background-color: #ccc;
+  .highlight-date {
+    background-color: #fef08a; /* Amarelo */
+    padding: 2px 4px;
     border-radius: 3px;
   }
+  
+  .highlight-place {
+    background-color: #bfdbfe; /* Azul */
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+  
+  .highlight-person {
+    background-color: #fed7aa; /* Laranja */
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+  
+  .highlight-organization {
+    background-color: #bbf7d0; /* Verde */
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+  .highlight-person {
+    background-color: rgba(255, 99, 71, 0.3); /* Cor de fundo para pessoas */
+    color: red;
+  }
+  
+  .highlight-place {
+    background-color: rgba(135, 206, 250, 0.3); /* Cor de fundo para lugares */
+    color: blue;
+  }
+  
+  .highlight-organization {
+    background-color: rgba(144, 238, 144, 0.3); /* Cor de fundo para organizações */
+    color: green;
+  }
+  
+  .highlight-date {
+    background-color: rgba(255, 215, 0, 0.3); /* Cor de fundo para datas */
+    color: yellow;
+  }
+  

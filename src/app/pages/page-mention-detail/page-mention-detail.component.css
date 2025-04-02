@@ -1,10 +1,101 @@
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden; /* Evita overflow horizontal */
+}
+
+.flex-1 {
+  flex: 1;
+  box-sizing: border-box;
+  width: 100%;
+  transition: margin-left 0.3s ease;
+}
+
+.relative {
+  position: relative;
+}
+
+.ml-16 {
+  margin-left: 64px; /* Margem quando a barra lateral está minimizada (64px) */
+}
+
+.ml-390px {
+  margin-left: 390px; /* Margem quando a barra lateral está expandida (390px) */
+}
+
+/* Ajuste o conteúdo principal quando o drawer está aberto */
+:host-context(.show-entities-drawer) .flex-1 {
+  padding-right: 384px; /* Espaço para o drawer de 384px */
+}
+
+/* Centraliza o conteúdo interno */
+.content-container {
+  max-width: 590px;
+  width: 100%;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  box-sizing: border-box;
+}
+
+/* Quando a barra lateral está expandida */
+.ml-390px .content-container {
+  margin-left: 10px; /* Posição quando a barra lateral está expandida */
+}
+
+/* Quando a barra lateral está comprimida */
+.ml-16 .content-container {
+  margin-left: 170px; /* Posição quando a barra lateral está comprimida */
+}
+
+/* Garante que o conteúdo interno não ultrapasse os limites */
+.content-container > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ajuste específico para o player e a descrição */
+.px-4 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.highlight-person {
+  background-color: rgba(255, 99, 71, 0.3); /* Cor de fundo para pessoas */
+  color: red;
+}
+
+.highlight-place {
+  background-color: rgba(135, 206, 250, 0.3); /* Cor de fundo para lugares */
+  color: blue;
+}
+
+.highlight-organization {
+  background-color: rgba(144, 238, 144, 0.3); /* Cor de fundo para organizações */
+  color: green;
+}
+
+.highlight-date {
+  background-color: rgba(255, 215, 0, 0.3); /* Cor de fundo para datas */
+  color: yellow;
+}
 .text-gray-700 {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    color: #4a5568; /* Garante que o texto seja visível */
-  }
-  
-  .px-4 {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
+  color: #4a5568; /* Cor do texto */
+}
+
+.text-sm {
+  font-size: 14px; /* Tamanho do texto */
+}
+
+.leading-relaxed {
+  line-height: 1.75; /* Espaçamento entre linhas */
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.padding-top-32 {
+  padding-top: 32px;
+}

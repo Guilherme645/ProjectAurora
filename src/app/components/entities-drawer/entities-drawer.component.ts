@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { EntitiesService } from 'src/app/services/entities.service';
 
 @Component({
   selector: 'app-entities-drawer',
@@ -9,62 +10,84 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class EntitiesDrawerComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
 
-  // Dados
-  dates: string[] = ['Janeiro', 'Dezembro', '2024', 'Sexta-feira'];
-  places: string[] = [
-    'Brasil', 'Esplanada dos Ministérios', 'Praça dos Três Poderes', 'Palácio da Alvorada',
-    'União', 'Estúdio I'
-  ];
-  people: string[] = [
-    'Jair Bolsonaro', 'Mauro Cid', 'Diles Tofolli', 'Rosa Weber',
-    'Alexandre de Moraes', 'Braga Netto'
-  ];
-  organizations: string[] = [
-    'Ministério da Defesa', 'GloboNews', 'STF', 'Força Aérea Brasileira',
-    'Exército', 'Marinha', 'Estado-Maior', 'ONU'
-  ];
+  dates: string[] = [];
+  places: string[] = [];
+  people: string[] = [];
+  organizations: string[] = [];
 
-  // Dados exibidos (limitados inicialmente)
   displayedDates: string[] = [];
   displayedPlaces: string[] = [];
   displayedPeople: string[] = [];
   displayedOrganizations: string[] = [];
 
-  // Estado dos toggles
-  datesEnabled = true;
-  placesEnabled = true;
-  peopleEnabled = true;
-  organizationsEnabled = true;
+  datesEnabled: boolean = true;
+  placesEnabled: boolean = true;
+  peopleEnabled: boolean = true;
+  organizationsEnabled: boolean = true;
 
-  // Limite inicial de itens exibidos
   private readonly displayLimit = 3;
 
+  constructor(private entitiesService: EntitiesService) {}
+
   ngOnInit(): void {
-    // Inicializa os dados exibidos com o limite
+    const initialEntities = this.entitiesService.getInitialEntities();
+    this.dates = initialEntities.dates;
+    this.places = initialEntities.places;
+    this.people = initialEntities.people;
+    this.organizations = initialEntities.organizations;
+  
+    const initialToggleState = this.entitiesService.getInitialToggleState();
+    this.datesEnabled = initialToggleState.showDates;
+    this.placesEnabled = initialToggleState.showPlaces;
+    this.peopleEnabled = initialToggleState.showPeople;
+    this.organizationsEnabled = initialToggleState.showOrganizations;
+  
+    console.log('EntitiesDrawerComponent inicializado com toggles:', {
+      datesEnabled: this.datesEnabled,
+      placesEnabled: this.placesEnabled,
+      peopleEnabled: this.peopleEnabled,
+      organizationsEnabled: this.organizationsEnabled
+    });
+  
+    // Forçar os toggles iniciais no serviço
+    this.entitiesService.toggleDates(this.datesEnabled);
+    this.entitiesService.togglePlaces(this.placesEnabled);
+    this.entitiesService.togglePeople(this.peopleEnabled);
+    this.entitiesService.toggleOrganizations(this.organizationsEnabled);
+  
     this.displayedDates = this.dates.slice(0, this.displayLimit);
     this.displayedPlaces = this.places.slice(0, this.displayLimit);
     this.displayedPeople = this.people.slice(0, this.displayLimit);
     this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
+  
+    this.entitiesService.updateEntities({
+      dates: this.dates,
+      places: this.places,
+      people: this.people,
+      organizations: this.organizations
+    });
   }
 
-  // Funções para os toggles
   toggleDates(): void {
-    console.log('Datas enabled:', this.datesEnabled);
+    this.datesEnabled = !this.datesEnabled;
+    this.entitiesService.toggleDates(this.datesEnabled);
   }
 
   togglePlaces(): void {
-    console.log('Places enabled:', this.placesEnabled);
+    this.placesEnabled = !this.placesEnabled;
+    this.entitiesService.togglePlaces(this.placesEnabled);
   }
 
   togglePeople(): void {
-    console.log('People enabled:', this.peopleEnabled);
+    this.peopleEnabled = !this.peopleEnabled;
+    this.entitiesService.togglePeople(this.peopleEnabled);
   }
 
   toggleOrganizations(): void {
-    console.log('Organizations enabled:', this.organizationsEnabled);
+    this.organizationsEnabled = !this.organizationsEnabled;
+    this.entitiesService.toggleOrganizations(this.organizationsEnabled);
   }
 
-  // Funções para "Ver todos"
   showAllDates(event: Event): void {
     event.preventDefault();
     this.displayedDates = [...this.dates];
@@ -85,7 +108,6 @@ export class EntitiesDrawerComponent implements OnInit {
     this.displayedOrganizations = [...this.organizations];
   }
 
-  // Função para fechar o drawer
   closeDrawer(): void {
     this.close.emit();
   }

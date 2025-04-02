@@ -1,103 +1,66 @@
-/* Container */
 .entities-drawer-container {
-    font-family: 'Arial', sans-serif;
-    padding: 16px;
-    height: 100%;
-    overflow-y: auto;
-  }
-  
-  /* Card */
-  .card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-  }
-  
-  /* Título */
-  .card h3 {
-    font-size: 14px;
-    font-weight: 600;
-    color: #4a5568; /* text-gray-700 */
-  }
-  
-  /* Chip (etiqueta) */
-  .chip {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  
-  /* Cores específicas para cada tipo */
-  .text-blue-600 { color: #2563eb; }
-  .bg-blue-100 { background-color: #dbeafe; }
-  .text-blue-800 { color: #1e40af; }
-  
-  .text-green-600 { color: #16a34a; }
-  .bg-green-100 { background-color: #dcfce7; }
-  .text-green-800 { color: #166534; }
-  
-  .text-yellow-600 { color: #d97706; }
-  .bg-yellow-100 { background-color: #fefcbf; }
-  .text-yellow-800 { color: #92400e; }
-  
-  .text-gray-600 { color: #4b5563; }
-  .bg-gray-100 { background-color: #f3f4f6; }
-  .text-gray-800 { color: #1f2937; }
-  
-  /* Toggle Switch */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-  }
-  
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 20px;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-  }
-  
-  input:checked + .slider {
-    background-color: #2563eb; /* bg-blue-600 */
-  }
-  
-  input:checked + .slider:before {
-    transform: translateX(20px);
-  }
-  
-  /* Espaçamentos */
-  .gap-2 {
-    gap: 8px;
-  }
-  
-  .mb-4 {
-    margin-bottom: 16px;
-  }
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.card {
+  background-color: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.chip {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Estilo do toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2563eb;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
