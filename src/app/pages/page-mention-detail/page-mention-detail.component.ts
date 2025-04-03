@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, HostListener } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 
@@ -35,15 +35,7 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   hasMoreData: boolean = true;
   videoDescription: SafeHtml = '';
   showEntitiesDrawer: boolean = false;
-  textoOriginal: string; // Adicionado para replicar DescricaoContainerComponent
-
-  // Entidades (mantidas para compatibilidade com o drawer)
-  entities: Entities = {
-    dates: [],
-    places: [],
-    people: [],
-    organizations: []
-  };
+  textoOriginal: string;
 
   @HostBinding('class.show-entities-drawer')
   get isEntitiesDrawerOpen() {
@@ -54,20 +46,19 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
     private textoEntidadesService: TextoEntidadesService,
     private sanitizer: DomSanitizer
   ) {
-    this.textoOriginal = this.textoEntidadesService.getTextoOriginal(); // Obtém o texto original do serviço
+    this.textoOriginal = this.textoEntidadesService.getTextoOriginal();
   }
 
   ngOnInit(): void {
     this.checkScreenSize();
-
-    // Carrega as entidades do serviço
-
-    // Inicializa a descrição com o texto original
     this.videoDescription = this.sanitizer.bypassSecurityTrustHtml(this.textoOriginal);
   }
 
-  ngOnDestroy(): void {
-    // Não há subscrições para desinscrever, mas mantive o método por consistência
+  ngOnDestroy(): void {}
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkScreenSize();
   }
 
   checkScreenSize(): void {
@@ -85,6 +76,7 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
 
   onSidebarToggled(isOpen: boolean): void {
     this.isSidebarOpen = isOpen;
+    console.log('Sidebar toggled, isSidebarOpen:', this.isSidebarOpen); // Log para depuração
   }
 
   verEntidadesExtraidas(): void {
@@ -94,5 +86,6 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
     } else {
       this.isSidebarOpen = true;
     }
+    console.log('Entities drawer toggled, showEntitiesDrawer:', this.showEntitiesDrawer); // Log para depuração
   }
 }

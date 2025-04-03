@@ -1,13 +1,39 @@
-/* Certifique-se de que o Tailwind CSS está incluído no projeto */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.header {
+  transition: all 0.3s ease;
+}
+
+.header-default {
+  /* Estilo padrão (sem rolagem) */
+}
+
+.header-scrolled {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 768px) {
+  .header {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .header > div {
+    width: 100%;
+    max-width: 100%;
+  }
+}
 
 /* Estilos para a seção de metadados */
 .metadata {
   width: 274px;
   height: 20px;
-  gap: 12px; /* Já está no HTML com Tailwind: gap-2 (ajustado para 12px abaixo) */
+  gap: 12px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 14px;
@@ -21,13 +47,13 @@ app-back-button button {
   align-items: center;
   background: none;
   border: none;
-  color: #4b5563; /* Tailwind's gray-600 */
+  color: #4b5563;
   font-size: 14px;
   cursor: pointer;
 }
 
 app-back-button button:hover {
-  color: #1f2937; /* Tailwind's gray-800 */
+  color: #1f2937;
 }
 
 app-back-button button::before {
@@ -40,18 +66,18 @@ app-edit-metion-button button {
   align-items: center;
   background: none;
   border: none;
-  color: #3b82f6; /* Tailwind's blue-500 */
+  color: #3b82f6;
   font-size: 14px;
   cursor: pointer;
   margin-top: 8px;
 }
 
 app-edit-metion-button button:hover {
-  color: #1d4ed8; /* Tailwind's blue-700 */
+  color: #1d4ed8;
 }
 
 app-share-button button {
-  background-color: #f3f4f6; /* Tailwind's gray-100 */
+  background-color: #f3f4f6;
   border: none;
   padding: 4px;
   border-radius: 4px;
@@ -59,5 +85,5 @@ app-share-button button {
 }
 
 app-share-button button:hover {
-  background-color: #e5e7eb; /* Tailwind's gray-200 */
+  background-color: #e5e7eb;
 }

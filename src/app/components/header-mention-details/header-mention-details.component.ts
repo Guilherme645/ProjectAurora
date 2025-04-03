@@ -1,5 +1,4 @@
-// header-mention-details.component.ts
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, HostListener } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -13,25 +12,29 @@ export class HeaderMentionDetailsComponent implements OnInit {
   @Output() editClicked = new EventEmitter<void>();
   @Output() shareClicked = new EventEmitter<void>();
 
-  noticia$: Observable<any> | null = null; // Observable para a notícia
+  noticia$: Observable<any> | null = null;
+  isScrolled = false;
 
-  // Valores fixos definidos no TypeScript
   intervalo: string = '10:17:01 – 10:23:59';
   horario: string = '10:17';
-  dataFixa: string = '07 de dezembro de 2024'; // Data fixa conforme a imagem
+  dataFixa: string = '07 de dezembro de 2024';
 
   constructor() {}
 
   ngOnInit() {
-    // Mock dos dados da notícia para corresponder à imagem
     const mockNoticia = {
       veiculo: 'Globo News',
       local: 'São Paulo, SP',
       sentimento: 'Neutro'
     };
-
-    // Simula o retorno do DataService com um Observable
     this.noticia$ = of(mockNoticia);
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.isScrolled = scrollTop > 100;
+    console.log('Scroll detected, isScrolled:', this.isScrolled, 'scrollTop:', scrollTop); // Log para depuração
   }
 
   onBack() {

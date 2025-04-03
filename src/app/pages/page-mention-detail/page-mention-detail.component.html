@@ -8,6 +8,14 @@
     </app-side-bar>
   </div>
 
+  <!-- Container para o cabeçalho (fixo no topo) -->
+  <div class="header-wrapper" [ngClass]="{
+    'ml-16': !isSidebarOpen, 
+    'ml-390px': isSidebarOpen
+  }">
+    <app-header-mention-details></app-header-mention-details>
+  </div>
+
   <!-- Conteúdo principal -->
   <div
     class="flex-1 flex flex-col relative"
@@ -15,12 +23,9 @@
       'ml-16': !isSidebarOpen, 
       'ml-390px': isSidebarOpen
     }"
-    style="padding: 32px 0;"
   >
-    <!-- Container interno para centralizar -->
-    <div class="content-container">
-      <app-header-mention-details></app-header-mention-details>
-      
+    <!-- Container interno para o conteúdo -->
+    <div class="content-container" style="padding: 32px 0;">
       <!-- Player -->
       <div class="px-4">
         <app-player
@@ -29,7 +34,7 @@
       </div>
 
       <!-- Descrição do vídeo com marcação de entidades -->
-      <div class="px-4" style="padding-top: 32px;">
+      <div class="px-4" style="margin-top: 40px;">
         <p class="text-gray-700 text-sm leading-relaxed" [innerHTML]="videoDescription || 'Nenhuma descrição disponível'"></p>
       </div>
     </div>
