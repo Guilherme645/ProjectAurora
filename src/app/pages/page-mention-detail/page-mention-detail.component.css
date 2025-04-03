@@ -99,3 +99,34 @@
 .padding-top-32 {
   padding-top: 32px;
 }
+.entity-person {
+  background-color: #bbdefb; /* Fundo azul claro */
+  color: #0d47a1; /* Cor do texto azul */
+  font-weight: bold;
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.entity-location {
+  background-color: #c8e6c9; /* Fundo verde claro */
+  color: #388e3c; /* Cor do texto verde */
+  font-weight: bold;
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.entity-organization {
+  background-color: #ffccbc; /* Fundo vermelho claro */
+  color: #c62828; /* Cor do texto vermelho */
+  font-weight: bold;
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.entity-date {
+  background-color: #fff9c4; /* Fundo amarelo claro */
+  color: #f57f17; /* Cor do texto amarelo */
+  font-weight: bold;
+  padding: 0 5px;
+  border-radius: 4px;
+}

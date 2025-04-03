@@ -54,6 +54,9 @@ import { OptionSearchComponent } from './components/option-search/option-search.
 import { EditSearchBasicInformationComponent } from './components/edit-search-basic-information/edit-search-basic-information.component';
 import { DuplicateSearchComponent } from './components/duplicate-search/duplicate-search.component';
 import { RemoveSavedSearchComponent } from './components/remove-saved-search/remove-saved-search.component';
+import { TextoEntidadesComponent } from './texto-entidades/texto-entidades.component';
+import { DescricaoComponent } from './descricao/descricao.component';
+import { DescricaoContainerComponent } from './descricao-container/descricao-container.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +107,11 @@ import { RemoveSavedSearchComponent } from './components/remove-saved-search/rem
   OptionSearchComponent,
   EditSearchBasicInformationComponent,
   DuplicateSearchComponent,
-  RemoveSavedSearchComponent
+  RemoveSavedSearchComponent,
+  TextoEntidadesComponent,
+  DescricaoComponent,
+  DescricaoContainerComponent
+  
   ],
   imports: [
     BrowserModule,

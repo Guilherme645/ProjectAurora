@@ -1,7 +1,6 @@
 import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { EntitiesService } from 'src/app/services/entities.service';
+import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 
 interface Entities {
   dates: string[];
@@ -36,14 +35,9 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   hasMoreData: boolean = true;
   videoDescription: SafeHtml = '';
   showEntitiesDrawer: boolean = false;
+  textoOriginal: string; // Adicionado para replicar DescricaoContainerComponent
 
-  // Estado dos toggles
-  showDates: boolean = true;
-  showPlaces: boolean = true;
-  showPeople: boolean = true;
-  showOrganizations: boolean = true;
-
-  // Entidades
+  // Entidades (mantidas para compatibilidade com o drawer)
   entities: Entities = {
     dates: [],
     places: [],
@@ -51,46 +45,29 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
     organizations: []
   };
 
-  // Subscriptions para gerenciar unsubscribes
-  private entitiesSubscription: Subscription | undefined;
-  private toggleStateSubscription: Subscription | undefined;
-
   @HostBinding('class.show-entities-drawer')
   get isEntitiesDrawerOpen() {
     return this.showEntitiesDrawer;
   }
 
   constructor(
-    private entitiesService: EntitiesService,
+    private textoEntidadesService: TextoEntidadesService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) {
+    this.textoOriginal = this.textoEntidadesService.getTextoOriginal(); // Obtém o texto original do serviço
+  }
 
   ngOnInit(): void {
     this.checkScreenSize();
 
-    // Inscrever-se nas entidades
-    this.entitiesSubscription = this.entitiesService.entities$.subscribe(entities => {
-      this.entities = entities;
-      console.log('Entidades atualizadas no PageMentionDetailComponent:', this.entities);
-    });
+    // Carrega as entidades do serviço
 
-    // Inscrever-se nos estados dos toggles
-    this.toggleStateSubscription = this.entitiesService.toggleState$.subscribe(toggleState => {
-      this.showDates = toggleState.showDates;
-      this.showPlaces = toggleState.showPlaces;
-      this.showPeople = toggleState.showPeople;
-      this.showOrganizations = toggleState.showOrganizations;
-      console.log('Toggles atualizados:', toggleState);
-    });
+    // Inicializa a descrição com o texto original
+    this.videoDescription = this.sanitizer.bypassSecurityTrustHtml(this.textoOriginal);
   }
 
   ngOnDestroy(): void {
-    if (this.entitiesSubscription) {
-      this.entitiesSubscription.unsubscribe();
-    }
-    if (this.toggleStateSubscription) {
-      this.toggleStateSubscription.unsubscribe();
-    }
+    // Não há subscrições para desinscrever, mas mantive o método por consistência
   }
 
   checkScreenSize(): void {
@@ -101,7 +78,6 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
     console.log('Descrição recebida (já marcada):', description);
     this.videoDescription = this.sanitizer.bypassSecurityTrustHtml(description);
   }
-  
 
   onUserChange(user: string) {
     this.currentUser = user;

@@ -1,0 +1,20 @@
+.entity-person {
+    background-color: #ffeb3b;
+    font-weight: bold;
+  }
+  
+  .entity-location {
+    background-color: #81c784;
+    font-weight: bold;
+  }
+  
+  .entity-organization {
+    background-color: #64b5f6;
+    font-weight: bold;
+  }
+  
+  .entity-date {
+    background-color: #ff8a65;
+    font-weight: bold;
+  }
+  

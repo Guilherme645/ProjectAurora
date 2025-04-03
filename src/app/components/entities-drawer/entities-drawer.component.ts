@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { EntitiesService } from 'src/app/services/entities.service';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 
 @Component({
   selector: 'app-entities-drawer',
@@ -8,84 +8,88 @@ import { EntitiesService } from 'src/app/services/entities.service';
   standalone: false
 })
 export class EntitiesDrawerComponent implements OnInit {
-  @Output() close = new EventEmitter<void>();
+  @Input() textoOriginal: string = ''; // Recebe o texto do componente pai
+  @Output() textoMarcadoChange = new EventEmitter<string>(); // Emite o texto marcado para o pai
+  @Output() close = new EventEmitter<void>(); // Emite evento ao fechar o drawer
 
+  textoMarcado: string;
+
+  // Entidades completas
   dates: string[] = [];
   places: string[] = [];
   people: string[] = [];
   organizations: string[] = [];
 
+  // Entidades exibidas (limitadas inicialmente)
   displayedDates: string[] = [];
   displayedPlaces: string[] = [];
   displayedPeople: string[] = [];
   displayedOrganizations: string[] = [];
 
-  datesEnabled: boolean = true;
-  placesEnabled: boolean = true;
-  peopleEnabled: boolean = true;
-  organizationsEnabled: boolean = true;
+  // Estados dos toggles
+  datesEnabled: boolean = false;
+  placesEnabled: boolean = false;
+  peopleEnabled: boolean = false;
+  organizationsEnabled: boolean = false;
 
-  private readonly displayLimit = 3;
+  private readonly displayLimit = 3; // Limite inicial de exibição
 
-  constructor(private entitiesService: EntitiesService) {}
+  constructor(private textoEntidadesService: TextoEntidadesService) {
+    this.textoMarcado = this.textoOriginal;
+  }
 
   ngOnInit(): void {
-    const initialEntities = this.entitiesService.getInitialEntities();
-    this.dates = initialEntities.dates;
-    this.places = initialEntities.places;
-    this.people = initialEntities.people;
-    this.organizations = initialEntities.organizations;
-  
-    const initialToggleState = this.entitiesService.getInitialToggleState();
-    this.datesEnabled = initialToggleState.showDates;
-    this.placesEnabled = initialToggleState.showPlaces;
-    this.peopleEnabled = initialToggleState.showPeople;
-    this.organizationsEnabled = initialToggleState.showOrganizations;
-  
-    console.log('EntitiesDrawerComponent inicializado com toggles:', {
-      datesEnabled: this.datesEnabled,
-      placesEnabled: this.placesEnabled,
-      peopleEnabled: this.peopleEnabled,
-      organizationsEnabled: this.organizationsEnabled
-    });
-  
-    // Forçar os toggles iniciais no serviço
-    this.entitiesService.toggleDates(this.datesEnabled);
-    this.entitiesService.togglePlaces(this.placesEnabled);
-    this.entitiesService.togglePeople(this.peopleEnabled);
-    this.entitiesService.toggleOrganizations(this.organizationsEnabled);
-  
+    // Obtém as entidades do serviço
+    const entidades = this.textoEntidadesService.getEntidades();
+    this.dates = entidades.datas;
+    this.places = entidades.lugares;
+    this.people = entidades.pessoas;
+    this.organizations = entidades.organizacoes;
+
+    // Limita as entidades exibidas inicialmente
     this.displayedDates = this.dates.slice(0, this.displayLimit);
     this.displayedPlaces = this.places.slice(0, this.displayLimit);
     this.displayedPeople = this.people.slice(0, this.displayLimit);
     this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
-  
-    this.entitiesService.updateEntities({
-      dates: this.dates,
-      places: this.places,
-      people: this.people,
-      organizations: this.organizations
+
+    // Inicializa o texto marcado com o texto original
+    this.textoMarcado = this.textoOriginal;
+    this.atualizarTextoMarcado(); // Aplica as substituições iniciais (se toggles estiverem ativados)
+  }
+
+  ngOnChanges(): void {
+    this.textoMarcado = this.textoOriginal; // Atualiza textoMarcado quando o input muda
+    this.atualizarTextoMarcado(); // Reaplica as substituições
+  }
+
+  atualizarTextoMarcado(): void {
+    this.textoMarcado = this.textoEntidadesService.substituirEntidades({
+      datas: this.datesEnabled,
+      lugares: this.placesEnabled,
+      pessoas: this.peopleEnabled,
+      organizacoes: this.organizationsEnabled
     });
+    this.textoMarcadoChange.emit(this.textoMarcado); // Emite o texto marcado para o pai
   }
 
   toggleDates(): void {
     this.datesEnabled = !this.datesEnabled;
-    this.entitiesService.toggleDates(this.datesEnabled);
+    this.atualizarTextoMarcado();
   }
 
   togglePlaces(): void {
     this.placesEnabled = !this.placesEnabled;
-    this.entitiesService.togglePlaces(this.placesEnabled);
+    this.atualizarTextoMarcado();
   }
 
   togglePeople(): void {
     this.peopleEnabled = !this.peopleEnabled;
-    this.entitiesService.togglePeople(this.peopleEnabled);
+    this.atualizarTextoMarcado();
   }
 
   toggleOrganizations(): void {
     this.organizationsEnabled = !this.organizationsEnabled;
-    this.entitiesService.toggleOrganizations(this.organizationsEnabled);
+    this.atualizarTextoMarcado();
   }
 
   showAllDates(event: Event): void {
@@ -109,6 +113,6 @@ export class EntitiesDrawerComponent implements OnInit {
   }
 
   closeDrawer(): void {
-    this.close.emit();
+    this.close.emit(); // Emite evento para o pai fechar o drawer
   }
 }
