@@ -34,7 +34,7 @@
     </div>
 
     <!-- Rodapé: Botões -->
-    <div class="flex justify-between items-end mt-4">
+    <div class="flex items-center gap-4 mt-4">
       <!-- Editar -->
       <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
 
@@ -43,28 +43,28 @@
     </div>
   </div>
 
-<!-- Versão Compacta (Exibida ao rolar a página) -->
-<div *ngIf="(isScrolled && (noticia$ | async)) as noticia" class="bg-white border-b  border-gray-200 w-[1200px] h-[78px] flex items-center justify-between px-4">
-  
-  <!-- Esquerda: Botão Voltar + Título -->
-  <div class="flex flex-col gap-1">
-    <!-- Botão Voltar -->
-    <app-back-button (backClicked)="onBack()"></app-back-button>
+  <!-- Versão Compacta (Exibida ao rolar a página) -->
+<!-- Versão Compacta -->
+<!-- Versão Compacta -->
+<div *ngIf="(isScrolled && (noticia$ | async)) as noticia" class="bg-white  h-[78px] flex items-center px-4 w-full max-w-[1270px] mx-auto">
+  <!-- Wrapper geral -->
+  <div class="flex justify-between items-start w-full">
+    
+    <!-- Esquerda: Voltar + Título -->
+    <div class="flex flex-col gap-1">
+      <app-back-button (backClicked)="onBack()"></app-back-button>
+      <h1 class="text-[16px] text-gray-700 font-semibold leading-none truncate">
+        Novo depoimento de Cid é visto como esclarecimento para...
+      </h1>
+    </div>
 
-    <!-- Título -->
-    <h1 class="text-[1px] w-[450px] text-gray-700 font-semibold leading-none">
-      Novo depoimento de Cid é visto como esclarecimento para...
-    </h1>
+    <!-- Direita: Botões -->
+    <div class="flex items-center gap-4">
+      <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
+      <app-share-button (shareClicked)="onShare()"></app-share-button>
+    </div>
+
   </div>
-
-
-<!-- Rodapé: Botões -->
-<div class="flex justify-between items-end mt-4" style="margin-left: 501px;">
-  <!-- Editar -->
-  <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
-
-  <!-- Compartilhar -->
-  <app-share-button (shareClicked)="onShare()"></app-share-button>
 </div>
 
 

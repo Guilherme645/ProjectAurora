@@ -5,6 +5,8 @@
   overflow-x: hidden;
 }
 
+
+
 .flex-1 {
   flex: 1;
   box-sizing: border-box;
@@ -24,7 +26,7 @@
   margin-left: 390px;
 }
 
-/* Ajuste o conteúdo principal quando o drawer está aberto */
+/* Ajuste o conteúdo principal quando o drawer está aberto (mantido como estava) */
 :host-context(.show-entities-drawer) .flex-1 {
   padding-right: 384px;
 }
@@ -37,7 +39,23 @@
   width: 100%;
   z-index: 50;
   background-color: white;
+  transition: margin-left 0.3s ease, width 0.3s ease;
 }
+
+
+/* Ajuste a largura do cabeçalho quando o drawer está aberto (substituído pelo novo ajuste acima) */
+:host-context(.show-entities-drawer) .header-wrapper {
+  margin-left: calc(100% - 1110px);
+}
+
+/* Quando o drawer está fechado e o cabeçalho está contraído, encoste na sidebar */
+:host-context(:not(.show-entities-drawer)) .header-scrolled {
+  margin-left: 325px; /* Espaço exato da sidebar comprimida */
+  margin-right: auto;
+  max-width: calc(100% - 64px); /* Garante que o cabeçalho ocupe o restante da tela */
+  width: 1030px;
+}
+
 
 /* Ajuste no container de conteúdo para evitar sobreposição com o cabeçalho fixo */
 .content-container {
@@ -47,13 +65,18 @@
   padding-left: 16px;
   padding-right: 16px;
   box-sizing: border-box;
-  padding-top: 162px; /* Altura da versão completa do cabeçalho */
+  padding-top: 12px; /* Altura da versão completa do cabeçalho */
 }
 
 /* Ajuste para quando o cabeçalho estiver na versão compacta */
 .header-scrolled ~ .content-container {
   padding-top: 60px; /* Altura da versão compacta do cabeçalho */
 }
+
+/* Garanta que o ajuste de largura também se aplique no modo compacto (substituído pelo novo ajuste acima) */
+:host-context(.show-entities-drawer) .header-scrolled {
+  margin-left: 230px;
+  padding-right: 500px; /* Reduz a lateral direita adicionando padding */}
 
 /* Quando a barra lateral está expandida */
 .ml-390px .content-container {
@@ -78,93 +101,3 @@
   margin-top: 125px;
 }
 
-/* Ajustes para telas menores */
-@media (max-width: 768px) {
-  .ml-16, .ml-390px {
-    margin-left: 0;
-  }
-
-  .content-container {
-    margin-left: 0;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 500px;
-  }
-
-  .header-scrolled ~ .content-container {
-    padding-top: 50px;
-  }
-
-  .header-wrapper {
-    margin-left: 0;
-  }
-}
-
-/* Estilos para realce de entidades */
-.highlight-person {
-  background-color: rgba(255, 99, 71, 0.3);
-  color: red;
-}
-
-.highlight-place {
-  background-color: rgba(135, 206, 250, 0.3);
-  color: blue;
-}
-
-.highlight-organization {
-  background-color: rgba(144, 238, 144, 0.3);
-  color: green;
-}
-
-.highlight-date {
-  background-color: rgba(255, 215, 0, 0.3);
-  color: yellow;
-}
-
-.text-gray-700 {
-  color: #4a5568;
-}
-
-.text-sm {
-  font-size: 14px;
-}
-
-.leading-relaxed {
-  line-height: 1.75;
-}
-
-.padding-top-32 {
-  padding-top: 32px;
-}
-
-.entity-person {
-  background-color: #bbdefb;
-  color: #0d47a1;
-  font-weight: bold;
-  padding: 0 5px;
-  border-radius: 4px;
-}
-
-.entity-location {
-  background-color: #c8e6c9;
-  color: #388e3c;
-  font-weight: bold;
-  padding: 0 5px;
-  border-radius: 4px;
-}
-
-.entity-organization {
-  background-color: #ffccbc;
-  color: #c62828;
-  font-weight: bold;
-  padding: 0 5px;
-  border-radius: 4px;
-}
-
-.entity-date {
-  background-color: #fff9c4;
-  color: #f57f17;
-  font-weight: bold;
-  padding: 0 5px;
-  border-radius: 4px;
-}

@@ -87,3 +87,27 @@ app-share-button button {
 app-share-button button:hover {
   background-color: #e5e7eb;
 }
+
+/* Ajustar o container da versão compacta para centralizar verticalmente */
+.header-scrolled .header > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ajustar o container do botão Voltar e título */
+.header-scrolled .header .flex.flex-col {
+  justify-content: center; /* Centraliza verticalmente */
+  height: 100%; /* Usa toda a altura disponível */
+
+
+  
+  /* Ajustar o container dos botões na versão completa */
+.header-default .header .flex.items-center.gap-4 {
+  justify-content: flex-end; /* Alinha os botões à direita, como na versão compacta */
+}
+
+}

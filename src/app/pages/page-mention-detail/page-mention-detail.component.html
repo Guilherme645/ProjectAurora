@@ -10,22 +10,25 @@
 
   <!-- Container para o cabeçalho (fixo no topo) -->
   <div class="header-wrapper" [ngClass]="{
-    'ml-16': !isSidebarOpen, 
-    'ml-390px': isSidebarOpen
+    'ml-16': !isSidebarOpen,
+    'ml-390px': isSidebarOpen,
+    'header-scrolled': isHeaderScrolled
   }">
-    <app-header-mention-details></app-header-mention-details>
+    <div class="header-inner">
+      <app-header-mention-details></app-header-mention-details>
+    </div>
   </div>
 
   <!-- Conteúdo principal -->
   <div
     class="flex-1 flex flex-col relative"
     [ngClass]="{
-      'ml-16': !isSidebarOpen, 
+      'ml-16': !isSidebarOpen,
       'ml-390px': isSidebarOpen
     }"
   >
     <!-- Container interno para o conteúdo -->
-    <div class="content-container" style="padding: 32px 0;">
+    <div class="content-container" style="padding: 52px 0;">
       <!-- Player -->
       <div class="px-4">
         <app-player
@@ -45,16 +48,15 @@
     <app-view-entidades-search (click)="verEntidadesExtraidas()"></app-view-entidades-search>
   </div>
 
-  <!-- Drawer com EntitiesDrawerComponent -->
   <div
-    *ngIf="showEntitiesDrawer"
-    class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
-    [ngClass]="showEntitiesDrawer ? 'translate-x-0' : 'translate-x-full'"
-  >
-    <app-entities-drawer
-      [textoOriginal]="textoOriginal"
-      (textoMarcadoChange)="onDescriptionReceived($event)"
-      (close)="verEntidadesExtraidas()">
-    </app-entities-drawer>
-  </div>
+  *ngIf="showEntitiesDrawer"
+  class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
+  [ngClass]="{'translate-x-0': showEntitiesDrawer, 'translate-x-full': !showEntitiesDrawer}"
+>
+  <app-entities-drawer
+    [textoOriginal]="textoOriginal"
+    (textoMarcadoChange)="onDescriptionReceived($event)"
+    (close)="verEntidadesExtraidas()">
+  </app-entities-drawer>
+</div>
 </div>
