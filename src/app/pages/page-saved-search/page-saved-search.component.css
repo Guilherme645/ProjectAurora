@@ -1,7 +1,33 @@
+/* Cabeçalho flutuante, sempre visível */
 .header-wrapper {
-    padding-left: 0; /* Remove left padding */
-    padding-right: 1.5rem; /* Match the main section's padding */
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    margin-left: 20px;
-  }
+  position: fixed; /* Fixa o cabeçalho no topo */
+  top: 0; /* Alinha ao topo da tela */
+  left: 324px; /* Alinha ao lado direito da sidebar (ml-80 ≈ 20rem) */
+  right: 0; /* Ocupa o espaço restante à direita */
+  z-index: 100; /* Garante que o cabeçalho fique acima de tudo */
+  background-color: white; /* Fundo sólido para evitar transparência */
+  padding: 1rem; /* Ajuste conforme o design */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: sombra para destacar o cabeçalho */
+}
+
+/* Ajuste do conteúdo principal */
+.main-content {
+  margin-left: 20rem; /* Espaço para a sidebar fixa (ml-80 ≈ 20rem) */
+  padding-top: 5rem; /* Espaço no topo para o cabeçalho fixo não sobrepor o conteúdo */
+  overflow-x: hidden; /* Mantém o comportamento original */
+}
+
+/* Sidebar fixa */
+.bg-neutral-800 {
+  position: fixed;
+  width: 20rem; /* Largura fixa da sidebar */
+  height: 100vh; /* Altura total da tela */
+  z-index: 50; /* Fica abaixo do cabeçalho, mas acima do conteúdo */
+}
+
+/* Conteúdo principal flui normalmente */
+.main {
+  position: relative;
+  z-index: 10; /* Fica abaixo do cabeçalho */
+  padding: 1.5rem 1.5rem 2rem; /* Ajuste de padding conforme o original */
+}

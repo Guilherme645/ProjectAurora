@@ -6,7 +6,7 @@
 
   <!-- Conteúdo principal -->
   <div class="main-content ml-80 overflow-x-hidden">
-    <!-- Cabeçalho com título e busca -->
+    <!-- Cabeçalho flutuante -->
     <div class="header-wrapper">
       <app-header-saved-search></app-header-saved-search>
     </div>
@@ -22,20 +22,8 @@
           [endDate]="card.endDate"
           [status]="card.status"
         ></app-monitor-card>
-        <app-monitor-card
-        *ngFor="let card of monitorCards"
-        [title]="card.title"
-        [startDate]="card.startDate"
-        [endDate]="card.endDate"
-        [status]="card.status"
-      ></app-monitor-card>
-      <app-monitor-card
-      *ngFor="let card of monitorCards"
-      [title]="card.title"
-      [startDate]="card.startDate"
-      [endDate]="card.endDate"
-      [status]="card.status"
-    ></app-monitor-card>
+       
+        <!-- Evite duplicar o *ngFor, isso parece um erro no código original -->
       </div>
     </main>
   </div>

@@ -27,9 +27,9 @@ export class PageSavedSearchComponent  {
 
   monitorCards = [
     {
-      title: 'Ministros',
-      startDate: '01/04/2024',
-      endDate: '08/04/2024',
+      title: 'Executivo',
+      startDate: '30/03/2024',
+      endDate: '01/04/2024',
       status: 'Ativa'
     },
     {
@@ -44,6 +44,61 @@ export class PageSavedSearchComponent  {
       endDate: '29/03/2024',
       status: 'Desativada'
     },
+    {
+      title: 'Executivo',
+      startDate: '30/03/2024',
+      endDate: '01/04/2024',
+      status: 'Ativa'
+    },
+    {
+      title: 'Executivo',
+      startDate: '30/03/2024',
+      endDate: '01/04/2024',
+      status: 'Pendente'
+    },
+    {
+      title: 'Entidades relevantes',
+      startDate: '25/03/2024',
+      endDate: '29/03/2024',
+      status: 'Desativada'
+    },
+    {
+      title: 'Executivo',
+      startDate: '30/03/2024',
+      endDate: '01/04/2024',
+      status: 'Ativa'
+    },
+    {
+      title: 'Executivo',
+      startDate: '30/03/2024',
+      endDate: '01/04/2024',
+      status: 'Pendente'
+    },
+    {
+      title: 'Entidades relevantes',
+      startDate: '25/03/2024',
+      endDate: '-',
+      status: 'Desativada'
+    },
+    {
+      title: 'Executivo',
+      startDate: '30/03/2024',
+      endDate: '01/04/2024',
+      status: 'Ativa'
+    },
+    {
+      title: 'Executivo',
+      startDate: '30/03/2024',
+      endDate: '-',
+      status: 'Pendente'
+    },
+    {
+      title: 'Entidades relevantes',
+      startDate: '25/03/2024',
+      endDate: '29/03/2024',
+      status: 'Desativada'
+    },
+   
     // ...adicione mais se quiser
   ];
   

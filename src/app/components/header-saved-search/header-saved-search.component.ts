@@ -25,11 +25,7 @@ isScrolled: boolean = false;
     this.checkScreenSize();
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    this.isScrolled = window.scrollY > 50;
-    this.isCollapsed = window.scrollY > 50;
-  }
+
 
   @HostListener('window:resize', [])
   checkScreenSize(): void {
