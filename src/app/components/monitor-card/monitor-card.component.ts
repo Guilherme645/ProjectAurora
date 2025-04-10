@@ -1,3 +1,4 @@
+// monitor-card.component.ts
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -11,4 +12,14 @@ export class MonitorCardComponent {
   @Input() startDate!: string;
   @Input() endDate!: string;
   @Input() status!: string;
+
+  // Dados do card para passar ao OptionSearchComponent
+  get cardData() {
+    return {
+      title: this.title,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      status: this.status
+    };
+  }
 }

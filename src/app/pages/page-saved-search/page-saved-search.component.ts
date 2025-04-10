@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+// page-saved-search.component.ts
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ModalService } from 'src/app/services/modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-page-saved-search',
@@ -6,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./page-saved-search.component.css'],
   standalone: false
 })
-export class PageSavedSearchComponent  {
+export class PageSavedSearchComponent implements OnInit, OnDestroy {
   noticias: any[] = [];
   filteredNoticias: any[] = [];
   isMobile: boolean = false;
@@ -20,10 +23,17 @@ export class PageSavedSearchComponent  {
   showScrollTop: boolean = false;
   showScrollTopButton: boolean = false;
   isSearchOpen = false;
-    page: number = 1;
+  page: number = 1;
   pageSize: number = 10;
   isLoading: boolean = false;
   hasMoreData: boolean = true;
+
+  modalAberto: boolean = false;
+  duplicateModalAberto: boolean = false;
+  removeModalAberto: boolean = false;
+  modalData: any;
+
+  private subscriptions = new Subscription();
 
   monitorCards = [
     {
@@ -98,17 +108,59 @@ export class PageSavedSearchComponent  {
       endDate: '29/03/2024',
       status: 'Desativada'
     },
-   
-    // ...adicione mais se quiser
   ];
-  
-  onUserChange(user: string) {
-    // this.currentUser = user;
-    // this.page = 1;
-    // this.noticias = [];
-    // this.filteredNoticias = [];
-    // this.hasMoreData = true;
-    // this.loadNoticias();
+
+  constructor(private modalService: ModalService) {}
+
+  ngOnInit() {
+    this.subscriptions.add(
+      this.modalService.editModalState$.subscribe(state => {
+        this.modalAberto = state.open;
+        this.modalData = state.data; // Armazena os dados do card
+      })
+    );
+    this.subscriptions.add(
+      this.modalService.duplicateModalState$.subscribe(state => {
+        this.duplicateModalAberto = state.open;
+        this.modalData = state.data; // Armazena os dados do card
+      })
+    );
+    this.subscriptions.add(
+      this.modalService.removeModalState$.subscribe(state => {
+        this.removeModalAberto = state.open;
+        this.modalData = state.data; // Armazena os dados do card
+      })
+    );
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  onUserChange(user: string) {
+    // Lógica para mudança de usuário
+  }
+
+  closeEditModal() {
+    this.modalService.closeEditModal();
+  }
+
+  closeDuplicateModal() {
+    this.modalService.closeDuplicateModal();
+  }
+
+  saveEdits() {
+    console.log('Edições salvas pelo componente pai!', this.modalData);
+    this.modalService.closeEditModal();
+    this.modalService.closeDuplicateModal();
+  }
+
+  onCancelRemove() {
+    this.modalService.closeRemoveModal();
+  }
+
+  onConfirmRemove() {
+    console.log('Busca removida!', this.modalData);
+    this.modalService.closeRemoveModal();
+  }
 }

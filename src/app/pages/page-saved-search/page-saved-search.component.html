@@ -1,20 +1,20 @@
-<div *ngIf="!isMobile" class="layout-container">
+<!-- page-saved-search.component.html -->
+<div *ngIf="!isMobile" class="layout-container flex">
   <!-- Sidebar fixa -->
-  <div class="bg-neutral-800 text-white fixed h-full z-50">
+  <div class="bg-neutral-800 text-white fixed h-full w-80 z-30">
     <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
   </div>
 
   <!-- Conteúdo principal -->
-  <div class="main-content ml-80 overflow-x-hidden">
-    <!-- Cabeçalho flutuante -->
-    <div class="header-wrapper">
+  <div class="main-content ml-80 overflow-x-hidden overflow-y-auto h-screen">
+    <!-- Cabeçalho fixo -->
+    <div class="header-wrapper fixed top-0 left-80 right-0 z-10 bg-white">
       <app-header-saved-search></app-header-saved-search>
     </div>
-    <br />
-    <hr />
-    <!-- Cards de monitoramento -->
-    <main class="main px-6 pt-4 pb-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Cards de monitoramento com espaçamento para o header -->
+    <main class="main px-6 pt-20 pb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 z-0 relative">
         <app-monitor-card
           *ngFor="let card of monitorCards"
           [title]="card.title"
@@ -22,9 +22,36 @@
           [endDate]="card.endDate"
           [status]="card.status"
         ></app-monitor-card>
-       
-        <!-- Evite duplicar o *ngFor, isso parece um erro no código original -->
       </div>
     </main>
   </div>
+</div>
+
+<!-- Modal de Edição -->
+<div *ngIf="modalAberto" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]" role="dialog" aria-modal="true">
+    <button type="button" aria-label="Fechar" class="close-modal-button absolute top-4 right-4" (click)="closeEditModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"></path>
+        <path d="M6 6l12 12"></path>
+      </svg>
+    </button>
+    <app-edit-search-basic-information (saveEdits)="saveEdits()"></app-edit-search-basic-information>
+  
+</div>
+
+<!-- Modal de Duplicação -->
+<div *ngIf="duplicateModalAberto" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]" role="dialog" aria-modal="true">
+    <button type="button" aria-label="Fechar" class="close-modal-button absolute top-4 right-4" (click)="closeDuplicateModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"></path>
+        <path d="M6 6l12 12"></path>
+      </svg>
+    </button>
+    <app-duplicate-search (saveEdits)="saveEdits()"></app-duplicate-search>
+  
+</div>
+
+<!-- Modal de Remoção -->
+<div *ngIf="removeModalAberto" class="remove-modal fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]" role="dialog" aria-modal="true">
+  <app-remove-saved-search (cancel)="onCancelRemove()" (confirmRemove)="onConfirmRemove()"></app-remove-saved-search>
 </div>

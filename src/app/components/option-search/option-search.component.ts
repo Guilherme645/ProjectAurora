@@ -1,4 +1,6 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+// option-search.component.ts
+import { Component, ElementRef, HostListener, Input } from '@angular/core';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-option-search',
@@ -8,87 +10,42 @@ import { Component, ElementRef, HostListener } from '@angular/core';
 })
 export class OptionSearchComponent {
   isMenuOpen: boolean = false;
-  modalAberto = false;
-  duplicateModalAberto = false;  // Modal de Duplicação de Busca
-  removeModalAberto = false;
+  @Input() cardData: any;
 
-  dropdownPosition: { top: number; left: number } = { top: 0, left: 0 };
-
-  constructor(private elementRef: ElementRef) {}
+  constructor(
+    private elementRef: ElementRef,
+    private modalService: ModalService
+  ) {}
 
   // Toggle the dropdown menu
   toggleMenu(event: Event): void {
     event.stopPropagation();
     this.isMenuOpen = !this.isMenuOpen;
-
-    if (this.isMenuOpen) {
-      const button = (event.target as HTMLElement).closest('button');
-      if (button) {
-        const rect = button.getBoundingClientRect();
-        const dropdownWidth = 187; // Largura do dropdown
-        this.dropdownPosition = {
-          top: rect.bottom + window.scrollY + 5, // 5px abaixo do botão
-          left: rect.right + window.scrollX - dropdownWidth, // Alinha o lado direito do dropdown com o lado direito do botão
-        };
-      }
-    }
   }
 
-  // Método para salvar edições no modal de Edição
-  saveEdits() {
-    console.log('Edições salvas pelo componente pai!');
-    this.modalAberto = false; // Fecha a modal de edição
-    this.isMenuOpen = false; // Fecha o menu suspenso
+  // Métodos para abrir os modals
+  openEditModal(): void {
+    this.modalService.openEditModal(this.cardData);
+    this.isMenuOpen = false;
   }
 
-  // Close the menu and modal if clicking outside
+  openDuplicateModal(): void {
+    this.modalService.openDuplicateModal(this.cardData);
+    this.isMenuOpen = false;
+  }
+
+  openRemoveModal(): void {
+    this.modalService.openRemoveModal(this.cardData);
+    this.isMenuOpen = false;
+  }
+
+  // Close the menu if clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
     const clickedInsideMenu = this.elementRef.nativeElement.contains(target);
-    const clickedInsideRemoveModal = target.closest('.remove-modal');
-    const clickedInsideDuplicateModal = target.closest('.modal-overlay');
-
-    if (!clickedInsideMenu && !clickedInsideRemoveModal && !clickedInsideDuplicateModal) {
+    if (!clickedInsideMenu) {
       this.isMenuOpen = false;
-      this.removeModalAberto = false;
-      this.duplicateModalAberto = false;  // Fecha o modal de duplicação ao clicar fora
     }
-  }
-
-  // Métodos de ação para o menu
-  editSearch(): void {
-    console.log('Edit search clicked');
-    this.modalAberto = true; // Abre o modal de edição
-    this.isMenuOpen = false;
-  }
-
-  // Método para abrir o modal de duplicação
-  duplicateSearch(): void {
-    console.log('Duplicate search clicked');
-    this.duplicateModalAberto = true;  // Exibe o modal de duplicação
-  }
-
-
-
-  // Método para abrir o modal de remoção
-  removeSearch(): void {
-    this.removeModalAberto = true; // Abre o modal de remoção
-    this.isMenuOpen = false;
-  }
-
-  // Métodos para lidar com os eventos da modal de remoção
-  onCancelRemove(): void {
-    this.removeModalAberto = false; // Fecha o modal de remoção
-  }
-
-  closeDuplicateModal() {
-    this.duplicateModalAberto = false;  // Fecha o modal de duplicação
-  }
-
-
-  onConfirmRemove(): void {
-    console.log('Busca removida!');
-    this.removeModalAberto = false; // Fecha o modal de remoção
   }
 }

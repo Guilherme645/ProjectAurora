@@ -17,7 +17,7 @@ export class DuplicateSearchComponent implements OnInit {
   isAlertActive: boolean = false;
   isNegativeAlertActive: boolean = false;
   userList: User[] = [];
-  @Output() saveDuplicate = new EventEmitter<void>();
+  @Output() saveEdits = new EventEmitter<any>(); // Ajustado para emitir os dados do formulário
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
     this.salvarBuscaForm = this.fb.group({
@@ -42,7 +42,6 @@ export class DuplicateSearchComponent implements OnInit {
   }
 
   nextStep() {
-    // Valida o formulário antes de prosseguir
     if (this.salvarBuscaForm.valid) {
       this.currentStep++;
     } else {
@@ -59,8 +58,7 @@ export class DuplicateSearchComponent implements OnInit {
   onSubmit() {
     if (this.salvarBuscaForm.valid) {
       console.log('Form Submitted:', this.salvarBuscaForm.value);
-      // Emite o evento para o componente pai para fechar a modal
-      this.saveDuplicate.emit();
+      this.saveEdits.emit(this.salvarBuscaForm.value); // Emite os dados do formulário
     } else {
       alert('Por favor, preencha todos os campos obrigatórios.');
     }
@@ -101,5 +99,4 @@ export class DuplicateSearchComponent implements OnInit {
     this.newUserEmail = '';
     this.showAddDestinationForm = false;
   }
-
 }

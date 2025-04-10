@@ -1,3 +1,4 @@
+<!-- monitor-card.component.html -->
 <div class="relative bg-white shadow-md rounded-lg p-6 w-full max-w-md">
   <!-- Barra colorida à esquerda -->
   <div
@@ -11,15 +12,15 @@
 
   <!-- Título -->
   <div class="flex justify-between items-center mb-4 w-full">
-    <h2 class="text-lg font-semibold text-gray-800">Ministros</h2>
-    <div class="ml-auto">
-      <button class="text-gray-500 hover:text-gray-700" (click)="optionSearch.toggleMenu($event)">
+    <h2 class="text-lg font-semibold text-gray-800">{{ title }}</h2>
+    <div class="relative ml-auto">
+      <button class="text-gray-500 hover:text-gray-700" (click)="optionSearch.toggleMenu($event)" [attr.aria-expanded]="optionSearch.isMenuOpen" aria-label="Abrir menu de opções">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01"></path>
         </svg>
       </button>
       <!-- Incluindo o OptionSearchComponent -->
-      <app-option-search #optionSearch></app-option-search>
+      <app-option-search #optionSearch [cardData]="cardData"></app-option-search>
     </div>
   </div>
 

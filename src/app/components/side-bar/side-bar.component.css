@@ -1,0 +1,30 @@
+/* Compact Sidebar (Desktop) */
+.compact-sidebar {
+    z-index: 10 !important; /* Lower than the modal's z-index of 2000 */
+  }
+  
+  /* Main Sidebar (Desktop) */
+  .sidebar,
+  .sidebar-expanded,
+  .sidebar-collapsed {
+    z-index: 10 !important; /* Lower than the modal's z-index of 2000 */
+  }
+  
+  /* Mobile Sidebar */
+  .sidebar-mobile,
+  .sidebar-open,
+  .sidebar-closed {
+    z-index: 10 !important; /* Lower than the modal's z-index of 2000 */
+  }
+  
+  /* Ensure the sidebar header, menu, and footer don't override the z-index */
+  .sidebar-header,
+  .menu,
+  .sidebar-footer {
+    z-index: auto; /* Inherit from parent (sidebar) */
+  }
+  
+  /* Ensure tooltips in the sidebar don't interfere */
+  .hs-tooltip-content {
+    z-index: 20 !important; /* Still lower than the modal */
+  }
