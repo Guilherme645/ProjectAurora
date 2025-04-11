@@ -4,9 +4,13 @@
       <span>Buscas salvas</span> /
       <span class="active">Ministros</span>
     </nav>
-    <h2 class="search-title">Busca Ministros</h2>
+    <div class="flex items-center gap-2">
+      <h2 class="search-title">Busca Ministros</h2>
+      <span class="status-badge" [ngClass]="{'active': isActive, 'inactive': !isActive}">
+        {{ isActive ? 'Ativa' : 'Inativa' }}
+      </span>
+    </div>
     <p class="search-results">9840 resultados</p>
-  </div>
 <br>
 <br>
   <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">

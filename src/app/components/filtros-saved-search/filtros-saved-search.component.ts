@@ -10,7 +10,7 @@ export class FiltrosSavedSearchComponent implements OnInit {
   modalAberto = false;
   isMobile = window.innerWidth <= 768;
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
-
+  isActive: boolean = true; // Controla o estado do botão "Ativa"
   filtros = [
     { nome: 'Hora', aberto: true, itens: ['Manhã (4091)', 'Tarde (3291)', 'Noite (1827)'], mostrarMais: false },
     { nome: 'Data', aberto: true, itens: [], mostrarMais: false },

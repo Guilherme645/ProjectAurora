@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TextoEntidadesService } from '../services/TextoEntidades.service';
+import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 
 @Component({
   selector: 'app-descricao',

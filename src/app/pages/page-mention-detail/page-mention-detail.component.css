@@ -75,8 +75,8 @@
 
 /* Garanta que o ajuste de largura também se aplique no modo compacto (substituído pelo novo ajuste acima) */
 :host-context(.show-entities-drawer) .header-scrolled {
-  margin-left: 230px;
-  padding-right: 500px; /* Reduz a lateral direita adicionando padding */}
+  margin-left: 148px;
+  padding-right: 200px; /* Reduz a lateral direita adicionando padding */}
 
 /* Quando a barra lateral está expandida */
 .ml-390px .content-container {

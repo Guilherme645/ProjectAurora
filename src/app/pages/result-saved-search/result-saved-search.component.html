@@ -1,6 +1,6 @@
 <!-- Versão Desktop -->
 <div *ngIf="!isMobile" class="layout-container">
-  <div class=" bg-neutral-800 text-white w-80 fixed h-full">
+  <div class=" bg-neutral-800 text-white w-80 fixed z-10 h-full">
     <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
   </div>
 

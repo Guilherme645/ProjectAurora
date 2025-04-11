@@ -54,9 +54,9 @@ import { OptionSearchComponent } from './components/option-search/option-search.
 import { EditSearchBasicInformationComponent } from './components/edit-search-basic-information/edit-search-basic-information.component';
 import { DuplicateSearchComponent } from './components/duplicate-search/duplicate-search.component';
 import { RemoveSavedSearchComponent } from './components/remove-saved-search/remove-saved-search.component';
-import { TextoEntidadesComponent } from './texto-entidades/texto-entidades.component';
-import { DescricaoComponent } from './descricao/descricao.component';
 import { DescricaoContainerComponent } from './descricao-container/descricao-container.component';
+import { DescricaoComponent } from './components/descricao/descricao.component';
+import { TextoEntidadesComponent } from './components/texto-entidades/texto-entidades.component';
 
 @NgModule({
   declarations: [
@@ -108,9 +108,9 @@ import { DescricaoContainerComponent } from './descricao-container/descricao-con
   EditSearchBasicInformationComponent,
   DuplicateSearchComponent,
   RemoveSavedSearchComponent,
-  TextoEntidadesComponent,
+  DescricaoContainerComponent,
   DescricaoComponent,
-  DescricaoContainerComponent
+  TextoEntidadesComponent
   
   ],
   imports: [

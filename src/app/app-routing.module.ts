@@ -9,7 +9,6 @@ import { ResultComponent } from './pages/result/result.component';
 import { PageMentionDetailComponent } from './pages/page-mention-detail/page-mention-detail.component';
 import { ResultSavedSearchComponent } from './pages/result-saved-search/result-saved-search.component';
 import { PageSavedSearchComponent } from './pages/page-saved-search/page-saved-search.component';
-import { TextoEntidadesComponent } from './texto-entidades/texto-entidades.component';
 import { DescricaoContainerComponent } from './descricao-container/descricao-container.component';
 
 export const routes: Routes = [ 
@@ -23,7 +22,6 @@ export const routes: Routes = [
   { path: 'mention-details', component: PageMentionDetailComponent },
   { path: 'result-saved-search', component: ResultSavedSearchComponent },
   { path: 'saved-search', component: PageSavedSearchComponent },
-  { path: 'texto', component: TextoEntidadesComponent },
   { path: 'textos', component: DescricaoContainerComponent },
 
 
