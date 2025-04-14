@@ -1,16 +1,15 @@
 <div
   #playerRef
-  class="player-container transition-all duration-30000 ease-in-out touch-none bg-white shadow-lg rounded-[6px]"
+  class="player-container touch-none bg-white shadow-lg rounded-[6px]"
   [ngClass]="{
-    'fixed bottom-4 right-4 z-50 w-[311px] h-[183px]': isFloating,
+    'fixed bottom-4 z-50 w-[311px] h-[183px]': isFloating,
     'w-[590px] h-[367px] relative': !isFloating
   }"
-  [ngStyle]="isFloating ? { 'right': 'calc(16px + 320px * (100vw - 320px) / 100vw)' } : {}"
+  [ngStyle]="isFloating ? getFloatingStyles() : {}"
   cdkDrag="isFloating"
   [cdkDragBoundary]="'.layout-container .flex-1'"
 >
   <div class="w-full h-full bg-gray-200 relative rounded-[6px] overflow-hidden">
-    <!-- Elemento de vídeo -->
     <video
       #videoPlayer
       class="w-full h-full object-cover"
@@ -20,8 +19,6 @@
       <source src="assets/avengers.mp4" type="video/mp4" />
       Seu navegador não suporta o elemento de vídeo.
     </video>
-
-    <!-- Botão de play/pause -->
     <button 
       class="absolute inset-0 flex items-center justify-center" 
       (click)="togglePlay()"

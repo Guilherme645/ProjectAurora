@@ -36,7 +36,8 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   videoDescription: SafeHtml = '';
   showEntitiesDrawer: boolean = false;
   textoOriginal: string;
-  isHeaderScrolled: boolean = false; // Nova propriedade para controlar o estado do cabeçalho
+  isHeaderScrolled: boolean = false;
+  isPlayerMinimized: boolean = false; // Mantido para compatibilidade com ngClass
 
   @HostBinding('class.show-entities-drawer')
   get isEntitiesDrawerOpen() {
@@ -64,8 +65,8 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event): void {
-    // Detecta se o usuário rolou a página para aplicar o modo compacto
-    this.isHeaderScrolled = window.scrollY > 50; // Ajuste o valor conforme necessário
+    this.isHeaderScrolled = window.scrollY > 50;
+    // Removido isPlayerMinimized, pois PlayerComponent gerencia isFloating
   }
 
   checkScreenSize(): void {
@@ -89,9 +90,9 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   verEntidadesExtraidas(): void {
     this.showEntitiesDrawer = !this.showEntitiesDrawer;
     if (this.showEntitiesDrawer) {
-      this.isSidebarOpen = false; // Already present, keeps sidebar out of the way
+      this.isSidebarOpen = false;
     } else {
-      this.isSidebarOpen = true; // Restore sidebar
+      this.isSidebarOpen = true;
     }
     console.log('Entities drawer toggled, showEntitiesDrawer:', this.showEntitiesDrawer);
   }

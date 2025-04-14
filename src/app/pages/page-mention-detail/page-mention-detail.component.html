@@ -32,10 +32,11 @@
       <!-- Player -->
       <div class="px-4">
         <app-player
+          [showEntitiesDrawer]="showEntitiesDrawer"
+          [ngClass]="{'player-minimized': isPlayerMinimized}"
           (descriptionEmitter)="onDescriptionReceived($event)">
         </app-player>
       </div>
-
       <!-- Descrição do vídeo com marcação de entidades -->
       <div class="px-4" style="margin-top: 40px;">
         <p class="text-gray-700 text-sm leading-relaxed" [innerHTML]="videoDescription || 'Nenhuma descrição disponível'"></p>
@@ -44,19 +45,19 @@
   </div>
 
   <!-- Botão "Ver entidades extraídas" -->
-  <div class="fixed bottom-4 right-4 z-50">
+  <div class="fixed bottom-4 right-4 z-50" [ngClass]="{'right-340': !showEntitiesDrawer}">
     <app-view-entidades-search (click)="verEntidadesExtraidas()"></app-view-entidades-search>
   </div>
 
   <div
-  *ngIf="showEntitiesDrawer"
-  class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
-  [ngClass]="{'translate-x-0': showEntitiesDrawer, 'translate-x-full': !showEntitiesDrawer}"
->
-  <app-entities-drawer
-    [textoOriginal]="textoOriginal"
-    (textoMarcadoChange)="onDescriptionReceived($event)"
-    (close)="verEntidadesExtraidas()">
-  </app-entities-drawer>
-</div>
+    *ngIf="showEntitiesDrawer"
+    class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
+    [ngClass]="{'translate-x-0': showEntitiesDrawer, 'translate-x-full': !showEntitiesDrawer}"
+  >
+    <app-entities-drawer
+      [textoOriginal]="textoOriginal"
+      (textoMarcadoChange)="onDescriptionReceived($event)"
+      (close)="verEntidadesExtraidas()">
+    </app-entities-drawer>
+  </div>
 </div>
