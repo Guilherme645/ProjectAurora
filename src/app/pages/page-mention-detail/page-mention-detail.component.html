@@ -49,6 +49,7 @@
     <app-view-entidades-search (click)="verEntidadesExtraidas()"></app-view-entidades-search>
   </div>
 
+  <!-- Entities Drawer -->
   <div
     *ngIf="showEntitiesDrawer"
     class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
@@ -57,7 +58,18 @@
     <app-entities-drawer
       [textoOriginal]="textoOriginal"
       (textoMarcadoChange)="onDescriptionReceived($event)"
-      (close)="verEntidadesExtraidas()">
-    </app-entities-drawer>
+      (close)="verEntidadesExtraidas()"
+      (openEntityOptions)="onOpenEntityOptions($event)"
+    ></app-entities-drawer>
   </div>
+
+  <!-- Modal para opções de entidade -->
+  <app-modal-entitie-option
+  *ngIf="isModalVisible && selectedEntity"
+  [entityName]="selectedEntity.entity!"
+  [type]="selectedEntity.type!"
+  [position]="modalPosition"
+  (close)="closeModal()"
+></app-modal-entitie-option>
+
 </div>

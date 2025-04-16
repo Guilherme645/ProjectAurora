@@ -7,8 +7,7 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
   standalone: false
 })
 export class HeaderSavedSearchComponent implements OnInit {
-
-isScrolled: boolean = false;
+  isScrolled: boolean = false;
   isDropdownOpen: boolean = false;
   isBuscaOpen: boolean = false;
   isMobile: boolean = false;
@@ -20,12 +19,11 @@ isScrolled: boolean = false;
 
   @Output() selectAllEvent = new EventEmitter<boolean>();
   @Output() filterNewsEvent = new EventEmitter<string>();
+  @Output() searchChange = new EventEmitter<string>(); // Novo evento para pesquisa
 
   ngOnInit(): void {
     this.checkScreenSize();
   }
-
-
 
   @HostListener('window:resize', [])
   checkScreenSize(): void {
@@ -76,4 +74,8 @@ isScrolled: boolean = false;
     this.filterNewsEvent.emit(tab);
   }
 
+  // Método para receber a pesquisa do SimpleInputSearchComponent
+  onSearchChange(query: string): void {
+    this.searchChange.emit(query);
+  }
 }

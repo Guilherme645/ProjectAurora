@@ -1,16 +1,21 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 
 @Component({
   selector: 'app-entities-drawer',
   templateUrl: './entities-drawer.component.html',
-  styleUrls: [], // Removido, pois usamos Tailwind diretamente no HTML
+  styleUrls: ['./entities-drawer.component.css'],
   standalone: false
 })
 export class EntitiesDrawerComponent implements OnInit {
-  @Input() textoOriginal: string = ''; // Recebe o texto do componente pai
-  @Output() textoMarcadoChange = new EventEmitter<string>(); // Emite o texto marcado para o pai
-  @Output() close = new EventEmitter<void>(); // Emite evento ao fechar o drawer
+  @Input() textoOriginal: string = '';
+  @Output() textoMarcadoChange = new EventEmitter<string>();
+  @Output() close = new EventEmitter<void>();
+  @Output() openEntityOptions = new EventEmitter<{
+    entity: string;
+    type: string;
+    position: { top: number; left: number };
+  }>();
 
   textoMarcado: string;
 
@@ -20,7 +25,7 @@ export class EntitiesDrawerComponent implements OnInit {
   people: string[] = [];
   organizations: string[] = [];
 
-  // Entidades exibidas (limitadas inicialmente)
+  // Entidades exibidas (limitadas inicialmente ou filtradas)
   displayedDates: string[] = [];
   displayedPlaces: string[] = [];
   displayedPeople: string[] = [];
@@ -31,36 +36,39 @@ export class EntitiesDrawerComponent implements OnInit {
   placesEnabled: boolean = false;
   peopleEnabled: boolean = false;
   organizationsEnabled: boolean = false;
-  highlightAllCategories: boolean = false; // Novo estado para o toggle do rodapé
+  highlightAllCategories: boolean = false;
 
-  private readonly displayLimit = 3; // Limite inicial de exibição
+  // Estado da pesquisa
+  isSearchVisible: boolean = false;
+  searchQuery: string = '';
+
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+
+  private readonly displayLimit = 3;
 
   constructor(private textoEntidadesService: TextoEntidadesService) {
     this.textoMarcado = this.textoOriginal;
   }
 
   ngOnInit(): void {
-    // Obtém as entidades do serviço
     const entidades = this.textoEntidadesService.getEntidades();
     this.dates = entidades.datas;
     this.places = entidades.lugares;
     this.people = entidades.pessoas;
     this.organizations = entidades.organizacoes;
 
-    // Limita as entidades exibidas inicialmente
     this.displayedDates = this.dates.slice(0, this.displayLimit);
     this.displayedPlaces = this.places.slice(0, this.displayLimit);
     this.displayedPeople = this.people.slice(0, this.displayLimit);
     this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
 
-    // Inicializa o texto marcado com o texto original
     this.textoMarcado = this.textoOriginal;
-    this.atualizarTextoMarcado(); // Aplica as substituições iniciais (se toggles estiverem ativados)
+    this.atualizarTextoMarcado();
   }
 
   ngOnChanges(): void {
-    this.textoMarcado = this.textoOriginal; // Atualiza textoMarcado quando o input muda
-    this.atualizarTextoMarcado(); // Reaplica as substituições
+    this.textoMarcado = this.textoOriginal;
+    this.atualizarTextoMarcado();
   }
 
   atualizarTextoMarcado(): void {
@@ -70,7 +78,7 @@ export class EntitiesDrawerComponent implements OnInit {
       pessoas: this.peopleEnabled,
       organizacoes: this.organizationsEnabled
     });
-    this.textoMarcadoChange.emit(this.textoMarcado); // Emite o texto marcado para o pai
+    this.textoMarcadoChange.emit(this.textoMarcado);
     console.log('Texto marcado atualizado:', this.textoMarcado);
   }
 
@@ -133,8 +141,64 @@ export class EntitiesDrawerComponent implements OnInit {
   }
 
   closeDrawer(): void {
-    this.close.emit(); // Emite evento para o pai fechar o drawer
+    this.close.emit();
     console.log('Close drawer emitted');
   }
-  
+
+  // Funções de pesquisa
+  toggleSearch(): void {
+    this.isSearchVisible = !this.isSearchVisible;
+    if (this.isSearchVisible) {
+      setTimeout(() => this.searchInput.nativeElement.focus(), 0);
+    } else {
+      this.clearSearch();
+    }
+  }
+
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.isSearchVisible = false;
+    this.filterEntities();
+  }
+
+  filterEntities(): void {
+    const query = this.searchQuery.toLowerCase().trim();
+
+    if (!query) {
+      this.displayedDates = this.dates.slice(0, this.displayLimit);
+      this.displayedPlaces = this.places.slice(0, this.displayLimit);
+      this.displayedPeople = this.people.slice(0, this.displayLimit);
+      this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
+    } else {
+      this.displayedDates = this.dates.filter(date => date.toLowerCase().includes(query));
+      this.displayedPlaces = this.places.filter(place => place.toLowerCase().includes(query));
+      this.displayedPeople = this.people.filter(person => person.toLowerCase().includes(query));
+      this.displayedOrganizations = this.organizations.filter(org => org.toLowerCase().includes(query));
+    }
+
+    console.log('Entities filtered:', {
+      dates: this.displayedDates,
+      places: this.displayedPlaces,
+      people: this.displayedPeople,
+      organizations: this.displayedOrganizations
+    });
+  }
+
+  openEntityModal(event: MouseEvent, entity: string, type: string): void {
+    const button = event.currentTarget as HTMLButtonElement;
+    const rect = button.getBoundingClientRect();
+
+    // Posiciona o modal à esquerda do botão, como na imagem
+    const position = {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX - 260 // 260px é aproximadamente a largura do modal (w-64) + margem
+    };
+
+    this.openEntityOptions.emit({
+      entity,
+      type,
+      position
+    });
+    console.log(`Emitting openEntityOptions for ${type} entity: ${entity} at position`, position);
+  }
 }

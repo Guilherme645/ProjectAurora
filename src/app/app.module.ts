@@ -57,6 +57,7 @@ import { RemoveSavedSearchComponent } from './components/remove-saved-search/rem
 import { DescricaoContainerComponent } from './descricao-container/descricao-container.component';
 import { DescricaoComponent } from './components/descricao/descricao.component';
 import { TextoEntidadesComponent } from './components/texto-entidades/texto-entidades.component';
+import { ModalEntitieOptionComponent } from './components/modal-entitie-option/modal-entitie-option.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { TextoEntidadesComponent } from './components/texto-entidades/texto-enti
   RemoveSavedSearchComponent,
   DescricaoContainerComponent,
   DescricaoComponent,
-  TextoEntidadesComponent
+  TextoEntidadesComponent,
+  ModalEntitieOptionComponent
   
   ],
   imports: [

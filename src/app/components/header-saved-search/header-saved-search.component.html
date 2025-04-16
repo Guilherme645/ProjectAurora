@@ -1,7 +1,8 @@
 <div class="relative w-full h-auto bg-white" id="workspaceContainer">
-  <div class="bg-white px-6 pt-6 transition-all duration-300"
-       [ngClass]="{ 'h-0 opacity-0 overflow-hidden': isCollapsed, 'h-auto opacity-100': !isCollapsed }">
-       
+  <div
+    class="bg-white px-6 pt-6 transition-all duration-300"
+    [ngClass]="{ 'h-0 opacity-0 overflow-hidden': isCollapsed, 'h-auto opacity-100': !isCollapsed }"
+  >
     <div class="flex items-center justify-between flex-wrap gap-4">
       <!-- Título e subtítulo -->
       <div>
@@ -15,7 +16,7 @@
 
       <!-- Campo de busca alinhado à direita -->
       <div class="ml-auto w-full sm:w-[450px]">
-        <app-simple-input-search></app-simple-input-search>
+        <app-simple-input-search (searchChange)="onSearchChange($event)"></app-simple-input-search>
       </div>
     </div>
   </div>

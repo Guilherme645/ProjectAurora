@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, HostListener, EventEmitter, Output } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 
@@ -38,6 +38,11 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   textoOriginal: string;
   isHeaderScrolled: boolean = false;
   isPlayerMinimized: boolean = false; // Mantido para compatibilidade com ngClass
+isModalVisible: boolean = false;
+selectedEntity: { entity: string; type: string } | null = null;
+modalPosition: { top: number; left: number } = { top: 0, left: 0 };
+@Output() highlight = new EventEmitter<{ entity: string; type: string }>();
+
 
   @HostBinding('class.show-entities-drawer')
   get isEntitiesDrawerOpen() {
@@ -96,4 +101,21 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
     }
     console.log('Entities drawer toggled, showEntitiesDrawer:', this.showEntitiesDrawer);
   }
+  onOpenEntityOptions(event: { entity: string; type: string; position: { top: number; left: number } }): void {
+    this.selectedEntity = { entity: event.entity, type: event.type };
+    this.modalPosition = event.position;
+    this.isModalVisible = true;
+  }
+  
+  closeModal(): void {
+    this.isModalVisible = false;
+    this.selectedEntity = null;
+  }
+
+  highlightEntity(event: { entity: string; type: string }): void {
+    console.log('Entidade a ser destacada:', event.entity, 'Tipo:', event.type);
+    // Aqui você pode implementar a lógica para destacar a entidade
+  }
+  
+  
 }

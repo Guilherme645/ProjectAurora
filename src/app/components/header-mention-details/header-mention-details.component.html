@@ -39,8 +39,11 @@
       <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
 
       <!-- Compartilhar -->
-      <app-share-button (shareClicked)="onShare()"></app-share-button>
-    </div>
+  <!-- Compartilhar -->
+  <app-share-button
+  class=" px-4 py-2 rounded-lg transition ml-auto"
+  (shareClicked)="onShare()">
+</app-share-button>    </div>
   </div>
 
   <!-- Versão Compacta (Exibida ao rolar a página) -->

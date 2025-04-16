@@ -1,0 +1,34 @@
+<div
+  class="absolute bg-white shadow-lg rounded-md border border-gray-200 w-64 py-2 z-50"
+  [style.top.px]="position.top"
+  [style.left.px]="position.left"
+>
+  <!-- Título pequeno da entidade -->
+  <div class="px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-100">
+    {{ entityName }} ({{ type | titlecase }})
+  </div>
+
+  <!-- Opção 1: Adicionar à busca salva -->
+  <button
+    (click)="addToSavedSearch()"
+    class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+  >
+    <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+    </svg>
+    Adicionar à busca salva
+  </button>
+
+  <!-- Opção 2: Destacar palavra -->
+  <button
+    (click)="highlightOnlyThisWord()"
+    class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+  >
+    <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg">
+      <path d="M15.232 5.232l3.536 3.536M9 11l6-6m2 2l2 2m-2-2l-6 6H9v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </svg>
+    Destacar apenas essa palavra
+  </button>
+</div>

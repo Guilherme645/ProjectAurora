@@ -110,25 +110,28 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
     },
   ];
 
+  filteredMonitorCards = [...this.monitorCards]; // Lista filtrada inicial
+
+
   constructor(private modalService: ModalService) {}
 
   ngOnInit() {
     this.subscriptions.add(
       this.modalService.editModalState$.subscribe(state => {
         this.modalAberto = state.open;
-        this.modalData = state.data; // Armazena os dados do card
+        this.modalData = state.data;
       })
     );
     this.subscriptions.add(
       this.modalService.duplicateModalState$.subscribe(state => {
         this.duplicateModalAberto = state.open;
-        this.modalData = state.data; // Armazena os dados do card
+        this.modalData = state.data;
       })
     );
     this.subscriptions.add(
       this.modalService.removeModalState$.subscribe(state => {
         this.removeModalAberto = state.open;
-        this.modalData = state.data; // Armazena os dados do card
+        this.modalData = state.data;
       })
     );
   }
@@ -162,5 +165,20 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
   onConfirmRemove() {
     console.log('Busca removida!', this.modalData);
     this.modalService.closeRemoveModal();
+  }
+
+  // Método para filtrar os monitorCards com base na pesquisa
+  onSearchChange(query: string) {
+    const searchTerm = query.toLowerCase().trim();
+    if (!searchTerm) {
+      this.filteredMonitorCards = [...this.monitorCards]; // Restaura a lista completa
+    } else {
+      this.filteredMonitorCards = this.monitorCards.filter(card =>
+        card.title.toLowerCase().includes(searchTerm) ||
+        card.startDate.toLowerCase().includes(searchTerm) ||
+        card.endDate.toLowerCase().includes(searchTerm) ||
+        card.status.toLowerCase().includes(searchTerm)
+      );
+    }
   }
 }

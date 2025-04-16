@@ -18,6 +18,7 @@ export class DuplicateSearchComponent implements OnInit {
   isNegativeAlertActive: boolean = false;
   userList: User[] = [];
   @Output() saveEdits = new EventEmitter<any>(); // Ajustado para emitir os dados do formulário
+  @Output() close = new EventEmitter<void>();
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
     this.salvarBuscaForm = this.fb.group({
@@ -99,4 +100,8 @@ export class DuplicateSearchComponent implements OnInit {
     this.newUserEmail = '';
     this.showAddDestinationForm = false;
   }
+
+onClose() {
+  this.close.emit();
+}
 }
