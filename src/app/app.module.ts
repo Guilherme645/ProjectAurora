@@ -58,6 +58,9 @@ import { DescricaoContainerComponent } from './descricao-container/descricao-con
 import { DescricaoComponent } from './components/descricao/descricao.component';
 import { TextoEntidadesComponent } from './components/texto-entidades/texto-entidades.component';
 import { ModalEntitieOptionComponent } from './components/modal-entitie-option/modal-entitie-option.component';
+import { SharedModule } from './shared/shared.module'; // importa o módulo com o pipe
+import { SidebarResultSavedSearchComponent } from './components/sidebar-result-saved-search/sidebar-result-saved-search.component';
+import { SaveEntitiesFilterComponent } from './components/save-entities-filter/save-entities-filter.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +115,9 @@ import { ModalEntitieOptionComponent } from './components/modal-entitie-option/m
   DescricaoContainerComponent,
   DescricaoComponent,
   TextoEntidadesComponent,
-  ModalEntitieOptionComponent
+  ModalEntitieOptionComponent,
+  SidebarResultSavedSearchComponent,
+  SaveEntitiesFilterComponent
   
   ],
   imports: [
@@ -121,7 +126,9 @@ import { ModalEntitieOptionComponent } from './components/modal-entitie-option/m
     RouterModule, // ✅ IMPORTANTE PARA AS ROTAS FUNCIONAREM
     FormsModule,
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
+    SharedModule // importa o módulo onde o pipe está declarado e exportado
+
     
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],

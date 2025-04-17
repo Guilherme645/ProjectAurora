@@ -11,6 +11,7 @@ export class CardComponent {
   @Input() noticias: any; // Inclui o campo 'id'
   @Input() isSelected: boolean = false;
   @Output() selectionChange = new EventEmitter<boolean>();
+  @Input() searchQuery: string = '';
 
   constructor(private router: Router) {}
 

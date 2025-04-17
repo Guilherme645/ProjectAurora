@@ -1,4 +1,4 @@
-<div class="w-[390px] h-[683px] gap-[40px] pt-5 pr-6 pl-6 bg-white rounded-tl-lg flex flex-col">
+<div class="w-[390px] h-[683px] pt-5 pr-6 pl-6 bg-white rounded-tl-lg flex flex-col">
   <!-- Cabeçalho com título, subtítulo e botões -->
   <div class="mb-4 px-4">
     <!-- Mostrar título e subtítulo quando a pesquisa NÃO está visível -->
@@ -62,7 +62,7 @@
   </div>
 
   <!-- Conteúdo rolável -->
-  <div class="flex-1 overflow-y-scroll px-4 hide-scrollbar">
+  <div class="flex-1 overflow-y-scroll px-4 hide-scrollbar mb-0">
     <!-- Card: Datas extraídas -->
     <div class="bg-[#f9fafb] p-4 rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.1)] mb-4">
       <div class="flex justify-between items-start mb-2">
@@ -285,3 +285,21 @@
     </label>
   </div>
 </div>
+
+<style>
+  .hide-scrollbar {
+    /* Garante que a rolagem esteja ativa */
+    overflow-y: scroll;
+    /* Ocultar barra de rolagem no Firefox */
+    scrollbar-width: none;
+    /* Ocultar barra de rolagem no Edge (versões mais antigas) */
+    -ms-overflow-style: none;
+  }
+  /* Ocultar barra de rolagem em navegadores Webkit (Chrome, Safari, Edge) */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+</style>

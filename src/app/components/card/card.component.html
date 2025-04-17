@@ -26,12 +26,11 @@
         <span class="sentiment">{{ noticias.sentimento }}</span>
       </div>
     </div>
-
-    <p class="mention-title cursor-pointer text-blue-600 hover:underline"
+    <p class="mention-title text-blue-600 hover:underline cursor-pointer"
+    [innerHTML]="noticias.titulo | highlight:searchQuery"
     (click)="irParaDetalhes()">
-   {{ noticias.titulo }}
  </p>
-     <p class="mention-description">{{ noticias.descricao }}</p>
+ <p class="mention-description" [innerHTML]="noticias.descricao | highlight:searchQuery"></p>
 
     <div class="mention-footer">
       <span class="entities-label">Entidades extraídas:</span>
@@ -98,8 +97,9 @@
   </div>
 
   <p class="mobile-mention-title">{{ noticias.titulo }}</p>
-  <p class="mobile-mention-description">{{ noticias.descricao }}</p>
-
+  <p class="mention-description"
+  [innerHTML]="noticias.descricao | highlight:searchQuery">
+</p>
   <div class="mobile-mention-footer"></div>
 </div>
 

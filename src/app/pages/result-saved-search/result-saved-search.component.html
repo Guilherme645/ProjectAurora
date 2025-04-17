@@ -1,13 +1,13 @@
 <!-- Versão Desktop -->
 <div *ngIf="!isMobile" class="layout-container">
-  <div class=" bg-neutral-800 text-white w-80 fixed z-10 h-full">
-    <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
+  <div class="bg-neutral-800 text-white fixed h-full z-50">
+    <app-sidebar-result-saved-search (userChange)="onUserChange($event)"></app-sidebar-result-saved-search>
   </div>
 
   <div class="main-content">
     <div class="header transition-all duration-300"
       [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
-      <app-search-saved-search></app-search-saved-search>
+      <app-search-saved-search (searchChange)="searchQuery = $event"></app-search-saved-search>
     </div>
 
     <div class="content h-[2000px] bg-gray-100 mt-[80px]">
@@ -18,7 +18,7 @@
 
         <main class="main">
           <div class="card" *ngFor="let noticias of noticias">
-            <app-card [noticias]="noticias"></app-card>
+            <app-card [noticias]="noticias" [searchQuery]="searchQuery"></app-card>
           </div>
         </main>
       </div>

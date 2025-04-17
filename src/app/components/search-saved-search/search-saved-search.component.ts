@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-search-saved-search',
@@ -10,7 +10,7 @@ export class SearchSavedSearchComponent  {
 
  isScrolled = false;
  searchQuery: string = '';
- 
+ @Output() searchChange = new EventEmitter<string>();
    isDropdownOpen = false;
    selectedOption = 'Mais relevantes';
    isBuscaOpen = false;
@@ -43,6 +43,8 @@ export class SearchSavedSearchComponent  {
    this.selectedOption = option;
    this.isDropdownOpen = false;
  }
- onSearch(){}
- 
+ onSearch() {
+  this.searchChange.emit(this.searchQuery);
+}
+
 }

@@ -15,8 +15,11 @@
           </svg>
         </div>
         <!-- Input de Busca -->
-        <input type="text" class="w-full h-[46px] text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none text-sm px-3" 
-               placeholder="Buscar" [(ngModel)]="searchQuery">
+        <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="searchChange.emit($event)"
+        placeholder="Buscar"[(ngModel)]="searchQuery">
         <!-- Botão de busca -->
         <button class="absolute right-0 bg-blue-600 h-[46px] w-[46px] rounded-r-lg flex items-center justify-center hover:bg-blue-700 transition" (click)="onSearch()">
           <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

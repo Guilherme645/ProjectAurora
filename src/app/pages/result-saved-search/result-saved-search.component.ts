@@ -19,6 +19,7 @@ noticias: any[] = [];
   currentUser: string = 'Superior Tribunal Federal'; 
   filteredNoticias: any[] = []; 
   isModalVisible: boolean = false;
+  searchQuery: string = ''; // Adicione esta linha
 
   constructor(private dataService: DataService) {}
 

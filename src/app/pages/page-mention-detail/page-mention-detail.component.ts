@@ -42,7 +42,8 @@ isModalVisible: boolean = false;
 selectedEntity: { entity: string; type: string } | null = null;
 modalPosition: { top: number; left: number } = { top: 0, left: 0 };
 @Output() highlight = new EventEmitter<{ entity: string; type: string }>();
-
+isSaveFilterVisible = false;
+selectedEntityForSave?: { entity: string; type: string };
 
   @HostBinding('class.show-entities-drawer')
   get isEntitiesDrawerOpen() {
@@ -117,5 +118,15 @@ modalPosition: { top: number; left: number } = { top: 0, left: 0 };
     // Aqui você pode implementar a lógica para destacar a entidade
   }
   
-  
+  showSaveEntitiesFilter(entityName: string, type: string) {
+    console.log('showSaveEntitiesFilter called with:', entityName, type);
+    this.selectedEntityForSave = { entity: entityName, type };
+    this.isSaveFilterVisible = true;
+  }
+
+  closeSaveEntitiesFilter() {
+    console.log('closeSaveEntitiesFilter called');
+    this.isSaveFilterVisible = false;
+    this.selectedEntityForSave = undefined;
+  }
 }

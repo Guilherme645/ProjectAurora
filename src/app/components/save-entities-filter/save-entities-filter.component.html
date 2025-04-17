@@ -1,0 +1,68 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="relative bg-white w-[480px] max-h-[80vh] rounded-xl shadow-xl overflow-y-auto">
+    <!-- Header com busca e ESC -->
+    <div class="sticky top-0 z-10 bg-white px-6 pt-6 pb-3 flex items-center justify-between border-b border-gray-100">
+      <div class="relative w-full">
+        <span class="absolute left-4 top-1/2 transform -translate-y-1/2">
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+          </svg>
+        </span>
+        <input
+          type="text"
+          placeholder="Encontre a busca desejada"
+          class="w-full text-sm rounded-lg border border-gray-200 pl-10 pr-16 py-2 placeholder:text-gray-300 focus:ring-1 focus:ring-gray-300 focus:outline-none"
+        />
+        <span class="absolute right-8 top-1/2 transform -translate-y-1/2 bg-gray-100 text-xs text-gray-400 px-2 py-1 rounded-full">ESC</span>
+      </div>
+    </div>
+
+    <!-- Entidade selecionada -->
+    <div class="px-6 pt-4">
+      <span class="text-sm text-gray-600">Entidade selecionada</span>
+      <span class="inline-flex items-center px-3 py-1 ml-2 text-xs font-medium rounded-full bg-green-50 text-green-600">Brasília</span>
+    </div>
+
+    <!-- Cards de filtros -->
+    <div class="px-6 pt-4 pb-6 grid grid-cols-2 gap-4">
+      <ng-container *ngFor="let card of filterCards">
+        <div class="flex flex-col gap-1">
+          <div class="flex flex-col gap-1">
+            <div class="flex justify-between items-center">
+              <h3 class="text-sm font-semibold text-gray-800">{{ card.title }}</h3>
+              <input
+                type="checkbox"
+                [(ngModel)]="card.checked"
+                class="hs-checkbox rounded text-blue-600 focus:ring-blue-500"
+              />
+            </div>
+            <div class="text-xs text-blck-400">
+              <span>Busca ativa</span>
+            </div>
+          </div>
+          <div class="text-xs text-black-400 flex items-center gap-1">
+            <span>Criada por:</span>
+            <span class="flex items-center gap-1">
+              <span class="inline-flex items-center justify-center w-5 h-5 rounded-full text-xs font-medium text-blue-800 bg-blue-100">{{ card.initials }}</span>
+              <span class="text-black-400">{{ card.owner }}</span>
+            </span>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="sticky bottom-0 bg-white px-6 py-4 border-t border-gray-100 flex justify-end">
+      <button class="bg-gray-800 text-white px-4 py-2 text-sm rounded-lg hover:bg-gray-900">
+        Incluir nas buscas selecionadas ({{ getSelectedCount() }})
+      </button>
+    </div>
+
+    <!-- Botão Fechar -->
+    <button (click)="closeFilter()" class="absolute top-4 right-4 p-2 bg-gray-100 rounded-md hover:bg-gray-200">
+      <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+</div>
