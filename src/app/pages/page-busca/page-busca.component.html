@@ -1,9 +1,27 @@
-<div class="flex h-screen">
-  <div class="bg-neutral-800 text-white  fixed h-full">
-    <app-side-bar></app-side-bar>
-  </div>
-
-
+<div class="flex h-screen overflow-hidden">
+   <!-- Sidebar SEMPRE visível e acima do overlay -->
+      <div class="bg-neutral-800 text-white fixed h-full z-50">
+        <app-side-bar  
+          (openModalExternally)="toggleModal()">
+        </app-side-bar>
+      </div>
+  
+      <!-- Fundo escurecido (exceto sidebar) -->
+      <div 
+      *ngIf="isModalVisible"
+      class="fixed inset-0 z-40"
+      style="background-color: #b8bacd80;">
+     </div>
+     
+     
+     <!-- Modal com referência -->
+     <div 
+       *ngIf="isModalVisible"
+       #modalWrapper
+       class="fixed z-50"
+       style="left: 350px; bottom: 12px;">
+       <app-modal-account></app-modal-account>
+     </div>
   <div class="flex-1 bg-neutral-50 flex items-center justify-center ml-0 md:ml-80">
     <div class="buscar-container max-w-lg w-full text-center p-4">
       <app-buscar></app-buscar>

@@ -1,26 +1,67 @@
 <!-- Versão Desktop -->
-<div *ngIf="!isMobile" class="layout-container">
-  <div class=" bg-neutral-800 text-white w-80 fixed h-full">
-    <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
-  </div>
-
-  <div class="main-content">
-    <div class="header transition-all duration-300"
-      [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
-      <app-searc-basic></app-searc-basic>
+<div *ngIf="!isMobile">
+  <div class="layout-container relative">
+    <!-- Sidebar SEMPRE visível e acima do overlay -->
+    <div class="bg-neutral-800 text-white fixed h-full z-50">
+      <app-side-bar 
+        (userChange)="onUserChange($event)" 
+        (openModalExternally)="toggleModal()">
+      </app-side-bar>
     </div>
 
-    <div class="content h-[2000px] bg-gray-100 mt-[80px]">
-      <div class="content-wrapper">
-        <div class="filters">
-          <app-filtros></app-filtros> 
-        </div>
+    <!-- Fundo escurecido para modal-account -->
+    <div 
+      *ngIf="isModalVisible"
+      class="fixed inset-0 z-40"
+      style="background-color: #b8bacd80;">
+    </div>
 
-        <main class="main">
-          <div class="card" *ngFor="let noticias of noticias">
-            <app-card [noticias]="noticias"></app-card>
+    <!-- Modal com referência -->
+    <div 
+      *ngIf="isModalVisible"
+      #modalWrapper
+      class="fixed z-50"
+      style="left: 350px; bottom: 12px;">
+      <app-modal-account></app-modal-account>
+    </div>
+
+    <!-- Backdrop para Save Search Modal (cinza e borrado) -->
+    <div *ngIf="modalAberto" class="modal-backdrop"></div>
+
+    <!-- Modal de Save Search -->
+    <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">
+      <button type="button" aria-label="Fechar" class="close-modal-button" (click)="fecharModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18"></path>
+          <path d="M6 6l12 12"></path>
+        </svg>
+      </button>
+      <app-save-search></app-save-search>
+    </div>
+
+    <!-- Conteúdo principal abaixo do overlay -->
+    <div class="main-content ml-80 relative z-10">
+      <div class="header transition-all duration-300"
+        [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
+        <app-searc-basic></app-searc-basic>
+      </div>
+
+      <div class="content h-[2000px] bg-gray-100 mt-[80px]">
+        <div class="content-wrapper">
+          <div class="filters">
+            <app-filtros 
+              (openSaveSearchModal)="abrirModal()"
+              (closeSaveSearchModal)="fecharModal()"
+              (closeModal)="filtrosAbertos = false">
+            </app-filtros> 
           </div>
-        </main>
+
+          <main class="main">
+            <div class="card" *ngFor="let noticias of noticias">
+              <app-card [noticias]="noticias"></app-card>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   </div>
@@ -109,7 +150,11 @@
 
   <div *ngIf="filtrosAbertos" class="filtros-overlay">
     <div class="filtros-container animate-slide-up">
-      <app-filtros (closeModal)="filtrosAbertos = false"></app-filtros> 
+      <app-filtros 
+        (openSaveSearchModal)="abrirModal()"
+        (closeSaveSearchModal)="fecharModal()"
+        (closeModal)="filtrosAbertos = false">
+      </app-filtros> 
     </div>
   </div>
 </div>

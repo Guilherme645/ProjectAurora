@@ -1,7 +1,8 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  overflow-x: hidden; /* impede scroll horizontal */
+  overscroll-behavior: none; /* evita rolagem extra com drawer aberto */
   height: 100%;
 }
 

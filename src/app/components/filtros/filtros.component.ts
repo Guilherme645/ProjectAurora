@@ -1,15 +1,18 @@
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 
 @Component({
-    selector: 'app-filtros',
-    templateUrl: './filtros.component.html',
-    styleUrls: ['./filtros.component.css'],
-    standalone: false
+  selector: 'app-filtros',
+  templateUrl: './filtros.component.html',
+  styleUrls: ['./filtros.component.css'],
+  standalone: false
 })
 export class FiltrosComponent implements OnInit {
-  modalAberto = false;
+  modalAberto = false; // Used only for mobile modal
   isMobile = window.innerWidth <= 768;
-  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output() closeModal = new EventEmitter<void>(); // For mobile filters overlay
+  @Output() openSaveSearchModal = new EventEmitter<void>(); // For desktop modal open
+  @Output() closeSaveSearchModal = new EventEmitter<void>(); // For desktop modal close
 
   filtros = [
     { nome: 'Hora', aberto: true, itens: ['Manhã (4091)', 'Tarde (3291)', 'Noite (1827)'], mostrarMais: false },
@@ -40,17 +43,21 @@ export class FiltrosComponent implements OnInit {
   }
 
   openModal(): void {
-    this.modalAberto = true;
+    if (this.isMobile) {
+      this.modalAberto = true; // Open mobile modal locally
+    } else {
+      this.openSaveSearchModal.emit(); // Emit event for desktop modal
+    }
   }
 
   fecharModal(): void {
-    this.modalAberto = false;
-    console.log('Modal fechado');
+    if (this.isMobile) {
+      this.modalAberto = false; // Close mobile modal locally
+    }
+    this.closeSaveSearchModal.emit(); // Emit event for desktop modal
   }
 
   closeMobileModal(): void {
-    this.closeModal.emit();
+    this.closeModal.emit(); // Close mobile filters overlay
   }
-
-  
 }

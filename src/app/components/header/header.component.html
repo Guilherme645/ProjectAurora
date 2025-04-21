@@ -16,7 +16,7 @@
         <div class="inline-flex items-center max-w-[277px] h-[46px] border border-gray-300 rounded-md overflow-hidden">
           <button type="button"
                   class="inline-flex items-center gap-x-2 px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 border-r border-gray-300 h-full"
-                  (click)="openBusca()">
+                  (click)="openBusca.emit()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
@@ -26,7 +26,7 @@
           </button>
           <button type="button" 
                   class="inline-flex items-center justify-center px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 h-full"
-                  (click)="toggleSearch()">
+                  (click)="toggleSearch.emit()">
             Busca avançada
           </button>
         </div>
@@ -34,7 +34,7 @@
     </div>
   </div>
 
-  <div class="sticky top-0 w-full bg-white border-b border-gray-200 transition-all duration-300 z-10 shadow-sm">
+  <div class="sticky top-0 w-full bg-white transition-all duration-300 z-10">
     <div class="flex items-center justify-between py-2 px-6">
       <div class="flex items-center gap-3">
         <input type="checkbox" 
@@ -119,14 +119,4 @@
       </div>
     </div>
   </div>
-
-  <div *ngIf="isSearchOpen" 
-       class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-20"
-       [ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}">
-    <div class="p-4 w-full h-full">
-      <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
-    </div>
-  </div>
-
-  <app-input-busca #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
 </div>

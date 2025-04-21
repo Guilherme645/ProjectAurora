@@ -3,7 +3,7 @@
   <div class="flex h-screen">
     
     <!-- Sidebar Compacta (Seleção de Usuários) -->
-    <div class="compact-sidebar flex flex-col items-center bg-gray-800 p-4 w-16">
+    <div class="compact-sidebar flex flex-col items-center bg-[#0F141B] p-4 w-16">
       <button *ngFor="let key of userKeys" 
               class="sidebar-button w-10 h-10 rounded-lg font-bold flex justify-center items-center bg-gray-700 text-white mb-3"
               [ngClass]="{ 'active-button bg-blue-800 w-[38px] h-[38px]': currentUser.name === users[key] }"
@@ -63,133 +63,202 @@
       <nav class="menu p-4 overflow-y-auto mt-3">
         <ul>
           <li>
-            <div class="hs-tooltip [--placement:right] inline-block">
-              <a routerLink="/navBar" routerLinkActive="active" 
-                 class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
-                 [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/navBar') }">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                </svg>
-                <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Início</p>
-                <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
-                  Início
-                </span>
-              </a>
-            </div>
-          </li>
-          <li>
-            <div class="hs-tooltip [--placement:right] inline-block">
-              <a routerLink="/busca" routerLinkActive="active" 
-                 class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
-                 [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/busca') }">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.3-4.3"></path>
-                </svg>
-                <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Busca Geral</p>
-                <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
-                  Busca Geral
-                </span>
-              </a>
-            </div>
-          </li>
-          <li>
-            <div class="hs-tooltip [--placement:right] inline-block">
-              <a routerLink="/saved-search" routerLinkActive="active" 
-                 class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
-                 [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/saved-search') }">
-                 <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.6667 13L6.00001 10.3333L1.33334 13V2.33333C1.33334 1.97971 1.47382 1.64057 1.72387 1.39052C1.97392 1.14048 2.31305 1 2.66668 1H9.33334C9.68697 1 10.0261 1.14048 10.2762 1.39052C10.5262 1.64057 10.6667 1.97971 10.6667 2.33333V13Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Buscas Salvas</p>
-                <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
-                  Buscas Salvas
-                </span>
-              </a>
-            </div>
-          </li>
-          <li>
-            <div class="hs-tooltip [--placement:right] inline-block">
-              <a routerLink="/home/clippings" routerLinkActive="active" 
-                 class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
-                 [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/clippings') }">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2"></path>
-                  <path d="M10 22H8"></path>
-                  <path d="M16 22h-2"></path>
-                  <circle cx="8" cy="8" r="2"></circle>
-                  <path d="M9.414 9.414 12 12"></path>
-                  <path d="M14.8 14.8 18 18"></path>
-                  <circle cx="8" cy="16" r="2"></circle>
-                  <path d="m18 6-8.586 8.586"></path>
-                </svg>
-                <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Clippings</p>
-                <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
-                  Clippings
-                </span>
-              </a>
-            </div>
-          </li>
-          <li>
-            <div class="hs-tooltip [--placement:right] inline-block">
-              <a routerLink="/home/report" routerLinkActive="active" 
-                 class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
-                 [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/report') }">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                  <path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3.5"></path>
-                  <path d="M4.017 11.512a6 6 0 1 0 8.466 8.475"></path>
-                  <path d="M9 16a1 1 0 0 1-1-1v-4c0-.552.45-1.008.995-.917a6 6 0 0 1 4.922 4.922c.091.544-.365.995-.917.995z"></path>
-                </svg>
-                <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Relatórios</p>
-                <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
-                  Relatórios
-                </span>
-              </a>
-            </div>
-          </li>
-          <li>
-            <div class="hs-tooltip [--placement:right] inline-block">
-              <a routerLink="/home/dashboard" routerLinkActive="active" 
-                 class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
-                 [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/dashboard') }">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="7" height="9" x="3" y="3" rx="1"></rect>
-                  <rect width="7" height="5" x="14" y="3" rx="1"></rect>
-                  <rect width="7" height="9" x="14" y="12" rx="1"></rect>
-                  <rect width="7" height="5" x="3" y="16" rx="1"></rect>
-                </svg>
-                <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Dashboard</p>
-                <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
-                  Dashboard
-                </span>
-              </a>
-            </div>
-          </li>
-          <li>
-            <div class="hs-tooltip [--placement:right] inline-block">
-              <a routerLink="/home/settings" routerLinkActive="active" 
-                 class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
-                 [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/settings') }">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l-.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l-.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-                <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Configurações</p>
-                <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
-                  Configurações
-                </span>
-              </a>
-            </div>
-          </li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/navBar" routerLinkActive="active" 
+         class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
+         [ngClass]="{
+           'w-[236px]': isExpanded, 
+           'w-12 justify-center': !isExpanded, 
+           'bg-gray-700': isActive('/navBar') 
+         }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/navBar')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+          <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/navBar')" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 6.00001L8 1.33334L14 6.00001V13.3333C14 13.687 13.8595 14.0261 13.6095 14.2762C13.3594 14.5262 13.0203 14.6667 12.6667 14.6667H3.33333C2.97971 14.6667 2.64057 14.5262 2.39052 14.2762C2.14048 14.0261 2 13.687 2 13.3333V6.00001Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 14.6667V8H10V14.6667" stroke="#1F2937" stroke-linecap="square" stroke-linejoin="round"/>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Início</p>
+        <span *ngIf="!isExpanded" 
+              class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Início
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Busca Geral -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/busca" routerLinkActive="active" 
+         class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
+         [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/busca') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/busca')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/busca')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" fill="white"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Busca Geral</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Busca Geral
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Buscas Salvas -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/saved-search" routerLinkActive="active" 
+         class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
+         [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/saved-search') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/saved-search')" width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.6667 13L6.00001 10.3333L1.33334 13V2.33333C1.33334 1.97971 1.47382 1.64057 1.72387 1.39052C1.97392 1.14048 2.31305 1 2.66668 1H9.33334C9.68697 1 10.0261 1.14048 10.2762 1.39052C10.5262 1.64057 10.6667 1.97971 10.6667 2.33333V13Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/saved-search')" width="12" height="14" viewBox="0 0 12 14" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.6667 13L6.00001 10.3333L1.33334 13V2.33333C1.33334 1.97971 1.47382 1.64057 1.72387 1.39052C1.97392 1.14048 2.31305 1 2.66668 1H9.33334C9.68697 1 10.0261 1.14048 10.2762 1.39052C10.5262 1.64057 10.6667 1.97971 10.6667 2.33333V13Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Buscas Salvas</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Buscas Salvas
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Clippings -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/home/clippings" routerLinkActive="active" 
+         class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
+         [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/clippings') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/home/clippings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2"></path>
+          <path d="M10 22H8"></path>
+          <path d="M16 22h-2"></path>
+          <circle cx="8" cy="8" r="2"></circle>
+          <path d="M9.414 9.414 12 12"></path>
+          <path d="M14.8 14.8 18 18"></path>
+          <circle cx="8" cy="16" r="2"></circle>
+          <path d="m18 6-8.586 8.586"></path>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/home/clippings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2" fill="white"></path>
+          <path d="M10 22H8"></path>
+          <path d="M16 22h-2"></path>
+          <circle cx="8" cy="8" r="2" fill="none"></circle>
+          <path d="M9.414 9.414 12 12"></path>
+          <path d="M14.8 14.8 18 18"></path>
+          <circle cx="8" cy="16" r="2" fill="none"></circle>
+          <path d="m18 6-8.586 8.586"></path>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Clippings</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Clippings
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Relatórios -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/home/report" routerLinkActive="active" 
+         class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
+         [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/report') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/home/report')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+          <path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3.5"></path>
+          <path d="M4.017 11.512a6 6 0 1 0 8.466 8.475"></path>
+          <path d="M9 16a1 1 0 0 1-1-1v-4c0-.552.45-1.008.995-.917a6 6 0 0 1 4.922 4.922c.091.544-.365.995-.917.995z"></path>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/home/report')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2v4a2 2 0 0 0 2 2h4" fill="none"></path>
+          <path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3.5" fill="white"></path>
+          <path d="M4.017 11.512a6 6 0 1 0 8.466 8.475" fill="none"></path>
+          <path d="M9 16a1 1 0 0 1-1-1v-4c0-.552.45-1.008.995-.917a6 6 0 0 1 4.922 4.922c.091.544-.365.995-.917.995z" fill="none"></path>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Relatórios</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Relatórios
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Dashboard -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/home/dashboard" routerLinkActive="active" 
+         class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
+         [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/dashboard') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/home/dashboard')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+          <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+          <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+          <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/home/dashboard')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="7" height="9" x="3" y="3" rx="1" fill="white"></rect>
+          <rect width="7" height="5" x="14" y="3" rx="1" fill="white"></rect>
+          <rect width="7" height="9" x="14" y="12" rx="1" fill="white"></rect>
+          <rect width="7" height="5" x="3" y="16" rx="1" fill="white"></rect>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Dashboard</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Dashboard
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Configurações -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/home/settings" routerLinkActive="active" 
+         class="menu-item flex items-center gap-2 p-3 text-sm text-white rounded-lg hover:bg-gray-700"
+         [ngClass]="{'w-[236px]': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/settings') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/home/settings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l-.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l-.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/home/settings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l-.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l-.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" fill="white"></path>
+          <circle cx="12" cy="12" r="3" fill="none"></circle>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Configurações</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Configurações
+        </span>
+      </a>
+    </div>
+  </li>
         </ul>
       </nav>
 
       <!-- Rodapé do Sidebar -->
       <div class="sidebar-footer mt-auto bg-gray-900 p-3 border-t border-gray-700">
-        <div class="footer-content flex items-center gap-3"
-             [ngClass]="{'justify-center': !isExpanded}">
+        <div class="footer-content flex items-center gap-3" [ngClass]="{'justify-center': !isExpanded}">
           <div class="avatar-container relative inline-block">
             <div class="avatar w-10 h-10 bg-white text-blue-800 font-bold flex items-center justify-center rounded-full">NA</div>
             <div class="status-indicator w-[10px] h-[10px] bg-green-400 border-2 border-gray-900 rounded-full absolute top-[-1px] right-[3px]"></div>
@@ -198,10 +267,13 @@
             <p class="user-name text-sm text-white">Antônio Costa</p>
             <p class="user-role text-xs text-gray-400">Analista</p>
           </div>
-          <button *ngIf="isExpanded" (click)="toggleModal()" 
-                  class="menu-button bg-transparent border-none text-2xl text-white cursor-pointer hover:bg-gray-700 rounded w-[38px] h-[38px] transition-all">⋮</button>
-          <div *ngIf="isModalVisible" class="overlay fixed"></div>
-          <app-modal-account *ngIf="isModalVisible" class="dropdown-menu absolute ml-[250px] mt-[-80px] z-[1000]"></app-modal-account>
+          <button 
+          *ngIf="isExpanded"
+          (click)="onOpenModalClick($event)"
+          class="menu-button bg-transparent border-none text-2xl text-white cursor-pointer hover:bg-gray-700 rounded w-[38px] h-[38px] transition-all">
+          ⋮
+        </button>
+        
         </div>
       </div>
     </div>

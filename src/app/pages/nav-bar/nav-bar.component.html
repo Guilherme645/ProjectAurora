@@ -1,16 +1,66 @@
 <!-- Versão Desktop -->
 <div *ngIf="!isMobile">
   <div class="layout-container">
+    <!-- Sidebar SEMPRE visível e acima do overlay -->
     <div class="bg-neutral-800 text-white fixed h-full z-50">
-      <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
+      <app-side-bar 
+        (userChange)="onUserChange($event)" 
+        (openModalExternally)="toggleModal()">
+      </app-side-bar>
     </div>
-    
+
+    <!-- Fundo escurecido -->
+    <div 
+      *ngIf="isModalVisible"
+      class="fixed inset-0 z-40"
+      style="background-color: #b8bacd80;">
+    </div>
+
+    <!-- Modal com referência -->
+    <div 
+      *ngIf="isModalVisible"
+      #modalWrapper
+      class="fixed z-50"
+      style="left: 350px; bottom: 12px;">
+      <app-modal-account></app-modal-account>
+    </div>
+
+    <!-- Modais de Busca -->
+    <div *ngIf="isSearchOpen" 
+         class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-20"
+         [ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}">
+      <div class="p-4 w-full h-full">
+        <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
+      </div>
+    </div>
+
+    <app-input-busca #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
+
     <div class="main-content">
       <header class="header fixed-header">
-        <app-header (filterNewsEvent)="onFilterNews($event)" (selectAllEvent)="onSelectAll($event)"></app-header>
+        <app-header 
+          (filterNewsEvent)="onFilterNews($event)" 
+          (selectAllEvent)="onSelectAll($event)"
+          (openBusca)="openBusca()" 
+          (toggleSearch)="toggleSearch()">
+        </app-header>
       </header>
-
+    
       <main class="main pt-20">
+        <!-- Adicionando o <hr> antes dos cards -->
+        <div class="relative">
+          <hr style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 0;
+          " />
+        </div>
+        
+        
         <div *ngFor="let noticia of filteredNoticias" class="card">
           <app-card 
             [noticias]="noticia" 
@@ -25,11 +75,11 @@
         <app-scroll-top></app-scroll-top>
       </div>
 
-
       <app-mensoes [selectedCount]="selectedMentionsCount"></app-mensoes>
     </div>
   </div>
 </div>
+
 <!-- Versão Mobile -->
 <div *ngIf="isMobile">
   <nav class="sticky top-0 z-10 bg-white transition-transform duration-300 ease-in-out">
@@ -45,21 +95,21 @@
         </div>
       </div>
 
-     <!-- Ícones de Busca e Menu -->
-     <div class="flex items-center space-x-4">
-      <button class="p-2 rounded-full bg-gray-100" (click)="toggleSearch()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="M21 21l-4.35-4.35"></path>
-        </svg>
-      </button>
-      <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" y1="6" x2="20" y2="6"></line>
-          <line x1="4" y1="12" x2="20" y2="12"></line>
-          <line x1="4" y1="18" x2="20" y2="18"></line>
-        </svg>
-      </button>
+      <!-- Ícones de Busca e Menu -->
+      <div class="flex items-center space-x-4">
+        <button class="p-2 rounded-full bg-gray-100" (click)="toggleSearch()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="M21 21l-4.35-4.35"></path>
+          </svg>
+        </button>
+        <button class="p-2 rounded-full bg-gray-100" (click)="toggleSidebar()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+        </button>
 
         <!-- Sidebar Mobile -->
         <div *ngIf="isSidebarOpen" class="sidebar-mobile">
@@ -117,7 +167,7 @@
   </main>
 
   <!-- Botão Scroll Top -->
-  <div class="scroll"(click)="scrollToTop()">
+  <div class="scroll" (click)="scrollToTop()">
     <app-scroll-top></app-scroll-top>
   </div>
   <div

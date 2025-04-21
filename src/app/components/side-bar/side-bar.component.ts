@@ -9,11 +9,11 @@ import { DataService } from 'src/app/services/data.service';
   standalone: false
 })
 export class SideBarComponent implements OnInit {
-  @Input() isSidebarOpen = true; // Recebe o estado do componente pai
+  @Input() isSidebarOpen = true;
   @Output() userChange = new EventEmitter<string>();
   @Output() sidebarToggled = new EventEmitter<boolean>();
+  @Output() openModalExternally = new EventEmitter<void>();
 
-  isModalVisible = false;
   isExpanded = true;
   isMobile = window.innerWidth <= 768;
   currentUser = { name: 'Superior Tribunal Federal' };
@@ -42,12 +42,11 @@ export class SideBarComponent implements OnInit {
   ngOnInit(): void {
     this.checkScreenSize();
     this.loadUsers();
-    this.isExpanded = this.isSidebarOpen; // Sincroniza o estado inicial
+    this.isExpanded = this.isSidebarOpen;
   }
 
-  // Observa mudanças no @Input isSidebarOpen
   ngOnChanges(): void {
-    this.isExpanded = this.isSidebarOpen; // Garante que isExpanded esteja sempre sincronizado
+    this.isExpanded = this.isSidebarOpen;
   }
 
   get userKeys(): string[] {
@@ -76,18 +75,14 @@ export class SideBarComponent implements OnInit {
     this.sidebarToggled.emit(this.isSidebarOpen);
   }
 
-  toggleModal(): void {
-    this.isModalVisible = !this.isModalVisible;
-  }
-
   toggleSubMenu(item: any): void {
     this.menuItems.forEach(menuItem => {
       if (menuItem !== item) {
-        menuItem.open = false; // Fecha outros submenus
+        menuItem.open = false;
       }
     });
     if (item.subItems) {
-      item.open = !item.open; // Alterna o submenu clicado
+      item.open = !item.open;
     }
   }
 
@@ -117,6 +112,11 @@ export class SideBarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  onOpenModalClick(event: MouseEvent) {
+    event.stopPropagation(); // ← EVITA que o clique feche o modal logo após abrir
+    this.openModalExternally.emit();
+  }
+
   isActive(route: string): boolean {
     return this.router.isActive(route, {
       paths: 'exact',
@@ -125,7 +125,6 @@ export class SideBarComponent implements OnInit {
       matrixParams: 'ignored'
     });
   }
-
   getIconPath(icon: string): string {
     switch (icon) {
       case 'home':

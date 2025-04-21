@@ -9,11 +9,17 @@
             Conta criada com sucesso!
           </h1>
           <p class="mt-1 text-[14px] font-normal text-gray-500">
-            Uma nova conta para foi criada com o email: <strong>{{ email }}</strong>
+            Uma nova conta foi criada com o email:
+            <br>
+            <strong>{{ email }}</strong>
           </p>
-          <button routerLink="/login" class="mt-4 py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
-            Ir para o login
-          </button>
+          <button 
+          routerLink="/login" 
+          class="mt-10 w-[400px] h-[46px] flex items-center justify-center gap-3 
+                 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
+          Ir para o login
+        </button>
+        
         </div>
 
         <div *ngIf="!contaCriada">
@@ -33,7 +39,7 @@
                 <form (ngSubmit)="onSubmit()">
                   <div class="flex flex-col rounded-lg">
                     
-                    <div *ngIf="etapa === 'email'" class="relative w-full">
+                    <div *ngIf="etapa === 'email'" class="relative w-full mt-10">
                       <input 
                         type="email" 
                         id="email" 
@@ -52,7 +58,7 @@
                       <p class="text-red-500 text-[14px] mt-1" *ngIf="emailError">{{ emailError }}</p>
                     </div>
 
-                    <div *ngIf="etapa === 'senha'" class="relative w-full">
+                    <div *ngIf="etapa === 'senha'" class="relative w-full mt-10">
                       <input 
                         id="password" 
                         type="{{ showPassword ? 'text' : 'password' }}" 
@@ -68,20 +74,39 @@
                         (blur)="validatePassword()" 
                         required
                       />
-                      <button type="button" 
-                              (click)="togglePassword()" 
-                              class="absolute top-1/2 right-4 transform -translate-y-1/2 
-                                     bg-transparent hover:bg-transparent focus:bg-transparent 
-                                     p-1 rounded-md focus:outline-none">
-                        <svg width="16" height="16" viewBox="0 0 48 44" fill="none" 
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" 
-                             stroke-linejoin="round">
-                          <path *ngIf="!showPassword" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-                          <circle *ngIf="!showPassword" cx="12" cy="12" r="3"></circle>
-                          <path *ngIf="showPassword" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
-                          <path *ngIf="showPassword" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                      <button 
+                      type="button" 
+                      (click)="togglePassword()" 
+                      class="absolute top-0 right-0 w-12 h-12 flex items-center justify-center
+                             bg-transparent hover:bg-transparent focus:bg-transparent 
+                             p-0 rounded-md focus:outline-none"
+                    >
+                      <svg 
+                        *ngIf="!showPassword" 
+                        width="16" height="16" 
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      >
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                      <svg 
+                      *ngIf="showPassword" 
+                      width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1351_1802)">
+                        <path d="M6.58669 6.58643C6.39019 6.76952 6.23259 6.99033 6.12327 7.23566C6.01396 7.48099 5.95518 7.74582 5.95045 8.01437C5.94571 8.28291 5.99511 8.54965 6.0957 8.79869C6.19629 9.04772 6.346 9.27394 6.53592 9.46386C6.72584 9.65378 6.95206 9.8035 7.2011 9.90409C7.45013 10.0047 7.71688 10.0541 7.98542 10.0493C8.25396 10.0446 8.51879 9.98582 8.76412 9.87651C9.00946 9.7672 9.23026 9.60959 9.41336 9.41309" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.15332 3.38683C7.43419 3.35184 7.71694 3.33402 7.99999 3.3335C12.6667 3.3335 14.6667 8.00016 14.6667 8.00016C14.3686 8.63825 13.9948 9.23812 13.5533 9.78683" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.40665 4.40674C3.08081 5.30982 2.01989 6.55024 1.33331 8.00007C1.33331 8.00007 3.33331 12.6667 7.99998 12.6667C9.27725 12.6702 10.5272 12.2968 11.5933 11.5934" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M1.33331 1.3335L14.6666 14.6668" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_1351_1802">
+                        <rect width="16" height="16" fill="white"/>
+                        </clipPath>
+                        </defs>
                         </svg>
-                      </button>
+                        
+                    </button>
                       <p class="text-red-500 text-[14px] mt-1" *ngIf="passwordError">{{ passwordError }}</p>
                     </div>
 
@@ -89,11 +114,20 @@
 
                   <div *ngIf="etapa === 'senha'" class="mt-2 text-left text-[14px] text-gray-700">
                     <p><strong>A senha deve ter:</strong></p>
-                    <p [ngClass]="{'': password.length < 8, 'text-green-600': password.length >= 8}">
-                      <span *ngIf="password.length < 8">X</span>
-                      <span *ngIf="password.length >= 8">✔</span> Mínimo de 8 caracteres;
+                  
+                    <p class="flex items-center gap-2 text-[#14B8A6]" *ngIf="password.length >= 8">
+                      <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.3332 4.05273L5.99984 11.3861L2.6665 8.05273" stroke="#14B8A6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <span>Mínimo de 8 caracteres;</span>
+                    </p>
+                  
+                    <p class="flex items-center gap-2 text-red-500" *ngIf="password.length < 8">
+                      <span class="text-[16px] font-semibold">X</span>
+                      <span>Mínimo de 8 caracteres;</span>
                     </p>
                   </div>
+                  
 
                   <button type="submit" class="mt-4 w-full py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all">
                     {{ etapa === 'email' ? 'Continuar' : 'Criar conta' }}

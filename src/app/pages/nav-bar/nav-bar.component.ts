@@ -1,5 +1,5 @@
 // nav-bar.component.ts
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -21,11 +21,16 @@ export class NavBarComponent implements OnInit {
   selectedMentionsCount: number = 0;
   showScrollTop: boolean = false;
   showScrollTopButton: boolean = false;
-  isSearchOpen = false;
-    page: number = 1;
+  isSearchOpen: boolean = false;
+  isBuscaOpen: boolean = false; // Adicionado para gerenciar o modal <app-input-busca>
+  page: number = 1;
   pageSize: number = 10;
   isLoading: boolean = false;
   hasMoreData: boolean = true;
+  isModalVisible: boolean = false;
+
+  @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
+  @ViewChild('searchModal') searchModal!: ElementRef;
 
   constructor(private dataService: DataService) {}
 
@@ -39,7 +44,6 @@ export class NavBarComponent implements OnInit {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  @HostListener('window:scroll', [])
   @HostListener('window:scroll', [])
   onScroll(): void {
     const scrollPosition = window.scrollY + window.innerHeight;
@@ -138,8 +142,8 @@ export class NavBarComponent implements OnInit {
     this.isDropdownOpen = false;
   }
 
-  onSelectionChange(isSelected: boolean) {
-    if (isSelected) {
+  onSelectionChange(event: any) {
+    if (event.isSelected) {
       this.selectedMentionsCount++;
     } else {
       this.selectedMentionsCount--;
@@ -151,8 +155,27 @@ export class NavBarComponent implements OnInit {
   }
 
   toggleSearch(): void {
-    console.log('Toggle search chamado. isSearchOpen antes:', this.isSearchOpen); 
+    console.log('Toggle search chamado. isSearchOpen antes:', this.isSearchOpen);
     this.isSearchOpen = !this.isSearchOpen;
-    console.log('isSearchOpen depois:', this.isSearchOpen); 
+    console.log('isSearchOpen depois:', this.isSearchOpen);
+  }
+
+  openBusca(): void {
+    console.log('Abrindo busca. isBuscaOpen antes:', this.isBuscaOpen);
+    this.isBuscaOpen = true;
+    console.log('isBuscaOpen depois:', this.isBuscaOpen);
+  }
+
+  closeHighSearch(): void {
+    this.isSearchOpen = false;
+  }
+
+  closeBusca(): void {
+    this.isBuscaOpen = false;
+  }
+
+  toggleModal() {
+    this.isModalVisible = !this.isModalVisible;
+    console.log('Estado do modal:', this.isModalVisible);
   }
 }

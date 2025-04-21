@@ -21,3 +21,11 @@
 
   }
   
+  .search-bar {
+    transition: border-color 0.2s ease-in-out; /* Transição suave para a mudança de cor da borda */
+  }
+  
+  .search-bar:focus-within {
+    border-color: #3B82F6; /* Equivalente a border-blue-500 */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); /* Opcional: sombra azul para destacar o foco */
+  }

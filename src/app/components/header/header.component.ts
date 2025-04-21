@@ -1,4 +1,3 @@
-// header.component.ts
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Component({
@@ -10,16 +9,16 @@ import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 export class HeaderComponent {
   isScrolled: boolean = false;
   isDropdownOpen: boolean = false;
-  isBuscaOpen: boolean = false;
   isMobile: boolean = false;
   isCollapsed: boolean = false;
-  isSearchOpen: boolean = false;
   selectedOption: string = 'Mais relevantes';
   selectedTab: string = 'brutos';
   selectAll: boolean = false;
 
   @Output() selectAllEvent = new EventEmitter<boolean>();
   @Output() filterNewsEvent = new EventEmitter<string>();
+  @Output() openBusca = new EventEmitter<void>(); // Já adicionado anteriormente
+  @Output() toggleSearch = new EventEmitter<void>(); // Já adicionado anteriormente
 
   ngOnInit(): void {
     this.checkScreenSize();
@@ -34,35 +33,6 @@ export class HeaderComponent {
   @HostListener('window:resize', [])
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
-  }
-
-  toggleSearch(): void {
-    this.isSearchOpen = !this.isSearchOpen;
-  }
-
-  closeHighSearch(): void {
-    this.isSearchOpen = false;
-  }
-
-  openBusca(): void {
-    this.isBuscaOpen = true;
-  }
-
-  closeBusca(): void {
-    this.isBuscaOpen = false;
-  }
-
-  @HostListener('document:keydown.escape')
-  handleEscape(): void {
-    this.closeBusca();
-  }
-
-  @HostListener('document:click', ['$event'])
-  handleClickOutside(event: Event): void {
-    const target = event.target as HTMLElement;
-    if (!target.closest('app-input-busca') && !target.closest('app-header')) {
-      this.closeBusca();
-    }
   }
 
   toggleSelectAll(): void {

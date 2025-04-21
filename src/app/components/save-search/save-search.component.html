@@ -1,156 +1,155 @@
-<div class="container">
-    <header class="header">
-      <h1 class="title">Salvar nova busca</h1>
-      <p class="subtitle">Insira as edições desejadas</p>
-    </header>
-  
-    <div class="form-layout">
-      <nav class="steps">
-        <div class="step" [class.active]="currentStep === 1">
-          <div class="step-icon" [class.active-icon]="currentStep >= 1">1</div>
-          <div class="step-text">
-            <span class="step-title" [class.active-title]="currentStep >= 1">Informações básicas</span>
-          </div>
+<!-- edit-search-basic-information.component.html -->
+<div class="fixed inset-0 flex justify-center items-center bg-black-50 bg-opacity-20 z-50">
+  <div class="bg-white max-w-[1086px] w-full rounded-2xl shadow-lg p-6">
+  <header class="mb-6">
+    <h1 class="text-2xl font-semibold text-gray-900">Salvar nova busca</h1>
+    <p class="text-sm text-gray-500 mt-2">Insira as edições desejadas</p>
+  </header>
+
+  <div class="flex items-start gap-8">
+    <!-- Abas (Steps) -->
+    <nav class="w-[225px]">
+      <div class="flex items-center gap-3 mb-1" [class]="currentStep === 1 ? 'text-blue-600' : 'text-gray-500'">
+        <span class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors" [class]="currentStep >= 1 ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'">1</span>
+        <div>
+          <span class="text-base font-medium" [class]="currentStep >= 1 ? 'text-blue-700' : 'text-gray-500'">Informações básicas</span>
         </div>
-        <div class="step" [class.active]="currentStep === 2">
-          <div class="step-icon" [class.active-icon]="currentStep >= 2">2</div>
-          <div class="step-text">
-            <span class="step-title" [class.active-title]="currentStep >= 2">Alertas</span>
-            <p class="step-description">Configuração opcional</p>
-          </div>
+      </div>
+      <div class="flex items-center gap-3" [class]="currentStep === 2 ? 'text-blue-600' : 'text-gray-500'">
+        <span class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors" [class]="currentStep >= 2 ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'">2</span>
+        <div>
+          <span class="text-base font-medium" [class]="currentStep >= 2 ? 'text-blue-700' : 'text-gray-500'">Alertas</span>
+          <p class="text-xs text-gray-400">Configuração opcional</p>
         </div>
-      </nav>
-  
-      <section *ngIf="currentStep === 1" class="form-step-save-search">
-        <form [formGroup]="salvarBuscaForm">
-          <div class="flex-header-save-search">
-            <h2 class="text-sm font-semibold text-gray-800">Informações básicas Busca Salva</h2>
+      </div>
+    </nav>
+
+    <!-- Etapa 1: Informações básicas -->
+    <section *ngIf="currentStep === 1" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
+      <form [formGroup]="salvarBuscaForm">
+        <div class="flex items-center bg-gray-50 border-b border-gray-200 px-8 py-6">
+          <h2 class="text-sm font-semibold text-gray-800">Informações básicas Busca Salva</h2>
+        </div>
+
+        <div class="flex items-center justify-between px-8 py-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Nome da busca salva <span class="text-red-500">*</span></label>
+            <p class="text-xs text-gray-500 mb-2">Aparecerá nas menções dessa busca</p>
           </div>
-  
-          <div class="form-item-save-search">
-            <div class="input-wrapper-save-search">
-              <label class="block text-sm font-medium mb-1">Nome da busca salva <span class="text-red-500">*</span></label>
-              <p class="text-xs text-gray-500 mb-2">Aparecerá nas menções dessa busca</p>
+          <input type="text" formControlName="searchName" class="w-[328px] p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Digite o nome da busca">
+        </div>
+        <hr class="mx-6 border-t border-gray-200">
+
+        <div class="flex items-center justify-between px-8 py-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Início do monitoramento <span class="text-red-500">*</span></label>
+            <p class="text-xs text-gray-500 mb-2">Data que o sistema começará a coletar menções dessa busca</p>
+          </div>
+          <input type="date" formControlName="startDate" class="w-[328px] p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+        </div>
+        <hr class="mx-6 border-t border-gray-200">
+
+        <div class="flex items-center justify-between px-8 py-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Fim do monitoramento</label>
+            <p class="text-xs text-gray-500 mb-2">Data que o sistema irá finalizar a coleta de menções dessa busca</p>
+          </div>
+          <input type="date" formControlName="endDate" class="w-[328px] p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+        </div>
+
+        <div class="text-right mt-6 px-8">
+          <button type="button" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all" (click)="nextStep(); $event.stopPropagation()">Continuar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Etapa 2: Alertas -->
+    <section *ngIf="currentStep === 2" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
+      <div class="p-5 bg-white rounded-xl max-h-[350px] overflow-y-auto">
+        <section class="border border-gray-200 rounded-lg mb-5 overflow-hidden">
+          <div class="bg-gray-50 border-b border-gray-200 px-8 py-6">
+            <h2 class="text-base font-semibold text-gray-800">Passo 1: Parâmetros do alerta</h2>
+          </div>
+          <div class="flex justify-between items-center px-8 py-6">
+            <div class="max-w-[70%]">
+              <label class="block text-sm font-medium text-gray-700">Ativar alerta <span class="text-red-500">*</span></label>
+              <p class="text-xs text-gray-500 mt-1">Enviar um alerta sempre que houver uma nova menção</p>
             </div>
-            <input type="text" formControlName="searchName" class="input-field-save-search" placeholder="Digite o nome da busca">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer" [(ngModel)]="isAlertActive" (change)="onToggleAlert()" />
+              <div class="w-[3.25rem] h-7 p-px bg-gray-100 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 peer-checked:bg-blue-600 before:inline-block before:w-6 before:h-6 before:bg-white peer-checked:before:bg-blue-200 before:rounded-full before:shadow before:transform before:transition before:ease-in-out before:duration-200 before:translate-x-0 peer-checked:before:translate-x-full"></div>
+            </label>
           </div>
-          <hr class="mx-6">
-  
-          <div class="form-item-save-search">
-            <div class="input-wrapper-save-search">
-              <label class="block text-sm font-medium mb-1">Início do monitoramento <span class="text-red-500">*</span></label>
-              <p class="text-xs text-gray-500 mb-2">Data que o sistema começará a coletar menções dessa busca</p>
+          <hr class="border-t border-gray-200">
+          <div class="flex justify-between items-center px-8 py-6">
+            <div class="max-w-[70%]">
+              <label class="block text-sm font-medium text-gray-700">Ativar alerta somente para menções negativas <span class="text-red-500">*</span></label>
+              <p class="text-xs text-gray-500 mt-1">Enviar um alerta apenas quando uma nova menção for analisada com sentimento negativo</p>
             </div>
-            <input type="date" formControlName="startDate" class="input-field-save-search">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer" [(ngModel)]="isNegativeAlertActive" (change)="onToggleNegativeAlert()" />
+              <div class="w-[3.25rem] h-7 p-px bg-gray-100 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 peer-checked:bg-blue-600 before:inline-block before:w-6 before:h-6 before:bg-white peer-checked:before:bg-blue-200 before:rounded-full before:shadow before:transform before:transition before:ease-in-out before:duration-200 before:translate-x-0 peer-checked:before:translate-x-full"></div>
+            </label>
           </div>
-          <hr class="mx-6">
-  
-          <div class="form-item-save-search">
-            <div class="input-wrapper-save-search">
-              <label class="block text-sm font-medium mb-1">Fim do monitoramento</label>
-              <p class="text-xs text-gray-500 mb-2">Data que o sistema irá finalizar a coleta de menções dessa busca</p>
-            </div>
-            <input type="date" formControlName="endDate" class="input-field-save-search">
+        </section>
+
+        <section class="border border-gray-200 rounded-lg overflow-hidden">
+          <div class="bg-gray-50 border-b border-gray-200 px-8 py-6">
+            <h2 class="text-base font-semibold text-gray-800">Passo 2: Selecione os usuários do Workspace que devem receber os alertas</h2>
           </div>
-          <div class="form-footer-save-search">
-            <button type="button" class="btn-next-save-search" (click)="nextStep()">Continuar</button>
+
+          <div class="flex items-center px-4 py-4 border-b border-gray-200">
+            <input type="checkbox" id="select-all" class="mr-2" />
+            <label for="select-all" class="text-sm text-gray-700">Selecionar todos do Workspace</label>
           </div>
-        </form>
-      </section>
-  
-      <!-- Etapa 2: Alertas -->
-      <section *ngIf="currentStep === 2">
-        <div class="alert-container">
-          <section class="step-section">
-            <div class="step-header">
-              <h2>Passo 1: Parâmetros do alerta</h2>
-            </div>
-            <div class="parameter-item">
-              <div class="parameter-label">
-                <label>Ativar alerta <span class="required">*</span></label>
-                <p class="parameter-description">Enviar um alerta sempre que houver uma nova menção</p>
+
+          <ul class="list-none p-6">
+            <li *ngFor="let user of userList" class="flex items-center mb-3 gap-3">
+              <input type="checkbox" class="w-4 h-4 cursor-pointer" />
+              <div class="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold text-sm">{{ user.avatar }}</div>
+              <span class="text-sm text-gray-700">{{ user.name }} ({{ user.email }})</span>
+            </li>
+          </ul>
+
+          <div class="ml-12" *ngIf="showAddDestinationForm">
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="flex-1">
+                <input type="text" [(ngModel)]="newUserName" placeholder="Nome do destinatário" class="w-[272px] h-[46px] p-3 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" class="sr-only peer" [(ngModel)]="isAlertActive" (change)="onToggleAlert()" />
-                <div
-                  class="w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none peer-checked:bg-none peer-checked:text-blue-600 peer-checked:border-blue-600 focus:peer-checked:border-blue-600
-                  before:inline-block before:size-6 before:bg-white peer-checked:before:bg-blue-200 before:translate-x-0 peer-checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200">
+
+              <div class="flex-1 relative">
+                <input type="email" [(ngModel)]="newUserEmail" placeholder="Email do destinatário" class="w-[272px] h-[46px] pl-10 pr-3 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
+                <div class="absolute inset-y-0 left-2 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
                 </div>
-              </label>
-            </div>
-            <hr>
-            <div class="parameter-item">
-              <div class="parameter-label">
-                <label>Ativar alerta somente para menções negativas <span class="required">*</span></label>
-                <p class="parameter-description">Enviar um alerta apenas quando uma nova menção for analisada com sentimento negativo</p>
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" class="sr-only peer" [(ngModel)]="isNegativeAlertActive" (change)="onToggleNegativeAlert()" />
-                <div
-                  class="w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none peer-checked:bg-none peer-checked:text-blue-600 peer-checked:border-blue-600 focus:peer-checked:border-blue-600
-                  before:inline-block before:size-6 before:bg-white peer-checked:before:bg-blue-200 before:translate-x-0 peer-checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200">
-                </div>
-              </label>
+
+              <button type="button" class="w-[46px] h-[46px] bg-gray-100 text-gray-500 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-all" (click)="cancelAddDestination(); $event.stopPropagation()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 6 6 18"></path>
+                  <path d="M6 6l12 12"></path>
+                </svg>
+              </button>
+
+              <button type="button" class="w-[46px] h-[46px] bg-teal-500 text-white rounded-lg flex items-center justify-center hover:bg-teal-600 transition-all" (click)="addDestination(); $event.stopPropagation()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </button>
             </div>
-          </section>
-  
-          <section class="step-section">
-            <div class="step-header">
-              <h2>Passo 2: Selecione os usuários do Workspace que devem receber os alertas</h2>
-            </div>
-  
-            <div class="select-all">
-              <input type="checkbox" id="select-all" />
-              <label for="select-all">Selecionar todos do Workspace</label>
-            </div>
-  
-            <ul class="user-list">
-              <li *ngFor="let user of userList" class="user-item">
-                <input type="checkbox" class="user-select" />
-                <div class="user-avatar">{{ user.avatar }}</div>
-                <span class="user-info">{{ user.name }} ({{ user.email }})</span>
-              </li>
-            </ul>
-  
-            <div class="add-destination-form" *ngIf="showAddDestinationForm">
-              <div class="flex items-center gap-3 margim-bott">
-                <div class="relative flex-1">
-                  <input type="text" [(ngModel)]="newUserName" placeholder="Nome do destinatário" class="form-input" />
-                </div>
-  
-                <div class="relative flex-1">
-                  <input type="email" [(ngModel)]="newUserEmail" placeholder="Email do destinatário" class="form-input" />
-                  <div class="absolute inset-y-0 left-2 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide shrink-0 size-4 stroke-1 text-gray-500"><rect width="20" height="16" x="2" y="4" rx="2" key="18n3k1"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" key="1ocrg3"></path></svg>
-                  </div>
-                </div>
-  
-                <button type="button" class="btn-cancel" (click)="cancelAddDestination()">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 6 6 18"></path>
-                    <path d="M6 6l12 12"></path>
-                  </svg>
-                </button>
-  
-                <button type="button" class="btn-add" (click)="addDestination()">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 6L9 17l-5-5"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-  
-            <div class="add-destination-container">
-              <a href="#" *ngIf="!showAddDestinationForm" (click)="toggleAddDestinationForm($event)" class="add-destination-link">
-                Adicionar outro destinatário
-              </a>
-            </div>
-          </section>
-        </div>
-        <div class="form-actions-fixed">
-          <button class="btn-secondary" (click)="previousStep()">Voltar</button>
-          <button class="btn-primary">Salvar busca</button>
-        </div>
-      </section>
-    </div>
+          </div>
+
+          <div class="pb-4 border-b border-gray-200">
+            <a href="#" *ngIf="!showAddDestinationForm" (click)="toggleAddDestinationForm($event)" class="block text-sm text-blue-600 hover:underline ml-5">Adicionar outro destinatário</a>
+          </div>
+        </section>
+      </div>
+
+      <!-- Rodapé dentro do contêiner -->
+      <div class="p-6 border-t border-gray-200 flex justify-end gap-3 bg-white">
+        <button class="w-[124px] h-[46px] bg-white text-black-600 font-semibold text-[15px] rounded-lg hover:bg-gray-200 transition-all" (click)="previousStep(); $event.stopPropagation()">Voltar</button>
+        <button class="w-[124px] h-[46px] bg-gray-600 text-white font-semibold text-[15px] rounded-lg hover:bg-gray-700 transition-all" (click)="onSubmit(); $event.stopPropagation()">Salva busca</button>
+      </div>
+    </section>
   </div>
+</div>

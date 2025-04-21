@@ -19,7 +19,10 @@ export class SearchSavedSearchComponent  {
      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
      this.isScrolled = scrollTop > 100;  
    }
- 
+   clearSearch() {
+    this.searchQuery = '';
+    this.searchChange.emit(this.searchQuery); // Emite a mudança para limpar os resultados
+  }
    openAdvancedSearch(): void {
      console.log('Buscando por:', this.searchQuery);
    }

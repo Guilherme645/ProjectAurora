@@ -33,9 +33,12 @@
   </div>
 
   <div *ngIf="!isMobile" class="flex flex-col items-center justify-center w-full h-screen bg-gray-50">
+    <!-- Logo -->
     <div class="flex justify-center mb-6">
       <img src="assets/logo2.png" alt="Logo" class="h-14">
     </div>
+  
+    <!-- Botões de modo -->
     <div class="flex justify-center gap-2 mb-4">
       <button 
         (click)="selecionarModo('simples')" 
@@ -46,7 +49,7 @@
         }">
         Busca simples
       </button>
-    
+  
       <button 
         (click)="selecionarModo('avancada'); toggleAdvancedSearch()"
         class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
@@ -57,31 +60,38 @@
         Busca avançada
       </button>
     </div>
-    
+  
+    <!-- Input + botão buscar -->
     <div class="flex items-center gap-2">
-      <div class="flex items-center w-[480px] h-[56px] rounded-[8px] px-4  
+      <div class="flex items-center w-[480px] h-[56px] rounded-[16px] px-4 bg-white 
                   focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500">
         <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.3-4.3"></path>
         </svg>
-        <input type="text" 
-          class="w-full px-4 py-2 text-gray-800 bg-transparent focus:outline-none" 
-          placeholder="O que você deseja buscar?" [(ngModel)]="searchQuery">
+        <input 
+          type="text" 
+          class="w-full px-4 py-2 text-gray-800 bg-white focus:outline-none" 
+          placeholder="O que você deseja buscar?" 
+          [(ngModel)]="searchQuery">
       </div>
-
-      <button class="w-[140px] h-[56px] text-white bg-gray-900 rounded-[8px] hover:bg-gray-700 transition-all"
+  
+      <button 
+        class="w-[140px] h-[56px] text-white bg-gray-900 rounded-[8px] hover:bg-gray-700 transition-all"
         (click)="onSearch()">
         Buscar
       </button>
     </div>
-  </div>
-
-  <div *ngIf="!isMobile && isAdvancedSearchOpen" class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-20"
-       [class.translate-x-full]="!isAdvancedSearchOpen"
-       [class.translate-x-0]="isAdvancedSearchOpen">
-    <div class="p-4 w-full h-full">
-      <app-high-search [isVisible]="isAdvancedSearchOpen" (close)="closeHighSearch()"></app-high-search>
+  
+    <!-- Drawer lateral -->
+    <div 
+      *ngIf="!isMobile && isAdvancedSearchOpen" 
+      class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-20"
+      [class.translate-x-full]="!isAdvancedSearchOpen"
+      [class.translate-x-0]="isAdvancedSearchOpen">
+      <div class="p-4 w-full h-full">
+        <app-high-search [isVisible]="isAdvancedSearchOpen" (close)="closeHighSearch()"></app-high-search>
+      </div>
     </div>
   </div>
-</div>
+  

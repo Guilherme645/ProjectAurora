@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'app-page-busca',
@@ -7,26 +7,34 @@ import { Component, HostListener } from '@angular/core';
     standalone: false
 })
 export class PageBuscaComponent {
-  isMobile: boolean = window.innerWidth <= 480; 
-  isMobileSidebarOpen: boolean = false; 
+  isMobile = window.innerWidth <= 768;
+  isMobileSidebarOpen = false;
+  isModalVisible: boolean = false;
+  @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
+  constructor() {}
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.isMobile = window.innerWidth <= 480;
+  ngOnInit(): void {
+    this.checkScreenSize();
+  }
+  toggleModal() {
+    this.isModalVisible = !this.isModalVisible;
+    console.log('Estado do modal:', this.isModalVisible);
+  }
+  
+
+  onSidebarToggled(isOpen: boolean): void {
+    this.isMobileSidebarOpen = isOpen;
+  }
+
+  @HostListener('window:resize')
+  private checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768;
     if (!this.isMobile) {
-      this.isMobileSidebarOpen = false; 
+      this.isMobileSidebarOpen = true;
+    } else {
+      this.isMobileSidebarOpen = false;
     }
   }
 
-  abrirMobileSidebar() {
-    this.isMobileSidebarOpen = true;
-  }
-
-  closeMobileSidebar() {
-    this.isMobileSidebarOpen = false;
-  }
-
-toggleMobileSidebar() {
-  this.isMobileSidebarOpen = !this.isMobileSidebarOpen; 
-}
+  
 }
