@@ -1,0 +1,83 @@
+.mobile-header {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px 24px 0;
+  gap: 28px;
+  width: 375px;
+  height: 136px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.03);
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+/* Estilos para a barra de busca */
+.search-bar-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    z-index: 20;
+    padding: 1rem;
+  }
+  
+  .search-bar {
+    width: 100%;
+    height: 40px;
+    background-color: #e6f0fa; /* Azul claro */
+    border: 1px solid #bfdbfe; /* Borda azul */
+    border-radius: 20px;
+    padding: 0 2.5rem 0 1rem; /* Espaço para o botão X */
+    font-size: 14px;
+    color: #1f2937;
+    outline: none;
+  }
+  
+  .search-bar::placeholder {
+    color: #6b7280;
+  }
+  
+  .search-bar:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+  
+  .close-search-button {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Ajustar abas para mobile */
+  .tab-container {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .tab-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .tab-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .tab-button.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
+  }

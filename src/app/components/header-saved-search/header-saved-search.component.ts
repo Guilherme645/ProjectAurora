@@ -13,13 +13,15 @@ export class HeaderSavedSearchComponent implements OnInit {
   isMobile: boolean = false;
   isCollapsed: boolean = false;
   isSearchOpen: boolean = false;
+  searchQuery: string = '';
   selectedOption: string = 'Mais relevantes';
-  selectedTab: string = 'brutos';
+  selectedTab: string = 'todas';
   selectAll: boolean = false;
 
   @Output() selectAllEvent = new EventEmitter<boolean>();
   @Output() filterNewsEvent = new EventEmitter<string>();
-  @Output() searchChange = new EventEmitter<string>(); // Novo evento para pesquisa
+  @Output() searchChange = new EventEmitter<string>();
+  @Output() sidebarToggle = new EventEmitter<void>();
 
   ngOnInit(): void {
     this.checkScreenSize();
@@ -27,15 +29,29 @@ export class HeaderSavedSearchComponent implements OnInit {
 
   @HostListener('window:resize', [])
   checkScreenSize(): void {
+    const previousIsMobile = this.isMobile;
     this.isMobile = window.innerWidth <= 768;
+    // Só redefinir isSearchOpen se o estado de isMobile mudar (evita fechar a busca ao abrir o teclado)
+    if (previousIsMobile !== this.isMobile) {
+      this.isSearchOpen = !this.isMobile;
+    }
+    console.log('checkScreenSize - isMobile:', this.isMobile, 'isSearchOpen:', this.isSearchOpen);
   }
 
   toggleSearch(): void {
     this.isSearchOpen = !this.isSearchOpen;
+    if (!this.isSearchOpen) {
+      this.searchQuery = '';
+      this.searchChange.emit('');
+    }
+    console.log('toggleSearch - isSearchOpen:', this.isSearchOpen);
   }
 
-  closeHighSearch(): void {
+  closeSearch(): void {
     this.isSearchOpen = false;
+    this.searchQuery = '';
+    this.searchChange.emit('');
+    console.log('closeSearch - isSearchOpen:', this.isSearchOpen);
   }
 
   openBusca(): void {
@@ -49,14 +65,25 @@ export class HeaderSavedSearchComponent implements OnInit {
   @HostListener('document:keydown.escape')
   handleEscape(): void {
     this.closeBusca();
+    if (this.isSearchOpen) {
+      this.closeSearch();
+    }
   }
 
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: Event): void {
     const target = event.target as HTMLElement;
-    if (!target.closest('app-input-busca') && !target.closest('app-header')) {
+    // Evitar fechar a busca se o clique for dentro do input de busca
+    if (
+      !target.closest('app-header-saved-search') &&
+      !target.closest('input.search-bar') // Não fechar se clicar na barra de busca
+    ) {
       this.closeBusca();
+      if (this.isSearchOpen) {
+        this.closeSearch();
+      }
     }
+    console.log('handleClickOutside - target:', target.tagName, 'isSearchOpen:', this.isSearchOpen);
   }
 
   toggleSelectAll(): void {
@@ -69,13 +96,19 @@ export class HeaderSavedSearchComponent implements OnInit {
     this.isDropdownOpen = false;
   }
 
-  selectTab(tab: string): void {
+  setSelectedTab(tab: string): void {
     this.selectedTab = tab;
     this.filterNewsEvent.emit(tab);
+    console.log('setSelectedTab:', tab);
   }
 
-  // Método para receber a pesquisa do SimpleInputSearchComponent
+  toggleSidebar(): void {
+    this.sidebarToggle.emit();
+    console.log('toggleSidebar chamado');
+  }
+
   onSearchChange(query: string): void {
     this.searchChange.emit(query);
+    console.log('onSearchChange:', query);
   }
 }

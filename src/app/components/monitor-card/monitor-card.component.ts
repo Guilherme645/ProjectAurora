@@ -11,7 +11,9 @@ export class MonitorCardComponent {
   @Input() startDate!: string;
   @Input() endDate!: string;
   @Input() status!: string;
+  @Input() isMobile: boolean = false;
 
+  
   // Determina se o sino deve ser exibido (apenas para status "Ativa")
   get showBellIcon(): boolean {
     return this.status === 'Ativa';

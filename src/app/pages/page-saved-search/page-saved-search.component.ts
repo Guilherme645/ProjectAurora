@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DataService, MonitorCard } from 'src/app/services/data.service'; // Import MonitorCard interface
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { DataService, MonitorCard } from 'src/app/services/data.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { Subscription } from 'rxjs';
 
@@ -12,29 +12,29 @@ import { Subscription } from 'rxjs';
 export class PageSavedSearchComponent implements OnInit, OnDestroy {
   noticias: any[] = [];
   filteredNoticias: any[] = [];
-  isMobile: boolean = false;
   isSidebarOpen: boolean = false;
   allSelected: boolean = false;
   currentUser: string = 'Superior Tribunal Federal';
-  selectedTab: string = 'todos';
+  selectedTab: string = 'Todas as buscas';
   selectedOption: string = 'Mais relevantes';
   isDropdownOpen: boolean = false;
   selectedMentionsCount: number = 0;
   showScrollTop: boolean = false;
   showScrollTopButton: boolean = false;
-  isSearchOpen = false;
+  isSearchOpen: boolean = false;
   page: number = 1;
   pageSize: number = 10;
   isLoading: boolean = false;
   hasMoreData: boolean = true;
   errorMessage: string | null = null;
-  showDiscardModal = false;
+  showDiscardModal: boolean = false;
   modalToClose: 'edit' | 'duplicate' | null = null;
   modalAberto: boolean = false;
   duplicateModalAberto: boolean = false;
   removeModalAberto: boolean = false;
   modalData: any;
   modalContext: 'edit' | 'new' = 'edit';
+  @Input() isMobile: boolean = false;
 
   monitorCards: MonitorCard[] = [];
   filteredMonitorCards: MonitorCard[] = [];
@@ -44,6 +44,8 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
   constructor(private modalService: ModalService, private dataService: DataService) {}
 
   ngOnInit() {
+    this.checkIfMobile();
+    window.addEventListener('resize', () => this.checkIfMobile());
     this.loadMonitorCards();
     this.subscriptions.add(
       this.modalService.editModalState$.subscribe(state => {
@@ -67,6 +69,12 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+    window.removeEventListener('resize', () => this.checkIfMobile());
+  }
+
+  checkIfMobile() {
+    this.isMobile = window.innerWidth <= 640;
+    console.log('PageSavedSearchComponent - isMobile:', this.isMobile);
   }
 
   loadMonitorCards() {
@@ -76,7 +84,8 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
       this.dataService.getMonitorCards().subscribe({
         next: (data) => {
           this.monitorCards = data;
-          this.filteredMonitorCards = [...this.monitorCards];
+          this.filterMonitorCardsByTab();
+          console.log('filteredMonitorCards:', this.filteredMonitorCards);
           this.isLoading = false;
         },
         error: (error) => {
@@ -90,9 +99,42 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
 
   onUserChange(user: string) {
     this.currentUser = user;
-    // Add logic if user change affects monitorCards
   }
 
+  setActiveTab(tab: string) {
+    console.log('setActiveTab:', tab);
+    switch (tab) {
+      case 'todas':
+        this.selectedTab = 'Todas as buscas';
+        break;
+      case 'ativas':
+        this.selectedTab = 'Ativas';
+        break;
+      case 'pendentes':
+        this.selectedTab = 'Pendentes';
+        break;
+      default:
+        this.selectedTab = 'Todas as buscas';
+    }
+    this.filterMonitorCardsByTab();
+  }
+
+  filterMonitorCardsByTab() {
+    console.log('filterMonitorCardsByTab - selectedTab:', this.selectedTab);
+    if (this.selectedTab === 'Todas as buscas') {
+      this.filteredMonitorCards = [...this.monitorCards];
+    } else if (this.selectedTab === 'Ativas') {
+      this.filteredMonitorCards = this.monitorCards.filter(card => card.status.toLowerCase() === 'ativa');
+    } else if (this.selectedTab === 'Pendentes') {
+      this.filteredMonitorCards = this.monitorCards.filter(card => card.status.toLowerCase() === 'pendente');
+    }
+    console.log('filteredMonitorCards após filtro:', this.filteredMonitorCards);
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    console.log('toggleSidebar - isSidebarOpen:', this.isSidebarOpen);
+  }
 
   confirmDiscard() {
     if (this.modalToClose === 'edit') {
@@ -103,7 +145,7 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
     this.showDiscardModal = false;
     this.modalToClose = null;
   }
-  
+
   cancelDiscard() {
     this.showDiscardModal = false;
     this.modalToClose = null;
@@ -113,7 +155,7 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
     console.log('Edições salvas pelo componente pai!', this.modalData);
     this.modalService.closeEditModal();
     this.modalService.closeDuplicateModal();
-    this.loadMonitorCards(); // Refresh data after saving edits
+    this.loadMonitorCards();
   }
 
   onCancelRemove() {
@@ -123,43 +165,52 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
   onConfirmRemove() {
     console.log('Busca removida!', this.modalData);
     this.modalService.closeRemoveModal();
-    this.loadMonitorCards(); // Refresh data after removal
+    this.loadMonitorCards();
   }
-
-  
 
   onSearchChange(query: string) {
+    console.log('onSearchChange:', query);
     const searchTerm = query.toLowerCase().trim();
     if (!searchTerm) {
-      this.filteredMonitorCards = [...this.monitorCards];
+      this.filterMonitorCardsByTab();
     } else {
       this.filteredMonitorCards = this.monitorCards.filter(card =>
-        card.title.toLowerCase().includes(searchTerm) ||
-        card.startDate.toLowerCase().includes(searchTerm) ||
-        card.endDate.toLowerCase().includes(searchTerm) ||
-        card.status.toLowerCase().includes(searchTerm)
+        (card.title.toLowerCase().includes(searchTerm) ||
+         card.startDate.toLowerCase().includes(searchTerm) ||
+         card.endDate.toLowerCase().includes(searchTerm) ||
+         card.status.toLowerCase().includes(searchTerm)) &&
+        (this.selectedTab === 'Todas as buscas' ||
+         (this.selectedTab === 'Ativas' && card.status.toLowerCase() === 'ativa') ||
+         (this.selectedTab === 'Pendentes' && card.status.toLowerCase() === 'pendente'))
       );
     }
+    console.log('filteredMonitorCards após busca:', this.filteredMonitorCards);
   }
-
 
   closeEditModal() {
     this.modalContext = 'edit';
+    this.modalToClose = 'edit';
     this.showDiscardModal = true;
   }
-  
+
   closeDuplicateModal() {
     this.modalContext = 'new';
+    this.modalToClose = 'duplicate';
     this.showDiscardModal = true;
   }
-  
+
   onCancelDiscard() {
     this.showDiscardModal = false;
+    this.modalToClose = null;
   }
-  
+
   onConfirmDiscard() {
     this.showDiscardModal = false;
-    this.modalService.closeEditModal();
-    this.modalService.closeDuplicateModal();
+    if (this.modalToClose === 'edit') {
+      this.modalService.closeEditModal();
+    } else if (this.modalToClose === 'duplicate') {
+      this.modalService.closeDuplicateModal();
+    }
+    this.modalToClose = null;
   }
 }

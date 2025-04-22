@@ -1,5 +1,5 @@
 <!-- monitor-card.component.html -->
-<div class="relative bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+<div *ngIf="!isMobile" class="relative bg-white shadow-md rounded-lg p-6 w-full max-w-md">
   <!-- Barra colorida à esquerda -->
   <div
     class="absolute left-0 top-0 h-full w-1 rounded-l-lg"
@@ -127,6 +127,69 @@
           stroke-width="2"
           d="M9 5l7 7-7 7"
         ></path>
+      </svg>
+    </button>
+  </div>
+</div>
+<!-- VERSÃO MOBILE -->
+<div *ngIf="isMobile" class="flex flex-col w-[324px] h-[329px] bg-white rounded-[12px] overflow-hidden shadow border border-gray-200">
+  <!-- Topo -->
+  <div class="flex flex-row items-center px-4 py-4 gap-2 bg-[#FAFAFA] border-b border-gray-200 rounded-t-[12px]">
+    <div class="w-[2px] h-[38px]"
+      [ngClass]="{
+        'bg-teal-500': status === 'Ativa',
+        'bg-blue-500': status === 'Pendente',
+        'bg-red-500': status === 'Desativada'
+      }"
+    ></div>
+    <div class="flex-1 text-sm font-medium text-black">{{ title }}</div>
+    <span *ngIf="showBellIcon" class="cursor-pointer" title="Essa busca possui o alerta configurado">
+      <!-- Ícone do sino -->
+      <svg width="20" height="20" fill="none" viewBox="0 0 21 20" xmlns="http://www.w3.org/2000/svg" class="text-gray-500">
+        <path d="M5.5 6.66667C5.5 5.34059 6.02678 4.06882 6.96447 3.13114..." fill="currentColor"/>
+        <path d="M9.08331 17.5C9.2228 17.7537..." stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <button class="ml-auto text-gray-500" (click)="optionSearch.toggleMenu($event)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01"/>
+      </svg>
+    </button>
+    <app-option-search #optionSearch [cardData]="cardData"></app-option-search>
+  </div>
+
+  <!-- Informações -->
+  <div class="flex flex-col justify-between flex-1 px-4 py-4 gap-4 text-sm">
+    <div class="flex justify-between text-gray-600">
+      <span>Início do monitoramento:</span>
+      <span class="text-gray-900 font-medium">{{ startDate }}</span>
+    </div>
+    <div class="border-b border-gray-200"></div>
+    <div class="flex justify-between text-gray-600">
+      <span>Fim do monitoramento:</span>
+      <span class="text-gray-900 font-medium">{{ endDate }}</span>
+    </div>
+    <div class="border-b border-gray-200"></div>
+    <div class="flex justify-between items-center text-gray-600">
+      <span>Status:</span>
+      <span class="px-2 py-1 text-xs rounded font-medium"
+        [ngClass]="{
+          'bg-teal-100 text-teal-800': status === 'Ativa',
+          'bg-blue-100 text-blue-800': status === 'Pendente',
+          'bg-red-100 text-red-800': status === 'Desativada'
+        }">
+        {{ status }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Botão -->
+  <div class="px-4 pb-4">
+    <button class="w-full bg-gray-800 text-white text-sm font-medium py-2 rounded-lg hover:bg-gray-900 flex justify-center items-center gap-2"
+      [routerLink]="['/result-saved-search']">
+      Detalhe da busca
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
       </svg>
     </button>
   </div>

@@ -1,119 +1,159 @@
-<div *ngIf="!isMobile" class="layout-container flex">
-  <!-- Sidebar fixa -->
-  <div class="bg-neutral-800 text-white fixed h-full w-80 z-30">
-    <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
-  </div>
-
-  <!-- Conteúdo principal -->
-  <div class="main-content ml-80 overflow-x-hidden overflow-y-auto h-screen">
-    <!-- Cabeçalho fixo -->
-    <div class="header-wrapper fixed top-0 left-80 right-0 z-10 bg-white">
-      <app-header-saved-search (searchChange)="onSearchChange($event)"></app-header-saved-search>
-    </div>
-
-    <!-- Cards de monitoramento com espaçamento para o header -->
-    <main class="main px-6 pt-20 pb-8">
-      <!-- Loading state -->
-      <div *ngIf="isLoading" class="text-center py-4">
-        <p>Carregando...</p>
-      </div>
-
-      <!-- Error state -->
-      <div *ngIf="errorMessage && !isLoading" class="text-center py-4 text-red-500">
-        <p>{{ errorMessage }}</p>
-      </div>
-
-      <!-- Monitor Cards -->
-      <div *ngIf="!isLoading && !errorMessage" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 z-0 relative">
-        <app-monitor-card
+<div class="relative w-full h-auto bg-white" id="workspaceContainer">
+  <!-- Versão Mobile -->
+  <div *ngIf="isMobile" class="flex flex-col bg-white rounded-[12px] overflow-hidden shadow border border-gray-200">
+    <!-- Cabeçalho Mobile -->
+    <div class="header-wrapper-mobile z-10 bg-white w-[375px] h-[136px]">
+      <app-header-saved-search
+      (searchChange)="onSearchChange($event)"
+      (filterNewsEvent)="setActiveTab($event)"
+      (sidebarToggle)="toggleSidebar()"
+    ></app-header-saved-search>    </div>
+  
+    <!-- Conteúdo principal -->
+    <div class="main-content-mobile overflow-x-hidden overflow-y-auto h-screen pt-4">      <!-- Cards de monitoramento -->
+      <main class="main px-4 pb-8"> <!-- Removido pt-4 para minimizar o espaço -->
+        <!-- Loading state -->
+        <div *ngIf="isLoading" class="text-center py-4">
+          <p>Carregando...</p>
+        </div>
+  
+        <!-- Error state -->
+        <div *ngIf="errorMessage && !isLoading" class="text-center py-4 text-red-500">
+          <p>{{ errorMessage }}</p>
+        </div>
+  
+        <!-- Monitor Cards -->
+        <div *ngIf="!isLoading && !errorMessage && isMobile" class="grid grid-cols-1 gap-4 z-0 relative">
+          <app-monitor-card
           *ngFor="let card of filteredMonitorCards"
           [title]="card.title"
           [startDate]="card.startDate"
           [endDate]="card.endDate"
           [status]="card.status"
+          [isMobile]="isMobile"
         ></app-monitor-card>
-      </div>
-    </main>
+        </div>
+      </main>
+    </div>
   </div>
-</div>
 
-<!-- Backdrop para todos os modals -->
-<div *ngIf="modalAberto || duplicateModalAberto || removeModalAberto" class="modal-backdrop"></div>
+  <!-- Versão Desktop -->
+  <div *ngIf="!isMobile" class="layout-container flex">
+    <!-- Sidebar fixa -->
+    <div class="bg-neutral-800 text-white fixed h-full w-80 z-30">
+      <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
+    </div>
 
-<!-- Modal de Edição -->
-<div
-  *ngIf="modalAberto"
-  class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
-  role="dialog"
-  aria-modal="true"
->
-  <button
-    type="button"
-    aria-label="Fechar"
-    class="close-modal-button absolute z-[1001] top-4 right-4"
-    (click)="closeEditModal()"
+    <!-- Conteúdo principal -->
+    <div class="main-content ml-80 overflow-x-hidden overflow-y-auto h-screen">
+      <!-- Cabeçalho fixo -->
+      <div class="header-wrapper fixed top-0 left-80 right-0 z-10 bg-white">
+        <app-header-saved-search (searchChange)="onSearchChange($event)"></app-header-saved-search>
+      </div>
+
+      <!-- Cards de monitoramento com espaçamento para o header -->
+      <main class="main px-6 pt-20 pb-8">
+        <!-- Loading state -->
+        <div *ngIf="isLoading" class="text-center py-4">
+          <p>Carregando...</p>
+        </div>
+
+        <!-- Error state -->
+        <div *ngIf="errorMessage && !isLoading" class="text-center py-4 text-red-500">
+          <p>{{ errorMessage }}</p>
+        </div>
+
+        <!-- Monitor Cards -->
+        <div *ngIf="!isLoading && !errorMessage" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 z-0 relative">
+          <app-monitor-card
+            *ngFor="let card of filteredMonitorCards"
+            [title]="card.title"
+            [startDate]="card.startDate"
+            [endDate]="card.endDate"
+            [status]="card.status"
+          ></app-monitor-card>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Backdrop para todos os modals -->
+  <div *ngIf="modalAberto || duplicateModalAberto || removeModalAberto" class="modal-backdrop"></div>
+
+  <!-- Modal de Edição -->
+  <div
+    *ngIf="modalAberto"
+    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
+    role="dialog"
+    aria-modal="true"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+    <button
+      type="button"
+      aria-label="Fechar"
+      class="close-modal-button absolute z-[1001] top-4 right-4"
+      (click)="closeEditModal()"
     >
-      <path d="M18 6 6 18"></path>
-      <path d="M6 6l12 12"></path>
-    </svg>
-  </button>
-  <app-edit-search-basic-information (saveEdits)="saveEdits()"></app-edit-search-basic-information>
-</div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M18 6 6 18"></path>
+        <path d="M6 6l12 12"></path>
+      </svg>
+    </button>
+    <app-edit-search-basic-information (saveEdits)="saveEdits()"></app-edit-search-basic-information>
+  </div>
 
-<!-- Modal de Duplicação -->
-<div
-  *ngIf="duplicateModalAberto"
-  class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
-  role="dialog"
-  aria-modal="true"
->
-  <button
-    type="button"
-    aria-label="Fechar"
-    class="close-modal-button absolute z-[1001] top-4 right-4"
-    (click)="closeDuplicateModal()"
+  <!-- Modal de Duplicação -->
+  <div
+    *ngIf="duplicateModalAberto"
+    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
+    role="dialog"
+    aria-modal="true"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+    <button
+      type="button"
+      aria-label="Fechar"
+      class="close-modal-button absolute z-[1001] top-4 right-4"
+      (click)="closeDuplicateModal()"
     >
-      <path d="M18 6 6 18"></path>
-      <path d="M6 6l12 12"></path>
-    </svg>
-  </button>
-  <app-duplicate-search (saveEdits)="saveEdits()"></app-duplicate-search>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M18 6 6 18"></path>
+        <path d="M6 6l12 12"></path>
+      </svg>
+    </button>
+    <app-duplicate-search (saveEdits)="saveEdits()"></app-duplicate-search>
+  </div>
+
+  <!-- Modal de Remoção -->
+  <div
+    *ngIf="removeModalAberto"
+    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
+    role="dialog"
+    aria-modal="true"
+  >
+    <app-remove-saved-search (cancel)="onCancelRemove()" (confirmRemove)="onConfirmRemove()"></app-remove-saved-search>
+  </div>
+
+  <app-discard-changes-modal
+    *ngIf="showDiscardModal"
+    [context]="modalContext"
+    (cancel)="onCancelDiscard()"
+    (confirm)="onConfirmDiscard()"
+  ></app-discard-changes-modal>
 </div>
-
-<!-- Modal de Remoção -->
-<div
-  *ngIf="removeModalAberto"
-  class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
-  role="dialog"
-  aria-modal="true"
->
-  <app-remove-saved-search (cancel)="onCancelRemove()" (confirmRemove)="onConfirmRemove()"></app-remove-saved-search>
-</div>
-
-<app-discard-changes-modal
-  *ngIf="showDiscardModal"
-  [context]="modalContext"
-  (cancel)="onCancelDiscard()"
-  (confirm)="onConfirmDiscard()"
-></app-discard-changes-modal>
-
