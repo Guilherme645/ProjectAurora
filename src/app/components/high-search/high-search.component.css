@@ -12,22 +12,28 @@ html, body {
 .tooltip-any-words,
 .tooltip-exact-phrase,
 .tooltip-none-words {
-  left: 50%; /* Centraliza o tooltip em relação ao ícone */
-  transform: translateX(-50%); /* Ajusta para centralizar */
-  top: 100%; /* Posiciona abaixo do ícone */
-  margin-top: 0.5rem; /* mt-2 */
-  white-space: nowrap; /* Impede quebra de texto */
-  background-color: #1f2937; /* bg-gray-900 */
-  color: #ffffff; /* text-white */
-  font-size: 0.75rem; /* text-xs */
-  font-weight: 400; /* font-normal */
-  padding: 0.5rem 1rem; /* py-2 px-4 */
-  border-radius: 0.375rem; /* rounded-md */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  margin-top: 0.5rem;
+  white-space: nowrap;
+  background-color: #1f2937;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 400;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  z-index: 1000; /* Garante que o tooltip fique acima de outros elementos */
+  z-index: 1000;
 }
+.inputs:focus {
+  border: 1px solid #2563EB !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 
 /* Ajuste da seta para todos os tooltips */
 .tooltip-all-words::after,
@@ -38,24 +44,24 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   border-width: 8px;
-  border-color: transparent transparent #1f2937 transparent; /* Seta para cima */
+  border-color: transparent transparent #1f2937 transparent;
 }
 
 /* Ajustes específicos de largura e posicionamento */
 .tooltip-all-words {
-  min-width: 180px; /* "Digite as palavras que você deseja" */
+  min-width: 180px;
 }
 
 .tooltip-any-words {
-  min-width: 200px; /* "Digite as palavras que podem aparecer" */
+  min-width: 200px;
 }
 
 .tooltip-exact-phrase {
-  min-width: 280px; /* "Digite as palavras ou frase que devem aparecer" */
+  min-width: 280px;
 }
 
 .tooltip-none-words {
-  min-width: 240px; /* "Digite as palavras que não devem aparecer" */
+  min-width: 240px;
 }
 
 /* Exibe o tooltip ao passar o mouse */
@@ -80,12 +86,19 @@ html, body {
   box-sizing: border-box;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9999;
+  overflow-x: hidden; /* Impede scroll horizontal no contêiner principal */
 }
 
 /* 🟢 Estilo da barra de rolagem */
 .advanced-search-container {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden; /* Impede scroll horizontal */
+  padding-left: 0;
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza os acordeões */
 }
 
 .advanced-search-container::-webkit-scrollbar {
@@ -109,7 +122,7 @@ html, body {
   text-align: left;
 }
 
-/* 🟢 Estilo do texto dentro dos tooltips (sem margin-left indesejado) */
+/* 🟢 Estilo do texto dentro dos tooltips */
 .text-xs {
   font-size: 13px;
   color: #ffffff;
@@ -121,7 +134,11 @@ html, body {
 /* 🟢 Seção do Accordion */
 .accordion-section {
   flex-shrink: 0;
+  width: 428px; /* Largura fixa de 428px */
+  margin-left: 24px; /* Margem esquerda de 24px */
+  margin-right: 24px; /* Margem direita de 24px */
   border-bottom: 1px solid #e5e7eb;
+  box-sizing: border-box; /* Garante que padding não aumente a largura */
 }
 
 .accordion-header {
@@ -129,9 +146,10 @@ html, body {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 16px 24px;
+  padding: 16px 0; /* Remove padding lateral para alinhar com margens */
   font-size: 14px;
   color: #111827;
+  font-weight: 500; /* Peso da fonte reduzido para 500 */
 }
 
 .accordion-content {
@@ -142,13 +160,14 @@ html, body {
 
 .accordion-content.show {
   display: block;
-  margin-left: 12px;
+  margin-left: 0; /* Remove margem esquerda para alinhar com o divisor */
+  margin-right: 0; /* Alinha com o divisor */
 }
 
-/* 🟢 Campos de entrada */
+/* 🟢 Campos de entrada (list items) */
 .input-field,
 .date-field {
-  width: 100%;
+  width: 380px; /* 428px - 24px (esquerda) - 24px (direita) */
   padding: 12px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -156,6 +175,9 @@ html, body {
   outline: none;
   font-size: 14px;
   margin-bottom: 10px;
+  margin-left: 24px; /* Alinha com a margem do acordeão */
+  margin-right: 24px; /* Alinha com a margem do acordeão */
+  box-sizing: border-box;
 }
 
 .date-field:focus {
@@ -164,7 +186,7 @@ html, body {
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
 }
 
-/* 🟢 Checkbox */
+/* 🟢 Checkbox (list items) */
 .custom-checkbox {
   display: flex;
   align-items: center;
@@ -173,6 +195,8 @@ html, body {
   color: #111827;
   cursor: pointer;
   margin-bottom: 8px;
+  margin-left: 24px; /* Alinha com a margem do acordeão */
+  margin-right: 24px; /* Alinha com a margem do acordeão */
 }
 
 .custom-checkbox input[type="checkbox"] {
@@ -282,7 +306,9 @@ html, body {
   position: relative;
   display: flex;
   gap: 12px;
-  width: 100%;
+  width: 380px; /* 428px - 24px (esquerda) - 24px (direita) */
+  margin-left: 24px; /* Alinha com a margem do acordeão */
+  margin-right: 24px; /* Alinha com a margem do acordeão */
 }
 
 .modal-overlay {
@@ -308,6 +334,7 @@ html, body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin-left: -790px;
 }
+
 
 @media (max-width: 768px) {
   .calendar-modal-container {

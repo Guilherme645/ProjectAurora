@@ -1,3 +1,4 @@
+
 <div class="layout-container flex min-h-screen">
   <!-- Sidebar fixa -->
   <div class="bg-neutral-800 text-white fixed h-full">
@@ -29,16 +30,19 @@
   >
     <!-- Container interno para o conteúdo -->
     <div class="content-container" style="padding: 52px 0;">
+   
+
       <!-- Player -->
-      <div class="px-4">
+      <div *ngIf="!isLoading && !errorMessage" class="px-4">
         <app-player
           [showEntitiesDrawer]="showEntitiesDrawer"
           [ngClass]="{'player-minimized': isPlayerMinimized}"
           (descriptionEmitter)="onDescriptionReceived($event)">
         </app-player>
       </div>
+
       <!-- Descrição do vídeo com marcação de entidades -->
-      <div class="px-4" style="margin-top: 40px;">
+      <div *ngIf="!isLoading && !errorMessage" class="px-4" style="margin-top: 40px;">
         <p class="text-gray-700 text-sm leading-relaxed" [innerHTML]="videoDescription || 'Nenhuma descrição disponível'"></p>
       </div>
     </div>
@@ -64,17 +68,18 @@
   </div>
 
   <!-- Modal para opções de entidade -->
-<!-- Modal para opções de entidade -->
-<app-modal-entitie-option
-  *ngIf="isModalVisible && selectedEntity"
-  [entityName]="selectedEntity.entity!"
-  [type]="selectedEntity.type!"
-  [position]="modalPosition"
-  (close)="closeModal()"
-  (addToSavedSearchEvent)="showSaveEntitiesFilter($event.entity, $event.type)"
-></app-modal-entitie-option>
+  <div *ngIf="isModalVisible && selectedEntity" class="modal-backdrop"></div>
+  <app-modal-entitie-option
+    *ngIf="isModalVisible && selectedEntity"
+    [entityName]="selectedEntity.entity!"
+    [type]="selectedEntity.type!"
+    [position]="modalPosition"
+    (close)="closeModal()"
+    (addToSavedSearchEvent)="showSaveEntitiesFilter($event.entity, $event.type)"
+  ></app-modal-entitie-option>
 
-<app-save-entities-filter
-  *ngIf="isSaveFilterVisible"
-  (close)="closeSaveEntitiesFilter()"
-></app-save-entities-filter>
+  <app-save-entities-filter
+    *ngIf="isSaveFilterVisible"
+    (close)="closeSaveEntitiesFilter()"
+  ></app-save-entities-filter>
+</div>

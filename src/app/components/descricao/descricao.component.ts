@@ -3,17 +3,9 @@ import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 
 @Component({
   selector: 'app-descricao',
-  template: `<p>{{ descricao }}</p>`,
+  template: ``,
   standalone: false,
 })
-export class DescricaoComponent implements OnInit {
-  descricao: string;
+export class DescricaoComponent{
 
-  constructor(private textoEntidadesService: TextoEntidadesService) {
-    this.descricao = '';
-  }
-
-  ngOnInit(): void {
-    this.descricao = this.textoEntidadesService.getTextoOriginal();
-  }
 }

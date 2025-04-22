@@ -1,110 +1,110 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 backdrop-blur-md">
-  <div class="modal-wrapper">
-      <div class="bg-white rounded-2xl shadow-lg w-[737px] h-[626px] p-6">
-          <div class="flex justify-between items-center border-b pb-3">
-              <div>
-                  <p class="text-lg font-semibold text-gray-900">Relatórios do Workspace</p>
-                  <p class="text-sm text-gray-500">Selecione os relatórios desejados para inserir a menção</p>
-              </div>
-              <button class="text-gray-500 hover:text-gray-800" (click)="fecharModal()">
-                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M18 6 6 18"></path>
-                      <path d="M6 6l12 12"></path>
-                  </svg>
-              </button>
+    <div class="modal-wrapper">
+      <div class="bg-white rounded-2xl shadow-md w-[737px] h-[626px] p-6 border-none">
+        <div class="flex justify-between items-center border-b pb-3">
+          <div>
+            <p class="text-lg font-semibold text-gray-900">Relatórios do Workspace</p>
+            <p class="text-sm text-gray-500">Selecione os relatórios desejados para inserir a menção</p>
           </div>
-
-          <div class="overflow-auto border border-gray-200 rounded-xl">
-              <table class="w-full border-collapse text-sm">
-                  <thead class="">
-                      <tr>
-                          <th colspan="4" class="p-3 bg-white">
-                              <div class="flex justify-between items-center">
-                                  <div class="relative w-full">
-                                      <input type="text" placeholder="Pesquisar relatório"
-                                          class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 outline-none bg-white shadow-sm">
-                                      <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500"
-                                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                          <circle cx="11" cy="11" r="8"></circle>
-                                          <path d="m21 21-4.3-4.3"></path>
-                                      </svg>
-                                  </div>
-
-                                  <button class="ml-4 text-sm text-blue-600 flex items-center whitespace-nowrap hover:text-blue-800">
-                                      <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                          <circle cx="12" cy="12" r="10"></circle>
-                                          <path d="M8 12h8"></path>
-                                          <path d="M12 8v8"></path>
-                                      </svg>
-                                      Criar novo relatório
-                                  </button>
-                              </div>
-                          </th>
-                      </tr>
-                      <tr class="bg-gray-50 text-gray-600">
-                        <th class="p-3 w-10">
-                            <input type="checkbox" class="rounded border-gray-300 focus:ring focus:ring-blue-300">
-                        </th>
-                        <th class="p-3 text-left">NOME</th>
-                        <th class="p-3 text-left">CRIADO POR</th>
-                        <th class="p-3 text-left">CRIADO EM</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-gray-100">
-                      <tr *ngFor="let relatorio of getRelatoriosPaginados()" class="hover:bg-gray-50">
-                          <td class="p-3">
-                              <input type="checkbox" class="rounded border-gray-300 focus:ring focus:ring-blue-300">
-                          </td>
-                          <td class="p-3">{{ relatorio.nome }}</td>
-                          <td class="p-3 flex items-center">
-                            <div class="w-[38px] h-[38px] rounded-full text-white flex items-center justify-center shadow-sm"
-                            [style.backgroundColor]="relatorio.corFundo"
-                            [style.color]="relatorio.corTexto"
-                                                        style=" font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: -0.01em; text-align: center;">
-                           {{ relatorio.sigla }}
-                       </div>
-
-                              <span class="ml-2 text-gray-800">{{ relatorio.criadoPor }}</span>
-                          </td>
-                          <td class="p-3 text-gray-600">{{ relatorio.criadoEm }}</td>
-                      </tr>
-                  </tbody>
-              </table>
+          <button class="text-gray-500 hover:text-gray-800" (click)="fecharModal()">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+  
+        <div class="overflow-hidden rounded-xl shadow-sm border border-gray-200 border-t border-t-[1px]">
+            <table class="w-full border-collapse text-sm">
+              <thead>
+                <tr>
+                  <th colspan="4" class="p-3 bg-white">
+                    <div class="flex justify-between items-center">
+                      <div class="relative w-full">
+                        <input type="text" placeholder="Pesquisar relatório"
+                               class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 outline-none bg-white shadow-sm placeholder-font-normal">
+                        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500"
+                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                      </div>
+          
+                      <button class="ml-4 text-sm text-blue-600 flex items-center whitespace-nowrap hover:text-blue-800">
+                        <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <path d="M8 12h8"></path>
+                          <path d="M12 8v8"></path>
+                        </svg>
+                        Criar novo relatório
+                      </button>
+                    </div>
+                  </th>
+                </tr>
+                <tr class="bg-gray-50 text-gray-500">
+                  <th class="p-3 w-10 text-[12px]">
+                    <input type="checkbox" class="rounded border-gray-300 focus:ring focus:ring-blue-300">
+                  </th>
+                  <th class="p-3 text-left text-[12px]">NOME</th>
+                  <th class="p-3 text-left text-[12px]">CRIADO POR</th>
+                  <th class="p-3 text-left text-[12px]">CRIADO EM</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <tr *ngFor="let relatorio of getRelatoriosPaginados()" class="hover:bg-gray-50">
+                  <td class="p-3">
+                    <input type="checkbox" class="rounded border-gray-300 focus:ring focus:ring-blue-300">
+                  </td>
+                  <td class="p-3">{{ relatorio.nome }}</td>
+                  <td class="p-3 flex items-center">
+                    <div class="w-[38px] h-[38px] rounded-full text-white flex items-center justify-center shadow-sm"
+                         [style.backgroundColor]="relatorio.corFundo"
+                         [style.color]="relatorio.corTexto"
+                         style="font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: -0.01em; text-align: center;">
+                      {{ relatorio.sigla }}
+                    </div>
+                    <span class="ml-2 text-gray-800">{{ relatorio.criadoPor }}</span>
+                  </td>
+                  <td class="p-3 text-gray-600">{{ relatorio.criadoEm }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-
-<div class="flex justify-between items-center mt-4">
-  <div class="flex items-center space-x-2 text-sm text-gray-800">
-      <button class="p-1 rounded hover:bg-gray-100"
-              (click)="paginaAnterior()"
-              [disabled]="paginaAtual === 1">
-          <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m15 18-6-6 6-6"></path>
-          </svg>
-      </button>
-
-      <input type="text" [value]="paginaAtual" (change)="atualizarPagina($event)"
-          class="w-[32px] h-[32px] text-center border border-gray-300 rounded-lg focus:ring focus:ring-blue-300 outline-none text-gray-800 font-normal">
-
-      <span class="text-gray-500">de</span>
-
-      <span class="text-gray-800">{{ totalPaginas }}</span>
-
-      <button class="p-1 rounded hover:bg-gray-100"
-              (click)="proximaPagina()"
-              [disabled]="paginaAtual === totalPaginas">
-          <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m9 18 6-6-6-6"></path>
-          </svg>
-      </button>
+        <div class="flex justify-between items-center mt-4">
+          <div class="flex items-center space-x-2 text-sm text-gray-800">
+            <button class="p-1 rounded hover:bg-gray-100"
+                    (click)="paginaAnterior()"
+                    [disabled]="paginaAtual === 1">
+              <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m15 18-6-6 6-6"></path>
+              </svg>
+            </button>
+  
+            <input type="text" [value]="paginaAtual" (change)="atualizarPagina($event)"
+                   class="w-[32px] h-[32px] text-center border border-gray-300 rounded-lg focus:ring focus:ring-blue-300 outline-none text-gray-800 font-normal flex items-center justify-center leading-[32px]">
+  
+            <span class="text-gray-500">de</span>
+  
+            <span class="text-gray-800">{{ totalPaginas }}</span>
+  
+            <button class="p-1 rounded hover:bg-gray-100"
+                    (click)="proximaPagina()"
+                    [disabled]="paginaAtual === totalPaginas">
+              <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
+            </button>
+          </div>
+  
+          <button class="bg-gray-900 text-white w-[138px] h-[46px] rounded-lg text-sm hover:bg-gray-800 shadow-md">
+            Inserir menção
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <button class="bg-gray-900 text-white w-[138px] h-[46px] rounded-lg text-sm hover:bg-gray-800 shadow-md">
-      Inserir menção
-  </button>
-</div>
-

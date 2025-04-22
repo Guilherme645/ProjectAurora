@@ -52,7 +52,7 @@
     <div class="space-y-4">
       <div class="flex flex-col gap-2">
         <div class="flex items-center">
-          <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
+<div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
             <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Todas essas palavras">
           </div>
           <div class="ml-2 relative inline-block group">
@@ -67,7 +67,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
+<div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
             <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Qualquer uma dessas palavras">
           </div>
           <div class="ml-2 relative inline-block group">
@@ -82,7 +82,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
+<div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
             <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Frase ou palavra exata">
           </div>
           <div class="ml-2 relative inline-block group">
@@ -97,7 +97,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400 focus-within:shadow-md">
+<div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
             <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Nenhuma dessas palavras">
           </div>
           <div class="ml-2 relative inline-block group">
@@ -150,23 +150,23 @@
     <div class="hidden lg:flex flex-col sm:flex-row gap-2">
       <div class="datepicker-container relative">
         <input 
-          class="w-full sm:w-[190px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600" 
-          type="text" 
-          placeholder="Data Início" 
-          (click)="openCalendar('start')" 
-          [value]="selectedStartDate | date: 'dd/MM/yyyy'" 
-          readonly 
-        />
+        class="inputs w-full sm:w-[190px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none" 
+        type="text" 
+        placeholder="Data Início" 
+        (click)="openCalendar('start')" 
+        [value]="selectedStartDate | date: 'dd/MM/yyyy'" 
+        readonly 
+      />
       </div>
       <div class="datepicker-container relative">
         <input 
-          class="w-full sm:w-[206px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none focus:border-blue-600 focus:ring-blue-600" 
-          type="text" 
-          placeholder="Data Fim" 
-          (click)="openCalendar('end')" 
-          [value]="selectedEndDate | date: 'dd/MM/yyyy'" 
-          readonly 
-        />
+        class="inputs w-full sm:w-[206px] h-[61px] px-3 py-2 text-sm border-none rounded-lg bg-gray-100 text-gray-500 focus:outline-none" 
+        type="text" 
+        placeholder="Data Fim" 
+        (click)="openCalendar('end')" 
+        [value]="selectedEndDate | date: 'dd/MM/yyyy'" 
+        readonly 
+      />
       </div>
     </div>
   </div>
@@ -213,6 +213,7 @@
       <div class="modal-container" *ngIf="isModalOpen">
         <app-veiculos (closeSection)="onCloseSection()"></app-veiculos>
       </div>
+      
     </div>
 
     <!-- Sentimento -->

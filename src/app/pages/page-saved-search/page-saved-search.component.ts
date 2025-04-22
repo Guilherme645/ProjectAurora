@@ -1,5 +1,5 @@
-// page-saved-search.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DataService, MonitorCard } from 'src/app/services/data.service'; // Import MonitorCard interface
 import { ModalService } from 'src/app/services/modal.service';
 import { Subscription } from 'rxjs';
 
@@ -27,95 +27,24 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
   pageSize: number = 10;
   isLoading: boolean = false;
   hasMoreData: boolean = true;
-
+  errorMessage: string | null = null;
+  showDiscardModal = false;
+  modalToClose: 'edit' | 'duplicate' | null = null;
   modalAberto: boolean = false;
   duplicateModalAberto: boolean = false;
   removeModalAberto: boolean = false;
   modalData: any;
+  modalContext: 'edit' | 'new' = 'edit';
+
+  monitorCards: MonitorCard[] = [];
+  filteredMonitorCards: MonitorCard[] = [];
 
   private subscriptions = new Subscription();
 
-  monitorCards = [
-    {
-      title: 'Executivo',
-      startDate: '30/03/2024',
-      endDate: '01/04/2024',
-      status: 'Ativa'
-    },
-    {
-      title: 'Executivo',
-      startDate: '30/03/2024',
-      endDate: '01/04/2024',
-      status: 'Pendente'
-    },
-    {
-      title: 'Entidades relevantes',
-      startDate: '25/03/2024',
-      endDate: '29/03/2024',
-      status: 'Desativada'
-    },
-    {
-      title: 'Executivo',
-      startDate: '30/03/2024',
-      endDate: '01/04/2024',
-      status: 'Ativa'
-    },
-    {
-      title: 'Executivo',
-      startDate: '30/03/2024',
-      endDate: '01/04/2024',
-      status: 'Pendente'
-    },
-    {
-      title: 'Entidades relevantes',
-      startDate: '25/03/2024',
-      endDate: '29/03/2024',
-      status: 'Desativada'
-    },
-    {
-      title: 'Executivo',
-      startDate: '30/03/2024',
-      endDate: '01/04/2024',
-      status: 'Ativa'
-    },
-    {
-      title: 'Executivo',
-      startDate: '30/03/2024',
-      endDate: '01/04/2024',
-      status: 'Pendente'
-    },
-    {
-      title: 'Entidades relevantes',
-      startDate: '25/03/2024',
-      endDate: '-',
-      status: 'Desativada'
-    },
-    {
-      title: 'Executivo',
-      startDate: '30/03/2024',
-      endDate: '01/04/2024',
-      status: 'Ativa'
-    },
-    {
-      title: 'Executivo',
-      startDate: '30/03/2024',
-      endDate: '-',
-      status: 'Pendente'
-    },
-    {
-      title: 'Entidades relevantes',
-      startDate: '25/03/2024',
-      endDate: '29/03/2024',
-      status: 'Desativada'
-    },
-  ];
-
-  filteredMonitorCards = [...this.monitorCards]; // Lista filtrada inicial
-
-
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService, private dataService: DataService) {}
 
   ngOnInit() {
+    this.loadMonitorCards();
     this.subscriptions.add(
       this.modalService.editModalState$.subscribe(state => {
         this.modalAberto = state.open;
@@ -140,22 +69,51 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  loadMonitorCards() {
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.subscriptions.add(
+      this.dataService.getMonitorCards().subscribe({
+        next: (data) => {
+          this.monitorCards = data;
+          this.filteredMonitorCards = [...this.monitorCards];
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Erro ao carregar monitorCards:', error);
+          this.errorMessage = 'Falha ao carregar os dados. Tente novamente mais tarde.';
+          this.isLoading = false;
+        }
+      })
+    );
+  }
+
   onUserChange(user: string) {
-    // Lógica para mudança de usuário
+    this.currentUser = user;
+    // Add logic if user change affects monitorCards
   }
 
-  closeEditModal() {
-    this.modalService.closeEditModal();
-  }
 
-  closeDuplicateModal() {
-    this.modalService.closeDuplicateModal();
+  confirmDiscard() {
+    if (this.modalToClose === 'edit') {
+      this.modalService.closeEditModal();
+    } else if (this.modalToClose === 'duplicate') {
+      this.modalService.closeDuplicateModal();
+    }
+    this.showDiscardModal = false;
+    this.modalToClose = null;
+  }
+  
+  cancelDiscard() {
+    this.showDiscardModal = false;
+    this.modalToClose = null;
   }
 
   saveEdits() {
     console.log('Edições salvas pelo componente pai!', this.modalData);
     this.modalService.closeEditModal();
     this.modalService.closeDuplicateModal();
+    this.loadMonitorCards(); // Refresh data after saving edits
   }
 
   onCancelRemove() {
@@ -165,13 +123,15 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
   onConfirmRemove() {
     console.log('Busca removida!', this.modalData);
     this.modalService.closeRemoveModal();
+    this.loadMonitorCards(); // Refresh data after removal
   }
 
-  // Método para filtrar os monitorCards com base na pesquisa
+  
+
   onSearchChange(query: string) {
     const searchTerm = query.toLowerCase().trim();
     if (!searchTerm) {
-      this.filteredMonitorCards = [...this.monitorCards]; // Restaura a lista completa
+      this.filteredMonitorCards = [...this.monitorCards];
     } else {
       this.filteredMonitorCards = this.monitorCards.filter(card =>
         card.title.toLowerCase().includes(searchTerm) ||
@@ -180,5 +140,26 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
         card.status.toLowerCase().includes(searchTerm)
       );
     }
+  }
+
+
+  closeEditModal() {
+    this.modalContext = 'edit';
+    this.showDiscardModal = true;
+  }
+  
+  closeDuplicateModal() {
+    this.modalContext = 'new';
+    this.showDiscardModal = true;
+  }
+  
+  onCancelDiscard() {
+    this.showDiscardModal = false;
+  }
+  
+  onConfirmDiscard() {
+    this.showDiscardModal = false;
+    this.modalService.closeEditModal();
+    this.modalService.closeDuplicateModal();
   }
 }

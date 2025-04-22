@@ -10,13 +10,69 @@
     }"
   ></div>
 
-  <!-- Título -->
+  <!-- Título e Sino -->
   <div class="flex justify-between items-center mb-4 w-full">
-    <h2 class="text-lg font-semibold text-gray-800">{{ title }}</h2>
+    <div class="flex items-center gap-2">
+      <h2 class="text-lg font-semibold text-gray-800">{{ title }}</h2>
+      <!-- Ícone do Sino com Tooltip -->
+      <span
+        *ngIf="showBellIcon"
+        class="bell-icon-wrapper relative cursor-pointer"
+        data-tooltip="Essa busca possui o alerta configurado"
+      >
+        <svg
+          width="21"
+          height="20"
+          viewBox="0 0 21 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="text-gray-500"
+        >
+          <path
+            d="M5.5 6.66667C5.5 5.34059 6.02678 4.06882 6.96447 3.13114C7.90215 2.19346 9.17392 1.66667 10.5 1.66667C11.8261 1.66667 13.0979 2.19346 14.0355 3.13114C14.9732 4.06882 15.5 5.34059 15.5 6.66667C15.5 12.5 18 14.1667 18 14.1667H3C3 14.1667 5.5 12.5 5.5 6.66667Z"
+            fill="currentColor"
+          />
+          <path
+            d="M9.08331 17.5C9.2228 17.7537 9.42785 17.9653 9.67706 18.1127C9.92626 18.26 10.2105 18.3378 10.5 18.3378C10.7895 18.3378 11.0737 18.26 11.3229 18.1127C11.5721 17.9653 11.7772 17.7537 11.9166 17.5"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M3.83335 1.66667C2.83335 3.08334 2.16669 4.75001 2.16669 6.66667"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M18.8334 6.66667C18.8334 4.75001 18.1667 3.08334 17.1667 1.66667"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+    </div>
     <div class="relative ml-auto">
-      <button class="text-gray-500 hover:text-gray-700" (click)="optionSearch.toggleMenu($event)" [attr.aria-expanded]="optionSearch.isMenuOpen" aria-label="Abrir menu de opções">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01"></path>
+      <button
+        class="text-gray-500 hover:text-gray-700"
+        (click)="optionSearch.toggleMenu($event)"
+        [attr.aria-expanded]="optionSearch.isMenuOpen"
+        aria-label="Abrir menu de opções"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 12h.01M12 12h.01M18 12h.01"
+          ></path>
         </svg>
       </button>
       <!-- Incluindo o OptionSearchComponent -->
@@ -30,12 +86,12 @@
       <span class="text-gray-600">Início do monitoramento:</span>
       <span class="text-gray-800 font-medium">{{ startDate }}</span>
     </div>
-    <hr>
+    <hr />
     <div class="flex justify-between">
       <span class="text-gray-600">Fim do monitoramento:</span>
       <span class="text-gray-800 font-medium">{{ endDate }}</span>
     </div>
-    <hr>
+    <hr />
     <div class="flex justify-between items-center">
       <span class="text-gray-600">Status:</span>
       <span
@@ -53,10 +109,24 @@
 
   <!-- Botão -->
   <div class="mt-6">
-    <button class="w-full bg-gray-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-900 flex items-center justify-center gap-2" [routerLink]="['/result-saved-search']">
+    <button
+      class="w-full bg-gray-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-900 flex items-center justify-center gap-2"
+      [routerLink]="['/result-saved-search']"
+    >
       Detalhe da busca
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        ></path>
       </svg>
     </button>
   </div>

@@ -61,6 +61,7 @@ import { ModalEntitieOptionComponent } from './components/modal-entitie-option/m
 import { SharedModule } from './shared/shared.module'; // importa o módulo com o pipe
 import { SidebarResultSavedSearchComponent } from './components/sidebar-result-saved-search/sidebar-result-saved-search.component';
 import { SaveEntitiesFilterComponent } from './components/save-entities-filter/save-entities-filter.component';
+import { DiscardChangesModalComponent } from './components/discard-changes-modal/discard-changes-modal.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { SaveEntitiesFilterComponent } from './components/save-entities-filter/s
   TextoEntidadesComponent,
   ModalEntitieOptionComponent,
   SidebarResultSavedSearchComponent,
-  SaveEntitiesFilterComponent
+  SaveEntitiesFilterComponent,
+  DiscardChangesModalComponent
   
   ],
   imports: [

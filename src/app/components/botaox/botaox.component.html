@@ -1,17 +1,22 @@
 <div class="close-button-container">
-    <button
-      type="button"
-      (click)="close()"
-      class="close-button"
-      aria-label="Close"
-    >
-      <svg class="lg:hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="4" x2="20" y1="12" y2="12"></line>
-        <line x1="4" x2="20" y1="6" y2="6"></line>
-        <line x1="4" x2="20" y1="18" y2="18"></line>
-      </svg>
-  
-      <span class="hidden lg:block text-2xl font-bold">×</span>
-    </button>
-  </div>
-  
+  <button
+    type="button"
+    (click)="close()"
+    class="close-button"
+    aria-label="Close"
+  >
+    <!-- Ícone para dispositivos móveis (lg:hidden) -->
+    <svg class="lg:hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 50 50" fill="none">
+      <path d="M2 9C2 4.58172 5.58172 1 10 1H40C44.4183 1 48 4.58172 48 9V39C48 43.4183 44.4183 47 40 47H10C5.58172 47 2 43.4183 2 39V9Z" fill="white"/>
+      <path d="M10 1.5H40C44.1421 1.5 47.5 4.85786 47.5 9V39C47.5 43.1421 44.1421 46.5 40 46.5H10C5.85786 46.5 2.5 43.1421 2.5 39V9C2.5 4.85786 5.85787 1.5 10 1.5Z" stroke="#E5E7EB"/>
+      <path d="M30 19L20 29" stroke="#6B7280" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M20 19L30 29" stroke="#6B7280" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <!-- Novo ícone para desktop (lg:block) -->
+    <svg class="hidden lg:block w-5 h-5" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 5L5 15" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 5L15 15" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>

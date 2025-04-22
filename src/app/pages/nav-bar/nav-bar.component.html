@@ -26,13 +26,24 @@
     </div>
 
     <!-- Modais de Busca -->
-    <div *ngIf="isSearchOpen" 
-         class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-20"
-         [ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}">
-      <div class="p-4 w-full h-full">
-        <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
-      </div>
-    </div>
+    <!-- Fundo escurecido do drawer -->
+<div 
+*ngIf="isSearchOpen"
+class="fixed inset-0 bg-black bg-opacity-40 z-50"
+(click)="closeHighSearch()">
+</div>
+
+<!-- Drawer lateral (agora com z-50 para ficar acima do fundo escuro) -->
+<div 
+*ngIf="isSearchOpen" 
+class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-50"
+[ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}"
+(click)="$event.stopPropagation()">
+<div class="p-4 w-full h-full">
+  <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
+</div>
+</div>
+
 
     <app-input-busca #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
 

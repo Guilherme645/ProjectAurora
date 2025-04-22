@@ -13,7 +13,18 @@
 
     <!-- Cards de monitoramento com espaçamento para o header -->
     <main class="main px-6 pt-20 pb-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 z-0 relative">
+      <!-- Loading state -->
+      <div *ngIf="isLoading" class="text-center py-4">
+        <p>Carregando...</p>
+      </div>
+
+      <!-- Error state -->
+      <div *ngIf="errorMessage && !isLoading" class="text-center py-4 text-red-500">
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <!-- Monitor Cards -->
+      <div *ngIf="!isLoading && !errorMessage" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 z-0 relative">
         <app-monitor-card
           *ngFor="let card of filteredMonitorCards"
           [title]="card.title"
@@ -26,17 +37,20 @@
   </div>
 </div>
 
+<!-- Backdrop para todos os modals -->
+<div *ngIf="modalAberto || duplicateModalAberto || removeModalAberto" class="modal-backdrop"></div>
+
 <!-- Modal de Edição -->
 <div
   *ngIf="modalAberto"
-  class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]"
+  class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
   role="dialog"
   aria-modal="true"
 >
   <button
     type="button"
     aria-label="Fechar"
-    class="close-modal-button absolute z-1000 top-4 right-4"
+    class="close-modal-button absolute z-[1001] top-4 right-4"
     (click)="closeEditModal()"
   >
     <svg
@@ -59,14 +73,14 @@
 <!-- Modal de Duplicação -->
 <div
   *ngIf="duplicateModalAberto"
-  class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1]"
+  class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
   role="dialog"
   aria-modal="true"
 >
   <button
     type="button"
     aria-label="Fechar"
-    class="close-modal-button absolute z-1000 top-4 right-4"
+    class="close-modal-button absolute z-[1001] top-4 right-4"
     (click)="closeDuplicateModal()"
   >
     <svg
@@ -89,9 +103,17 @@
 <!-- Modal de Remoção -->
 <div
   *ngIf="removeModalAberto"
-  class="remove-modal fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]"
+  class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
   role="dialog"
   aria-modal="true"
 >
   <app-remove-saved-search (cancel)="onCancelRemove()" (confirmRemove)="onConfirmRemove()"></app-remove-saved-search>
 </div>
+
+<app-discard-changes-modal
+  *ngIf="showDiscardModal"
+  [context]="modalContext"
+  (cancel)="onCancelDiscard()"
+  (confirm)="onConfirmDiscard()"
+></app-discard-changes-modal>
+

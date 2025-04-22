@@ -10,8 +10,7 @@ import { Router } from '@angular/router';
 export class HighSearchComponent {
   isMobile = window.innerWidth <= 768;
   showCalendar: boolean = false;
-  selectedStartDate: Date | null = null;
-  selectedEndDate: Date | null = null;
+
   selectedInput: 'start' | 'end' | null = null;
   dateError: string | null = null;
   @Input() isVisible: boolean = false;
@@ -19,7 +18,11 @@ export class HighSearchComponent {
   isSidebarOpen: boolean = false;
   selectedStartDateMobile: string = ''; 
   selectedEndDateMobile: string = '';   
-
+  selectedStartDate: Date | null = null;
+  selectedEndDate: Date | null = null;
+  
+  etapaSelecionando: 'start' | 'end' = 'start'; // controla qual data está sendo selecionada
+  
   constructor(private router: Router) {}
 
   isSectionOpen: { 
@@ -79,18 +82,22 @@ export class HighSearchComponent {
     this.selectedInput = input;
     this.showCalendar = true;
   }
-
   onDateSelected(date: Date) {
-    if (this.selectedInput === 'start') {
+    if (this.etapaSelecionando === 'start') {
       this.selectedStartDate = date;
-      this.selectedStartDateMobile = this.formatDateToInput(date); 
-    } else if (this.selectedInput === 'end') {
-      this.selectedEndDate = date;
-      this.selectedEndDateMobile = this.formatDateToInput(date); 
+      this.selectedEndDate = null; // limpa a data de fim, caso exista
+      this.etapaSelecionando = 'end'; // agora o próximo clique será para selecionar a data de fim
+    } else if (this.etapaSelecionando === 'end') {
+      if (this.selectedStartDate && date >= this.selectedStartDate) {
+        this.selectedEndDate = date;
+        this.etapaSelecionando = 'start'; // reinicia o processo, caso o usuário queira escolher outro intervalo
+      } else {
+        alert('A data final deve ser posterior ou igual à data inicial.');
+      }
     }
-    this.validateDates();
-    this.closeCalendar();
   }
+  
+  
 
   closeCalendar() {
     this.showCalendar = false;
@@ -164,6 +171,7 @@ export class HighSearchComponent {
   }
   
   onCloseSection() {
-    this.isSectionOpen.location = false;
+    this.isModalOpen = false;
   }
+  
 }

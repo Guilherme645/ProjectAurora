@@ -1,33 +1,54 @@
 <div class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center" (click)="closeModal()">
-  
-  <div class="bg-white shadow-lg  rounded-[16px] p-5 relative flex flex-col w-[592px] h-[151px] hs-overlay" (click)="$event.stopPropagation()">
-    
-    <div class="flex items-center gap-2 border-b pb-2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path>
-      </svg>
-      <input type="text" class="w-full text-lg font-medium text-gray-300 placeholder-gray-300 focus:outline-none  rounded-md px-3 py-2" placeholder="Busque no Workspace">
+  <div class="bg-white rounded-[16px] w-[592px] pt-5 pb-4 relative flex flex-col" (click)="$event.stopPropagation()">
+
+    <!-- Topo: input e ícone -->
+    <div class="flex items-center gap-2 px-5">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 21L16.7 16.7" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        
+      <input
+      type="text"
+      class="w-full text-sm text-gray-500 placeholder:text-gray-400 placeholder:font-normal bg-transparent outline-none px-3 py-2"
+      placeholder="Busque no Workspace"
+    />
     </div>
 
-    <div class="flex justify-between items-center mt-3">
+    <!-- Divider de ponta a ponta -->
+    <hr class="w-full border-t border-[#E5E7EB] mt-3" />
+
+    <!-- Linha inferior com shadow -->
+    <div class="flex justify-between items-center px-5 mt-4 shadow-sm">
       <div class="text-gray-600 flex items-center gap-2 text-sm">
         <p class="whitespace-nowrap">Use as</p>
-        <span class="p-1 border rounded flex items-center justify-center w-6 h-6 bg-gray-200 text-gray-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path>
-            <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path>
+        <svg width="28" height="31" viewBox="0 0 28 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_d_95_39171)">
+          <path d="M6 0.5H22C25.0376 0.5 27.5 2.96243 27.5 6V24C27.5 27.0376 25.0376 29.5 22 29.5H6C2.96243 29.5 0.5 27.0376 0.5 24V6C0.5 2.96243 2.96243 0.5 6 0.5Z" stroke="#E5E7EB" shape-rendering="crispEdges"/>
+          <path d="M8.00004 21C10 21 12.6667 20.3333 12.6667 15.6667V10.3333C12.6667 9.5 12.1627 8.98867 11.3334 9H8.66671C7.83337 9 7.33337 9.5 7.33337 10.3147V14.3333C7.33337 15.1667 7.83337 15.6667 8.66671 15.6667C9.33337 15.6667 9.33337 15.6667 9.33337 16.3333V17C9.33337 17.6667 8.66671 18.3333 8.00004 18.3333C7.33337 18.3333 7.33337 18.3387 7.33337 19.0207V20.3333C7.33337 21 7.33337 21 8.00004 21Z" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 21C18 21 20.6667 20.3333 20.6667 15.6667V10.3333C20.6667 9.5 20.162 8.98867 19.3334 9H16.6667C15.8334 9 15.3334 9.5 15.3334 10.3147V14.3333C15.3334 15.1667 15.8334 15.6667 16.6667 15.6667H17.1667C17.1667 17.1667 17.3334 18.3333 15.3334 18.3333V20.3333C15.3334 21 15.3334 21 16 21Z" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <defs>
+          <filter id="filter0_d_95_39171" x="0" y="0" width="28" height="31" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feOffset dy="1"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_95_39171"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_95_39171" result="shape"/>
+          </filter>
+          </defs>
           </svg>
-        </span>
+          
         <p class="whitespace-nowrap">para delimitar as palavras-chave</p>
       </div>
 
       <button 
-        class="px-4 py-2 bg-gray-700 text-white w-[119px] h-[46px] rounded-md hover:bg-gray-800 transition font-medium text-sm"(click)="reloadPage()">
+        class="px-4 py-2 bg-[#374151] text-white w-[119px] h-[46px] rounded-md hover:bg-[#1F2937] transition font-semibold text-sm" (click)="reloadPage()">
         Fazer busca
       </button>
     </div>
 
   </div>
-
 </div>

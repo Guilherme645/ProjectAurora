@@ -15,3 +15,18 @@
 }
 
 
+/* Estilo padrão do círculo do SVG */
+.info-icon .info-circle {
+  fill: #4B5563;
+  transition: fill 0.3s ease;
+}
+
+/* Estilo do círculo ao passar o mouse */
+.group:hover .info-icon .info-circle {
+  fill: #1F2937;
+}
+
+/* Garantir que o botão pai não interfira no fundo do SVG */
+button.bg-transparent {
+  background: transparent !important;
+}

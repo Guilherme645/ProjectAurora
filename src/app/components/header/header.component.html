@@ -1,21 +1,21 @@
 <div class="relative w-full h-auto bg-white" id="workspaceContainer">
   
-  <div class="bg-white px-6 pt-6 transition-all duration-300"
+  <div class="bg-white px-6 pt-6 pb-0 transition-all duration-300"
        [ngClass]="{ 'h-0 opacity-0 overflow-hidden': isCollapsed, 'h-auto opacity-100': !isCollapsed }">
     <div class="flex items-start justify-between flex-wrap gap-4">
       <div>
         <h1 class="font-inter font-semibold text-[20px] leading-[24px] tracking-[-0.018em] text-gray-900">
           Resultados do Workspace
         </h1>
-        <p class="font-inter font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-gray-500 text-center">
+        <p class="font-inter font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-gray-500">
           9840 resultados em Superior Tribunal Federal
         </p>
       </div>
 
-      <div class="flex flex-wrap justify-end">
-        <div class="inline-flex items-center max-w-[277px] h-[46px] border border-gray-300 rounded-md overflow-hidden">
+      <div class="flex flex-wrap">
+        <div class="inline-flex w-[265px] h-[46px] border border-gray-300 rounded-md overflow-hidden">
           <button type="button"
-                  class="inline-flex items-center gap-x-2 px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 border-r border-gray-300 h-full"
+                  class="inline-flex items-center justify-center gap-x-2 px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 border-r border-gray-300 h-full flex-1"
                   (click)="openBusca.emit()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -25,7 +25,7 @@
             Fazer busca
           </button>
           <button type="button" 
-                  class="inline-flex items-center justify-center px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 h-full"
+                  class="inline-flex items-center justify-center px-3 text-sm font-medium text-gray-800 hover:bg-gray-100 h-full flex-1"
                   (click)="toggleSearch.emit()">
             Busca avançada
           </button>
@@ -34,7 +34,7 @@
     </div>
   </div>
 
-  <div class="sticky top-0 w-full bg-white transition-all duration-300 z-10">
+  <div class="sticky top-0 w-full bg-white transition-all duration-300 z-10 mt-5">
     <div class="flex items-center justify-between py-2 px-6">
       <div class="flex items-center gap-3">
         <input type="checkbox" 
@@ -47,8 +47,9 @@
                 [ngClass]="selectedTab === 'todos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
                 (click)="selectTab('todos')">
           Todos os resultados
+          <span class="ml-1 text-red-600 font-bold"></span>
         </button>
-
+        
         <button type="button"
                 class="inline-flex items-center gap-1 px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
                 [ngClass]="selectedTab === 'brutos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
@@ -56,13 +57,19 @@
           Resultados brutos
           <div class="relative inline-block group">
             <button type="button" 
-                    class="flex h-4 w-4 items-center justify-center rounded-full bg-gray-900 text-white">
-              <span class="text-[10px] font-bold cursor-pointer">i</span>
+                    class="flex h-4 w-4 items-center justify-center rounded-full bg-transparent text-white transition-colors"
+                    aria-label="Informações sobre resultados brutos">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="info-icon">
+                <path class="info-circle" d="M8.00016 14.6666C11.6821 14.6666 14.6668 11.6818 14.6668 7.99992C14.6668 4.31802 11.6821 1.33325 8.00016 1.33325C4.31826 1.33325 1.3335 4.31802 1.3335 7.99992C1.3335 11.6818 4.31826 14.6666 8.00016 14.6666Z" fill="#4B5563"/>
+                <path d="M8 5.33325V7.99992" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 10.6667H8.00667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
             <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
               Os resultados brutos só retornam menções <br> das mídias: TV, Rádio e Impressos
             </span>
           </div>
+          <span class="ml-1 text-red-600 font-bold"></span>
         </button>
 
         <button type="button"
@@ -73,7 +80,7 @@
         </button>
       </div>
 
-      <div class="flex items-center gap-1">
+      <div class="flex items-center  gap-1">
         <div class="flex items-center gap-1 text-sm text-gray-800">
           <span class="text-gray-500">Ordenar por:</span>
           <div class="relative">
@@ -87,7 +94,7 @@
               </svg>
             </button>
             <div *ngIf="isDropdownOpen"
-                 class="absolute mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg left-[-70px] z-20">
+                 class="absolute mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg right-0 z-20">
               <ul class="text-sm text-gray-800">
                 <li (click)="selectOption('Mais relevantes')" 
                     class="px-4 py-2 cursor-pointer hover:bg-gray-100"

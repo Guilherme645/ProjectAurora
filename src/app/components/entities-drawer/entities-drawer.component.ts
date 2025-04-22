@@ -1,5 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
+import { Subscription } from 'rxjs';
+import { debounce } from 'lodash';
 
 @Component({
   selector: 'app-entities-drawer',
@@ -7,7 +9,7 @@ import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
   styleUrls: ['./entities-drawer.component.css'],
   standalone: false
 })
-export class EntitiesDrawerComponent implements OnInit {
+export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   @Input() textoOriginal: string = '';
   @Output() textoMarcadoChange = new EventEmitter<string>();
   @Output() close = new EventEmitter<void>();
@@ -17,69 +19,89 @@ export class EntitiesDrawerComponent implements OnInit {
     position: { top: number; left: number };
   }>();
 
-  textoMarcado: string;
-
-  // Entidades completas
+  textoMarcado: string = '';
   dates: string[] = [];
   places: string[] = [];
   people: string[] = [];
   organizations: string[] = [];
-
-  // Entidades exibidas (limitadas inicialmente ou filtradas)
   displayedDates: string[] = [];
   displayedPlaces: string[] = [];
   displayedPeople: string[] = [];
   displayedOrganizations: string[] = [];
-
-  // Estados dos toggles
   datesEnabled: boolean = false;
   placesEnabled: boolean = false;
   peopleEnabled: boolean = false;
   organizationsEnabled: boolean = false;
   highlightAllCategories: boolean = false;
-
-  // Estado da pesquisa
   isSearchVisible: boolean = false;
   searchQuery: string = '';
+  totalEntities: number = 0;
+  private readonly displayLimit = 3;
+  private subscriptions = new Subscription();
+  private debouncedFilterEntities = debounce(this.filterEntities.bind(this), 300);
 
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
-  private readonly displayLimit = 3;
-
-  constructor(private textoEntidadesService: TextoEntidadesService) {
-    this.textoMarcado = this.textoOriginal;
-  }
+  constructor(private textoEntidadesService: TextoEntidadesService) {}
 
   ngOnInit(): void {
-    const entidades = this.textoEntidadesService.getEntidades();
-    this.dates = entidades.datas;
-    this.places = entidades.lugares;
-    this.people = entidades.pessoas;
-    this.organizations = entidades.organizacoes;
+    this.subscriptions.add(
+      this.textoEntidadesService.getTextoOriginal().subscribe({
+        next: (texto) => {
+          this.textoMarcado = texto;
+        },
+        error: (error) => {
+          console.error('Erro ao carregar texto original:', error);
+        }
+      })
+    );
 
-    this.displayedDates = this.dates.slice(0, this.displayLimit);
-    this.displayedPlaces = this.places.slice(0, this.displayLimit);
-    this.displayedPeople = this.people.slice(0, this.displayLimit);
-    this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
+    this.subscriptions.add(
+      this.textoEntidadesService.getEntidades().subscribe({
+        next: (entidades) => {
+          this.dates = entidades.datas || [];
+          this.places = entidades.lugares || [];
+          this.people = entidades.pessoas || [];
+          this.organizations = entidades.organizacoes || [];
 
-    this.textoMarcado = this.textoOriginal;
-    this.atualizarTextoMarcado();
+          this.totalEntities = this.dates.length + this.places.length + this.people.length + this.organizations.length;
+
+          this.displayedDates = this.dates.slice(0, this.displayLimit);
+          this.displayedPlaces = this.places.slice(0, this.displayLimit);
+          this.displayedPeople = this.people.slice(0, this.displayLimit);
+          this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
+
+          this.atualizarTextoMarcado();
+        },
+        error: (error) => {
+          console.error('Erro ao carregar entidades:', error);
+        }
+      })
+    );
   }
 
-  ngOnChanges(): void {
-    this.textoMarcado = this.textoOriginal;
-    this.atualizarTextoMarcado();
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   atualizarTextoMarcado(): void {
-    this.textoMarcado = this.textoEntidadesService.substituirEntidades({
-      datas: this.datesEnabled,
-      lugares: this.placesEnabled,
-      pessoas: this.peopleEnabled,
-      organizacoes: this.organizationsEnabled
-    });
-    this.textoMarcadoChange.emit(this.textoMarcado);
-    console.log('Texto marcado atualizado:', this.textoMarcado);
+    this.subscriptions.add(
+      this.textoEntidadesService.substituirEntidades({
+        datas: this.datesEnabled,
+        lugares: this.placesEnabled,
+        pessoas: this.peopleEnabled,
+        organizacoes: this.organizationsEnabled
+      }).subscribe({
+        next: (textoMarcado) => {
+          this.textoMarcado = textoMarcado;
+          this.textoMarcadoChange.emit(this.textoMarcado);
+          console.log('Texto marcado atualizado:', this.textoMarcado);
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar texto marcado:', error);
+        }
+      })
+    );
   }
 
   toggleDates(): void {
@@ -145,7 +167,6 @@ export class EntitiesDrawerComponent implements OnInit {
     console.log('Close drawer emitted');
   }
 
-  // Funções de pesquisa
   toggleSearch(): void {
     this.isSearchVisible = !this.isSearchVisible;
     if (this.isSearchVisible) {
@@ -187,12 +208,24 @@ export class EntitiesDrawerComponent implements OnInit {
   openEntityModal(event: MouseEvent, entity: string, type: string): void {
     const button = event.currentTarget as HTMLButtonElement;
     const rect = button.getBoundingClientRect();
+    const modalWidth = 260;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
-    // Posiciona o modal à esquerda do botão, como na imagem
-    const position = {
-      top: rect.top + window.scrollY,
-      left: rect.left + window.scrollX - 260 // 260px é aproximadamente a largura do modal (w-64) + margem
-    };
+    let left = rect.left + window.scrollX - modalWidth;
+    let top = rect.top + window.scrollY;
+
+    if (left < 0) {
+      left = rect.right + window.scrollX + 10;
+    }
+    if (top + 150 > viewportHeight + window.scrollY) {
+      top = rect.bottom + window.scrollY - 150 - 10;
+    }
+    if (top < window.scrollY) {
+      top = window.scrollY + 10;
+    }
+
+    const position = { top, left };
 
     this.openEntityOptions.emit({
       entity,

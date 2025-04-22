@@ -1,3 +1,4 @@
+
 <div
   #playerRef
   class="player-container touch-none bg-white shadow-lg rounded-[6px]"
@@ -10,6 +11,12 @@
   [cdkDragBoundary]="'.layout-container .flex-1'"
 >
   <div class="w-full h-full bg-gray-200 relative rounded-[6px] overflow-hidden">
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 text-white p-4">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <!-- Video Player -->
     <video
       #videoPlayer
       class="w-full h-full object-cover"

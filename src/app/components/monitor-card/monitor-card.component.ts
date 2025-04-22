@@ -1,4 +1,3 @@
-// monitor-card.component.ts
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -12,6 +11,11 @@ export class MonitorCardComponent {
   @Input() startDate!: string;
   @Input() endDate!: string;
   @Input() status!: string;
+
+  // Determina se o sino deve ser exibido (apenas para status "Ativa")
+  get showBellIcon(): boolean {
+    return this.status === 'Ativa';
+  }
 
   // Dados do card para passar ao OptionSearchComponent
   get cardData() {

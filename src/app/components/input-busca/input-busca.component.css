@@ -11,3 +11,10 @@
   backdrop-filter: blur(5px);
   z-index: 999;
 }
+input:placeholder-shown {
+  color: #6B7280; /* cinza do placeholder */
+}
+
+input:not(:placeholder-shown) {
+  color: #1F2937; /* texto digitado */
+}

@@ -42,6 +42,12 @@ gap: 16px;
   color: #6b7280;
   text-align: right;
 }
+.card + .divider {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  height: 1px;
+  background-color: #E5E7EB; /* Tailwind: gray-200 */
+}
 
 .mention-title {
 font-weight: 500;

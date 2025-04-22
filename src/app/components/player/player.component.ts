@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 import { debounce } from 'lodash';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player',
@@ -25,6 +26,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
   showPeople: boolean = true;
   showOrganizations: boolean = true;
   highlightedDescription: string = '';
+  errorMessage: string | null = null;
+  private subscriptions = new Subscription();
 
   @Output() descriptionEmitter = new EventEmitter<string>();
   @ViewChild('playerRef') playerRef!: ElementRef;
@@ -38,18 +41,64 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.videoDescription = this.textoEntidadesService.getTextoOriginal();
-    this.updateHighlightedDescription();
-    this.descriptionEmitter.emit(this.highlightedDescription);
+    this.subscriptions.add(
+      this.textoEntidadesService.getTextoOriginal().subscribe({
+        next: (texto) => {
+          this.videoDescription = texto;
+          this.updateHighlightedDescription();
+          this.descriptionEmitter.emit(this.highlightedDescription);
+        },
+        error: (error) => {
+          console.error('Erro ao carregar descrição do vídeo:', error);
+          this.errorMessage = 'Falha ao carregar a descrição do vídeo.';
+        }
+      })
+    );
+
+    this.subscriptions.add(
+      this.textoEntidadesService.getEntidades().subscribe({
+        next: (entities) => {
+          this.entities = {
+            dates: entities.datas || [],
+            places: entities.lugares || [],
+            people: entities.pessoas || [],
+            organizations: entities.organizacoes || []
+          };
+          this.updateHighlightedDescription();
+          this.descriptionEmitter.emit(this.highlightedDescription);
+        },
+        error: (error) => {
+          console.error('Erro ao carregar entidades:', error);
+          this.errorMessage = 'Falha ao carregar as entidades.';
+        }
+      })
+    );
+
+    // Verify video file on init
+    this.checkVideoAvailability();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  checkVideoAvailability(): void {
+    const videoElement = this.videoPlayer.nativeElement;
+    videoElement.load();
+    videoElement.onloadeddata = () => {
+      console.log('Vídeo carregado com sucesso.');
+    };
+    videoElement.onerror = () => {
+      console.error('Erro ao carregar o vídeo.');
+      this.errorMessage = 'Falha ao carregar o vídeo. Verifique o arquivo em assets/avengers.mp4.';
+    };
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     const rect = this.el.nativeElement.getBoundingClientRect();
     const tolerance = 20;
-    const header = document.querySelector('.header-wrapper');
+    const header = document.querySelector('.header-wrapper .header-inner');
     const headerHeight = header ? header.getBoundingClientRect().height : 64;
 
     if (rect.top < -tolerance - headerHeight && !this.isFloating) {
@@ -68,10 +117,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
     };
 
     if (this.showEntitiesDrawer) {
-      // Drawer aberto: posicionar à esquerda do drawer
       styles['right'] = '400px'; // 384px (w-96) + margem de 16px
     } else {
-      // Drawer fechado: posicionar à direita do conteúdo principal
       styles['right'] = '16px';
     }
 
@@ -85,6 +132,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
     } else {
       video.play().catch(error => {
         console.error('Erro ao reproduzir o vídeo:', error);
+        this.errorMessage = 'Erro ao reproduzir o vídeo. Tente novamente.';
       });
     }
     this.isPlaying = !this.isPlaying;

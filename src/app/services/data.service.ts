@@ -18,6 +18,23 @@ export interface Relatorio {
   criadoEm: string;
 }
 
+export interface MonitorCard {
+  title: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+}
+
+export interface MentionDetails {
+  veiculo: string;
+  local: string;
+  sentimento: string;
+  intervalo: string;
+  horario: string;
+  dataFixa: string;
+  titulo: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,11 +47,13 @@ export class DataService {
   private veiculosUrl = 'assets/veiculos.json';
   private relatoriosUrl = 'assets/relatorio.json';
   private saveUsers = 'assets/SaveUsers.json';
+  private monitorCardsUrl = 'assets/monitor-card.json'; // Corrected URL (was monitor-card.json)
+  private mentionDetailsUrl = 'assets/mention-details.json'; // Added URL for mention details
   private filtrosSelecionados: any = {};
 
   constructor(private http: HttpClient) {}
 
-  /**  Método para obter os dados gerais com suporte a repetição infinita e filtro por usuário */
+  /** Método para obter os dados gerais com suporte a repetição infinita e filtro por usuário */
   getData(page: number = 1, pageSize: number = 10, user?: string): Observable<any> {
     return this.http.get<any>(this.dataJsonUrl).pipe(
       map(data => {
@@ -46,15 +65,15 @@ export class DataService {
 
           const totalNoticias = filteredNoticias.length;
           if (totalNoticias === 0) {
-            return { noticias: [] }; 
+            return { noticias: [] };
           }
 
-          const start = ((page - 1) * pageSize) % totalNoticias; 
+          const start = ((page - 1) * pageSize) % totalNoticias;
           let paginatedNoticias = [];
 
           for (let i = 0; i < pageSize; i++) {
-            const index = (start + i) % totalNoticias; 
-            paginatedNoticias.push({ ...filteredNoticias[index] }); 
+            const index = (start + i) % totalNoticias;
+            paginatedNoticias.push({ ...filteredNoticias[index] });
           }
 
           return { noticias: paginatedNoticias };
@@ -64,47 +83,57 @@ export class DataService {
     );
   }
 
-  /**  Obtém os usuários do JSON */
+  /** Obtém os usuários do JSON */
   getUsers(): Observable<{ [key: string]: string }> {
     return this.http.get<{ [key: string]: string }>(this.usersUrl);
   }
 
-  /**  Método para obter os estados */
+  /** Método para obter os estados */
   getEstados(): Observable<any[]> {
     return this.http.get<any[]>(this.estadosJsonUrl);
   }
 
-  /**  Método para obter as categorias */
+  /** Método para obter as categorias */
   getCategorias(): Observable<any> {
     return this.http.get<any>(this.categoriasUrl);
   }
 
-  /**  Obtém veículos do JSON */
+  /** Obtém veículos do JSON */
   getVeiculos(): Observable<{ [key: string]: { nome: string; selecionado: boolean }[] }> {
     return this.http.get<{ [key: string]: { nome: string; selecionado: boolean }[] }>(this.veiculosUrl);
   }
 
-  /**  Obtém entidades do JSON */
+  /** Obtém entidades do JSON */
   getEntidades(): Observable<any> {
     return this.http.get<any>(this.entidadesUrl);
   }
 
-  /**  Obtém relatórios do JSON */
+  /** Obtém relatórios do JSON */
   getRelatorios(): Observable<any[]> {
     return this.http.get<any[]>(this.relatoriosUrl);
   }
 
-  /**  Método para armazenar filtros selecionados */
+  /** Método para obter os monitorCards */
+  getMonitorCards(): Observable<MonitorCard[]> {
+    return this.http.get<MonitorCard[]>(this.monitorCardsUrl);
+  }
+
+  /** Método para obter os detalhes da menção */
+  getMentionDetails(): Observable<MentionDetails> {
+    return this.http.get<MentionDetails>(this.mentionDetailsUrl);
+  }
+
+  /** Método para armazenar filtros selecionados */
   setFiltros(filtros: any): void {
     this.filtrosSelecionados = filtros;
   }
 
-  /**  Método para recuperar os filtros */
+  /** Método para recuperar os filtros */
   getFiltros(): any {
     return this.filtrosSelecionados;
   }
 
-  /**  Obtém usuários salvos do JSON */
+  /** Obtém usuários salvos do JSON */
   getSaveUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.saveUsers);
   }
