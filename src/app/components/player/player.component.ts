@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, Output, EventEmitter, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { debounce } from 'lodash';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./player.component.css'],
   standalone: false
 })
-export class PlayerComponent implements OnInit, OnDestroy {
+export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() showEntitiesDrawer: boolean = false;
   isFloating = false;
   isPlaying = false;
@@ -28,6 +28,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   highlightedDescription: string = '';
   errorMessage: string | null = null;
   private subscriptions = new Subscription();
+  isMobile: boolean = false;
 
   @Output() descriptionEmitter = new EventEmitter<string>();
   @ViewChild('playerRef') playerRef!: ElementRef;
@@ -41,6 +42,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.checkIfMobile();
     this.subscriptions.add(
       this.textoEntidadesService.getTextoOriginal().subscribe({
         next: (texto) => {
@@ -73,8 +75,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
 
-    // Verify video file on init
+  ngAfterViewInit(): void {
+    // Verificar o vídeo após a view estar inicializada
     this.checkVideoAvailability();
   }
 
@@ -83,6 +87,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   checkVideoAvailability(): void {
+    if (!this.videoPlayer || !this.videoPlayer.nativeElement) {
+      console.warn('videoPlayer não está disponível ainda.');
+      return;
+    }
+
     const videoElement = this.videoPlayer.nativeElement;
     videoElement.load();
     videoElement.onloadeddata = () => {
@@ -92,6 +101,15 @@ export class PlayerComponent implements OnInit, OnDestroy {
       console.error('Erro ao carregar o vídeo.');
       this.errorMessage = 'Falha ao carregar o vídeo. Verifique o arquivo em assets/avengers.mp4.';
     };
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkIfMobile();
+  }
+
+  checkIfMobile() {
+    this.isMobile = window.innerWidth < 768;
   }
 
   @HostListener('window:scroll', [])
@@ -113,19 +131,32 @@ export class PlayerComponent implements OnInit, OnDestroy {
   getFloatingStyles(): { [key: string]: string } {
     const styles: { [key: string]: string } = {
       ['bottom']: '16px',
-      ['zIndex']: '40' // Abaixo do drawer (z-50), acima do conteúdo
+      ['zIndex']: '40'
     };
 
-    if (this.showEntitiesDrawer) {
-      styles['right'] = '400px'; // 384px (w-96) + margem de 16px
+    if (this.isMobile) {
+      if (this.showEntitiesDrawer) {
+        styles['right'] = '16px';
+      } else {
+        styles['right'] = '16px';
+      }
     } else {
-      styles['right'] = '16px';
+      if (this.showEntitiesDrawer) {
+        styles['right'] = '400px';
+      } else {
+        styles['right'] = '16px';
+      }
     }
 
     return styles;
   }
 
   togglePlay(): void {
+    if (!this.videoPlayer || !this.videoPlayer.nativeElement) {
+      console.warn('videoPlayer não está disponível para reprodução.');
+      return;
+    }
+
     const video: HTMLVideoElement = this.videoPlayer.nativeElement;
     if (this.isPlaying) {
       video.pause();

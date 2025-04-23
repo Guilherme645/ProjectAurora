@@ -1,63 +1,136 @@
-
 <div class="layout-container flex min-h-screen">
-  <!-- Sidebar fixa -->
-  <div class="bg-neutral-800 text-white fixed h-full">
-    <app-side-bar
-      [isSidebarOpen]="isSidebarOpen"
-      (sidebarToggled)="onSidebarToggled($event)"
-      (userChange)="onUserChange($event)">
-    </app-side-bar>
-  </div>
-
-  <!-- Container para o cabeçalho (fixo no topo) -->
-  <div class="header-wrapper" [ngClass]="{
-    'ml-16': !isSidebarOpen,
-    'ml-390px': isSidebarOpen,
-    'header-scrolled': isHeaderScrolled
-  }">
-    <div class="header-inner">
-      <app-header-mention-details></app-header-mention-details>
+  <!-- Layout Desktop -->
+  <div *ngIf="!isMobile" class="flex w-full">
+    <!-- Sidebar fixa -->
+    <div class="bg-neutral-800 text-white fixed h-full">
+      <app-side-bar
+        [isSidebarOpen]="isSidebarOpen"
+        (sidebarToggled)="onSidebarToggled($event)"
+        (userChange)="onUserChange($event)">
+      </app-side-bar>
     </div>
+
+    <!-- Container para o cabeçalho (fixo no topo) -->
+    <div class="header-wrapper" [ngClass]="{
+      'ml-16': !isSidebarOpen,
+      'ml-390px': isSidebarOpen,
+      'header-scrolled': isHeaderScrolled
+    }">
+      <div class="header-inner">
+        <app-header-mention-details></app-header-mention-details>
+      </div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div
+      class="flex-1 flex flex-col relative"
+      [ngClass]="{
+        'ml-16': !isSidebarOpen,
+        'ml-390px': isSidebarOpen
+      }"
+    >
+      <div class="content-container" style="padding: 52px 0;">
+        <!-- Player -->
+        <div *ngIf="!isLoading && !errorMessage" class="px-4">
+          <app-player
+            [showEntitiesDrawer]="showEntitiesDrawer"
+            [ngClass]="{'player-minimized': isPlayerMinimized}"
+            (descriptionEmitter)="onDescriptionReceived($event)">
+          </app-player>
+        </div>
+
+        <!-- Descrição do vídeo -->
+        <div *ngIf="!isLoading && !errorMessage" class="px-4" style="margin-top: 40px;">
+          <p class="text-gray-700 text-sm leading-relaxed" [innerHTML]="videoDescription || 'Nenhuma descrição disponível'"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão "Ver entidades extraídas" -->
+    <div class="fixed bottom-4 right-4 z-50" [ngClass]="{'right-340': !showEntitiesDrawer}">
+      <app-view-entidades-search (click)="verEntidadesExtraidas()"></app-view-entidades-search>
+    </div>
+
+    <!-- Entities Drawer -->
+    <div
+      *ngIf="showEntitiesDrawer"
+      class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
+      [ngClass]="{'translate-x-0': showEntitiesDrawer, 'translate-x-full': !showEntitiesDrawer}"
+    >
+      <app-entities-drawer
+        [textoOriginal]="textoOriginal"
+        (textoMarcadoChange)="onDescriptionReceived($event)"
+        (close)="verEntidadesExtraidas()"
+        (openEntityOptions)="onOpenEntityOptions($event)"
+      ></app-entities-drawer>
+    </div>
+
+    <!-- Modal para opções de entidade -->
+    <div *ngIf="isModalVisible && selectedEntity" class="modal-backdrop"></div>
+    <app-modal-entitie-option
+      *ngIf="isModalVisible && selectedEntity"
+      [entityName]="selectedEntity.entity!"
+      [type]="selectedEntity.type!"
+      [position]="modalPosition"
+      (close)="closeModal()"
+      (addToSavedSearchEvent)="showSaveEntitiesFilter($event.entity, $event.type)"
+    ></app-modal-entitie-option>
+
+    <app-save-entities-filter
+      *ngIf="isSaveFilterVisible"
+      (close)="closeSaveEntitiesFilter()"
+    ></app-save-entities-filter>
   </div>
 
-  <!-- Conteúdo principal -->
-  <div
-    class="flex-1 flex flex-col relative"
-    [ngClass]="{
-      'ml-16': !isSidebarOpen,
-      'ml-390px': isSidebarOpen
-    }"
-  >
-    <!-- Container interno para o conteúdo -->
-    <div class="content-container" style="padding: 52px 0;">
-   
+  <!-- Layout Mobile -->
+  <div *ngIf="isMobile" class="flex flex-col w-full">
+    <!-- Header fixo no topo -->
+    <div class="header-wrapper fixed top-0 left-0 w-full bg-white z-40 shadow-none">
+      <div class="header-inner flex justify-between items-center p-4">
+        <app-header-mention-details></app-header-mention-details>
+      </div>
+    </div>
 
+
+    <!-- Conteúdo principal -->
+    <div class="flex-1 flex flex-col mt-16" style="padding-bottom: 60px;">
       <!-- Player -->
-      <div *ngIf="!isLoading && !errorMessage" class="px-4">
+      <div *ngIf="!isLoading && !errorMessage" class="px-1 mt-[100px]">
         <app-player
           [showEntitiesDrawer]="showEntitiesDrawer"
           [ngClass]="{'player-minimized': isPlayerMinimized}"
           (descriptionEmitter)="onDescriptionReceived($event)">
         </app-player>
       </div>
+  
 
-      <!-- Descrição do vídeo com marcação de entidades -->
-      <div *ngIf="!isLoading && !errorMessage" class="px-4" style="margin-top: 40px;">
-        <p class="text-gray-700 text-sm leading-relaxed" [innerHTML]="videoDescription || 'Nenhuma descrição disponível'"></p>
+      <!-- Descrição do vídeo -->
+    <div *ngIf="!isLoading && !errorMessage" class="px-0 flex justify-center" style="margin-top: 20px;">
+      <div class="w-[327px]">
+        <p class="text-gray-700 text-[16px] leading-relaxed" [innerHTML]="videoDescription || 'Nenhuma descrição disponível'"></p>
       </div>
     </div>
-  </div>
 
-  <!-- Botão "Ver entidades extraídas" -->
-  <div class="fixed bottom-4 right-4 z-50" [ngClass]="{'right-340': !showEntitiesDrawer}">
-    <app-view-entidades-search (click)="verEntidadesExtraidas()"></app-view-entidades-search>
-  </div>
+    <!-- Botão "Ver entidades extraídas" (ajustado para mobile) -->
+    <div class="w-[375px]">
+      <app-view-entidades-search (click)="verEntidadesExtraidas()"></app-view-entidades-search>
+    </div>
 
-  <!-- Entities Drawer -->
+ <!-- Entities Drawer (ajustado para mobile, ocupando 90% da tela, surgindo de baixo para cima) -->
+<!-- Overlay escuro com blur -->
+<div
+  *ngIf="showEntitiesDrawer"
+  class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex justify-center items-end"
+  (click)="verEntidadesExtraidas()" 
+>
+  <!-- Drawer (clicar dentro não fecha) -->
   <div
-    *ngIf="showEntitiesDrawer"
-    class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
-    [ngClass]="{'translate-x-0': showEntitiesDrawer, 'translate-x-full': !showEntitiesDrawer}"
+    class="w-full h-[90%] bg-white transition-transform duration-300"
+    [ngClass]="{
+      'translate-y-0': showEntitiesDrawer,
+      'translate-y-full': !showEntitiesDrawer
+    }"
+    (click)="$event.stopPropagation()"
   >
     <app-entities-drawer
       [textoOriginal]="textoOriginal"
@@ -66,20 +139,22 @@
       (openEntityOptions)="onOpenEntityOptions($event)"
     ></app-entities-drawer>
   </div>
+</div>
 
-  <!-- Modal para opções de entidade -->
-  <div *ngIf="isModalVisible && selectedEntity" class="modal-backdrop"></div>
-  <app-modal-entitie-option
-    *ngIf="isModalVisible && selectedEntity"
-    [entityName]="selectedEntity.entity!"
-    [type]="selectedEntity.type!"
-    [position]="modalPosition"
-    (close)="closeModal()"
-    (addToSavedSearchEvent)="showSaveEntitiesFilter($event.entity, $event.type)"
-  ></app-modal-entitie-option>
+    <!-- Modal para opções de entidade -->
+    <div *ngIf="isModalVisible && selectedEntity" class="modal-backdrop"></div>
+    <app-modal-entitie-option
+      *ngIf="isModalVisible && selectedEntity"
+      [entityName]="selectedEntity.entity!"
+      [type]="selectedEntity.type!"
+      [position]="modalPosition"
+      (close)="closeModal()"
+      (addToSavedSearchEvent)="showSaveEntitiesFilter($event.entity, $event.type)"
+    ></app-modal-entitie-option>
 
-  <app-save-entities-filter
-    *ngIf="isSaveFilterVisible"
-    (close)="closeSaveEntitiesFilter()"
-  ></app-save-entities-filter>
+    <app-save-entities-filter
+      *ngIf="isSaveFilterVisible"
+      (close)="closeSaveEntitiesFilter()"
+    ></app-save-entities-filter>
+  </div>
 </div>

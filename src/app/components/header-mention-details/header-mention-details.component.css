@@ -6,9 +6,6 @@
   transition: all 0.3s ease;
 }
 
-.header-default {
-  /* Estilo padrão (sem rolagem) */
-}
 
 .header-scrolled {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

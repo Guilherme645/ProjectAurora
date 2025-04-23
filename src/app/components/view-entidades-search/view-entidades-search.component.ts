@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-view-entidades-search',
@@ -7,7 +7,23 @@ import { Component, OnInit } from '@angular/core';
   standalone: false
 })
 export class ViewEntidadesSearchComponent  {
+  isMobile: boolean = false;
+  @Output() click = new EventEmitter<void>(); // Emitir evento para o componente pai
 
+  ngOnInit() {
+    this.checkIfMobile();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  checkIfMobile(): void {
+    this.isMobile = window.innerWidth <= 768;
+    console.log('isMobile atualizado:', this.isMobile);
+  }
+
+  onClick() {
+    console.log('Botão "Ver entidades extraídas" clicado');
+    this.click.emit(); // Emitir o evento para o componente pai
+  }
   verEntidadesExtraidas() {
     // ação: abrir drawer, dialog, navegação etc.
     console.log('Abrindo entidades extraídas');

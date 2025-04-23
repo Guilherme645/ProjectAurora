@@ -95,8 +95,10 @@
     <span class="date">{{ noticias.data }}</span>
   </div>
 
-  <p class="mobile-mention-title">{{ noticias.titulo }}</p>
-  <p class="mention-description"
+  <p class="mobile-mention-title" (click)="irParaDetalhes()">
+    {{ noticias.titulo }}
+  </p>
+    <p class="mention-description"
   [innerHTML]="noticias.descricao | highlight:searchQuery">
 </p>
   <div class="mobile-mention-footer"></div>

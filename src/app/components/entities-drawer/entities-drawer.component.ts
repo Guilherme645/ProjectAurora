@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, OnDestroy, HostListener } from '@angular/core';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 import { Subscription } from 'rxjs';
 import { debounce } from 'lodash';
@@ -19,6 +19,7 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
     position: { top: number; left: number };
   }>();
 
+  isMobile: boolean = false;
   textoMarcado: string = '';
   dates: string[] = [];
   places: string[] = [];
@@ -35,6 +36,7 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   highlightAllCategories: boolean = false;
   isSearchVisible: boolean = false;
   searchQuery: string = '';
+  selectedTab: string = 'all'; // Aba selecionada: 'all', 'dates', 'places', 'people', 'organizations'
   totalEntities: number = 0;
   private readonly displayLimit = 3;
   private subscriptions = new Subscription();
@@ -45,6 +47,7 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   constructor(private textoEntidadesService: TextoEntidadesService) {}
 
   ngOnInit(): void {
+    this.checkIfMobile();
     this.subscriptions.add(
       this.textoEntidadesService.getTextoOriginal().subscribe({
         next: (texto) => {
@@ -78,6 +81,16 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  @HostListener('window:resize', ['$event'])
+  checkIfMobile(): void {
+    this.isMobile = window.innerWidth <= 768;
+    console.log('isMobile atualizado:', this.isMobile);
+    // Na versão mobile, a pesquisa está sempre visível, então ajustamos isso
+    if (this.isMobile) {
+      this.isSearchVisible = true;
+    }
   }
 
   ngOnDestroy(): void {
@@ -178,7 +191,10 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
 
   clearSearch(): void {
     this.searchQuery = '';
-    this.isSearchVisible = false;
+    if (!this.isMobile) {
+      this.isSearchVisible = false;
+    }
+    this.selectedTab = 'all'; // Resetar a aba para "Todas" ao limpar a pesquisa
     this.filterEntities();
   }
 
@@ -191,6 +207,8 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
       this.displayedPeople = this.people.slice(0, this.displayLimit);
       this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
     } else {
+      // Quando há uma pesquisa, mostramos todas as categorias (similar à aba "Todas")
+      this.selectedTab = 'all';
       this.displayedDates = this.dates.filter(date => date.toLowerCase().includes(query));
       this.displayedPlaces = this.places.filter(place => place.toLowerCase().includes(query));
       this.displayedPeople = this.people.filter(person => person.toLowerCase().includes(query));
@@ -233,5 +251,15 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
       position
     });
     console.log(`Emitting openEntityOptions for ${type} entity: ${entity} at position`, position);
+  }
+
+  selectTab(tab: string): void {
+    this.selectedTab = tab;
+    this.searchQuery = ''; // Limpar a pesquisa ao mudar de aba
+    if (!this.isMobile) {
+      this.isSearchVisible = false; // Fechar a barra de pesquisa na versão desktop
+    }
+    this.filterEntities(); // Reaplicar o filtro para ajustar as entidades exibidas
+    console.log('Tab selected:', this.selectedTab);
   }
 }

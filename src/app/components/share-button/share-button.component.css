@@ -13,8 +13,3 @@ button {
     background-color: #e5e7eb; /* Um tom mais escuro para o hover (equivalente a bg-gray-300) */
   }
   
-  svg {
-    width: 20px;
-    height: 20px;
-    stroke: #4b5563; /* Cor do ícone, mantida como cinza escuro */
-  }

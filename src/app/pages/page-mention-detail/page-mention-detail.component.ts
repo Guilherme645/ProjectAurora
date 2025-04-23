@@ -19,7 +19,7 @@ interface Entities {
 export class PageMentionDetailComponent implements OnInit, OnDestroy {
   noticias: any[] = [];
   filteredNoticias: any[] = [];
-  isMobile: boolean = false;
+  isMobile: boolean = window.innerWidth <= 768;
   isSidebarOpen: boolean = true;
   allSelected: boolean = false;
   currentUser: string = 'Superior Tribunal Federal';
@@ -117,8 +117,9 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
 
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
+    console.log('isMobile:', this.isMobile); // ✅ log importante
   }
-
+  
   onDescriptionReceived(description: string): void {
     console.log('Descrição recebida (já marcada):', description);
     this.videoDescription = this.sanitizer.bypassSecurityTrustHtml(description);

@@ -13,7 +13,7 @@ export class HeaderMentionDetailsComponent implements OnInit {
   @Output() backClicked = new EventEmitter<void>();
   @Output() editClicked = new EventEmitter<void>();
   @Output() shareClicked = new EventEmitter<void>();
-
+  isMobile: boolean = window.innerWidth <= 768;
   noticia$: Observable<MentionDetails> | null = null;
   isScrolled = false;
   isLoading = false;
@@ -22,9 +22,9 @@ export class HeaderMentionDetailsComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
+    this.checkScreenSize();
     this.loadMentionDetails();
   }
-
   loadMentionDetails() {
     this.isLoading = true;
     this.errorMessage = null;
@@ -72,4 +72,14 @@ export class HeaderMentionDetailsComponent implements OnInit {
   onShare() {
     this.shareClicked.emit();
   }
+
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768;
+  }
+
+  @HostListener('window:resize', [])
+onResize(): void {
+  this.checkScreenSize();
+}
+  
 }
