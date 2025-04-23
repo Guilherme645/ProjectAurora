@@ -1,4 +1,5 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
+import { SimpleInputSearchComponent } from '../simple-input-search/simple-input-search.component';
 
 @Component({
   selector: 'app-header-saved-search',
@@ -9,7 +10,6 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
 export class HeaderSavedSearchComponent implements OnInit {
   isScrolled: boolean = false;
   isDropdownOpen: boolean = false;
-  isBuscaOpen: boolean = false;
   isMobile: boolean = false;
   isCollapsed: boolean = false;
   isSearchOpen: boolean = false;
@@ -18,6 +18,7 @@ export class HeaderSavedSearchComponent implements OnInit {
   selectedTab: string = 'todas';
   selectAll: boolean = false;
 
+  @ViewChild('searchComponent') searchComponent!: SimpleInputSearchComponent;
   @Output() selectAllEvent = new EventEmitter<boolean>();
   @Output() filterNewsEvent = new EventEmitter<string>();
   @Output() searchChange = new EventEmitter<string>();
@@ -31,40 +32,26 @@ export class HeaderSavedSearchComponent implements OnInit {
   checkScreenSize(): void {
     const previousIsMobile = this.isMobile;
     this.isMobile = window.innerWidth <= 768;
-    // Só redefinir isSearchOpen se o estado de isMobile mudar (evita fechar a busca ao abrir o teclado)
+    // Só redefinir isSearchOpen se o estado de isMobile mudar
     if (previousIsMobile !== this.isMobile) {
-      this.isSearchOpen = !this.isMobile;
+      this.isSearchOpen = false; // Fecha a busca ao mudar de mobile para desktop ou vice-versa
     }
-    console.log('checkScreenSize - isMobile:', this.isMobile, 'isSearchOpen:', this.isSearchOpen);
   }
 
-  toggleSearch(): void {
-    this.isSearchOpen = !this.isSearchOpen;
-    if (!this.isSearchOpen) {
-      this.searchQuery = '';
-      this.searchChange.emit('');
-    }
-    console.log('toggleSearch - isSearchOpen:', this.isSearchOpen);
+  openSearch() {
+    this.isSearchOpen = true;
+    this.searchComponent.openBusca(); // Abre a barra de busca no componente filho
   }
 
   closeSearch(): void {
     this.isSearchOpen = false;
+    this.searchComponent.closeBusca(); // Fecha a barra de busca no componente filho
     this.searchQuery = '';
     this.searchChange.emit('');
-    console.log('closeSearch - isSearchOpen:', this.isSearchOpen);
-  }
-
-  openBusca(): void {
-    this.isBuscaOpen = true;
-  }
-
-  closeBusca(): void {
-    this.isBuscaOpen = false;
   }
 
   @HostListener('document:keydown.escape')
   handleEscape(): void {
-    this.closeBusca();
     if (this.isSearchOpen) {
       this.closeSearch();
     }
@@ -73,17 +60,16 @@ export class HeaderSavedSearchComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: Event): void {
     const target = event.target as HTMLElement;
-    // Evitar fechar a busca se o clique for dentro do input de busca
+    // Evitar fechar a busca se o clique for dentro do input de busca ou no botão de busca
     if (
       !target.closest('app-header-saved-search') &&
-      !target.closest('input.search-bar') // Não fechar se clicar na barra de busca
+      !target.closest('input.search-bar') &&
+      !target.closest('button[aria-label="Abrir busca"]')
     ) {
-      this.closeBusca();
       if (this.isSearchOpen) {
         this.closeSearch();
       }
     }
-    console.log('handleClickOutside - target:', target.tagName, 'isSearchOpen:', this.isSearchOpen);
   }
 
   toggleSelectAll(): void {
@@ -99,16 +85,14 @@ export class HeaderSavedSearchComponent implements OnInit {
   setSelectedTab(tab: string): void {
     this.selectedTab = tab;
     this.filterNewsEvent.emit(tab);
-    console.log('setSelectedTab:', tab);
   }
 
   toggleSidebar(): void {
     this.sidebarToggle.emit();
-    console.log('toggleSidebar chamado');
   }
 
   onSearchChange(query: string): void {
+    this.searchQuery = query;
     this.searchChange.emit(query);
-    console.log('onSearchChange:', query);
   }
 }

@@ -1,5 +1,5 @@
 <!-- monitor-card.component.html -->
-<div *ngIf="!isMobile" class="relative bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+<div *ngIf="!isMobile" class="relative bg-white border border-gray-200 rounded-lg p-6 w-full max-w-md">
   <!-- Barra colorida à esquerda -->
   <div
     class="absolute left-0 top-0 h-full w-1 rounded-l-lg"
@@ -55,25 +55,21 @@
     </div>
     <div class="relative ml-auto">
       <button
-        class="text-gray-500 hover:text-gray-700"
-        (click)="optionSearch.toggleMenu($event)"
-        [attr.aria-expanded]="optionSearch.isMenuOpen"
-        aria-label="Abrir menu de opções"
-      >
-        <svg
-          class="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 12h.01M12 12h.01M18 12h.01"
-          ></path>
-        </svg>
+      class="flex justify-center items-center w-[38px] h-[38px] bg-white/5 rounded-[8px] p-0 text-gray-500 hover:text-gray-700"
+      [ngClass]="{
+        'shadow-[0_0_0_4px_rgba(31,41,55,0.25)]': optionSearch.isMenuOpen,
+        'shadow-none': !optionSearch.isMenuOpen
+      }"
+      (click)="optionSearch.toggleMenu($event)"
+      [attr.aria-expanded]="optionSearch.isMenuOpen"
+      aria-label="Abrir menu de opções"
+    >
+    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8.50016 8.66666C8.86835 8.66666 9.16683 8.36818 9.16683 7.99999C9.16683 7.63181 8.86835 7.33333 8.50016 7.33333C8.13197 7.33333 7.8335 7.63181 7.8335 7.99999C7.8335 8.36818 8.13197 8.66666 8.50016 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M13.1667 8.66666C13.5349 8.66666 13.8333 8.36818 13.8333 7.99999C13.8333 7.63181 13.5349 7.33333 13.1667 7.33333C12.7985 7.33333 12.5 7.63181 12.5 7.99999C12.5 8.36818 12.7985 8.66666 13.1667 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.83317 8.66666C4.20136 8.66666 4.49984 8.36818 4.49984 7.99999C4.49984 7.63181 4.20136 7.33333 3.83317 7.33333C3.46498 7.33333 3.1665 7.63181 3.1665 7.99999C3.1665 8.36818 3.46498 8.66666 3.83317 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      
       </button>
       <!-- Incluindo o OptionSearchComponent -->
       <app-option-search #optionSearch [cardData]="cardData"></app-option-search>
@@ -132,9 +128,9 @@
   </div>
 </div>
 <!-- VERSÃO MOBILE -->
-<div *ngIf="isMobile" class="flex flex-col w-[324px] h-[329px] bg-white rounded-[12px] overflow-hidden shadow border border-gray-200">
+<div *ngIf="isMobile" class="flex flex-col w-[324px] h-[329px] bg-white rounded-[12px] overflow-hidden border border-gray-200">
   <!-- Topo -->
-  <div class="flex flex-row items-center px-4 py-4 gap-2 bg-[#FAFAFA] border-b border-gray-200 rounded-t-[12px]">
+  <div class="flex flex-row items-center py-4 gap-2 bg-[#FAFAFA] border-b border-gray-200 rounded-t-[12px]">
     <div class="w-[2px] h-[38px]"
       [ngClass]="{
         'bg-teal-500': status === 'Ativa',

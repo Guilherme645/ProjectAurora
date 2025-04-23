@@ -1,16 +1,38 @@
 <div *ngIf="!isMobile" class="filtro-container">
   <div class="search-info">
-    <nav class="breadcrumb">
-      <span>Buscas salvas</span> /
-      <span class="active">Ministros</span>
+    <nav class="breadcrumb flex items-center gap-1 text-sm text-gray-600">
+      <!-- Ícone SVG antes do primeiro item -->
+      <svg
+        width="6"
+        height="10"
+        viewBox="0 0 6 10"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-1"
+      >
+        <path d="M5 9L1 5L5 1" stroke="#4B5563" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    
+      <span>Buscas salvas</span>
+      <span class="mx-1">/</span>
+      <span class="active text-gray-900 font-medium">Ministros</span>
     </nav>
-    <div class="flex items-center gap-2">
-      <h2 class="search-title">Busca Ministros</h2>
-      <span class="status-badge" [ngClass]="{'active': isActive, 'inactive': !isActive}">
-        {{ isActive ? 'Ativa' : 'Inativa' }}
-      </span>
+    
+    <div class="flex items-center gap-2 whitespace-nowrap">
+      <h2 class="search-title text-base font-semibold text-gray-900">Busca Ministros</h2>
+      <span
+  class="flex items-center mt-2 justify-center w-[49px] h-[28px] px-2 text-xs font-medium rounded-md"
+  [ngClass]="{
+    'bg-green-100 text-green-700': isActive,
+    'bg-gray-200 text-gray-600': !isActive
+  }"
+>
+  {{ isActive ? 'Ativa' : 'Inativa' }}
+</span>
+
     </div>
-    <p class="search-results">9840 resultados</p>
+    
+    <p class="search-results text-sm text-gray-500">9840 resultados</p>
 <br>
 <br>
   <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">

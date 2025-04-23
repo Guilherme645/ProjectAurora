@@ -1,109 +1,125 @@
 <div class="relative w-full h-auto bg-white" id="workspaceContainer">
-  <!-- Versão Mobile -->
-  <div class="relative w-full h-auto bg-white" id="workspaceContainer">
-    <!-- Versão Mobile -->
-    <div *ngIf="isMobile" class="bg-white w-full h-[136px] border-b border-gray-200 shadow-sm px-6 pt-6 box-border">
-      <div class="flex flex-col gap-6">
-        <!-- Título e ícones -->
-        <div class="flex flex-row justify-between items-start w-[327px] h-[46px] mx-auto">
-          <!-- Título e subtítulo -->
-          <div class="flex flex-row items-center gap-[12px] w-[178px] h-[42px]">
-            <div class="flex flex-col items-start gap-[4px] w-[178px] h-[42px]">
-              <h1 class="text-[18px] leading-[22px] font-semibold tracking-[-0.018em] text-gray-900 font-inter">
-                Buscas salvas
-              </h1>
-              <p class="text-[12px] leading-[16px] font-medium tracking-[-0.01em] text-gray-500 font-inter">
-                Todas as buscas do Workspace
-              </p>
-            </div>
-          </div>
-  
-          <!-- Ícones -->
-          <div class="flex flex-row items-start gap-[8px] w-[100px] h-[46px]">
-            <!-- Botão lupa -->
-            <button
-              class="flex justify-center items-center w-[46px] h-[46px] rounded-[8px] bg-white border border-gray-200 shadow-sm"
-              (click)="toggleSearch()"
-              aria-label="Abrir busca"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </button>
-  
-            <!-- Botão menu -->
-            <button
-              class="flex justify-center items-center w-[46px] h-[46px] rounded-[8px] bg-white border border-gray-200 shadow-sm"
-              (click)="toggleSidebar()"
-              aria-label="Abrir menu"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2">
-                <line x1="4" y1="6" x2="20" y2="6"></line>
-                <line x1="4" y1="12" x2="20" y2="12"></line>
-                <line x1="4" y1="18" x2="20" y2="18"></line>
-              </svg>
-            </button>
+  <div *ngIf="isMobile" class="bg-white w-full h-[136px] border-b border-gray-200 shadow-sm px-6 pt-6 box-border">
+    <div class="flex flex-col gap-6">
+      <!-- Título e ícones (exibido quando a busca não está aberta) -->
+      <div 
+        class="flex flex-row justify-between items-start w-[327px] h-[46px] mx-auto"
+        *ngIf="!isSearchOpen"
+      >
+        <!-- Título e subtítulo -->
+        <div class="flex flex-row items-center gap-[12px] w-[178px] h-[42px]">
+          <div class="flex flex-col items-start gap-[4px] w-[178px] h-[42px]">
+            <h1 class="text-[18px] leading-[22px] font-semibold tracking-[-0.018em] text-gray-900 font-inter">
+              Buscas salvas
+            </h1>
+            <p class="text-[12px] leading-[16px] font-medium tracking-[-0.01em] text-gray-500 font-inter">
+              Todas as buscas do Workspace
+            </p>
           </div>
         </div>
-  
-        <!-- Abas -->
-        <div class="flex items-start gap-[16px] w-[448px] h-[38px] mx-auto">
-          <!-- Aba Todas as buscas -->
+      
+        <!-- Ícones -->
+        <div class="flex flex-row items-center gap-[8px]">
+          <!-- Botão lupa -->
           <button
-            class="flex flex-col justify-center items-start w-[134px] h-[38px] rounded-[8px]"
-            (click)="setSelectedTab('todas')"
+            (click)="openSearch()"
+            aria-label="Abrir busca"
+            class="flex justify-center items-center w-[46px] h-[46px] bg-white text-gray-700"
           >
-            <div class="flex flex-row items-center px-[12px] py-[8px] gap-[8px] w-full h-[36px]">
-              <span
-                class="font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em]"
-                [ngClass]="{'text-blue-600': selectedTab === 'todas', 'text-gray-900': selectedTab !== 'todas'}"
-              >
-                Todas as buscas
-              </span>
-            </div>
-            <div class="w-full h-[2px]" [ngClass]="{'bg-blue-600': selectedTab === 'todas'}"></div>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17.5 17.5L13.9166 13.9167" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
-  
-          <!-- Aba Ativas -->
+      
+          <!-- Botão menu -->
           <button
-            class="flex flex-col justify-center items-start w-[95px] h-[36px] rounded-[8px]"
-            (click)="setSelectedTab('ativas')"
+            class="flex justify-center items-center w-[46px] h-[46px] rounded-[8px] bg-white border border-gray-200 shadow-sm"
+            (click)="toggleSidebar()"
+            aria-label="Abrir menu"
           >
-            <div class="flex flex-row items-center px-[12px] py-[8px] gap-[8px] w-full h-[36px]">
-              <span
-                class="font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em]"
-                [ngClass]="{'text-blue-600': selectedTab === 'ativas', 'text-gray-900': selectedTab !== 'ativas'}"
-              >
-                Ativas
-              </span>
-            </div>
-            <div class="w-full h-[2px]" [ngClass]="{'bg-blue-600': selectedTab === 'ativas'}"></div>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.33337 10H16.6667" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.33337 5H16.6667" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.33337 15H16.6667" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
-  
-          <!-- Aba Pendentes -->
-          <button
-            class="flex flex-col justify-center items-start w-[106px] h-[36px] rounded-[8px]"
-            (click)="setSelectedTab('pendentes')"
-          >
-            <div class="flex flex-row items-center px-[12px] py-[8px] gap-[8px] w-full h-[36px]">
-              <span
-                class="font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em]"
-                [ngClass]="{'text-blue-600': selectedTab === 'pendentes', 'text-gray-900': selectedTab !== 'pendentes'}"
-              >
-                Pendentes
-              </span>
-            </div>
-            <div class="w-full h-[2px]" [ngClass]="{'bg-blue-600': selectedTab === 'pendentes'}"></div>
-          </button>
-        </div>
-  
-        <!-- Campo de busca (exibido quando isSearchOpen é true) -->
-        <div *ngIf="isSearchOpen" class="w-[327px] mx-auto">
-          <app-simple-input-search (searchChange)="onSearchChange($event)"></app-simple-input-search>
         </div>
       </div>
+  
+      <!-- Campo de busca (exibido quando isSearchOpen é true) -->
+      <div *ngIf="isSearchOpen" class="w-[327px]">
+        <app-simple-input-search
+          #searchComponent
+          (searchChange)="onSearchChange($event)"
+          (closeSearch)="closeSearch()" 
+        ></app-simple-input-search>
+      </div>
+  
+      <!-- Abas (sempre visíveis no mobile) -->
+      <div class="flex items-start gap-[16px] w-[448px] h-[38px] mx-auto">
+        <!-- Aba Todas as buscas -->
+        <button
+          class="flex flex-col justify-center items-start w-[134px] h-[38px] rounded-[8px]"
+          (click)="setSelectedTab('todas')"
+        >
+          <div class="flex flex-row items-center px-[12px] py-[8px] gap-[8px] w-full h-[36px]">
+            <span
+              class="font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em]"
+              [ngClass]="{'text-blue-600': selectedTab === 'todas', 'text-gray-900': selectedTab !== 'todas'}"
+            >
+              Todas as buscas
+            </span>
+          </div>
+          <div class="w-full h-[2px]" [ngClass]="{'bg-blue-600': selectedTab === 'todas'}"></div>
+        </button>
+  
+        <!-- Aba Ativas -->
+        <button
+        class="flex flex-col justify-center items-start w-[95px] h-[38px] rounded-[8px]"
+        (click)="setSelectedTab('ativas')"
+      >
+        <div class="flex flex-row items-center px-[12px] py-[8px] gap-[8px] w-full h-full">
+          <span
+            class="font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em]"
+            [ngClass]="{'text-blue-600': selectedTab === 'ativas', 'text-gray-900': selectedTab !== 'ativas'}"
+          >
+            Ativas
+          </span>
+        </div>
+        <div
+          class="w-full h-[2px]"
+          [ngClass]="{
+            'bg-blue-600': selectedTab === 'ativas',
+            'bg-transparent': selectedTab !== 'ativas'
+          }"
+        ></div>
+      </button>
+    
+      <!-- Aba Pendentes -->
+      <button
+        class="flex flex-col justify-center items-start w-[106px] h-[38px] rounded-[8px]"
+        (click)="setSelectedTab('pendentes')"
+      >
+        <div class="flex flex-row items-center px-[12px] py-[8px] gap-[8px] w-full h-full">
+          <span
+            class="font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em]"
+            [ngClass]="{'text-blue-600': selectedTab === 'pendentes', 'text-gray-900': selectedTab !== 'pendentes'}"
+          >
+            Pendentes
+          </span>
+        </div>
+        <div
+          class="w-full h-[2px]"
+          [ngClass]="{
+            'bg-blue-600': selectedTab === 'pendentes',
+            'bg-transparent': selectedTab !== 'pendentes'
+          }"
+        ></div>
+      </button>
+      </div>
     </div>
+  </div>
   <!-- Versão Desktop -->
   <div
     *ngIf="!isMobile"

@@ -7,28 +7,24 @@ import { Component, EventEmitter, HostListener, Output } from '@angular/core';
   standalone: false
 })
 export class SimpleInputSearchComponent {
-  isScrolled = false;
   searchQuery: string = '';
-  isDropdownOpen = false;
-  selectedOption = 'Mais relevantes';
-  isBuscaOpen = false;
+  isBuscaOpen: boolean = false;
+  isMobile: boolean = false;
 
-  // Evento para emitir o valor da pesquisa
   @Output() searchChange = new EventEmitter<string>();
+  @Output() closeSearch = new EventEmitter<void>(); // Novo evento para fechar a busca
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-    this.isScrolled = scrollTop > 100;
+  constructor() {
+    this.checkScreenSize();
   }
 
-  // Método chamado quando o input muda
+  @HostListener('window:resize', [])
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768;
+  }
+
   onSearch() {
     this.searchChange.emit(this.searchQuery);
-  }
-
-  openAdvancedSearch(): void {
-    console.log('Buscando por:', this.searchQuery);
   }
 
   openBusca() {
@@ -37,20 +33,6 @@ export class SimpleInputSearchComponent {
 
   closeBusca() {
     this.isBuscaOpen = false;
-  }
-
-  selectedTab: string = 'brutos';
-
-  selectTab(tab: string) {
-    this.selectedTab = tab;
-  }
-
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
-  selectOption(option: string) {
-    this.selectedOption = option;
-    this.isDropdownOpen = false;
+    this.closeSearch.emit(); // Emite o evento para o componente pai
   }
 }
