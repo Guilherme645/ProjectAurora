@@ -77,9 +77,11 @@
     ></app-modal-entitie-option>
 
     <app-save-entities-filter
-      *ngIf="isSaveFilterVisible"
-      (close)="closeSaveEntitiesFilter()"
-    ></app-save-entities-filter>
+    *ngIf="isSaveFilterVisible"
+    [entityName]="selectedEntityForSave?.entity ?? 'Nenhuma entidade selecionada'"
+    (close)="closeSaveEntitiesFilter()"
+    (saveSelectedFilters)="onSaveSelectedFilters($event)"
+  ></app-save-entities-filter>
   </div>
 
   <!-- Layout Mobile -->

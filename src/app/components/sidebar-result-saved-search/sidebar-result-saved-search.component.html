@@ -74,37 +74,41 @@
       <p class="text-xs text-gray-400 mb-6">Menu da busca</p>
     </div>
     <ul class="flex flex-col gap-2">
-      <li>
-        <a href="#" class="flex items-center gap-2 bg-[#1f2937] p-2 rounded text-sm font-medium">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.33337 4H14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5.33337 8H14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5.33337 12H14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 4H2.00667" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 8H2.00667" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 12H2.00667" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Resultados
-        </a>
-      </li>
-      <li>
-        <a href="#" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.6667 2H3.33333C2.59695 2 2 2.59695 2 3.33333V12.6667C2 13.403 2.59695 14 3.33333 14H12.6667C13.403 14 14 13.403 14 12.6667V3.33333C14 2.59695 13.403 2 12.6667 2Z" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6.66663 4.66663H4.66663V10.6666H6.66663V4.66663Z" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M11.3334 4.66663H9.33337V7.99996H11.3334V4.66663Z" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Dashboard da busca
-        </a>
-      </li>
-      <li>
-        <a href="#" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.80003 4.20003C9.67787 4.32465 9.60945 4.49219 9.60945 4.66669C9.60945 4.8412 9.67787 5.00874 9.80003 5.13336L10.8667 6.20003C10.9913 6.32218 11.1589 6.3906 11.3334 6.3906C11.5079 6.3906 11.6754 6.32218 11.8 6.20003L14.3134 3.68669C14.6486 4.42749 14.7501 5.25285 14.6043 6.05279C14.4586 6.85273 14.0725 7.58926 13.4975 8.16421C12.9226 8.73917 12.1861 9.12525 11.3861 9.271C10.5862 9.41675 9.76082 9.31525 9.02003 8.98003L4.41336 13.5867C4.14814 13.8519 3.78843 14.0009 3.41336 14.0009C3.03829 14.0009 2.67858 13.8519 2.41336 13.5867C2.14814 13.3215 1.99915 12.9618 1.99915 12.5867C1.99915 12.2116 2.14814 11.8519 2.41336 11.5867L7.02003 6.98003C6.6848 6.23923 6.5833 5.41387 6.72905 4.61393C6.87481 3.81399 7.26088 3.07746 7.83584 2.50251C8.4108 1.92755 9.14732 1.54147 9.94726 1.39572C10.7472 1.24997 11.5726 1.35147 12.3134 1.68669L9.80669 4.19336L9.80003 4.20003Z" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Gerenciar busca
-        </a>
-      </li>
+      <ul class="space-y-2 text-sm">
+        <li>
+          <a href="#" class="flex items-center gap-2 bg-[#1f2937] text-white p-2 rounded-md font-medium">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.33337 4H14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5.33337 8H14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5.33337 12H14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 4H2.00667" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 8H2.00667" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 12H2.00667" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              
+            Resultados
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center gap-2 text-gray-400 hover:text-white p-2 rounded-md">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.6667 2H3.33333C2.59695 2 2 2.59695 2 3.33333V12.6667C2 13.403 2.59695 14 3.33333 14H12.6667C13.403 14 14 13.403 14 12.6667V3.33333C14 2.59695 13.403 2 12.6667 2Z" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6.66663 4.66667H4.66663V10.6667H6.66663V4.66667Z" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.3334 4.66667H9.33337V8.00001H11.3334V4.66667Z" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            Dashboard da busca
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center gap-2 text-gray-400 hover:text-white p-1 rounded-md">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.80003 4.2C9.67787 4.32462 9.60945 4.49216 9.60945 4.66666C9.60945 4.84117 9.67787 5.00871 9.80003 5.13333L10.8667 6.2C10.9913 6.32215 11.1589 6.39057 11.3334 6.39057C11.5079 6.39057 11.6754 6.32215 11.8 6.2L14.3134 3.68666C14.6486 4.42746 14.7501 5.25282 14.6043 6.05276C14.4586 6.8527 14.0725 7.58923 13.4975 8.16418C12.9226 8.73914 12.1861 9.12522 11.3861 9.27097C10.5862 9.41672 9.76082 9.31522 9.02003 8.98L4.41336 13.5867C4.14814 13.8519 3.78843 14.0009 3.41336 14.0009C3.03829 14.0009 2.67858 13.8519 2.41336 13.5867C2.14814 13.3214 1.99915 12.9617 1.99915 12.5867C1.99915 12.2116 2.14814 11.8519 2.41336 11.5867L7.02003 6.98C6.6848 6.2392 6.5833 5.41384 6.72905 4.6139C6.87481 3.81396 7.26088 3.07743 7.83584 2.50248C8.4108 1.92752 9.14732 1.54144 9.94726 1.39569C10.7472 1.24994 11.5726 1.35144 12.3134 1.68666L9.80669 4.19333L9.80003 4.2Z" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            Gerenciar busca
+          </a>
+        </li>
+      </ul>
+      
     </ul>
   </main>
 </div>

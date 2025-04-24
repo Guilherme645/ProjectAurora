@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Component({
   selector: 'app-search-saved-search',
@@ -6,48 +6,43 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
   styleUrls: ['./search-saved-search.component.css'],
   standalone: false
 })
-export class SearchSavedSearchComponent  {
+export class SearchSavedSearchComponent {
+  isScrolled: boolean = false; // Estado de rolagem da página
+  searchQuery: string = ''; // Termo de busca
+  selectedTab: string = 'todos'; // Aba selecionada
+  allSelected: boolean = false; // Estado do checkbox "Selecionar todos"
 
- isScrolled = false;
- searchQuery: string = '';
- @Output() searchChange = new EventEmitter<string>();
-   isDropdownOpen = false;
-   selectedOption = 'Mais relevantes';
-   isBuscaOpen = false;
-   @HostListener('window:scroll', [])
-   onWindowScroll() {
-     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-     this.isScrolled = scrollTop > 100;  
-   }
-   clearSearch() {
-    this.searchQuery = '';
-    this.searchChange.emit(this.searchQuery); // Emite a mudança para limpar os resultados
+  @Output() searchChange = new EventEmitter<string>(); // Evento para mudança na busca
+  @Output() tabChange = new EventEmitter<string>(); // Evento para mudança de aba
+  @Output() allSelectedChange = new EventEmitter<boolean>(); // Evento para mudança no checkbox
+
+  // Monitora a rolagem da janela
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+    this.isScrolled = scrollTop > 100;
   }
-   openAdvancedSearch(): void {
-     console.log('Buscando por:', this.searchQuery);
-   }
-   openBusca() {
-     this.isBuscaOpen = true;
-   }
- 
-   closeBusca() {
-     this.isBuscaOpen = false;
-   }
-   selectedTab: string = 'brutos';
- 
- selectTab(tab: string) {
-   this.selectedTab = tab;
- }
- toggleDropdown() {
-   this.isDropdownOpen = !this.isDropdownOpen;
- }
- 
- selectOption(option: string) {
-   this.selectedOption = option;
-   this.isDropdownOpen = false;
- }
- onSearch() {
-  this.searchChange.emit(this.searchQuery);
-}
 
+  // Limpa o campo de busca
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.searchChange.emit(this.searchQuery);
+  }
+
+  // Seleciona uma aba
+  selectTab(tab: string): void {
+    this.selectedTab = tab;
+    this.tabChange.emit(tab);
+  }
+
+  // Alterna o estado do checkbox "Selecionar todos"
+  toggleAllSelected(): void {
+    this.allSelected = !this.allSelected;
+    this.allSelectedChange.emit(this.allSelected);
+  }
+
+  // Emite o termo de busca
+  onSearch(): void {
+    this.searchChange.emit(this.searchQuery);
+  }
 }

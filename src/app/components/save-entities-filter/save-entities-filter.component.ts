@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, HostListener, Input } from '@angular/core';
 
 @Component({
   selector: 'app-save-entities-filter',
@@ -8,8 +8,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SaveEntitiesFilterComponent {
   @Output() close = new EventEmitter<void>();
+  @Output() saveSelectedFilters = new EventEmitter<{ entity: string, selectedFilters: any[] }>();
+  @Input() entityName: string = 'Brasília';
 
-  selectedEntity: string = 'Brasília';
+  searchTerm: string = ''; // Property to store the search input
 
   filterCards = [
     {
@@ -56,11 +58,34 @@ export class SaveEntitiesFilterComponent {
     },
   ];
 
+  // Getter to compute the filtered cards based on the search term
+  get filteredCards(): any[] {
+    if (!this.searchTerm) {
+      return this.filterCards; // Return all cards if search term is empty
+    }
+    const searchLower = this.searchTerm.toLowerCase();
+    return this.filterCards.filter(card =>
+      card.title.toLowerCase().includes(searchLower)
+    );
+  }
+
   getSelectedCount(): number {
     return this.filterCards.filter(card => card.checked).length;
   }
 
   closeFilter() {
     this.close.emit();
+  }
+
+  saveFilters() {
+    const selectedFilters = this.filterCards.filter(card => card.checked);
+    this.saveSelectedFilters.emit({ entity: this.entityName, selectedFilters });
+    this.closeFilter();
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKeydownHandler(event: KeyboardEvent) {
+    event.preventDefault();
+    this.closeFilter();
   }
 }

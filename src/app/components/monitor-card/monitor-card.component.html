@@ -13,7 +13,7 @@
   <!-- Título e Sino -->
   <div class="flex justify-between items-center mb-4 w-full">
     <div class="flex items-center gap-2">
-      <h2 class="text-lg font-semibold text-gray-800">{{ title }}</h2>
+      <h2 class="text-[14px] font-['Inter'] font-semibold text-[#1F2937]">{{ title }}</h2>
       <!-- Ícone do Sino com Tooltip -->
       <span
         *ngIf="showBellIcon"
@@ -55,21 +55,20 @@
     </div>
     <div class="relative ml-auto">
       <button
-      class="flex justify-center items-center w-[38px] h-[38px] bg-white/5 rounded-[8px] p-0 text-gray-500 hover:text-gray-700"
-      [ngClass]="{
-        'shadow-[0_0_0_4px_rgba(31,41,55,0.25)]': optionSearch.isMenuOpen,
-        'shadow-none': !optionSearch.isMenuOpen
-      }"
-      (click)="optionSearch.toggleMenu($event)"
-      [attr.aria-expanded]="optionSearch.isMenuOpen"
-      aria-label="Abrir menu de opções"
-    >
-    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8.50016 8.66666C8.86835 8.66666 9.16683 8.36818 9.16683 7.99999C9.16683 7.63181 8.86835 7.33333 8.50016 7.33333C8.13197 7.33333 7.8335 7.63181 7.8335 7.99999C7.8335 8.36818 8.13197 8.66666 8.50016 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M13.1667 8.66666C13.5349 8.66666 13.8333 8.36818 13.8333 7.99999C13.8333 7.63181 13.5349 7.33333 13.1667 7.33333C12.7985 7.33333 12.5 7.63181 12.5 7.99999C12.5 8.36818 12.7985 8.66666 13.1667 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M3.83317 8.66666C4.20136 8.66666 4.49984 8.36818 4.49984 7.99999C4.49984 7.63181 4.20136 7.33333 3.83317 7.33333C3.46498 7.33333 3.1665 7.63181 3.1665 7.99999C3.1665 8.36818 3.46498 8.66666 3.83317 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      
+        class="flex justify-center items-center w-[38px] h-[38px] bg-white/5 rounded-[8px] p-0 text-gray-500 hover:text-gray-700"
+        [ngClass]="{
+          'shadow-[0_0_0_4px_rgba(31,41,55,0.25)]': optionSearch.isMenuOpen,
+          'shadow-none': !optionSearch.isMenuOpen
+        }"
+        (click)="optionSearch.toggleMenu($event)"
+        [attr.aria-expanded]="optionSearch.isMenuOpen"
+        aria-label="Abrir menu de opções"
+      >
+        <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.50016 8.66666C8.86835 8.66666 9.16683 8.36818 9.16683 7.99999C9.16683 7.63181 8.86835 7.33333 8.50016 7.33333C8.13197 7.33333 7.8335 7.63181 7.8335 7.99999C7.8335 8.36818 8.13197 8.66666 8.50016 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.1667 8.66666C13.5349 8.66666 13.8333 8.36818 13.8333 7.99999C13.8333 7.63181 13.5349 7.33333 13.1667 7.33333C12.7985 7.33333 12.5 7.63181 12.5 7.99999C12.5 8.36818 12.7985 8.66666 13.1667 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.83317 8.66666C4.20136 8.66666 4.49984 8.36818 4.49984 7.99999C4.49984 7.63181 4.20136 7.33333 3.83317 7.33333C3.46498 7.33333 3.1665 7.63181 3.1665 7.99999C3.1665 8.36818 3.46498 8.66666 3.83317 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
       <!-- Incluindo o OptionSearchComponent -->
       <app-option-search #optionSearch [cardData]="cardData"></app-option-search>
@@ -79,19 +78,19 @@
   <!-- Informações -->
   <div class="space-y-3">
     <div class="flex justify-between">
-      <span class="text-gray-600">Início do monitoramento:</span>
-      <span class="text-gray-800 font-medium">{{ startDate }}</span>
+      <span class="text-[14px] font-['Inter'] font-medium text-[#6B7280]">Início do monitoramento:</span>
+      <span class="text-[14px] font-['Inter'] font-medium text-[#1F2937]">{{ startDate }}</span>
     </div>
     <hr />
     <div class="flex justify-between">
-      <span class="text-gray-600">Fim do monitoramento:</span>
-      <span class="text-gray-800 font-medium">{{ endDate }}</span>
+      <span class="text-[14px] font-['Inter'] font-medium text-[#6B7280]">Fim do monitoramento:</span>
+      <span class="text-[14px] font-['Inter'] font-medium text-[#1F2937]">{{ endDate }}</span>
     </div>
     <hr />
     <div class="flex justify-between items-center">
-      <span class="text-gray-600">Status:</span>
+      <span class="text-[14px] font-['Inter'] font-medium text-[#6B7280]">Status:</span>
       <span
-        class="bg-teal-100 text-teal-800 text-sm font-medium px-2.5 py-0.5 rounded"
+        class="bg-teal-100 text-[14px] font-['Inter'] font-medium px-2.5 py-0.5 rounded"
         [ngClass]="{
           'bg-teal-100 text-teal-800': status === 'Ativa',
           'bg-blue-100 text-blue-800': status === 'Pendente',
@@ -106,10 +105,9 @@
   <!-- Botão -->
   <div class="mt-6">
     <button
-      class="w-full bg-gray-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-900 flex items-center justify-center gap-2"
-      [routerLink]="['/result-saved-search']"
+      class="w-full bg-gray-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-900 flex items-center justify-center gap-2 "
     >
-      Detalhe da busca
+      <span class="text-[14px] font-['Inter'] font-medium text-white" [routerLink]="['/result-saved-search']">Detalhe da busca</span>
       <svg
         class="w-4 h-4"
         fill="none"

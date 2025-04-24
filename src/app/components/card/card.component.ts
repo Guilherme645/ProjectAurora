@@ -8,23 +8,22 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class CardComponent {
-  @Input() noticias: any; // Inclui o campo 'id'
+  @Input() noticias: any;
   @Input() isSelected: boolean = false;
-  @Output() selectionChange = new EventEmitter<boolean>();
+  @Input() allSelected: boolean = false; // Recebe o estado de "Selecionar Todos"
   @Input() searchQuery: string = '';
-
-  constructor(private router: Router) {}
+  @Output() selectionChange = new EventEmitter<boolean>();
 
   isModalOpen: boolean = false;
-  allSelected: boolean = false;
-
   isMobile: boolean = window.innerWidth <= 768;
   isMenuOpen: boolean = false;
   isEntitiesModalOpen: boolean = false;
   showTagFilter: boolean = false;
 
   dropdownPosition: { top: number; left: number } = { top: 0, left: 0 };
-  activeCardId: string | null = null; // Armazena o ID do card onde o menu foi aberto
+  activeCardId: string | null = null;
+
+  constructor(private router: Router) {}
 
   @HostListener('window:resize')
   checkScreenSize(): void {
@@ -36,35 +35,31 @@ export class CardComponent {
     this.showTagFilter = false;
     this.isEntitiesModalOpen = false;
     this.isMenuOpen = false;
-    this.activeCardId = null; // Reseta o card ativo ao fechar
-  }
-
-  closeTagFilter(): void {
-    this.showTagFilter = false;
-  }
-
-  closeEntitiesModal(): void {
-    this.isEntitiesModalOpen = false;
+    this.activeCardId = null;
   }
 
   toggleMenu(event: MouseEvent): void {
     const button = event.currentTarget as HTMLElement;
-    const cardId = this.noticias.id; // Pega o ID do card atual
+    const cardId = this.noticias.id;
 
     if (this.activeCardId === cardId && this.isMenuOpen) {
-      // Se o menu já está aberto para este card, fecha-o
       this.isMenuOpen = false;
       this.activeCardId = null;
     } else {
-      // Abre o menu para este card
       const rect = button.getBoundingClientRect();
       this.dropdownPosition = {
-        top: rect.bottom + window.scrollY + 5, // Abaixo do botão com um pequeno espaçamento
-        left: rect.right + window.scrollX - 187 // Alinha à direita do botão, ajustando pela largura do dropdown (187px)
+        top: rect.bottom + window.scrollY + 5,
+        left: rect.right + window.scrollX - 187
       };
       this.isMenuOpen = true;
-      this.activeCardId = cardId; // Armazena o ID do card ativo
+      this.activeCardId = cardId;
     }
+  }
+
+  onCheckboxChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.isSelected = checked;
+    this.selectionChange.emit(checked);
   }
 
   openEntitiesModal(): void {
@@ -78,8 +73,12 @@ export class CardComponent {
     this.showTagFilter = true;
   }
 
-  onCheckboxChange(event: Event): void {
-    this.selectionChange.emit((event.target as HTMLInputElement).checked);
+  closeTagFilter(): void {
+    this.showTagFilter = false;
+  }
+
+  closeEntitiesModal(): void {
+    this.isEntitiesModalOpen = false;
   }
 
   openModal(): void {

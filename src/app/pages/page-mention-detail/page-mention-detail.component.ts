@@ -117,7 +117,7 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
 
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
-    console.log('isMobile:', this.isMobile); // ✅ log importante
+    console.log('isMobile:', this.isMobile);
   }
   
   onDescriptionReceived(description: string): void {
@@ -170,5 +170,11 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
     console.log('closeSaveEntitiesFilter called');
     this.isSaveFilterVisible = false;
     this.selectedEntityForSave = undefined;
+  }
+
+  onSaveSelectedFilters(event: { entity: string, selectedFilters: any[] }) {
+    console.log('Filters saved:', event.entity, event.selectedFilters);
+    // Here you can add logic to save the selected filters, e.g., to a service or state
+    this.closeSaveEntitiesFilter();
   }
 }

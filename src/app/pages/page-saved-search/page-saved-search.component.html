@@ -4,14 +4,16 @@
     <!-- Cabeçalho Mobile -->
     <div class="header-wrapper-mobile z-10 bg-white w-[375px] h-[136px]">
       <app-header-saved-search
-      (searchChange)="onSearchChange($event)"
-      (filterNewsEvent)="setActiveTab($event)"
-      (sidebarToggle)="toggleSidebar()"
-    ></app-header-saved-search>    </div>
+        (searchChange)="onSearchChange($event)"
+        (filterNewsEvent)="setActiveTab($event)"
+        (sidebarToggle)="toggleSidebar()"
+      ></app-header-saved-search>
+    </div>
   
     <!-- Conteúdo principal -->
-    <div class="main-content-mobile overflow-x-hidden overflow-y-auto h-screen pt-4">      <!-- Cards de monitoramento -->
-      <main class="main px-4 pb-8"> <!-- Removido pt-4 para minimizar o espaço -->
+    <div class="main-content-mobile overflow-x-hidden overflow-y-auto h-screen pt-4">
+      <!-- Cards de monitoramento -->
+      <main class="main px-4 pb-8">
         <!-- Loading state -->
         <div *ngIf="isLoading" class="text-center py-4">
           <p>Carregando...</p>
@@ -25,13 +27,13 @@
         <!-- Monitor Cards -->
         <div *ngIf="!isLoading && !errorMessage && isMobile" class="grid grid-cols-1 gap-4 z-0 relative">
           <app-monitor-card
-          *ngFor="let card of filteredMonitorCards"
-          [title]="card.title"
-          [startDate]="card.startDate"
-          [endDate]="card.endDate"
-          [status]="card.status"
-          [isMobile]="isMobile"
-        ></app-monitor-card>
+            *ngFor="let card of filteredMonitorCards"
+            [title]="card.title"
+            [startDate]="card.startDate"
+            [endDate]="card.endDate"
+            [status]="card.status"
+            [isMobile]="isMobile"
+          ></app-monitor-card>
         </div>
       </main>
     </div>
@@ -83,14 +85,14 @@
   <!-- Modal de Edição -->
   <div
     *ngIf="modalAberto"
-    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
+    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000] opacity-100"
     role="dialog"
     aria-modal="true"
   >
     <button
       type="button"
       aria-label="Fechar"
-      class="close-modal-button absolute z-[1001] top-4 right-4"
+      class="close-modal-button absolute z-[1001] top-4 right-4 flex items-center justify-center w-[40px] h-[40px] !bg-white rounded-md shadow-md"
       (click)="closeEditModal()"
     >
       <svg
@@ -102,6 +104,7 @@
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
+        class="text-black"
       >
         <path d="M18 6 6 18"></path>
         <path d="M6 6l12 12"></path>
@@ -113,14 +116,14 @@
   <!-- Modal de Duplicação -->
   <div
     *ngIf="duplicateModalAberto"
-    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
+    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000] opacity-100"
     role="dialog"
     aria-modal="true"
   >
     <button
       type="button"
       aria-label="Fechar"
-      class="close-modal-button absolute z-[1001] top-4 right-4"
+      class="close-modal-button absolute z-[1001] top-4 right-4 flex items-center justify-center w-[40px] h-[40px] !bg-white ml-80 rounded-md shadow-md "
       (click)="closeDuplicateModal()"
     >
       <svg
@@ -132,6 +135,7 @@
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
+        class="text-black"
       >
         <path d="M18 6 6 18"></path>
         <path d="M6 6l12 12"></path>
@@ -143,10 +147,11 @@
   <!-- Modal de Remoção -->
   <div
     *ngIf="removeModalAberto"
-    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000]"
+    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000] opacity-100"
     role="dialog"
     aria-modal="true"
   >
+ 
     <app-remove-saved-search (cancel)="onCancelRemove()" (confirmRemove)="onConfirmRemove()"></app-remove-saved-search>
   </div>
 

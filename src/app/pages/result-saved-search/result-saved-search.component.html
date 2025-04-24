@@ -1,24 +1,39 @@
 <!-- Versão Desktop -->
 <div *ngIf="!isMobile" class="layout-container">
+  <!-- Barra lateral -->
   <div class="bg-neutral-800 text-white fixed h-full z-50">
     <app-sidebar-result-saved-search (userChange)="onUserChange($event)"></app-sidebar-result-saved-search>
   </div>
 
+  <!-- Conteúdo principal -->
   <div class="main-content">
+    <!-- Cabeçalho -->
     <div class="header transition-all duration-300"
-      [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
-      <app-search-saved-search (searchChange)="searchQuery = $event"></app-search-saved-search>
+         [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
+      <app-search-saved-search
+        (searchChange)="onSearchChange($event)"
+        (tabChange)="onTabChange($event)"
+        (allSelectedChange)="onAllSelectedChange($event)">
+      </app-search-saved-search>
     </div>
 
+    <!-- Área de conteúdo -->
     <div class="content h-[2000px] bg-gray-100 mt-[80px]">
       <div class="content-wrapper">
+        <!-- Filtros -->
         <div class="filters">
-          <app-filtros-saved-search></app-filtros-saved-search> 
+          <app-filtros-saved-search></app-filtros-saved-search>
         </div>
 
+        <!-- Lista de notícias -->
         <main class="main">
-          <div class="card" *ngFor="let noticias of noticias">
-            <app-card [noticias]="noticias" [searchQuery]="searchQuery"></app-card>
+          <div class="card" *ngFor="let noticia of filteredNoticias">
+            <app-card
+              [noticias]="noticia"
+              [searchQuery]="searchQuery"
+              [allSelected]="allSelected"
+              (selectionChange)="noticia.selected = $event">
+            </app-card>
           </div>
         </main>
       </div>
@@ -28,121 +43,139 @@
 
 <!-- Versão Mobile -->
 <div *ngIf="isMobile" class="mobile-layout-container">
-  <!-- Sidebar (unchanged) -->
+  <!-- Sidebar -->
 
-  <!-- Sticky Navigation (unchanged) -->
+
+  <!-- Barra de Busca no Mobile (exibida quando isSearchOpen é true) -->
+  <div *ngIf="isSearchOpen" class="search-overlay fixed inset-0 bg-white z-50 p-4">
+    <button class="absolute top-4 right-4" (click)="closeSearch()" aria-label="Fechar busca">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+    <app-search-saved-search
+      (searchChange)="onSearchChange($event)"
+      (tabChange)="onTabChange($event)"
+      (allSelectedChange)="onAllSelectedChange($event)">
+    </app-search-saved-search>
+  </div>
+
+  <!-- Sticky Navigation -->
   <nav class="sticky top-0 z-10 bg-white transition-transform duration-300 ease-in-out">
     <div class="flex justify-between items-start px-4 pt-4 pb-2">
-      
       <!-- ESQUERDA: ícone de voltar com título abaixo -->
       <div class="flex flex-col items-start">
-        <!-- Ícone voltar alinhado com os botões -->
-        <button
-          aria-label="Voltar"
-          class="flex justify-center items-center w-[24px] h-[24px]"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-
-        <!-- Título abaixo da seta -->
+        <a
+        routerLink="/saved-search"
+        aria-label="Voltar"
+        class="flex justify-center items-center w-[24px] h-[24px]"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+      
         <div class="mt-2">
           <h3 class="font-inter font-semibold text-[16px] text-gray-900 leading-tight">
             Busca Ministros
           </h3>
           <p class="font-inter font-normal text-[14px] text-gray-600 leading-none">
-            9840 resultados
+            {{ filteredNoticias.length }} resultados
           </p>
         </div>
       </div>
-  
+
       <!-- DIREITA: lupa e menu -->
       <div class="flex items-center space-x-3">
         <button
           aria-label="Abrir busca"
           class="flex justify-center items-center w-[46px] h-[46px] bg-white text-gray-700"
-        >
+          (click)="openSearch()">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M17.5 17.5L13.9166 13.9167" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-  
         <button
           class="flex justify-center items-center w-[46px] h-[46px] rounded-[8px] bg-white border border-gray-200 shadow-sm"
           (click)="toggleSidebar()"
-          aria-label="Abrir menu"
-        >
+          aria-label="Abrir menu">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.33337 10H16.6667" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3.33337 5H16.6667" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3.33337 15H16.6667" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.33331 10H16.6666" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.33331 5H16.6666" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.33331 15H16.6666" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex justify-around border-b border-gray-200">
+      <button
+        class="tab-button font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em] px-4 py-2"
+        [ngClass]="{ 'active': selectedTab === 'todos', 'text-gray-500': selectedTab !== 'todos' }"
+        (click)="setSelectedTab('todos')">
+        Todos os resultados
+      </button>
+      <button
+        class="tab-button font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em] px-4 py-2"
+        [ngClass]="{ 'active': selectedTab === 'brutos', 'text-gray-500': selectedTab !== 'brutos' }"
+        (click)="setSelectedTab('brutos')">
+        Resultados brutos
+      </button>
+      <button
+        class="tab-button font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em] px-4 py-2"
+        [ngClass]="{ 'active': selectedTab === 'clippings', 'text-gray-500': selectedTab !== 'clippings' }"
+        (click)="setSelectedTab('clippings')">
+        Clippings
+      </button>
+    </div>
+  </nav>
+
+  <!-- Sorting and Filter -->
+  <div class="sorting-container p-4 bg-white border-b border-gray-200">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          id="selectAllMobile"
+          class="w-[16px] h-[16px] rounded border border-gray-300 text-blue-600 focus:ring-blue-500"
+          [(ngModel)]="allSelected"
+          (ngModelChange)="onAllSelectedChange($event)">
+        <span class="text-sm font-medium text-gray-500">
+          Selecionar todos os resultados
+        </span>
+      </div>
+      <div class="filter-icon-container ml-[60px]">
+        <button class="p-2" (click)="toggleFiltros()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
           </svg>
         </button>
       </div>
     </div>
-<br>
-    <!-- Tabs (unchanged) -->
-    <div class="">
-      <div class="flex justify-around">
-        <button
-          class="tab-button font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em] px-4 py-2"
-          [class.active]="selectedTab === 'todos'"
-          (click)="setSelectedTab('todos')"
-        >
-          Todos os resultados
-        </button>
-        <button
-          class="tab-button font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em] px-4 py-2"
-          [class.active]="selectedTab === 'brutos'"
-          (click)="setSelectedTab('brutos')"
-        >
-          Resultados brutos
-        </button>
-        <button
-          class="tab-button font-inter font-medium text-[14px] leading-[20px] tracking-[-0.01em] px-4 py-2"
-          [class.active]="selectedTab === 'clippings'"
-          (click)="setSelectedTab('clippings')"
-        >
-          Clippings
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Sorting and Filter (unchanged) -->
-  <div class="sorting-container p-4">
-    <div class="flex items-center">
-      <input
-        type="checkbox"
-        id="selectAll"
-        class="w-[16px] h-[16px] rounded border border-gray-300 text-blue-600 focus:ring-blue-500 mr-2"
-      />
-      <label for="selectAll" class="text-sm font-medium text-gray-500">
-        Selecionar todos os resultados
-      </label>
-    </div>
-    <div class="filter-icon-container">
-      <button class="p-2" (click)="toggleFiltros()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-        </svg>
-      </button>
-    </div>
   </div>
 
-<main class="w-full p-4 box-border">
-  <div *ngFor="let noticias of noticias" class="w-full max-w-[375px] mx-auto mb-4 overflow-hidden">
-    <app-card [noticias]="noticias"></app-card>
-  </div>
-</main>
-
-  <!-- Filters Overlay (unchanged) -->
-  <div *ngIf="filtrosAbertos" class="filtros-overlay">
-    <div class="filtros-container animate-slide-up">
-      <app-filtros (closeModal)="filtrosAbertos = false"></app-filtros>
+  <!-- Main Content -->
+  <main class="w-full p-4 box-border">
+    <div *ngFor="let noticia of filteredNoticias" class="w-full max-w-[375px] mx-auto mb-4 overflow-hidden">
+      <app-card
+        [noticias]="noticia"
+        [searchQuery]="searchQuery"
+        [allSelected]="allSelected"
+        (selectionChange)="noticia.selected = $event">
+      </app-card>
     </div>
+  </main>
+
+  <!-- Filters Overlay -->
+  <div *ngIf="filtrosAbertos"
+     class="filtros-overlay fixed inset-0 z-50 bg-gray-900/40 backdrop-blur-sm flex items-end justify-center">
+  <div class="filtros-container animate-slide-up w-full max-w-md">
+    <app-filtros-saved-search (closeModal)="filtrosAbertos = false"></app-filtros-saved-search>
   </div>
+</div>
+
 </div>
