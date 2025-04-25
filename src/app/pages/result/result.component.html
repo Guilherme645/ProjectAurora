@@ -46,7 +46,7 @@
         <app-searc-basic></app-searc-basic>
       </div>
 
-      <div class="content h-[2000px] bg-gray-100 mt-[80px]">
+      <div class="content h-[2000px] bg-white mt-[80px]">
         <div class="content-wrapper">
           <div class="filters">
             <app-filtros 
@@ -56,11 +56,12 @@
             </app-filtros> 
           </div>
 
-          <main class="main">
-            <div class="card" *ngFor="let noticias of noticias">
+          <div class="space-y-[64px]"> <!-- 32px acima + 32px abaixo -->
+            <div *ngFor="let noticias of noticias">
               <app-card [noticias]="noticias"></app-card>
             </div>
-          </main>
+          </div>
+          
         </div>
       </div>
     </div>

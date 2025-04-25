@@ -29,7 +29,7 @@ searchQuery: string = '';
   closeBusca() {
     this.isBuscaOpen = false;
   }
-  selectedTab: string = 'brutos';
+  selectedTab: string = 'todos';
 
 selectTab(tab: string) {
   this.selectedTab = tab;

@@ -1,85 +1,96 @@
 <!-- Versão Desktop -->
-<div *ngIf="!isMobile" class="filtro-container">
-  <div class="search-info">
-    <nav class="breadcrumb">
+<div *ngIf="!isMobile" class="filtro-container w-[308px] h-[1340px] space-y-10 p-4 rounded-lg -mt-[85px] ml-[23px]">
+  <div class="search-info w-[198px] space-y-3 mb-[40px]">
+    <nav class="breadcrumb text-xs text-black">
       <span>Busca Geral</span> /
-      <span class="active">Dias Toffoli</span>
+      <span class="active font-bold text-gray-900">Dias Toffoli</span>
     </nav>
-    <h2 class="search-title">Dias Toffoli</h2>
-    <p class="search-results">9840 resultados</p>
+    <h2 class="search-title text-xl font-bold text-gray-900 mt-1">Dias Toffoli</h2>
+    <p class="search-results text-sm text-gray-900">9840 resultados</p>
   </div>
 
-  <div class="save-search">
-    <div class="save-search-text">
-      <p class="title">Monitore essa busca</p>
-      <p class="subtitle">Atualizações automáticas</p>
+  <div class="save-search flex justify-between items-center w-[308px] h-[78px] rounded-lg border border-gray-200 bg-white p-4 mb-5">
+    <div class="save-search-text flex flex-col">
+      <p class="title text-sm font-bold text-gray-700">Monitore essa busca</p>
+      <p class="subtitle text-xs text-gray-500">Atualizações automáticas</p>
     </div>
-    <button class="save-button" (click)="openModal()">
+    <button class="save-button flex items-center bg-sky-100 border-none px-2.5 py-1.5 rounded-lg text-sky-700 font-bold hover:bg-sky-200" (click)="openModal()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
       </svg>
-      <span>Salvar</span>
+      <span class="ml-1">Salvar</span>
     </button>
   </div>
 
-  <div *ngFor="let filtro of filtros" class="filter-section">
-    <div class="filter-header" (click)="toggleSection(filtro.nome)">
-      <h2>{{ filtro.nome }}</h2>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
+  <div *ngFor="let filtro of filtros" class="filter-section w-[308px] space-y-12">
+    <div class="filter-header flex justify-between items-center cursor-pointer py-2.5">
+      <h2 class="text-sm font-bold text-gray-700">{{ filtro.nome }}</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon w-5 h-5 text-gray-500 transition-transform duration-300" [ngClass]="{ 'rotate-180': filtro.aberto }">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
       </svg>
     </div>
-    <div class="accordion-content" *ngIf="filtro.aberto">
-      <div *ngIf="filtro.nome === 'Data'" class="date-container">
-        <input class="date-field" placeholder="Data Início" type="text" />
-        <input class="date-field" placeholder="Data Fim" type="text" />
-      </div>
-      <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
-        <ul>
-          <li *ngFor="let item of filtro.itens">{{ item }}</li>
+    <div class="accordion-content py-2" *ngIf="filtro.aberto">
+      <div *ngIf="filtro.nome === 'Data'" class="date-container flex gap-4 w-full h-[62px]">
+          <input 
+            type="date"
+            [(ngModel)]="dataInicio"
+            class="custom-date w-1/2 h-full p-3 border border-transparent rounded-lg bg-gray-100 text-sm text-gray-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+            placeholder="Data início"
+          />
+          <input 
+            type="date"
+            [(ngModel)]="dataFim"
+            class="custom-date w-1/2 h-full p-3 border border-transparent rounded-lg bg-gray-100 text-sm text-gray-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+            placeholder="Data fim"
+          />
+        </div>
+        
+      <div *ngIf="filtro.nome !== 'Data'" class="filter-content p-2.5 rounded-lg">
+        <ul class="list-none p-0 m-0">
+          <li *ngFor="let item of filtro.itens" class="py-1.5 text-sm text-black cursor-pointer hover:text-sky-700">{{ item }}</li>
         </ul>
-        <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+        <button *ngIf="filtro.mostrarMais" class="show-more bg-none border-none text-sky-700 text-sm font-bold cursor-pointer mt-2 hover:underline" (click)="mostrarMais(filtro)">Mostrar mais</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Versão Mobile -->
-<div *ngIf="isMobile" class="mobile-layout-container">
-  <div *ngIf="modalAberto" class="mobile-modal-overlay">
-    <div class="mobile-modal-container">
-      <div class="mobile-modal-header">
-        <h2>Salvar Busca</h2>
-        <button class="close-button" (click)="fecharModal()">✖</button>
+<div *ngIf="isMobile" class="mobile-layout-container w-full p-4">
+  <div *ngIf="modalAberto" class="mobile-modal-overlay fixed inset-0 z-50 bg-black/50 flex items-center justify-center overflow-y-auto">
+    <div class="mobile-modal-container w-[90%] max-w-[400px] bg-white rounded-2xl shadow-lg p-6">
+      <div class="mobile-modal-header flex justify-between items-center">
+        <h2 class="text-lg font-bold text-gray-900">Salvar Busca</h2>
+        <button class="close-button text-gray-700 text-xl" (click)="fecharModal()">✖</button>
       </div>
       <app-save-search></app-save-search>
     </div>
   </div>
 
-  <div class="mobile-modal-drag-bar" (click)="closeMobileModal()"></div>
+  <div class="mobile-modal-drag-bar w-10 h-1.5 bg-black rounded-full mx-auto my-2 cursor-pointer" (click)="closeMobileModal()"></div>
 
-  <div *ngFor="let filtro of filtros" class="filter-section">
-    <div class="filter-header" (click)="toggleSection(filtro.nome)">
-      <h2>{{ filtro.nome }}</h2>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon" [ngClass]="{ 'rotate': filtro.aberto }">
+  <div *ngFor="let filtro of filtros" class="filter-section w-full mb-4">
+    <div class="filter-header flex justify-between items-center cursor-pointer py-2 border-b border-gray-200" (click)="toggleSection(filtro.nome)">
+      <h2 class="text-sm font-bold text-gray-700">{{ filtro.nome }}</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon w-5 h-5 text-gray-500 transition-transform duration-300" [ngClass]="{ 'rotate-180': filtro.aberto }">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
       </svg>
     </div>
-    <div class="accordion-content" *ngIf="filtro.aberto">
-      <div *ngIf="filtro.nome === 'Data'" class="date-container">
-        <input class="date-field" placeholder="Data Início" type="text" />
-        <input class="date-field" placeholder="Data Fim" type="text" />
+    <div class="accordion-content py-2" *ngIf="filtro.aberto">
+      <div *ngIf="filtro.nome === 'Data'" class="date-container flex justify-between gap-2 mt-2">
+        <input class="date-field w-full p-3 border border-gray-200 rounded-lg bg-gray-100 text-sm outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/30" placeholder="Data Início" type="text" />
+        <input class="date-field w-full p-3 border border-gray-200 rounded-lg bg-gray-100 text-sm outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/30" placeholder="Data Fim" type="text" />
       </div>
-      <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
-        <ul>
-          <li *ngFor="let item of filtro.itens">{{ item }}</li>
+      <div *ngIf="filtro.nome !== 'Data'" class="filter-content p-2.5 rounded-lg">
+        <ul class="list-none p-0 m-0">
+          <li *ngFor="let item of filtro.itens" class="py-1.5 text-sm text-black cursor-pointer hover:text-sky-700">{{ item }}</li>
         </ul>
-        <button *ngIf="filtro.mostrarMais" class="show-more" (click)="mostrarMais(filtro)">Mostrar mais</button>
+        <button *ngIf="filtro.mostrarMais" class="show-more bg-none border-none text-sky-700 text-sm font-bold cursor-pointer mt-2 hover:underline" (click)="mostrarMais(filtro)">Mostrar mais</button>
       </div>
     </div>
-  </div> 
+  </div>
 
-  <div class="mobile-modal-footer">
-    <button type="button" class="mobile-action-button">Aplicar filtros</button>
+  <div class="mobile-modal-footer sticky bottom-0 bg-white p-4 border-t border-gray-200 z-10">
+    <button type="button" class="mobile-action-button w-full py-3 bg-gray-900 text-white border-none rounded-lg text-sm font-bold cursor-pointer">Aplicar filtros</button>
   </div>
 </div>
