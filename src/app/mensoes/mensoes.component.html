@@ -14,8 +14,10 @@
       </button>
 
       <div id="mention-dropdown-menu" class="dropdown-menu" [class.show]="dropdownOpen">
-        <a (click)="abrirRelatorioModal()" class="mention-item">Incluir em Relatório(s) <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">R</kbd></span></a>
-        <a class="mention-item">Compartilhar <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">C</kbd></span></a>
+        <a (click)="abrirModalRelatorio()" class="mention-item">
+          Incluir em Relatório(s) <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">R</kbd></span>
+        </a>       
+         <a class="mention-item">Compartilhar <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">C</kbd></span></a>
         <a class="mention-item">Imprimir menções <span><kbd class="kbd">Shift</kbd> + <kbd class="kbd">P</kbd></span></a>
       </div>
 

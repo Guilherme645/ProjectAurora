@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-mensoes',
@@ -12,6 +12,7 @@ export class MensoesComponent {
   isBlurred: boolean = false; 
   @Input() selectedCount: number = 0;
   @Input() isBuscaOpen: boolean = false; 
+  @Output() abrirRelatorioModal = new EventEmitter<void>();
 
   private updateBlurState(): void {
     this.isBlurred = this.isBuscaOpen || this.modalAberto;
@@ -21,11 +22,9 @@ export class MensoesComponent {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  abrirRelatorioModal(): void {
-    this.modalAberto = true;
-    this.updateBlurState();
+  abrirModalRelatorio() {
+    this.abrirRelatorioModal.emit();
   }
-
   fecharRelatorioModal(): void {
     this.modalAberto = false;
     this.updateBlurState();

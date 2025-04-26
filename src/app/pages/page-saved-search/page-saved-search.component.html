@@ -40,12 +40,38 @@
   </div>
 
   <!-- Versão Desktop -->
-  <div *ngIf="!isMobile" class="layout-container flex">
+  <div *ngIf="!isMobile" class="layout-container">
     <!-- Sidebar fixa -->
-    <div class="bg-neutral-800 text-white fixed h-full w-80 z-30">
-      <app-side-bar (userChange)="onUserChange($event)"></app-side-bar>
+    <div class="bg-neutral-800 text-white fixed h-full z-50">
+      <app-side-bar 
+        (userChange)="onUserChange($event)" 
+        (openModalExternally)="toggleModal()">
+      </app-side-bar>
     </div>
 
+    <!-- Fundo escurecido -->
+    <div 
+      *ngIf="isModalVisible"
+      class="fixed inset-0 z-40"
+      style="background-color: #b8bacd80;">
+    </div>
+
+    <!-- Modal com referência -->
+    <div 
+      *ngIf="isModalVisible"
+      #modalWrapper
+      class="fixed z-50"
+      style="left: 350px; bottom: 12px;">
+      <app-modal-account></app-modal-account>
+    </div>
+
+    <!-- Modais de Busca -->
+    <!-- Fundo escurecido do drawer -->
+<div 
+*ngIf="isSearchOpen"
+class="fixed inset-0 bg-black bg-opacity-40 z-50"
+(click)="closeHighSearch()">
+</div>
     <!-- Conteúdo principal -->
     <div class="main-content ml-80 overflow-x-hidden overflow-y-auto h-screen">
       <!-- Cabeçalho fixo -->

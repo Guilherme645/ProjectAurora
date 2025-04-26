@@ -43,11 +43,12 @@
     <div class="flex ml-[-20px] items-center space-x-6 mt-6">
       <div class="flex items-center space-x-2">
         <input
-          type="checkbox"
-          id="selectAll"
-          class="h-4 w-4 accent-blue-600 rounded cursor-pointer"
-
-          aria-label="Selecionar todos os resultados">
+        type="checkbox"
+        id="selectAll"
+        class="h-4 w-4 accent-blue-600 rounded cursor-pointer"
+        (change)="toggleSelectAll()" 
+        [checked]="selectAll"
+        aria-label="Selecionar todos os resultados">
         <button
           type="button"
           class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
@@ -94,7 +95,7 @@ Resultados brutos
   <div *ngIf="isScrolled" class="sticky top-0 z-50 bg-white border-b border-gray-200 w-[1040px] h-[79px] flex items-center justify-between px-6">
     
     <!-- Botão "Nova Busca" + "Busca Avançada" -->
-    <div class="flex items-center gap-2">
+    <div class="flex items-center ml-5 gap-2">
       
       <!-- Botão "Nova Busca" -->
       <button class="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-md text-sm font-medium transition hover:bg-blue-200">
@@ -120,85 +121,48 @@ Resultados brutos
       <div class="flex items-center space-x-4">
         <div class="flex items-center space-x-2">
           <input
-            type="checkbox"
-            id="selectAll"
-            class="h-4 w-4 accent-blue-600 rounded cursor-pointer"
-            aria-label="Selecionar todos os resultados"
-          />
-          <button
-            type="button"
-            class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
-            [ngClass]="selectedTab === 'todos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
-            (click)="selectTab('todos')"
-            aria-label="Exibir todos os resultados"
-          >
-            Todos os resultados
-          </button>
-        </div>
-    
-        <!-- Botão Resultados Brutos -->
-        <button
-          type="button"
+          type="checkbox"
+          id="selectAll"
+          class="h-4 w-4 accent-blue-600 rounded cursor-pointer"
+          (change)="toggleSelectAll()" 
+          [checked]="selectAll"
+          aria-label="Selecionar todos os resultados">
+          <button type="button"
+          class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
+          [ngClass]="selectedTab === 'todos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
+          (click)="selectTab('todos')">
+    Todos os resultados
+    <span class="ml-1 text-red-600 font-bold"></span>
+  </button>
+  
+  <button type="button"
           class="inline-flex items-center gap-1 px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
           [ngClass]="selectedTab === 'brutos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
-          (click)="selectTab('brutos')"
-          aria-label="Exibir resultados brutos"
-        >
-          Resultados brutos
-          <div class="relative inline-block group">
-            <button
-              type="button"
+          (click)="selectTab('brutos')">
+    Resultados brutos
+    <div class="relative inline-block group">
+      <button type="button" 
               class="flex h-4 w-4 items-center justify-center rounded-full bg-transparent text-white transition-colors"
-              aria-label="Informações sobre resultados brutos"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="info-icon"
-              >
-                <path
-                  class="info-circle"
-                  d="M8.00016 14.6666C11.6821 14.6666 14.6668 11.6818 14.6668 7.99992C14.6668 4.31802 11.6821 1.33325 8.00016 1.33325C4.31826 1.33325 1.3335 4.31802 1.3335 7.99992C1.3335 11.6818 4.31826 14.6666 8.00016 14.6666Z"
-                  fill="#4B5563"
-                />
-                <path
-                  d="M8 5.33325V7.99992"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M8 10.6667H8.00667"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-            <span
-              class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100 z-10"
-            >
-              Os resultados brutos só retornam menções <br> das mídias: TV, Rádio e Impressos
-            </span>
-          </div>
-          <span class="ml-1 text-red-600 font-bold"></span>
-        </button>
-    
-        <!-- Botão Clippings -->
-        <button
-          type="button"
+              aria-label="Informações sobre resultados brutos">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="info-icon">
+          <path class="info-circle" d="M8.00016 14.6666C11.6821 14.6666 14.6668 11.6818 14.6668 7.99992C14.6668 4.31802 11.6821 1.33325 8.00016 1.33325C4.31826 1.33325 1.3335 4.31802 1.3335 7.99992C1.3335 11.6818 4.31826 14.6666 8.00016 14.6666Z" fill="#4B5563"/>
+          <path d="M8 5.33325V7.99992" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 10.6667H8.00667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
+        Os resultados brutos só retornam menções <br> das mídias: TV, Rádio e Impressos
+      </span>
+    </div>
+    <span class="ml-1 text-red-600 font-bold"></span>
+  </button>
+
+  <button type="button"
           class="inline-flex items-center px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
           [ngClass]="selectedTab === 'clippings' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
-          (click)="selectTab('clippings')"
-          aria-label="Exibir clippings"
-        >
-          Clippings
-        </button>
+          (click)="selectTab('clippings')">
+    Clippings
+  </button>
       </div>
     
       <!-- Dropdown "Mais Relevantes" -->

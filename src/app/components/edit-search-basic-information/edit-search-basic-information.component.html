@@ -1,7 +1,7 @@
 <div class="fixed inset-0 flex justify-center items-center bg-black-50 bg-opacity-20 z-50">
   <div class="bg-white max-w-[1086px] w-full rounded-2xl shadow-lg p-6">
     <header class="mb-6">
-      <h1 class="text-2xl font-semibold text-gray-900">Duplicar busca</h1>
+      <h1 class="text-2xl font-semibold text-gray-900">Editar busca</h1>
       <p class="text-sm text-gray-500 mt-2">Insira as edições desejadas</p>
     </header>
 
@@ -74,9 +74,14 @@
                 <label class="block text-sm font-medium text-gray-700">Ativar alerta <span class="text-red-500">*</span></label>
                 <p class="text-xs text-gray-500 mt-1">Enviar um alerta sempre que houver uma nova menção</p>
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label class="relative inline-flex items-center cursor-pointer" style="width: 50px; height: 28px;">
                 <input type="checkbox" class="sr-only peer" [(ngModel)]="isAlertActive" (change)="onToggleAlert()" />
-                <div class="w-[3.25rem] h-7 p-px bg-gray-100 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 peer-checked:bg-blue-600 before:inline-block before:w-6 before:h-6 before:bg-white peer-checked:before:bg-blue-200 before:rounded-full before:shadow before:transform before:transition before:ease-in-out before:duration-200 before:translate-x-0 peer-checked:before:translate-x-full"></div>
+                <div
+                  class="w-full h-full bg-gray-300 peer-checked:bg-blue-600 rounded-full transition-colors duration-200 ease-in-out
+                         before:content-[''] before:absolute before:w-[22px] before:h-[22px] before:bg-white before:rounded-full
+                         before:top-[3px] before:left-[3px] peer-checked:before:translate-x-[22px]
+                         before:transition before:duration-200 before:ease-in-out"
+                ></div>
               </label>
             </div>
             <hr class="border-t border-gray-200">
@@ -85,18 +90,19 @@
                 <label class="block text-sm font-medium text-gray-700">Ativar alerta somente para menções negativas <span class="text-red-500">*</span></label>
                 <p class="text-xs text-gray-500 mt-1">Enviar um alerta apenas quando uma nova menção for analisada com sentimento negativo</p>
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label class="relative inline-flex items-center cursor-pointer" style="width: 50px; height: 28px;">
                 <input type="checkbox" class="sr-only peer" [(ngModel)]="isNegativeAlertActive" (change)="onToggleNegativeAlert()" />
-                <div class="w-[3.25rem] h-7 p-px bg-gray-100 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 peer-checked:bg-blue-600 before:inline-block before:w-6 before:h-6 before:bg-white peer-checked:before:bg-blue-200 before:rounded-full before:shadow before:transform before:transition before:ease-in-out before:duration-200 before:translate-x-0 peer-checked:before:translate-x-full"></div>
+                <div
+                  class="w-full h-full bg-gray-300 peer-checked:bg-blue-600 rounded-full transition-colors duration-200 ease-in-out
+                         before:content-[''] before:absolute before:w-[22px] before:h-[22px] before:bg-white before:rounded-full
+                         before:top-[3px] before:left-[3px] peer-checked:before:translate-x-[22px]
+                         before:transition before:duration-200 before:ease-in-out"
+                ></div>
               </label>
             </div>
           </section>
 
           <section class="border border-gray-200 rounded-lg overflow-hidden">
-            <div class="bg-gray-50 border-b border-gray-200 px-8 py-6">
-              <h2 class="text-base font-semibold text-gray-800">Passo 2: Selecione os usuários do Workspace que devem receber os alertas</h2>
-            </div>
-
             <div class="flex items-center px-4 py-4 border-b border-gray-200">
               <input type="checkbox" id="select-all" class="mr-2 w-4 h-4 cursor-pointer" />
               <label for="select-all" class="text-sm text-gray-700 font-medium">Selecionar todos do Workspace</label>
@@ -105,64 +111,152 @@
             <ul class="list-none">
               <li
                 *ngFor="let user of userList"
-                class="flex flex-row items-start w-[765px] h-[54px] px-0 border-b border-gray-200 box-border"
+                class="flex flex-row items-start w-[765px] h-[54px] border-b border-gray-200 box-border"
               >
-                <!-- Checkbox (Table Cell) -->
-                <div class="flex flex-row justify-center items-center w-[51px] h-[54px] p-[12px_20px] gap-[10px]">
-                  <div class="flex flex-row items-center w-[16px] h-[16px] p-0">
-                    <input type="checkbox" class="w-[16px] h-[16px] rounded-[8px] cursor-pointer" />
-                  </div>
+                <!-- Checkbox -->
+                <div class="flex justify-center items-center w-[51px] h-[54px] px-5 py-3">
+                  <input
+                    type="checkbox"
+                    class="w-4 h-4 rounded-lg cursor-pointer"
+                  />
                 </div>
 
-                <!-- Avatar (Table Cell) -->
-                <div class="flex flex-row items-center w-[272px] h-[54px] p-[8px_0px] gap-[10px]">
-                  <div class="flex flex-row items-center w-[162px] h-[38px] p-0 gap-[12px]">
-                    <div class="flex flex-row justify-center items-center w-[38px] h-[38px] p-0 rounded-[999px] bg-[#DBEAFE] isolate">
-                      <span class="w-[20px] h-[20px] font-['Inter'] font-semibold text-[14px] leading-[20px] text-center letter-spacing-[-0.01em] text-[#1E40AF]">{{ user.avatar }}</span>
+                <!-- Avatar and Name -->
+                <div class="flex items-center w-[272px] h-[54px] py-2">
+                  <div class="flex items-center w-[162px] h-[38px] space-x-3">
+                    <div
+                      class="w-[38px] h-[38px] rounded-full bg-blue-100 flex items-center justify-center isolate"
+                    >
+                      <span
+                        class="w-5 h-5 font-inter text-sm font-semibold leading-5 tracking-tight text-center text-blue-800"
+                      >
+                        {{ user.avatar }}
+                      </span>
                     </div>
-                    <span class="w-[112px] h-[20px] font-['Inter'] font-medium text-[14px] leading-[20px] letter-spacing-[-0.01em] text-[#1F2937]">{{ user.name }}</span>
+                    <span
+                      class="w-[112px] h-5 font-inter text-sm font-medium leading-5 tracking-tight text-gray-900"
+                    >
+                      {{ user.name }}
+                    </span>
                   </div>
                 </div>
 
-                <!-- Email (Table Cell) -->
-                <div class="flex flex-row items-center w-[324px] h-[54px] p-[12px_20px] gap-[10px]">
-                  <div class="flex flex-row items-center w-[161px] h-[20px] p-0">
-                    <span class="w-[161px] h-[20px] font-['Inter'] font-medium text-[14px] leading-[20px] text-center letter-spacing-[-0.01em] text-[#1F2937]">{{ user.email }}</span>
-                  </div>
+                <!-- Email -->
+                <div class="flex items-center w-[324px] h-[54px] px-5 py-3">
+                  <span
+                    class="w-[161px] h-5 font-inter text-sm font-medium leading-5 tracking-tight text-center text-gray-900"
+                  >
+                    {{ user.email }}
+                  </span>
                 </div>
               </li>
             </ul>
 
-            <div class="ml-12" *ngIf="showAddDestinationForm">
-              <div class="flex items-center gap-2 flex-wrap">
-                <div class="flex-1">
-                  <input type="text" [(ngModel)]="newUserName" placeholder="Nome do destinatário" class="w-[272px] h-[46px] p-3 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
-                </div>
+            <!-- Linha de adicionar destinatário -->
+            <div
+              class="flex flex-row items-center w-[765px] h-[70px] border-b border-gray-200 box-border"
+              *ngIf="showAddDestinationForm"
+            >
+              <!-- Nome do destinatário -->
+              <div class="px-4">
+                <input
+                  type="text"
+                  [(ngModel)]="newUserName"
+                  placeholder="Nome do destinatário"
+                  class="w-[272px] h-[46px] p-3 border border-gray-300 rounded-lg text-sm text-gray-700 bg-white font-inter font-medium leading-[17px] tracking-tight focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                  aria-label="Nome do destinatário"
+                />
+              </div>
 
-                <div class="flex-1 relative">
-                  <input type="email" [(ngModel)]="newUserEmail" placeholder="Email do destinatário" class="w-[272px] h-[46px] pl-10 pr-3 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
-                  <div class="absolute inset-y-0 left-2 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-                  </div>
+              <!-- Email do destinatário -->
+              <div class="relative px-4">
+                <input
+                  type="email"
+                  [(ngModel)]="newUserEmail"
+                  placeholder="Email do destinatário"
+                  class="w-[272px] h-[46px] pl-10 pr-3 border border-gray-300 rounded-lg text-sm text-gray-700 bg-white font-inter font-medium leading-[17px] tracking-tight focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                  aria-label="Email do destinatário"
+                />
+                <div class="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+                  <svg
+                    width="17"
+                    height="16"
+                    viewBox="0 0 17 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-[17px] h-4 text-gray-500"
+                  >
+                    <path
+                      d="M13.8333 2.66699H3.16659C2.43021 2.66699 1.83325 3.26395 1.83325 4.00033V12.0003C1.83325 12.7367 2.43021 13.3337 3.16659 13.3337H13.8333C14.5696 13.3337 15.1666 12.7367 15.1666 12.0003V4.00033C15.1666 3.26395 14.5696 2.66699 13.8333 2.66699Z"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M15.1666 4.66699L9.18659 8.46699C8.98077 8.59594 8.7428 8.66433 8.49992 8.66433C8.25704 8.66433 8.01907 8.59594 7.81325 8.46699L1.83325 4.66699"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
+              </div>
 
-                <button type="button" class="w-[46px] h-[46px] bg-gray-100 text-gray-500 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-all" (click)="cancelAddDestination(); $event.stopPropagation()">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Botões -->
+              <div class="flex flex-row gap-2 ml-[-10px]">
+                <button
+                  type="button"
+                  class="w-[46px] h-[46px] bg-gray-100 text-gray-500 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-all"
+                  (click)="cancelAddDestination(); $event.stopPropagation()"
+                  aria-label="Cancelar adição de destinatário"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
                     <path d="M18 6 6 18"></path>
                     <path d="M6 6l12 12"></path>
                   </svg>
                 </button>
 
-                <button type="button" class="w-[46px] h-[46px] bg-teal-500 text-white rounded-lg flex items-center justify-center hover:bg-teal-600 transition-all" (click)="addDestination(); $event.stopPropagation()">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <button
+                  type="button"
+                  class="w-[46px] h-[46px] bg-teal-500 text-white rounded-lg flex items-center justify-center hover:bg-teal-600 transition-all"
+                  (click)="addDestination(); $event.stopPropagation()"
+                  aria-label="Adicionar destinatário"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
                     <path d="M20 6L9 17l-5-5"></path>
                   </svg>
                 </button>
               </div>
             </div>
 
-            <div class="pb-4 border-b border-gray-200">
-              <a href="#" *ngIf="!showAddDestinationForm" (click)="toggleAddDestinationForm($event)" class="block text-sm text-blue-600 hover:underline ml-5">Adicionar outro destinatário</a>
+            <!-- Link "Adicionar outro destinatário" -->
+            <div
+              class="flex flex-col justify-center items-start px-5 gap-[10px] w-[765px] h-[54px] border-b border-gray-200"
+              *ngIf="!showAddDestinationForm"
+            >
+              <a
+                href="#"
+                (click)="toggleAddDestinationForm($event)"
+                class="text-sm text-blue-600 font-inter font-medium leading-5 tracking-tight hover:underline"
+              >
+                Adicionar outro destinatário
+              </a>
             </div>
           </section>
         </div>

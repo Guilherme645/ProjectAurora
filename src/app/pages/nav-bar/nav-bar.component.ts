@@ -28,6 +28,7 @@ export class NavBarComponent implements OnInit {
   isLoading: boolean = false;
   hasMoreData: boolean = true;
   isModalVisible: boolean = false;
+  modalAberto = false;
 
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
   @ViewChild('searchModal') searchModal!: ElementRef;

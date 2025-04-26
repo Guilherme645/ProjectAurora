@@ -30,18 +30,11 @@
   -ms-overflow-style: none; /* Remove a barra de rolagem no Edge antigo/IE */
 }
 
-/* Sidebar fixa */
-.bg-neutral-800 {
-  position: fixed;
-  width: 20rem; /* Largura fixa da sidebar */
-  height: 100vh; /* Altura total da tela */
-  z-index: 4; /* Fica abaixo do cabeçalho, mas acima do conteúdo */
-}
+
 
 /* Conteúdo principal flui normalmente */
 .main {
   position: relative;
-  z-index: 10; /* Fica abaixo do cabeçalho */
   padding: 1.5rem 1.5rem 2rem; /* Ajuste de padding conforme o original */
 }
 
@@ -54,7 +47,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Acima de tudo */
 }
 
 /* Estilo do botão de fechar no modal */

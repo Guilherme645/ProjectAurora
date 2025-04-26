@@ -4,15 +4,22 @@
     
     <!-- Sidebar Compacta (Seleção de Usuários) -->
     <div class="compact-sidebar flex flex-col items-center bg-[#0F141B] p-4 w-16">
-      <button *ngFor="let key of userKeys" 
-              class="sidebar-button w-10 h-10 rounded-lg font-bold flex justify-center items-center bg-gray-700 text-white mb-3"
-              [ngClass]="{ 'active-button bg-blue-800 w-[38px] h-[38px]': currentUser.name === users[key] }"
-              (click)="changeUser(key)">
-        {{ getInitials(users[key]) }}
-        <div class="active-indicator absolute left-[60px] w-1 h-12 bg-blue-500 transition-all duration-300 ease-in-out" 
-             *ngIf="currentUser.name === users[key]"></div>
-      </button>
+      <div *ngFor="let key of userKeys" class="relative flex justify-center">
+        <button 
+          class="sidebar-button w-10 h-10 rounded-lg font-bold flex justify-center items-center text-white mb-3 transition-all duration-300 ease-in-out"
+          [ngClass]="currentUser.name === users[key] ? 'bg-blue-800 w-[38px] h-[38px]' : 'bg-gray-700'"
+          (click)="changeUser(key)">
+          
+          {{ getInitials(users[key]) }}
+        </button>
+    
+        <!-- Indicador azul fora do botão -->
+        <div *ngIf="currentUser.name === users[key]" 
+             class="absolute left-[47px] top-[-8px] bottom-0 my-auto w-1 h-10 bg-blue-500 rounded transition-all duration-300 ease-in-out">
+        </div>
+      </div>
     </div>
+    
 
     <!-- Sidebar Principal -->
     <div [ngClass]="{ 'sidebar-expanded w-[260px]': isExpanded, 'sidebar-collapsed w-20': !isExpanded }" 

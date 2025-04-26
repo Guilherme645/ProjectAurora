@@ -20,6 +20,9 @@ export class ResultComponent implements OnInit {
   filteredNoticias: any[] = [];
   isModalVisible: boolean = false;
   modalAberto = false;
+  selectAll: boolean = false;
+  selectedMentionsCount: number = 0;
+  allSelected: boolean = false;
 
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
 
@@ -44,14 +47,22 @@ export class ResultComponent implements OnInit {
     this.loadNoticias();
   }
 
+
+  onSelectionChange(selected: boolean): void {
+    if (selected) {
+      this.selectedMentionsCount++;
+    } else {
+      this.selectedMentionsCount--;
+    }
+  }
+
+  
   loadNoticias() {
     this.dataService.getData().subscribe(
       (data) => {
         if (data && data.noticias) {
           this.noticias = data.noticias;
-          this.filteredNoticias = this.noticias.filter(
-            noticia => noticia.usuario === this.currentUser
-          );
+          this.aplicarFiltroNoticias(); // <-- Já aplica o filtro baseado no usuário atual
           if (this.filteredNoticias.length === 0) {
             console.warn(`Nenhuma notícia encontrada para ${this.currentUser}`);
           }
@@ -62,6 +73,7 @@ export class ResultComponent implements OnInit {
       (error) => console.error('Erro ao carregar os dados:', error)
     );
   }
+  
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
@@ -100,4 +112,35 @@ export class ResultComponent implements OnInit {
   fecharModal() {
     this.modalAberto = false;
   }
+
+  onSelectAll(selected: boolean): void {
+    this.selectAll = selected;
+  }
+  
+  onFilterNews(tab: string): void {
+    this.selectedTab = tab;
+    this.aplicarFiltroNoticias(); // <-- Atualiza os cards
+  }
+  
+  aplicarFiltroNoticias(): void {
+    if (this.selectedTab === 'todos') {
+      this.filteredNoticias = this.noticias.filter(
+        noticia => noticia.usuario === this.currentUser
+      );
+    } else if (this.selectedTab === 'brutos') {
+      this.filteredNoticias = this.noticias.filter(
+        noticia =>
+          noticia.usuario === this.currentUser &&
+          ['Vídeo', ].includes(noticia.tipo) // ← CORRIGIDO AQUI
+      );
+    } else if (this.selectedTab === 'clippings') {
+      this.filteredNoticias = this.noticias.filter(
+        noticia =>
+          noticia.usuario === this.currentUser &&
+          noticia.tipo === 'Áudio'
+      );
+    }
+  }
+  
+  
 }

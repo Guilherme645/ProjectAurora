@@ -35,6 +35,7 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
   modalData: any;
   modalContext: 'edit' | 'new' = 'edit';
   @Input() isMobile: boolean = false;
+  isModalVisible: boolean = false;
 
   monitorCards: MonitorCard[] = [];
   filteredMonitorCards: MonitorCard[] = [];
@@ -71,10 +72,18 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
     window.removeEventListener('resize', () => this.checkIfMobile());
   }
+  closeHighSearch(): void {
+    this.isSearchOpen = false;
+  }
 
   checkIfMobile() {
     this.isMobile = window.innerWidth <= 640;
     console.log('PageSavedSearchComponent - isMobile:', this.isMobile);
+  }
+
+  toggleModal() {
+    this.isModalVisible = !this.isModalVisible;
+    console.log('Estado do modal:', this.isModalVisible);
   }
 
   loadMonitorCards() {

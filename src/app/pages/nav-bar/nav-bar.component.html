@@ -47,6 +47,13 @@ class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray
 
     <app-input-busca #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
 
+
+    <app-relatorio-modal 
+    *ngIf="modalAberto" 
+    (fechar)="modalAberto = false">
+  </app-relatorio-modal>
+  
+
     <div class="main-content">
       <header class="header fixed-header">
         <app-header 
@@ -71,14 +78,22 @@ class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray
           " />
         </div>
         
-        
-        <div *ngFor="let noticia of filteredNoticias" class="card">
-          <app-card 
-            [noticias]="noticia" 
-            [isSelected]="allSelected"
-            (selectionChange)="onSelectionChange($event)">
-          </app-card>
+        <div class="space-y-[32px] mt-5">
+          <ng-container *ngFor="let noticia of filteredNoticias; let last = last">
+            <div class="card">
+              <app-card 
+                [noticias]="noticia" 
+                [isSelected]="allSelected"
+                (selectionChange)="onSelectionChange($event)">
+              </app-card>
+            </div>
+            
+            <!-- Divider entre cards, exceto após o último -->
+            <hr *ngIf="!last" class=" w-[590px] ml-[80px] my-8 border-t border-gray-200" />
+          </ng-container>
         </div>
+        
+
         <div *ngIf="isLoading" class="loading text-center py-4">Carregando mais notícias...</div>
       </main>
 
@@ -86,8 +101,11 @@ class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray
         <app-scroll-top></app-scroll-top>
       </div>
 
-      <app-mensoes [selectedCount]="selectedMentionsCount"></app-mensoes>
-    </div>
+      <app-mensoes 
+      [selectedCount]="selectedMentionsCount" 
+      (abrirRelatorioModal)="modalAberto = true">
+    </app-mensoes>
+        </div>
   </div>
 </div>
 

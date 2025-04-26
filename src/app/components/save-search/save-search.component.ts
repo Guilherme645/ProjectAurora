@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService, User } from 'src/app/services/data.service';
 
 @Component({
-    selector: 'app-save-search',
-    templateUrl: './save-search.component.html',
-    styleUrls: ['./save-search.component.css'],
-    standalone: false
+  selector: 'app-save-search',
+  templateUrl: './save-search.component.html',
+  styleUrls: ['./save-search.component.css'],
+  standalone: false
 })
 export class SaveSearchComponent implements OnInit {
   salvarBuscaForm: FormGroup;
@@ -19,9 +19,12 @@ export class SaveSearchComponent implements OnInit {
   userList: User[] = [];
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
+    const hoje = new Date();
+    const hojeFormatado = hoje.toISOString().split('T')[0]; // yyyy-MM-dd
+
     this.salvarBuscaForm = this.fb.group({
       searchName: ['', Validators.required],
-      startDate: ['', Validators.required],
+      startDate: [hojeFormatado, Validators.required],
       endDate: ['']
     });
   }
@@ -40,10 +43,14 @@ export class SaveSearchComponent implements OnInit {
     console.log('Alerta para menções negativas ativado:', this.isNegativeAlertActive);
   }
 
-  nextStep() {
-    this.currentStep++;
+  nextStep(): void {
+    if (this.salvarBuscaForm.valid) {
+      this.currentStep = 2;
+    } else {
+      this.salvarBuscaForm.markAllAsTouched(); // Marca todos os campos para mostrar erro
+    }
   }
-
+  
   previousStep() {
     if (this.currentStep > 1) {
       this.currentStep--;
