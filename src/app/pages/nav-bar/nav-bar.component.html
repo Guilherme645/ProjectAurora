@@ -50,8 +50,10 @@ class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray
 
     <app-relatorio-modal 
     *ngIf="modalAberto" 
+    #relatorioModal
     (fechar)="modalAberto = false">
   </app-relatorio-modal>
+  
   
 
     <div class="main-content">

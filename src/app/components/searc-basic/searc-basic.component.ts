@@ -11,18 +11,18 @@ export class SearcBasicComponent {
   searchQuery: string = '';
   isDropdownOpen = false;
   selectedOption: string = 'Mais relevantes';
-  isBuscaOpen = false;
   selectedTab: string = 'todos';
   selectAll: boolean = false;
   currentUser: string = 'Superior Tribunal Federal';
 
   @Output() selectAllEvent = new EventEmitter<boolean>();
   @Output() filterNewsEvent = new EventEmitter<string>();
+  @Output() openAdvancedSearchEvent = new EventEmitter<void>(); // <-- Novo evento!
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-    this.isScrolled = scrollTop > 100;  
+    this.isScrolled = scrollTop > 100;
   }
 
   toggleDropdown() {
@@ -35,15 +35,8 @@ export class SearcBasicComponent {
   }
 
   openAdvancedSearch(): void {
-    console.log('Buscando por:', this.searchQuery);
-  }
-
-  openBusca() {
-    this.isBuscaOpen = true;
-  }
-
-  closeBusca() {
-    this.isBuscaOpen = false;
+    console.log('Abrir busca avançada');
+    this.openAdvancedSearchEvent.emit(); // <-- Emite evento para o pai
   }
 
   onSearch() {
@@ -57,6 +50,6 @@ export class SearcBasicComponent {
 
   selectTab(tab: string): void {
     this.selectedTab = tab;
-    this.filterNewsEvent.emit(tab);  // << Emite o nome da aba: 'todos', 'brutos' ou 'clippings'
+    this.filterNewsEvent.emit(tab);
   }
 }

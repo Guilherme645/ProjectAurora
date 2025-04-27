@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,13 +7,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./buscar.component.css'],
   standalone: false
 })
-export class BuscarComponent {
+export class BuscarComponent implements OnChanges {
   searchQuery: string = '';
   isMobile = window.innerWidth <= 768;
-  isAdvancedSearchOpen = false;
   modoSelecionado: string = 'simples';
-  isHighSearchVisible = true;
-  isSearchOpen: boolean = false;
+
+  @Input() isSearchOpen: boolean = false; // Recebe o estado do HighSearch do pai
+  @Output() toggleAdvancedSearch = new EventEmitter<void>();
+  @Output() closeAdvancedSearch = new EventEmitter<void>();
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -22,25 +23,31 @@ export class BuscarComponent {
 
   constructor(private router: Router) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // Detecta mudanças no isSearchOpen
+    if (changes['isSearchOpen']) {
+      const currentValue = changes['isSearchOpen'].currentValue;
+      // Se o HighSearch foi fechado (isSearchOpen mudou para false), muda para modo "simples"
+      if (!currentValue) {
+        this.modoSelecionado = 'simples';
+      }
+    }
+  }
+
   onSearch(): void {
     console.log('Buscando por:', this.searchQuery);
     this.router.navigate(['/navBar'], { queryParams: { query: this.searchQuery } });
   }
 
-  toggleSearch(): void {
-    this.isSearchOpen = !this.isSearchOpen;
-  }
-
   selecionarModo(modo: string) {
     this.modoSelecionado = modo;
   }
-  toggleAdvancedSearch(): void {
-    this.isAdvancedSearchOpen = !this.isAdvancedSearchOpen;
-    this.isHighSearchVisible = this.isAdvancedSearchOpen;
+
+  onToggleAdvancedSearch(): void {
+    this.toggleAdvancedSearch.emit();
   }
 
-  closeHighSearch(): void {
-    this.isAdvancedSearchOpen = false;
-    this.isHighSearchVisible = false;
+  onCloseAdvancedSearch(): void {
+    this.closeAdvancedSearch.emit();
   }
 }

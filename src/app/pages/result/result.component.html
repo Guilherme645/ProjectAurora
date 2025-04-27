@@ -1,6 +1,6 @@
 <!-- Versão Desktop -->
 <div *ngIf="!isMobile">
-  <div class="layout-container relative">
+  <div class="layout-container">
     <!-- Sidebar SEMPRE visível e acima do overlay -->
     <div class="bg-neutral-800 text-white fixed h-full z-50">
       <app-side-bar 
@@ -26,10 +26,10 @@
     </div>
 
     <!-- Backdrop para Save Search Modal (cinza e borrado) -->
-    <div *ngIf="modalAberto" class="modal-backdrop"></div>
+    <div *ngIf="modalAberto" class="modal-backdrop z-[110]"></div>
 
     <!-- Modal de Save Search -->
-    <div *ngIf="modalAberto" class="modal-overlay" role="dialog" aria-modal="true">
+    <div *ngIf="modalAberto" class="modal-overlay z-[111]" role="dialog" aria-modal="true">
       <button type="button" aria-label="Fechar" class="close-modal-button" (click)="fecharModal()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 6 6 18"></path>
@@ -39,16 +39,37 @@
       <app-save-search></app-save-search>
     </div>
 
+    <!-- Backdrop do HighSearch -->
+    <div 
+      *ngIf="isSearchOpen"
+      class="high-search-backdrop z-[100]"
+      (click)="closeHighSearch()">
+    </div>
+
+    <!-- Gaveta do HighSearch -->
+    <div 
+      *ngIf="isSearchOpen" 
+      class="high-search-drawer z-[101]"
+      [ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}"
+      (click)="$event.stopPropagation()">
+      <div class="p-4 w-full h-full">
+        <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
+      </div>
+    </div>
+
     <!-- Conteúdo principal abaixo do overlay -->
     <div class="main-content ml-80 relative z-10">
-      <div class="header transition-all duration-300"
-        [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
-        <app-searc-basic (selectAllEvent)="onSelectAll($event)" (filterNewsEvent)="onFilterNews($event)"></app-searc-basic>
-      </div>
-
+      <div class="header transition-all duration-300 z-[150]"
+           [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }">
+        <app-searc-basic 
+          (selectAllEvent)="onSelectAll($event)" 
+          (filterNewsEvent)="onFilterNews($event)" 
+          (openAdvancedSearchEvent)="abrirBuscaAvancada()">
+        </app-searc-basic>
+      </div>      
       <div class="content h-[2000px] bg-white mt-[80px]">
         <div class="content-wrapper">
-          <div class="filters">
+          <div class="filters z-[20]">
             <app-filtros 
               (openSaveSearchModal)="abrirModal()"
               (closeSaveSearchModal)="fecharModal()"
@@ -65,19 +86,15 @@
                   (selectionChange)="onSelectionChange($event)">
                 </app-card>
               </div>
-          
-              <!-- Divider entre os cards, exceto após o último -->
+              <!-- Divisor entre os cards, exceto após o último -->
               <hr *ngIf="!last" class="w-[590px] ml-[55px] my-8 border-t border-gray-200" />
             </ng-container>
           </div>
-          
-          
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <!-- Versão Mobile -->
 <div *ngIf="isMobile" class="mobile-layout-container">
   <div *ngIf="isSidebarOpen" class="sidebar-mobile">

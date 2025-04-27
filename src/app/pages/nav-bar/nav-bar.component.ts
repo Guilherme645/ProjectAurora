@@ -22,7 +22,7 @@ export class NavBarComponent implements OnInit {
   showScrollTop: boolean = false;
   showScrollTopButton: boolean = false;
   isSearchOpen: boolean = false;
-  isBuscaOpen: boolean = false; // Adicionado para gerenciar o modal <app-input-busca>
+  isBuscaOpen: boolean = false;
   page: number = 1;
   pageSize: number = 10;
   isLoading: boolean = false;
@@ -30,7 +30,10 @@ export class NavBarComponent implements OnInit {
   isModalVisible: boolean = false;
   modalAberto = false;
 
+  // Referências dos elementos
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
+  @ViewChild('searchDrawer') searchDrawerRef!: ElementRef;
+  @ViewChild('relatorioModal') relatorioModalRef!: ElementRef;
   @ViewChild('searchModal') searchModal!: ElementRef;
 
   constructor(private dataService: DataService) {}
@@ -54,6 +57,28 @@ export class NavBarComponent implements OnInit {
       this.loadMoreNoticias();
     }
   }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+  
+    if (this.isModalVisible && this.modalWrapperRef && !this.modalWrapperRef.nativeElement.contains(target)) {
+      this.isModalVisible = false;
+    }
+  
+    if (this.isSearchOpen && this.searchDrawerRef && !this.searchDrawerRef.nativeElement.contains(target)) {
+      this.isSearchOpen = false;
+    }
+  
+    if (this.modalAberto && this.relatorioModalRef && !this.relatorioModalRef.nativeElement.contains(target)) {
+      this.modalAberto = false;
+    }
+  
+    if (this.isBuscaOpen && this.searchModal && !this.searchModal.nativeElement.contains(target)) {
+      this.isBuscaOpen = false;
+    }
+  }
+  
 
   setSelectedTab(tab: string) {
     this.selectedTab = tab;

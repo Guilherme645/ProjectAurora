@@ -10,6 +10,18 @@ html, body {
   padding: 1rem;
 }
 
+.high-search-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 100;
+}
+
+.high-search-drawer {
+  transition: transform 0.3s ease-in-out;
+}
 @media (max-width: 480px) {
   .buscar-container {
     padding-top: 4rem; 

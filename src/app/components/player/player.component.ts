@@ -13,7 +13,7 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() showEntitiesDrawer: boolean = false;
   isFloating = false;
   isPlaying = false;
-  posterImage = 'assets/thumb.png';
+  posterImage = 'assets/ultimato.png';
   videoDescription: string = '';
   entities: { dates: string[]; places: string[]; people: string[]; organizations: string[] } = {
     dates: [],

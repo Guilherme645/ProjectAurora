@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 
@@ -27,11 +27,8 @@ interface Noticia {
   standalone: false
 })
 export class ResultSavedSearchComponent implements OnInit {
-  // Estado das notícias
   noticias: Noticia[] = [];
   filteredNoticias: Noticia[] = [];
-
-  // Estado da interface
   isMobile: boolean = false;
   isSidebarOpen: boolean = false;
   isSearchOpen: boolean = false;
@@ -41,24 +38,23 @@ export class ResultSavedSearchComponent implements OnInit {
   filtrosAbertos: boolean = false;
   isScrolled: boolean = false;
   isModalVisible: boolean = false;
-
-  // Estado de filtros e seleção
   currentUser: string = 'Superior Tribunal Federal';
   searchQuery: string = '';
-  allSelected: boolean = false;
+  selectAll: boolean = false;
+  selectedMentionsCount: number = 0;
+
+  @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
 
   constructor(
     private dataService: DataService,
     private router: Router
   ) {}
 
-  // Inicialização
   ngOnInit(): void {
     this.checkScreenSize();
     this.loadNoticias();
   }
 
-  // Listeners de eventos da janela
   @HostListener('window:resize')
   onResize(): void {
     this.checkScreenSize();
@@ -69,15 +65,13 @@ export class ResultSavedSearchComponent implements OnInit {
     this.isScrolled = window.scrollY > 100;
   }
 
-  // Verifica o tamanho da tela
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
     if (!this.isMobile && this.isSidebarOpen) {
-      this.isSidebarOpen = false; // Fecha a sidebar no desktop
+      this.isSidebarOpen = false;
     }
   }
 
-  // Carrega as notícias do serviço
   loadNoticias(): void {
     this.dataService.getData().subscribe({
       next: (data) => {
@@ -86,7 +80,7 @@ export class ResultSavedSearchComponent implements OnInit {
           ...noticia,
           selected: noticia.selected ?? false
         }));
-        this.applyFilters();
+        this.aplicarFiltroNoticias();
       },
       error: (error) => {
         console.error('Erro ao carregar os dados:', error);
@@ -96,7 +90,6 @@ export class ResultSavedSearchComponent implements OnInit {
     });
   }
 
-  // Manipulação de eventos
   onUserChange(user: string): void {
     console.log('Usuário mudou para:', user);
     this.currentUser = user;
@@ -105,32 +98,31 @@ export class ResultSavedSearchComponent implements OnInit {
 
   onSearchChange(query: string): void {
     this.searchQuery = query.trim();
-    this.applyFilters();
+    this.aplicarFiltroNoticias();
   }
 
-  onTabChange(tab: string): void {
-    this.setSelectedTab(tab);
+  onSelectionChange(selected: boolean): void {
+    if (selected) {
+      this.selectedMentionsCount++;
+    } else {
+      this.selectedMentionsCount--;
+    }
   }
 
-  onAllSelectedChange(allSelected: boolean): void {
-    this.allSelected = allSelected;
-    this.filteredNoticias.forEach(noticia => noticia.selected = allSelected);
+  onSelectAll(selected: boolean): void {
+    this.selectAll = selected;
+    this.filteredNoticias.forEach(noticia => noticia.selected = selected);
   }
 
-  // Configura a aba selecionada e atualiza filtros
-  setSelectedTab(tab: string): void {
+  onFilterNews(tab: string): void {
     this.selectedTab = tab;
-    this.applyFilters();
-    // Removida a lógica de marcar/desmarcar automaticamente
-    // this.allSelected = tab === 'todos';
-    // this.filteredNoticias.forEach(noticia => noticia.selected = this.allSelected);
+    this.aplicarFiltroNoticias();
   }
 
-  // Aplica filtros com base em usuário, busca e aba
-  applyFilters(): void {
+  aplicarFiltroNoticias(): void {
     let filtered = this.noticias.filter(noticia => noticia.usuario === this.currentUser);
 
-    // Filtra por termo de busca
+    // Filtra por termo de busca (mantém marcação de entidades)
     if (this.searchQuery) {
       const queryLower = this.searchQuery.toLowerCase();
       filtered = filtered.filter(noticia =>
@@ -140,24 +132,22 @@ export class ResultSavedSearchComponent implements OnInit {
     }
 
     // Filtra por aba
-    switch (this.selectedTab) {
-      case 'todos':
-        this.filteredNoticias = filtered;
-        break;
-      case 'brutos':
-        this.filteredNoticias = filtered.filter(noticia => noticia.isBruto === true);
-        break;
-      case 'clippings':
-        this.filteredNoticias = filtered.filter(noticia => noticia.isClipping === true);
-        break;
-      default:
-        this.filteredNoticias = filtered;
+    if (this.selectedTab === 'todos') {
+      this.filteredNoticias = filtered;
+    } else if (this.selectedTab === 'brutos') {
+      this.filteredNoticias = filtered.filter(
+        noticia => noticia.tipo && ['Vídeo'].includes(noticia.tipo)
+      );
+    } else if (this.selectedTab === 'clippings') {
+      this.filteredNoticias = filtered.filter(
+        noticia => noticia.tipo && noticia.tipo === 'Áudio'
+      );
     }
 
     // Garante a propriedade selected
     this.filteredNoticias = this.filteredNoticias.map(noticia => ({
       ...noticia,
-      selected: noticia.selected ?? this.allSelected
+      selected: noticia.selected ?? this.selectAll
     }));
 
     console.log('Notícias filtradas para', this.currentUser, 'na aba', this.selectedTab, ':', this.filteredNoticias);
@@ -166,7 +156,6 @@ export class ResultSavedSearchComponent implements OnInit {
     }
   }
 
-  // Ações da interface
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }

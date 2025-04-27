@@ -88,13 +88,13 @@ export class TextoEntidadesService {
         }
 
         textoMarcado = textoMarcado.replace(/<span class="entity-person">(.+?)<\/span>/g,
-          '<span style="background-color: #bbdefb; color: #0d47a1; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
+          '<span style="background-color: #FEF9C3; color: #854D0E; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
         textoMarcado = textoMarcado.replace(/<span class="entity-location">(.+?)<\/span>/g,
-          '<span style="background-color: #c8e6c9; color: #388e3c; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
+          '<span style="background-color: #CCFBF1; color: #115E59; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
         textoMarcado = textoMarcado.replace(/<span class="entity-organization">(.+?)<\/span>/g,
-          '<span style="background-color: #ffccbc; color: #c62828; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
+          '<span style="background-color: #F3F4F6; color: #1F2937; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
         textoMarcado = textoMarcado.replace(/<span class="entity-date">(.+?)<\/span>/g,
-          '<span style="background-color: #fff9c4; color: #f57f17; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
+          '<span style="background-color: #DBEAFE; color: #1E40AF; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
 
         return textoMarcado;
       })

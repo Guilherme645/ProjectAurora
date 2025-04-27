@@ -36,6 +36,7 @@ export class RelatorioModalComponent implements OnInit {
     this.fechar.emit();
   }
 
+
   inserirMencao() {
     console.log('Menção inserida!');
     this.inserir.emit();

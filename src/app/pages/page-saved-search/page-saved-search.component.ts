@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { DataService, MonitorCard } from 'src/app/services/data.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { Subscription } from 'rxjs';
@@ -42,6 +42,12 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
+  @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
+  @ViewChild('editModal') editModalRef!: ElementRef;
+  @ViewChild('duplicateModal') duplicateModalRef!: ElementRef;
+  @ViewChild('removeModal') removeModalRef!: ElementRef;
+  @ViewChild('discardModal') discardModalRef!: ElementRef;
+
   constructor(private modalService: ModalService, private dataService: DataService) {}
 
   ngOnInit() {
@@ -72,6 +78,42 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
     window.removeEventListener('resize', () => this.checkIfMobile());
   }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+
+    // Fechar o modal de conta se clicar fora
+    if (this.isModalVisible && this.modalWrapperRef && !this.modalWrapperRef.nativeElement.contains(target)) {
+      this.isModalVisible = false;
+    }
+
+    // Fechar o modal de edição se clicar fora
+    if (this.modalAberto && this.editModalRef && !this.editModalRef.nativeElement.contains(target)) {
+      this.closeEditModal();
+    }
+
+    // Fechar o modal de duplicação se clicar fora
+    if (this.duplicateModalAberto && this.duplicateModalRef && !this.duplicateModalRef.nativeElement.contains(target)) {
+      this.closeDuplicateModal();
+    }
+
+    // Fechar o modal de remoção se clicar fora
+    if (this.removeModalAberto && this.removeModalRef && !this.removeModalRef.nativeElement.contains(target)) {
+      this.modalService.closeRemoveModal();
+    }
+
+    // Fechar o modal de descarte se clicar fora
+    if (this.showDiscardModal && this.discardModalRef && !this.discardModalRef.nativeElement.contains(target)) {
+      this.onCancelDiscard();
+    }
+
+    // Fechar a sidebar mobile se clicar fora
+    if (this.isMobile && this.isSidebarOpen && target.closest('.sidebar-mobile') === null) {
+      this.isSidebarOpen = false;
+    }
+  }
+
   closeHighSearch(): void {
     this.isSearchOpen = false;
   }

@@ -10,6 +10,8 @@ export class FiltrosSavedSearchComponent implements OnInit {
   modalAberto = false; // Controla o modal de "Salvar Busca"
   filtrosAbertos = false; // Controla o modal de filtros na versão mobile
   isMobile = window.innerWidth <= 768;
+  dataInicio: Date | null = null;
+  dataFim: Date | null = null;
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   isActive: boolean = true; // Controla o estado do botão "Ativa"
   filtros = [

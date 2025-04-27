@@ -36,11 +36,12 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   highlightAllCategories: boolean = false;
   isSearchVisible: boolean = false;
   searchQuery: string = '';
-  selectedTab: string = 'all'; // Aba selecionada: 'all', 'dates', 'places', 'people', 'organizations'
+  selectedTab: string = 'all';
   totalEntities: number = 0;
   private readonly displayLimit = 3;
   private subscriptions = new Subscription();
   private debouncedFilterEntities = debounce(this.filterEntities.bind(this), 300);
+  private currentlyOpenEntity: { entity: string; type: string } | null = null;
 
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
@@ -87,7 +88,6 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   checkIfMobile(): void {
     this.isMobile = window.innerWidth <= 768;
     console.log('isMobile atualizado:', this.isMobile);
-    // Na versão mobile, a pesquisa está sempre visível, então ajustamos isso
     if (this.isMobile) {
       this.isSearchVisible = true;
     }
@@ -118,39 +118,38 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   }
 
   toggleDates(): void {
-    this.datesEnabled = !this.datesEnabled;
-    this.highlightAllCategories = this.datesEnabled && this.placesEnabled && this.peopleEnabled && this.organizationsEnabled;
+    // Removido a atualização de highlightAllCategories para evitar conflitos
     this.atualizarTextoMarcado();
-    console.log('Dates toggled:', this.datesEnabled, 'Highlight all:', this.highlightAllCategories);
+    console.log('Dates toggled:', this.datesEnabled);
   }
 
   togglePlaces(): void {
-    this.placesEnabled = !this.placesEnabled;
-    this.highlightAllCategories = this.datesEnabled && this.placesEnabled && this.peopleEnabled && this.organizationsEnabled;
+    // Removido a atualização de highlightAllCategories para evitar conflitos
     this.atualizarTextoMarcado();
-    console.log('Places toggled:', this.placesEnabled, 'Highlight all:', this.highlightAllCategories);
+    console.log('Places toggled:', this.placesEnabled);
   }
 
   togglePeople(): void {
-    this.peopleEnabled = !this.peopleEnabled;
-    this.highlightAllCategories = this.datesEnabled && this.placesEnabled && this.peopleEnabled && this.organizationsEnabled;
+    // Removido a atualização de highlightAllCategories para evitar conflitos
     this.atualizarTextoMarcado();
-    console.log('People toggled:', this.peopleEnabled, 'Highlight all:', this.highlightAllCategories);
+    console.log('People toggled:', this.peopleEnabled);
   }
 
   toggleOrganizations(): void {
-    this.organizationsEnabled = !this.organizationsEnabled;
-    this.highlightAllCategories = this.datesEnabled && this.placesEnabled && this.peopleEnabled && this.organizationsEnabled;
+    // Removido a atualização de highlightAllCategories para evitar conflitos
     this.atualizarTextoMarcado();
-    console.log('Organizations toggled:', this.organizationsEnabled, 'Highlight all:', this.highlightAllCategories);
+    console.log('Organizations toggled:', this.organizationsEnabled);
   }
 
   toggleHighlightAll(): void {
+    // Inverte o estado de highlightAllCategories
     this.highlightAllCategories = !this.highlightAllCategories;
+    // Atualiza todas as categorias para corresponder ao estado
     this.datesEnabled = this.highlightAllCategories;
     this.placesEnabled = this.highlightAllCategories;
     this.peopleEnabled = this.highlightAllCategories;
     this.organizationsEnabled = this.highlightAllCategories;
+    // Chama a atualização do texto marcado
     this.atualizarTextoMarcado();
     console.log('Highlight all toggled:', this.highlightAllCategories);
   }
@@ -194,7 +193,7 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
     if (!this.isMobile) {
       this.isSearchVisible = false;
     }
-    this.selectedTab = 'all'; // Resetar a aba para "Todas" ao limpar a pesquisa
+    this.selectedTab = 'all';
     this.filterEntities();
   }
 
@@ -207,7 +206,6 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
       this.displayedPeople = this.people.slice(0, this.displayLimit);
       this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
     } else {
-      // Quando há uma pesquisa, mostramos todas as categorias (similar à aba "Todas")
       this.selectedTab = 'all';
       this.displayedDates = this.dates.filter(date => date.toLowerCase().includes(query));
       this.displayedPlaces = this.places.filter(place => place.toLowerCase().includes(query));
@@ -224,7 +222,7 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   }
 
   openEntityModal(event: MouseEvent, entity: string, type: string): void {
-    const button = event.currentTarget as HTMLButtonElement;
+    const button = event.currentTarget as HTMLElement;
     const rect = button.getBoundingClientRect();
     const modalWidth = 260;
     const viewportWidth = window.innerWidth;
@@ -237,7 +235,7 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
       left = rect.right + window.scrollX + 10;
     }
     if (top + 150 > viewportHeight + window.scrollY) {
-      top = rect.bottom + window.scrollY - 150 - 10;
+      top = viewportHeight + window.scrollY - 160;
     }
     if (top < window.scrollY) {
       top = window.scrollY + 10;
@@ -245,21 +243,36 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
 
     const position = { top, left };
 
-    this.openEntityOptions.emit({
-      entity,
-      type,
-      position
-    });
+    if (
+      this.currentlyOpenEntity &&
+      this.currentlyOpenEntity.entity === entity &&
+      this.currentlyOpenEntity.type === type
+    ) {
+      this.openEntityOptions.emit({
+        entity: '',
+        type: '',
+        position: { top: 0, left: 0 }
+      });
+      this.currentlyOpenEntity = null;
+    } else {
+      this.openEntityOptions.emit({
+        entity,
+        type,
+        position
+      });
+      this.currentlyOpenEntity = { entity, type };
+    }
+
     console.log(`Emitting openEntityOptions for ${type} entity: ${entity} at position`, position);
   }
 
   selectTab(tab: string): void {
     this.selectedTab = tab;
-    this.searchQuery = ''; // Limpar a pesquisa ao mudar de aba
+    this.searchQuery = '';
     if (!this.isMobile) {
-      this.isSearchVisible = false; // Fechar a barra de pesquisa na versão desktop
+      this.isSearchVisible = false;
     }
-    this.filterEntities(); // Reaplicar o filtro para ajustar as entidades exibidas
+    this.filterEntities();
     console.log('Tab selected:', this.selectedTab);
   }
 }

@@ -1,6 +1,4 @@
 <div class="w-full min-h-screen flex flex-col items-center bg-gray-50">
-  <div *ngIf="isAdvancedSearchOpen" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-10"></div>
-
   <div *ngIf="isMobile" class="absolute top-0 left-0 w-full p-4 bg-white">
     <div class="w-full flex justify-center">
       <div class="w-[328px] h-[46px] flex items-center bg-white border border-gray-300 rounded-[8px] px-4 shadow-sm 
@@ -15,20 +13,12 @@
 
     <div class="w-full flex justify-center mt-2">
       <span class="flex items-center justify-center py-3 px-4 text-sm font-medium text-blue-500 cursor-pointer" 
-            (click)="toggleAdvancedSearch()">
+            (click)="onToggleAdvancedSearch()">
         Fazer busca avançada
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
           <path d="m9 18 6-6-6-6"></path>
         </svg>
       </span>
-    </div>
-  </div>
-
-  <div *ngIf="isMobile && isAdvancedSearchOpen" class="fixed inset-0 flex justify-center items-end transition-all duration-300 z-20">
-    <div class="bg-white w-full h-full max-h-screen rounded-t-[16px] p-4 shadow-lg transform transition-transform duration-300 ease-in-out"
-         [class.translate-y-full]="!isAdvancedSearchOpen" 
-         [class.translate-y-0]="isAdvancedSearchOpen">
-      <app-high-search [isVisible]="isAdvancedSearchOpen" (close)="closeHighSearch()"></app-high-search>
     </div>
   </div>
 
@@ -51,7 +41,7 @@
       </button>
   
       <button 
-        (click)="selecionarModo('avancada'); toggleAdvancedSearch()"
+        (click)="selecionarModo('avancada'); onToggleAdvancedSearch()"
         class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
         [ngClass]="{
           'bg-gray-300 text-gray-700 hover:bg-gray-300': modoSelecionado === 'avancada',
@@ -82,16 +72,5 @@
         Buscar
       </button>
     </div>
-  
-    <!-- Drawer lateral -->
-    <div 
-      *ngIf="!isMobile && isAdvancedSearchOpen" 
-      class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-20"
-      [class.translate-x-full]="!isAdvancedSearchOpen"
-      [class.translate-x-0]="isAdvancedSearchOpen">
-      <div class="p-4 w-full h-full">
-        <app-high-search [isVisible]="isAdvancedSearchOpen" (close)="closeHighSearch()"></app-high-search>
-      </div>
-    </div>
   </div>
-  
+</div>

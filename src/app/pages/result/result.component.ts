@@ -23,8 +23,12 @@ export class ResultComponent implements OnInit {
   selectAll: boolean = false;
   selectedMentionsCount: number = 0;
   allSelected: boolean = false;
+  isSearchOpen: boolean = false;
 
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
+  @ViewChild('highSearchDrawer') highSearchDrawerRef!: ElementRef; // Referência ao HighSearch
+  @ViewChild('saveSearchModal') saveSearchModalRef!: ElementRef; // Referência ao modal de save search
+  @ViewChild('filtrosContainer') filtrosContainerRef!: ElementRef; // Referência ao container de filtros (mobile)
 
   constructor(private dataService: DataService) {}
 
@@ -38,6 +42,36 @@ export class ResultComponent implements OnInit {
     this.checkScreenSize();
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+
+    // Fechar o modal de conta se clicar fora
+    if (this.isModalVisible && this.modalWrapperRef && !this.modalWrapperRef.nativeElement.contains(target)) {
+      this.isModalVisible = false;
+    }
+
+    // Fechar o HighSearch se clicar fora
+    if (this.isSearchOpen && this.highSearchDrawerRef && !this.highSearchDrawerRef.nativeElement.contains(target)) {
+      this.closeHighSearch();
+    }
+
+    // Fechar o modal de save search se clicar fora
+    if (this.modalAberto && this.saveSearchModalRef && !this.saveSearchModalRef.nativeElement.contains(target)) {
+      this.fecharModal();
+    }
+
+    // Fechar os filtros (mobile) se clicar fora
+    if (this.filtrosAbertos && this.filtrosContainerRef && !this.filtrosContainerRef.nativeElement.contains(target)) {
+      this.filtrosAbertos = false;
+    }
+
+    // Fechar a sidebar mobile se clicar fora
+    if (this.isMobile && this.isSidebarOpen && target.closest('.sidebar-mobile') === null) {
+      this.isSidebarOpen = false;
+    }
+  }
+
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
   }
@@ -47,6 +81,13 @@ export class ResultComponent implements OnInit {
     this.loadNoticias();
   }
 
+  abrirBuscaAvancada() {
+    this.isSearchOpen = true; 
+  }
+  
+  closeHighSearch() {
+    this.isSearchOpen = false; 
+  }
 
   onSelectionChange(selected: boolean): void {
     if (selected) {
@@ -56,13 +97,12 @@ export class ResultComponent implements OnInit {
     }
   }
 
-  
   loadNoticias() {
     this.dataService.getData().subscribe(
       (data) => {
         if (data && data.noticias) {
           this.noticias = data.noticias;
-          this.aplicarFiltroNoticias(); // <-- Já aplica o filtro baseado no usuário atual
+          this.aplicarFiltroNoticias();
           if (this.filteredNoticias.length === 0) {
             console.warn(`Nenhuma notícia encontrada para ${this.currentUser}`);
           }
@@ -73,7 +113,6 @@ export class ResultComponent implements OnInit {
       (error) => console.error('Erro ao carregar os dados:', error)
     );
   }
-  
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
@@ -119,7 +158,7 @@ export class ResultComponent implements OnInit {
   
   onFilterNews(tab: string): void {
     this.selectedTab = tab;
-    this.aplicarFiltroNoticias(); // <-- Atualiza os cards
+    this.aplicarFiltroNoticias();
   }
   
   aplicarFiltroNoticias(): void {
@@ -131,7 +170,7 @@ export class ResultComponent implements OnInit {
       this.filteredNoticias = this.noticias.filter(
         noticia =>
           noticia.usuario === this.currentUser &&
-          ['Vídeo', ].includes(noticia.tipo) // ← CORRIGIDO AQUI
+          ['Vídeo'].includes(noticia.tipo)
       );
     } else if (this.selectedTab === 'clippings') {
       this.filteredNoticias = this.noticias.filter(
@@ -141,6 +180,4 @@ export class ResultComponent implements OnInit {
       );
     }
   }
-  
-  
 }

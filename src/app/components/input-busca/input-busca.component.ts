@@ -1,4 +1,4 @@
-import { Component, Input, HostListener } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,8 +9,9 @@ import { Router } from '@angular/router';
 })
 export class InputBuscaComponent {
   @Input() isModalOpen: boolean = false;
+  @Output() closeBusca = new EventEmitter<void>(); // <-- adicionado
 
-  isMobile: boolean = window.innerWidth <= 768; 
+  isMobile: boolean = window.innerWidth <= 768;
 
   constructor(private router: Router) {}
 
@@ -24,7 +25,7 @@ export class InputBuscaComponent {
   }
 
   closeModal(): void {
-    this.isModalOpen = false;
+    this.closeBusca.emit(); // <-- emitir para o pai (NavBarComponent)
   }
 
   search(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy, HostListener, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,7 @@ interface Entities {
   standalone: false
 })
 export class PageMentionDetailComponent implements OnInit, OnDestroy {
+  // Propriedades existentes...
   noticias: any[] = [];
   filteredNoticias: any[] = [];
   isMobile: boolean = window.innerWidth <= 768;
@@ -41,13 +42,19 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   isHeaderScrolled: boolean = false;
   isPlayerMinimized: boolean = false;
   isModalVisible: boolean = false;
+  isAccountModalVisible: boolean = false;
   selectedEntity: { entity: string; type: string } | null = null;
   modalPosition: { top: number; left: number } = { top: 0, left: 0 };
-  @Output() highlight = new EventEmitter<{ entity: string; type: string }>();
   isSaveFilterVisible = false;
   selectedEntityForSave?: { entity: string; type: string };
   errorMessage: string | null = null;
   private subscriptions = new Subscription();
+
+  // Referências aos elementos
+  @ViewChild('modalWrapper') modalWrapperRef!: ElementRef; // Para o modal de conta
+  @ViewChild('entityModal') entityModalRef!: ElementRef; // Para o modal de opções de entidade
+  @ViewChild('entitiesDrawer') entitiesDrawerRef!: ElementRef; // Para o drawer de entidades
+  @ViewChild('saveFilterModal') saveFilterModalRef!: ElementRef; // Para o modal de salvar filtros
 
   @HostBinding('class.show-entities-drawer')
   get isEntitiesDrawerOpen() {
@@ -68,6 +75,33 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  // Lógica para detectar cliques fora dos componentes
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+
+    // Fechar o modal de conta se clicar fora
+    if (this.isAccountModalVisible && this.modalWrapperRef && !this.modalWrapperRef.nativeElement.contains(target)) {
+      this.isAccountModalVisible = false;
+    }
+
+    // Fechar o modal de opções de entidade se clicar fora
+    if (this.isModalVisible && this.entityModalRef && !this.entityModalRef.nativeElement.contains(target)) {
+      this.closeModal();
+    }
+
+    // Fechar o drawer de entidades se clicar fora (apenas no layout desktop, já que no mobile ele já tem um comportamento de fechar ao clicar fora)
+    if (!this.isMobile && this.showEntitiesDrawer && this.entitiesDrawerRef && !this.entitiesDrawerRef.nativeElement.contains(target)) {
+      this.verEntidadesExtraidas();
+    }
+
+    // Fechar o modal de salvar filtros se clicar fora
+    if (this.isSaveFilterVisible && this.saveFilterModalRef && !this.saveFilterModalRef.nativeElement.contains(target)) {
+      this.closeSaveEntitiesFilter();
+    }
+  }
+
+  // Métodos existentes...
   loadData(): void {
     this.isLoading = true;
     this.errorMessage = null;
@@ -145,19 +179,20 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   }
 
   onOpenEntityOptions(event: { entity: string; type: string; position: { top: number; left: number } }): void {
-    this.selectedEntity = { entity: event.entity, type: event.type };
-    this.modalPosition = event.position;
-    this.isModalVisible = true;
+    if (event.entity === '' && event.type === '') {
+      // Se receber vazio (o próprio EntitiesDrawer mandou fechar)
+      this.closeModal();
+    } else {
+      // Se for diferente, ou novo clique
+      this.selectedEntity = { entity: event.entity, type: event.type };
+      this.modalPosition = event.position;
+      this.isModalVisible = true;
+    }
   }
-
+  
   closeModal(): void {
     this.isModalVisible = false;
     this.selectedEntity = null;
-  }
-
-  highlightEntity(event: { entity: string; type: string }): void {
-    console.log('Entidade a ser destacada:', event.entity, 'Tipo:', event.type);
-    this.highlight.emit(event);
   }
 
   showSaveEntitiesFilter(entityName: string, type: string) {
@@ -174,7 +209,11 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
 
   onSaveSelectedFilters(event: { entity: string, selectedFilters: any[] }) {
     console.log('Filters saved:', event.entity, event.selectedFilters);
-    // Here you can add logic to save the selected filters, e.g., to a service or state
     this.closeSaveEntitiesFilter();
+  }
+
+  toggleModal() {
+    this.isAccountModalVisible = !this.isAccountModalVisible;
+    console.log('Estado do modal de conta:', this.isAccountModalVisible);
   }
 }

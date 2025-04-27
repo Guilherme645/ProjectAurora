@@ -65,41 +65,43 @@
       </div>
     </div>
   </div>
-
-  <!-- Filtros (Desktop) -->
-  <div *ngFor="let filtro of filtros" class="filter-section">
-    <div class="filter-header" (click)="toggleSection(filtro.nome)">
-      <h2>{{ filtro.nome }}</h2>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        class="icon"
-        [ngClass]="{ 'rotate': filtro.aberto }"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 9l-7 7-7-7"
-        ></path>
+<br>
+   <!-- Filtros -->
+   <div *ngFor="let filtro of filtros" class="w-full">
+    <div class="flex justify-between items-center cursor-pointer py-2.5">
+      <h2 class="text-sm font-bold text-gray-700">{{ filtro.nome }}</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon w-5 h-5 text-gray-500 transition-transform duration-300" [ngClass]="{ 'rotate-180': filtro.aberto }">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
       </svg>
     </div>
-    <div class="accordion-content" *ngIf="filtro.aberto">
-      <div *ngIf="filtro.nome === 'Data'" class="date-container">
-        <input class="date-field" placeholder="Data Início" type="text" />
-        <input class="date-field" placeholder="Data Fim" type="text" />
+
+    <div class="py-1" *ngIf="filtro.aberto">
+      <!-- Data -->
+      <div *ngIf="filtro.nome === 'Data'" class="flex gap-4 w-full h-[62px]">
+        <input 
+          type="date"
+          [(ngModel)]="dataInicio"
+          class="w-1/2 h-full p-3 border border-transparent rounded-lg bg-gray-100 text-sm text-gray-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+          placeholder="Data início"
+        />
+        <input 
+          type="date"
+          [(ngModel)]="dataFim"
+          class="w-1/2 h-full p-3 border border-transparent rounded-lg bg-gray-100 text-sm text-gray-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+          placeholder="Data fim"
+        />
       </div>
-      <div *ngIf="filtro.nome !== 'Data'" class="filter-content">
-        <ul>
-          <li *ngFor="let item of filtro.itens">{{ item }}</li>
+
+      <!-- Itens de filtro -->
+      <div *ngIf="filtro.nome !== 'Data'" class="px-0 mt-1">
+        <ul class="list-none m-0 p-0">
+          <li *ngFor="let item of filtro.itens"
+              class="text-sm text-gray-800 py-1.5 pl-0 hover:text-sky-700 cursor-pointer">
+            {{ item }}
+          </li>
         </ul>
-        <button
-          *ngIf="filtro.mostrarMais"
-          class="show-more"
-          (click)="mostrarMais(filtro)"
-        >
+        <button *ngIf="filtro.mostrarMais"
+                class="bg-transparent border-none text-sky-700 text-sm font-bold cursor-pointer mt-2 hover:underline">
           Mostrar mais
         </button>
       </div>
