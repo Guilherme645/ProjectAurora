@@ -278,6 +278,33 @@
   white-space: nowrap;
   z-index: 10;
 }
+  .bell-icon-wrapper[data-tooltip] {
+    position: relative;
+  }
+  .bell-icon-wrapper[data-tooltip]:hover::after {
+content: attr(data-tooltip);
+position: absolute;
+bottom: -40px; /* posiciona abaixo do sino */
+left: 20px;
+transform: translateX(-50%);
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 8px 10px;
+gap: 4px;
+isolation: isolate;
+width: 242px;
+height: 32px;
+background: #111827; /* conforme style _tooltip */
+color: #ffffff;
+border-radius: 4px;
+font-family: 'Inter', sans-serif;
+font-size: 12px;
+font-weight: 400;
+line-height: 16px;
+z-index: 1000;
+white-space: nowrap;
+}
 
 .bell-icon-wrapper:hover::before {
   content: '';

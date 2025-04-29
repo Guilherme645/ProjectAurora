@@ -1,24 +1,29 @@
-<!-- monitor-card.component.html -->
-<div *ngIf="!isMobile" class="relative bg-white border border-gray-200 rounded-lg p-6 w-full max-w-md">
-  <!-- Barra colorida à esquerda -->
-  <div
-    class="absolute left-0 top-0 h-full w-1 rounded-l-lg"
-    [ngClass]="{
-      'bg-teal-500': status === 'Ativa',
-      'bg-blue-500': status === 'Pendente',
-      'bg-red-500': status === 'Desativada'
-    }"
-  ></div>
+<!-- VERSÃO DESKTOP -->
+<div
+  *ngIf="!isMobile"
+  class="relative flex flex-col w-[324px] h-[329px] bg-white rounded-[12px] border border-gray-200"
+>
+  <!-- TOPO -->
+  <div class="flex flex-row items-center p-4 gap-2 bg-[#FAFAFA] border-b border-gray-200 rounded-t-[12px]">
+    <!-- INDICADOR COLORIDO -->
+    <div
+      class="w-[2px] h-[38px] ml-[-16px]"
+      [ngClass]="{
+        'bg-teal-500': status === 'Ativa',
+        'bg-blue-500': status === 'Pendente',
+        'bg-red-500': status === 'Desativada'
+      }"
+    ></div>
 
-  <!-- Título e Sino -->
-  <div class="flex justify-between items-center mb-4 w-full">
-    <div class="flex items-center gap-2">
+    <!-- TÍTULO E SINO -->
+    <div class="flex items-center gap-2 flex-1">
       <h2 class="text-[14px] font-['Inter'] font-semibold text-[#1F2937]">{{ title }}</h2>
-      <!-- Ícone do Sino com Tooltip -->
+      <!-- ÍCONE DO SINO COM TOOLTIP -->
       <span
         *ngIf="showBellIcon"
         class="bell-icon-wrapper relative cursor-pointer"
         data-tooltip="Essa busca possui o alerta configurado"
+        style="z-index: 1000;"
       >
         <svg
           width="21"
@@ -51,8 +56,155 @@
             stroke-linejoin="round"
           />
         </svg>
+     
       </span>
     </div>
+    <!-- BOTÃO DE OPÇÕES (⋮) -->
+    <div class="relative ml-auto">
+      <button
+        class="flex justify-center items-center w-[38px] h-[38px] bg-white/5 rounded-[8px] p-0 text-gray-500 hover:text-gray-700"
+        [ngClass]="{
+          'shadow-[0_0_0_4px_rgba(31,41,55,0.25)]': optionSearch.isMenuOpen,
+          'shadow-none': !optionSearch.isMenuOpen
+        }"
+        (click)="optionSearch.toggleMenu($event)"
+        [attr.aria-expanded]="optionSearch.isMenuOpen"
+        aria-label="Abrir menu de opções"
+      >
+      <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.49998 8.66671C8.86817 8.66671 9.16665 8.36823 9.16665 8.00004C9.16665 7.63185 8.86817 7.33337 8.49998 7.33337C8.13179 7.33337 7.83331 7.63185 7.83331 8.00004C7.83331 8.36823 8.13179 8.66671 8.49998 8.66671Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M13.1667 8.66671C13.5349 8.66671 13.8333 8.36823 13.8333 8.00004C13.8333 7.63185 13.5349 7.33337 13.1667 7.33337C12.7985 7.33337 12.5 7.63185 12.5 8.00004C12.5 8.36823 12.7985 8.66671 13.1667 8.66671Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3.83335 8.66671C4.20154 8.66671 4.50002 8.36823 4.50002 8.00004C4.50002 7.63185 4.20154 7.33337 3.83335 7.33337C3.46516 7.33337 3.16669 7.63185 3.16669 8.00004C3.16669 8.36823 3.46516 8.66671 3.83335 8.66671Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        
+      </button>
+      <app-option-search
+        #optionSearch
+        [cardData]="cardData"
+        (edit)="openEditModal()"
+        (duplicate)="openDuplicateModal()"
+      ></app-option-search>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO CENTRAL -->
+  <div class="flex flex-col justify-between flex-1 px-4 py-4 gap-4 text-sm">
+    <!-- Início -->
+    <div class="flex justify-between text-gray-600">
+      <span class="font-['Inter'] font-medium text-[#6B7280]">Início do monitoramento:</span>
+      <span class="font-['Inter'] font-medium text-[#1F2937]">{{ startDate }}</span>
+    </div>
+    <div class="border-b border-gray-200 w-[292px]"></div>
+
+    <!-- Fim -->
+    <div class="flex justify-between text-gray-600">
+      <span class="font-['Inter'] font-medium text-[#6B7280]">Fim do monitoramento:</span>
+      <span class="font-['Inter'] font-medium text-[#1F2937]">{{ endDate }}</span>
+    </div>
+    <div class="border-b border-gray-200 w-[292px]"></div>
+
+    <!-- Status -->
+    <div class="flex justify-between items-center text-gray-600">
+      <span class="font-['Inter'] font-medium text-[#6B7280]">Status:</span>
+      <span
+      class="px-2 py-1 text-xs rounded font-['Inter'] font-medium"
+      [ngStyle]="{
+        'background-color': status === 'Ativa' ? '#CCFBF1' : status === 'Pendente' ? '#DBEAFE' : '#FEE2E2',
+        'color': status === 'Ativa' ? '#115E59' : status === 'Pendente' ? '#1E40AF' : '#991B1B'
+      }"
+    >
+      {{ status }}
+    </span>
+    
+    </div>
+  </div>
+
+  <!-- BOTÃO FINAL -->
+  <div class="px-4 pb-4">
+    <button
+      [routerLink]="['/result-saved-search']"
+      class="flex flex-row justify-between items-center px-[16px] py-[14px] gap-[10px] w-[292px] h-[45px] bg-[#1F2937] rounded-[8px] text-white text-sm font-['Inter'] font-medium hover:bg-gray-900"
+    >
+      <span>Detalhe da busca</span>
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- VERSÃO MOBILE -->
+<div
+  *ngIf="isMobile"
+  class="flex flex-col w-[324px] h-[329px] bg-white rounded-[12px] overflow-hidden border border-gray-200"
+>
+<div class="flex flex-row items-center py-4 px-4 gap-2 bg-[#FAFAFA] border-b border-gray-200 rounded-t-[12px]">
+  <!-- INDICADOR COLORIDO -->
+  <div
+    class="w-[2px] h-[38px]"
+    [ngClass]="{
+      'bg-teal-500': status === 'Ativa',
+      'bg-blue-500': status === 'Pendente',
+      'bg-red-500': status === 'Desativada'
+    }"
+  ></div>
+
+  <!-- TÍTULO E SINO com estilo 'col' -->
+  <div
+    class="flex flex-row items-center justify-start gap-[13px] m-auto w-[270px] h-[38px] flex-grow order-0">
+    <h2 class="text-[14px] font-['Inter'] font-semibold text-[#1F2937]">
+      {{ title }}
+    </h2>
+
+    <!-- ÍCONE DO SINO COM TOOLTIP -->
+   <!-- ÍCONE DO SINO COM TOOLTIP -->
+<span
+*ngIf="showBellIcon"
+class="bell-icon-wrapper relative cursor-pointer text-gray-500"
+title="Essa busca possui o alerta configurado"
+style="width: 242px; height: 32px;"
+>
+<svg
+  width="21"
+  height="20"
+  viewBox="0 0 21 20"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M5.5 6.66667C5.5 5.34059 6.02678 4.06882 6.96447 3.13114C7.90215 2.19346 9.17392 1.66667 10.5 1.66667C11.8261 1.66667 13.0979 2.19346 14.0355 3.13114C14.9732 4.06882 15.5 5.34059 15.5 6.66667C15.5 12.5 18 14.1667 18 14.1667H3C3 14.1667 5.5 12.5 5.5 6.66667Z"
+    fill="currentColor"
+  />
+  <path
+    d="M9.08331 17.5C9.2228 17.7537 9.42785 17.9653 9.67706 18.1127C9.92626 18.26 10.2105 18.3378 10.5 18.3378C10.7895 18.3378 11.0737 18.26 11.3229 18.1127C11.5721 17.9653 11.7772 17.7537 11.9166 17.5"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M3.83335 1.66667C2.83335 3.08334 2.16669 4.75001 2.16669 6.66667"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M18.8334 6.66667C18.8334 4.75001 18.1667 3.08334 17.1667 1.66667"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
+</span>
+
+  </div>
+
+    <!-- BOTÃO DE OPÇÕES (⋮) -->
     <div class="relative ml-auto">
       <button
         class="flex justify-center items-center w-[38px] h-[38px] bg-white/5 rounded-[8px] p-0 text-gray-500 hover:text-gray-700"
@@ -65,55 +217,71 @@
         aria-label="Abrir menu de opções"
       >
         <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8.50016 8.66666C8.86835 8.66666 9.16683 8.36818 9.16683 7.99999C9.16683 7.63181 8.86835 7.33333 8.50016 7.33333C8.13197 7.33333 7.8335 7.63181 7.8335 7.99999C7.8335 8.36818 8.13197 8.66666 8.50016 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M13.1667 8.66666C13.5349 8.66666 13.8333 8.36818 13.8333 7.99999C13.8333 7.63181 13.5349 7.33333 13.1667 7.33333C12.7985 7.33333 12.5 7.63181 12.5 7.99999C12.5 8.36818 12.7985 8.66666 13.1667 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M3.83317 8.66666C4.20136 8.66666 4.49984 8.36818 4.49984 7.99999C4.49984 7.63181 4.20136 7.33333 3.83317 7.33333C3.46498 7.33333 3.1665 7.63181 3.1665 7.99999C3.1665 8.36818 3.46498 8.66666 3.83317 8.66666Z" fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M8.50016 8.66666C8.86835 8.66666 9.16683 8.36818 9.16683 7.99999C9.16683 7.63181 8.86835 7.33333 8.50016 7.33333C8.13197 7.33333 7.8335 7.63181 7.8335 7.99999C7.8335 8.36818 8.13197 8.66666 8.50016 8.66666Z"
+            fill="black"
+            stroke="black"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M13.1667 8.66666C13.5349 8.66666 13.8333 8.36818 13.8333 7.99999C13.8333 7.63181 13.5349 7.33333 13.1667 7.33333C12.7985 7.33333 12.5 7.63181 12.5 7.99999C12.5 8.36818 12.7985 8.66666 13.1667 8.66666Z"
+            fill="black"
+            stroke="black"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M3.83317 8.66666C4.20136 8.66666 4.49984 8.36818 4.49984 7.99999C4.49984 7.63181 4.20136 7.33333 3.83317 7.33333C3.46498 7.33333 3.1665 7.63181 3.1665 7.99999C3.1665 8.36818 3.46498 8.66666 3.83317 8.66666Z"
+            fill="black"
+            stroke="black"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
-      <!-- Incluindo o OptionSearchComponent -->
-<!-- monitor-card.component.html -->
-<app-option-search
-  #optionSearch
-  [cardData]="cardData"
-  (edit)="openEditModal()"
-  (duplicate)="openDuplicateModal()"
-></app-option-search>
+      <app-option-search
+        #optionSearch
+        [cardData]="cardData"
+        (edit)="openEditModal()"
+        (duplicate)="openDuplicateModal()"
+      ></app-option-search>
     </div>
   </div>
 
-  <!-- Informações -->
-  <div class="space-y-3">
-    <div class="flex justify-between">
-      <span class="text-[14px] font-['Inter'] font-medium text-[#6B7280]">Início do monitoramento:</span>
-      <span class="text-[14px] font-['Inter'] font-medium text-[#1F2937]">{{ startDate }}</span>
+  <!-- INFORMAÇÕES -->
+  <div class="flex flex-col justify-between flex-1 px-4 py-4 gap-4 text-sm">
+    <div class="flex justify-between text-gray-600">
+      <span class="font-['Inter'] font-medium text-[#6B7280]">Início do monitoramento:</span>
+      <span class="font-['Inter'] font-medium text-[#1F2937]">{{ startDate }}</span>
     </div>
-    <hr />
-    <div class="flex justify-between">
-      <span class="text-[14px] font-['Inter'] font-medium text-[#6B7280]">Fim do monitoramento:</span>
-      <span class="text-[14px] font-['Inter'] font-medium text-[#1F2937]">{{ endDate }}</span>
+    <div class="border-b border-gray-200 w-[292px]"></div>
+    <div class="flex justify-between text-gray-600">
+      <span class="font-['Inter'] font-medium text-[#6B7280]">Fim do monitoramento:</span>
+      <span class="font-['Inter'] font-medium text-[#1F2937]">{{ endDate }}</span>
     </div>
-    <hr />
-    <div class="flex justify-between items-center">
-      <span class="text-[14px] font-['Inter'] font-medium text-[#6B7280]">Status:</span>
+    <div class="border-b border-gray-200 w-[292px]"></div>
+    <div class="flex justify-between items-center text-gray-600">
+      <span class="font-['Inter'] font-medium text-[#6B7280]">Status:</span>
       <span
-        class="bg-teal-100 text-[14px] font-['Inter'] font-medium px-2.5 py-0.5 rounded"
-        [ngClass]="{
-          'bg-teal-100 text-teal-800': status === 'Ativa',
-          'bg-blue-100 text-blue-800': status === 'Pendente',
-          'bg-red-100 text-red-800': status === 'Desativada'
-        }"
-      >
-        {{ status }}
-      </span>
+      class="px-2 py-1 text-xs rounded font-['Inter'] font-medium"
+      [ngStyle]="{
+        'background-color': status === 'Ativa' ? '#CCFBF1' : status === 'Pendente' ? '#DBEAFE' : '#FEE2E2',
+        'color': status === 'Ativa' ? '#115E59' : status === 'Pendente' ? '#1E40AF' : '#991B1B'
+      }"
+    >
+      {{ status }}
+    </span>
     </div>
   </div>
 
-  <!-- Botão -->
-  <div class="mt-6">
+  <!-- BOTÃO -->
+  <div class="px-4 pb-4">
     <button
-      class="w-full bg-gray-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-900 flex items-center justify-center gap-2 "
+      class="w-[292px] bg-[#1F2937] text-white text-sm font-['Inter'] font-medium py-[14px] rounded-[8px] hover:bg-gray-900 flex justify-between items-center px-4 gap-2"
+      [routerLink]="['/result-saved-search']"
     >
-      <span class="text-[14px] font-['Inter'] font-medium text-white" [routerLink]="['/result-saved-search']">Detalhe da busca</span>
+      <span>Detalhe da busca</span>
       <svg
         class="w-4 h-4"
         fill="none"
@@ -121,12 +289,7 @@
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        ></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </button>
   </div>
