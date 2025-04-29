@@ -71,7 +71,13 @@
         </svg>
       </button>
       <!-- Incluindo o OptionSearchComponent -->
-      <app-option-search #optionSearch [cardData]="cardData"></app-option-search>
+<!-- monitor-card.component.html -->
+<app-option-search
+  #optionSearch
+  [cardData]="cardData"
+  (edit)="openEditModal()"
+  (duplicate)="openDuplicateModal()"
+></app-option-search>
     </div>
   </div>
 

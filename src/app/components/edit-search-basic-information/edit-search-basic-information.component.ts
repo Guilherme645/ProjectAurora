@@ -1,6 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+// edit-search-basic-information.component.ts
+import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService, User } from 'src/app/services/data.service';
+import { ModalService } from 'src/app/services/modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-search-basic-information',
@@ -8,7 +11,7 @@ import { DataService, User } from 'src/app/services/data.service';
   styleUrls: ['./edit-search-basic-information.component.css'],
   standalone: false,
 })
-export class EditSearchBasicInformationComponent implements OnInit {
+export class EditSearchBasicInformationComponent implements OnInit, OnDestroy {
   salvarBuscaForm: FormGroup;
   currentStep: number = 1;
   showAddDestinationForm = false;
@@ -18,8 +21,13 @@ export class EditSearchBasicInformationComponent implements OnInit {
   isNegativeAlertActive: boolean = false;
   userList: User[] = [];
   @Output() saveEdits = new EventEmitter<void>();
+  private subscription = new Subscription();
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {
+  constructor(
+    private fb: FormBuilder,
+    private dataService: DataService,
+    private modalService: ModalService
+  ) {
     this.salvarBuscaForm = this.fb.group({
       searchName: ['', Validators.required],
       startDate: ['', Validators.required],
@@ -28,9 +36,28 @@ export class EditSearchBasicInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Carrega a lista de usuários
     this.dataService.getSaveUsers().subscribe(users => {
       this.userList = users;
     });
+
+    // Inscreve-se no estado do modal para receber os dados
+    this.subscription.add(
+      this.modalService.editModalState$.subscribe(state => {
+        if (state.open && state.data) {
+          this.salvarBuscaForm.patchValue({
+            searchName: state.data.title || '',
+            startDate: state.data.startDate ? new Date(state.data.startDate).toISOString().split('T')[0] : '',
+            endDate: state.data.endDate ? new Date(state.data.endDate).toISOString().split('T')[0] : '',
+          });
+          this.isAlertActive = state.data.status === 'Ativa';
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onToggleAlert() {
@@ -42,7 +69,6 @@ export class EditSearchBasicInformationComponent implements OnInit {
   }
 
   nextStep() {
-    // Valida o formulário antes de prosseguir
     if (this.salvarBuscaForm.valid) {
       this.currentStep++;
     } else {
@@ -58,9 +84,19 @@ export class EditSearchBasicInformationComponent implements OnInit {
 
   onSubmit() {
     if (this.salvarBuscaForm.valid) {
-      console.log('Form Submitted:', this.salvarBuscaForm.value);
-      // Emite o evento para o componente pai para fechar a modal
-      this.saveEdits.emit();
+      // Atualiza a busca no backend
+      this.dataService.updateSearch({
+        ...this.salvarBuscaForm.value,
+        status: this.isAlertActive ? 'Ativa' : 'Pendente',
+      }).subscribe({
+        next: () => {
+          this.saveEdits.emit();
+        },
+        error: (error) => {
+          console.error('Erro ao salvar edições:', error);
+          alert('Erro ao salvar as edições. Tente novamente.');
+        },
+      });
     } else {
       alert('Por favor, preencha todos os campos obrigatórios.');
     }

@@ -1,10 +1,13 @@
-import { Component, Input } from '@angular/core';
+// monitor-card.component.ts
+import { Component, Input, ViewChild } from '@angular/core';
+import { ModalService } from 'src/app/services/modal.service';
+import { OptionSearchComponent } from '../option-search/option-search.component';
 
 @Component({
   selector: 'app-monitor-card',
   templateUrl: './monitor-card.component.html',
   styleUrls: ['./monitor-card.component.css'],
-  standalone: false
+  standalone: false,
 })
 export class MonitorCardComponent {
   @Input() title!: string;
@@ -12,20 +15,30 @@ export class MonitorCardComponent {
   @Input() endDate!: string;
   @Input() status!: string;
   @Input() isMobile: boolean = false;
+  @ViewChild('optionSearch') optionSearch!: OptionSearchComponent;
 
-  
-  // Determina se o sino deve ser exibido (apenas para status "Ativa")
+  constructor(private modalService: ModalService) {}
+
   get showBellIcon(): boolean {
     return this.status === 'Ativa';
   }
 
-  // Dados do card para passar ao OptionSearchComponent
   get cardData() {
     return {
       title: this.title,
       startDate: this.startDate,
       endDate: this.endDate,
-      status: this.status
+      status: this.status,
     };
+  }
+
+  // Método para abrir o modal de edição
+  openEditModal() {
+    this.modalService.openEditModal(this.cardData);
+  }
+
+  // Método para abrir o modal de duplicação
+  openDuplicateModal() {
+    this.modalService.openDuplicateModal(this.cardData);
   }
 }

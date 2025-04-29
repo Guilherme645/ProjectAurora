@@ -13,12 +13,13 @@ export class SideBarComponent implements OnInit {
   @Output() userChange = new EventEmitter<string>();
   @Output() sidebarToggled = new EventEmitter<boolean>();
   @Output() openModalExternally = new EventEmitter<void>();
-
   isExpanded = true;
+  isThreeDotsActive = false; // New property to track active state of the button
   isMobile = window.innerWidth <= 768;
   currentUser = { name: 'Superior Tribunal Federal' };
   userName = 'Antônio Costa';
   userRole = 'Analista';
+  isClicked = false;
   users: { [key: string]: string } = {};
   menuItems = [
     { label: 'Início', link: '/navBar', icon: 'home' },
@@ -62,6 +63,8 @@ export class SideBarComponent implements OnInit {
       .slice(0, 2);
   }
 
+
+  
   private loadUsers(): void {
     this.dataService.getUsers().subscribe(
       (data) => (this.users = data),
@@ -112,10 +115,12 @@ export class SideBarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  onOpenModalClick(event: MouseEvent) {
-    event.stopPropagation(); // ← EVITA que o clique feche o modal logo após abrir
+  onOpenModalClick(event: MouseEvent): void {
+    event.stopPropagation();
     this.openModalExternally.emit();
+    this.isThreeDotsActive = !this.isThreeDotsActive;
   }
+  
 
   isActive(route: string): boolean {
     return this.router.isActive(route, {

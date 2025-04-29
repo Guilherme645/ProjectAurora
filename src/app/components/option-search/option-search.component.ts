@@ -17,13 +17,11 @@ export class OptionSearchComponent {
     private modalService: ModalService
   ) {}
 
-  // Toggle the dropdown menu
   toggleMenu(event: Event): void {
     event.stopPropagation();
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  // Métodos para abrir os modals
   openEditModal(): void {
     this.modalService.openEditModal(this.cardData);
     this.isMenuOpen = false;
@@ -39,7 +37,6 @@ export class OptionSearchComponent {
     this.isMenuOpen = false;
   }
 
-  // Close the menu if clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
