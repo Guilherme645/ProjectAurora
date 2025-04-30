@@ -13,6 +13,8 @@ interface Entidades {
   lugares: string[];
   organizacoes: string[];
   datas: string[];
+  profissoes: string[];
+
 }
 
 @Injectable({
@@ -20,7 +22,7 @@ interface Entidades {
 })
 export class TextoEntidadesService {
   private textoOriginalSubject = new BehaviorSubject<string>('');
-  private entidadesSubject = new BehaviorSubject<Entidades>({ pessoas: [], lugares: [], organizacoes: [], datas: [] });
+  private entidadesSubject = new BehaviorSubject<Entidades>({ pessoas: [], lugares: [], organizacoes: [], datas: [], profissoes: [] });
 
   constructor(private http: HttpClient) {
     this.loadData();
@@ -55,7 +57,7 @@ export class TextoEntidadesService {
     return this.entidadesSubject.asObservable();
   }
 
-  substituirEntidades(opcoes: { pessoas?: boolean, lugares?: boolean, organizacoes?: boolean, datas?: boolean }): Observable<string> {
+  substituirEntidades(opcoes: { pessoas?: boolean, lugares?: boolean, organizacoes?: boolean, datas?: boolean, profissoes?:boolean}): Observable<string> {
     return this.textoOriginalSubject.asObservable().pipe(
       map(textoOriginal => {
         let textoMarcado = textoOriginal;
@@ -86,16 +88,23 @@ export class TextoEntidadesService {
             textoMarcado = textoMarcado.replace(regex, `<span class="entity-date">${data}</span>`);
           });
         }
+        if (opcoes.profissoes && currentEntidades.profissoes) {
+          currentEntidades.profissoes.forEach(profissoes => {
+            const regex = new RegExp(escaparRegex(profissoes), 'g');
+            textoMarcado = textoMarcado.replace(regex, `<span class="entity-profissoes">${profissoes}</span>`);
+          });
+        }
 
         textoMarcado = textoMarcado.replace(/<span class="entity-person">(.+?)<\/span>/g,
-          '<span style="background-color: #FEF9C3; color: #854D0E; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
+          '<span style="background-color: #FEF9C3; color: #854D0E;  padding: 0 5px; border-radius: 4px;">$1</span>');
         textoMarcado = textoMarcado.replace(/<span class="entity-location">(.+?)<\/span>/g,
-          '<span style="background-color: #CCFBF1; color: #115E59; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
+          '<span style="background-color: #CCFBF1; color: #115E59;  padding: 0 5px; border-radius: 4px;">$1</span>');
         textoMarcado = textoMarcado.replace(/<span class="entity-organization">(.+?)<\/span>/g,
-          '<span style="background-color: #F3F4F6; color: #1F2937; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
+          '<span style="background-color: #F3F4F6; color: #1F2937;  padding: 0 5px; border-radius: 4px;">$1</span>');
         textoMarcado = textoMarcado.replace(/<span class="entity-date">(.+?)<\/span>/g,
-          '<span style="background-color: #DBEAFE; color: #1E40AF; font-weight: bold; padding: 0 5px; border-radius: 4px;">$1</span>');
-
+          '<span style="background-color: #DBEAFE; color: #1E40AF;  padding: 0 5px; border-radius: 4px;">$1</span>');
+          textoMarcado = textoMarcado.replace(/<span class="entity-profissoes">(.+?)<\/span>/g,
+            '<span style="background-color: #FEE2E2; color: #991B1B;  padding: 0 5px; border-radius: 4px;">$1</span>');
         return textoMarcado;
       })
     );

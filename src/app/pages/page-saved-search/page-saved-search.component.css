@@ -7,4 +7,7 @@
     -ms-overflow-style: none;  /* IE e Edge */
     scrollbar-width: none;     /* Firefox */
   }
-  
+  .layout-container {
+    display: flex;
+    height: 100vh;
+  }

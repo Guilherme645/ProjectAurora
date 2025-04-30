@@ -74,7 +74,7 @@
     <!-- Drawer de entidades -->
     <div
       *ngIf="showEntitiesDrawer"
-      class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-300"
+      class="fixed top-0 right-0 w-[438px] h-[785px] bg-white shadow-lg z-50 transition-transform duration-300"
       [ngClass]="{'translate-x-0': showEntitiesDrawer, 'translate-x-full': !showEntitiesDrawer}"
     >
       <app-entities-drawer
@@ -139,26 +139,27 @@
 
       <!-- Drawer de entidades (ajustado para mobile, ocupando 90% da tela, surgindo de baixo para cima) -->
       <div
-        *ngIf="showEntitiesDrawer"
-        class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex justify-center items-end"
-        (click)="verEntidadesExtraidas()" 
+      *ngIf="showEntitiesDrawer"
+      class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex justify-center items-end"
+      (click)="verEntidadesExtraidas()" 
+    >
+      <div
+        class="w-full h-[90%] bg-white transition-transform duration-300 border-l border-t border-gray-200"
+        [ngClass]="{
+          'translate-y-0': showEntitiesDrawer,
+          'translate-y-full': !showEntitiesDrawer
+        }"
+        (click)="$event.stopPropagation()"
       >
-        <div
-          class="w-full h-[90%] bg-white transition-transform duration-300"
-          [ngClass]="{
-            'translate-y-0': showEntitiesDrawer,
-            'translate-y-full': !showEntitiesDrawer
-          }"
-          (click)="$event.stopPropagation()"
-        >
-          <app-entities-drawer
-            [textoOriginal]="textoOriginal"
-            (textoMarcadoChange)="onDescriptionReceived($event)"
-            (close)="verEntidadesExtraidas()"
-            (openEntityOptions)="onOpenEntityOptions($event)"
-          ></app-entities-drawer>
-        </div>
+        <app-entities-drawer
+          [textoOriginal]="textoOriginal"
+          (textoMarcadoChange)="onDescriptionReceived($event)"
+          (close)="verEntidadesExtraidas()"
+          (openEntityOptions)="onOpenEntityOptions($event)"
+        ></app-entities-drawer>
       </div>
+    </div>
+    
 
       <!-- Modal para opções de entidade -->
       <div *ngIf="isModalVisible && selectedEntity" class="modal-backdrop"></div>

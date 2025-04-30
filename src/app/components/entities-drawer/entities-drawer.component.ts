@@ -25,14 +25,17 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   places: string[] = [];
   people: string[] = [];
   organizations: string[] = [];
+  profissoes: string[] = [];
   displayedDates: string[] = [];
   displayedPlaces: string[] = [];
   displayedPeople: string[] = [];
   displayedOrganizations: string[] = [];
+  displayedProfissoes: string[] = [];
   datesEnabled: boolean = false;
   placesEnabled: boolean = false;
   peopleEnabled: boolean = false;
   organizationsEnabled: boolean = false;
+  profissoesEnabled: boolean = false;
   highlightAllCategories: boolean = false;
   isSearchVisible: boolean = false;
   searchQuery: string = '';
@@ -67,13 +70,16 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
           this.places = entidades.lugares || [];
           this.people = entidades.pessoas || [];
           this.organizations = entidades.organizacoes || [];
+          this.profissoes = entidades.profissoes || [];
 
-          this.totalEntities = this.dates.length + this.places.length + this.people.length + this.organizations.length;
+
+          this.totalEntities = this.dates.length + this.places.length + this.people.length + this.organizations.length + this.profissoes.length ;
 
           this.displayedDates = this.dates.slice(0, this.displayLimit);
           this.displayedPlaces = this.places.slice(0, this.displayLimit);
           this.displayedPeople = this.people.slice(0, this.displayLimit);
           this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
+          this.displayedProfissoes = this.profissoes.slice(0, this.displayLimit);
 
           this.atualizarTextoMarcado();
         },
@@ -103,7 +109,9 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
         datas: this.datesEnabled,
         lugares: this.placesEnabled,
         pessoas: this.peopleEnabled,
-        organizacoes: this.organizationsEnabled
+        organizacoes: this.organizationsEnabled,
+        profissoes: this.profissoesEnabled
+
       }).subscribe({
         next: (textoMarcado) => {
           this.textoMarcado = textoMarcado;
@@ -141,6 +149,13 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
     console.log('Organizations toggled:', this.organizationsEnabled);
   }
 
+  toggleProfissoes(): void {
+    // Removido a atualização de highlightAllCategories para evitar conflitos
+    this.atualizarTextoMarcado();
+    console.log('Professions toggled:', this.profissoesEnabled);
+  }
+
+
   toggleHighlightAll(): void {
     // Inverte o estado de highlightAllCategories
     this.highlightAllCategories = !this.highlightAllCategories;
@@ -149,6 +164,7 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
     this.placesEnabled = this.highlightAllCategories;
     this.peopleEnabled = this.highlightAllCategories;
     this.organizationsEnabled = this.highlightAllCategories;
+    this.profissoesEnabled = this.highlightAllCategories;
     // Chama a atualização do texto marcado
     this.atualizarTextoMarcado();
     console.log('Highlight all toggled:', this.highlightAllCategories);
@@ -172,6 +188,11 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
   showAllOrganizations(): void {
     this.displayedOrganizations = [...this.organizations];
     console.log('Show all organizations:', this.displayedOrganizations);
+  }
+
+  showAllProfissions(): void {
+    this.displayedOrganizations = [...this.profissoes];
+    console.log('Show all profissao:', this.displayedProfissoes);
   }
 
   closeDrawer(): void {
@@ -205,19 +226,23 @@ export class EntitiesDrawerComponent implements OnInit, OnDestroy {
       this.displayedPlaces = this.places.slice(0, this.displayLimit);
       this.displayedPeople = this.people.slice(0, this.displayLimit);
       this.displayedOrganizations = this.organizations.slice(0, this.displayLimit);
+      this.displayedProfissoes = this.profissoes.slice(0, this.displayLimit);
     } else {
       this.selectedTab = 'all';
       this.displayedDates = this.dates.filter(date => date.toLowerCase().includes(query));
       this.displayedPlaces = this.places.filter(place => place.toLowerCase().includes(query));
       this.displayedPeople = this.people.filter(person => person.toLowerCase().includes(query));
       this.displayedOrganizations = this.organizations.filter(org => org.toLowerCase().includes(query));
+      this.displayedProfissoes = this.profissoes.filter(profissoes => profissoes.toLowerCase().includes(query));
+
     }
 
     console.log('Entities filtered:', {
       dates: this.displayedDates,
       places: this.displayedPlaces,
       people: this.displayedPeople,
-      organizations: this.displayedOrganizations
+      organizations: this.displayedOrganizations,
+      profissoes: this.profissoes
     });
   }
 

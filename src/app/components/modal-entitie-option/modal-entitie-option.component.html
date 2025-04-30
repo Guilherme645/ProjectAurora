@@ -4,7 +4,7 @@
   [style.left.px]="position.left"
 >
   <div class="px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-100">
-    {{ entityName }} ({{ type | titlecase }})
+    {{ entityName }} 
   </div>
   <button
     (click)="addToSavedSearch()"
@@ -20,8 +20,9 @@
     class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
   >
     <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M15.232 5.232l3.536 3.536M9 11l6-6m2 2l2 2m-2-2l-6 6H9v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M6 7.33325L2 11.3333V13.3333H8L10 11.3333" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14.6669 8.00008L11.6002 11.0667C11.351 11.3111 11.0159 11.4479 10.6669 11.4479C10.3179 11.4479 9.98279 11.3111 9.73355 11.0667L6.26689 7.60008C6.02258 7.35084 5.88574 7.01575 5.88574 6.66675C5.88574 6.31774 6.02258 5.98265 6.26689 5.73342L9.33355 2.66675" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     Destacar apenas essa palavra
-  </button>
+    </button>
 </div>
