@@ -1,0 +1,10 @@
+/* Oculta a barra de rolagem mas mantém o scroll funcional */
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hidden {
+    -ms-overflow-style: none;  /* IE e Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  

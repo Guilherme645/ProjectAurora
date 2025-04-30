@@ -122,25 +122,26 @@
   </div>
   <!-- Versão Desktop -->
   <div
-    *ngIf="!isMobile"
-    class="bg-white px-6 pt-6 transition-all duration-300"
-    [ngClass]="{ 'h-0 opacity-0 overflow-hidden': isCollapsed, 'h-auto opacity-100': !isCollapsed }"
-  >
-    <div class="flex items-center justify-between flex-wrap gap-4">
-      <!-- Título e subtítulo -->
-      <div>
-        <h1 class="font-inter font-semibold text-[20px] leading-[24px] tracking-[-0.018em] text-gray-900">
-          Buscas salvas
-        </h1>
-        <p class="font-inter font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-gray-500">
-          Todas as buscas salvas do Workspace
-        </p>
-      </div>
-
-      <!-- Campo de busca alinhado à direita -->
-      <div class="ml-4 w-full sm:w-[450px]">
-        <app-simple-input-search (searchChange)="onSearchChange($event)"></app-simple-input-search>
-      </div>
+  *ngIf="!isMobile"
+  class="bg-white pt-8 h-[111px] w-full px-[40px] flex flex-col gap-[32px] border-b border-gray-200 transition-all duration-300"
+  [ngClass]="{ 'h-0 opacity-0 overflow-hidden': isCollapsed, 'h-auto opacity-100': !isCollapsed }"
+>
+  <div class="flex justify-between ml-[-15px] items-end flex-wrap">
+    <!-- Título e subtítulo -->
+    <div class="flex flex-col items-start gap-[4px] w-[217px] h-[44px] flex-none order-0 flex-grow-0">
+      <h1 class="font-inter font-semibold text-[20px] leading-[24px] tracking-[-0.018em] text-gray-900">
+        Buscas salvas
+      </h1>
+      <p class="font-inter font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-gray-500">
+        Todas as buscas salvas do Workspace
+      </p>
     </div>
+    
+
+    <!-- Campo de busca -->
+   <div class="w-[409px] mr-[-12px]">
+    <app-simple-input-search (searchChange)="onSearchChange($event)"></app-simple-input-search>
+  </div>
   </div>
 </div>
+

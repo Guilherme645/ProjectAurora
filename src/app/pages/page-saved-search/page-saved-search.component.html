@@ -40,7 +40,7 @@
   </div>
 
   <!-- Versão Desktop -->
-  <div *ngIf="!isMobile" class="layout-container">
+  <div *ngIf="!isMobile" class="layout-container overflow-x-hidden overflow-y-auto scrollbar-hidden">
     <!-- Sidebar fixa -->
     <div class="bg-neutral-800 text-white fixed h-full z-50">
       <app-side-bar 
@@ -53,7 +53,7 @@
     <div 
       *ngIf="isModalVisible"
       class="fixed inset-0 z-40"
-      style="background-color: #b8bacd80;">
+      style="background-color: #dbdce680;">
     </div>
 
     <!-- Modal com referência -->
@@ -92,7 +92,7 @@ class="fixed inset-0 bg-black bg-opacity-40 z-50"
         </div>
 
         <!-- Monitor Cards -->
-        <div *ngIf="!isLoading && !errorMessage" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 z-0 relative">
+        <div *ngIf="!isLoading && !errorMessage" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 z-0 relative">
           <app-monitor-card
             *ngFor="let card of filteredMonitorCards"
             [title]="card.title"
@@ -111,7 +111,7 @@ class="fixed inset-0 bg-black bg-opacity-40 z-50"
   <!-- Modal de Edição -->
   <div
     *ngIf="modalAberto"
-    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000] opacity-100"
+    class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50"
     role="dialog"
     aria-modal="true"
   >
@@ -142,7 +142,7 @@ class="fixed inset-0 bg-black bg-opacity-40 z-50"
   <!-- Modal de Duplicação -->
   <div
     *ngIf="duplicateModalAberto"
-    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000] opacity-100"
+    class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50"
     role="dialog"
     aria-modal="true"
   >
@@ -173,7 +173,7 @@ class="fixed inset-0 bg-black bg-opacity-40 z-50"
   <!-- Modal de Remoção -->
   <div
     *ngIf="removeModalAberto"
-    class="modal-overlay fixed inset-0 flex justify-center items-center z-[1000] opacity-100"
+    class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50"
     role="dialog"
     aria-modal="true"
   >
