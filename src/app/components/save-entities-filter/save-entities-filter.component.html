@@ -1,75 +1,112 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-  <div class="relative bg-white w-[645px] max-h-[80vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-    
-    <!-- Header com busca e ESC -->
-    <div class="sticky top-0 z-10 bg-white px-6 pt-6 pb-3 flex items-center justify-between border-b border-gray-200 rounded-t-2xl">
-      <div class="relative w-full">
-        <span class="absolute left-4 top-1/2 transform -translate-y-1/2">
-          <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
-          </svg>
-        </span>
-        <input
-          type="text"
-          placeholder="Encontre a busca desejada"
-          class="w-full text-sm rounded-lg pl-12 pr-16 py-3 placeholder:text-gray-400 border-none focus:outline-none focus:ring-0"
-          [(ngModel)]="searchTerm"
-        />
-        <span 
-          class="absolute right-8 top-1/2 transform -translate-y-1/2 bg-gray-100 text-xs text-gray-500 px-2 py-1 rounded-md cursor-pointer"
-          (click)="closeFilter()"
-        >
-          ESC
-        </span>
-      </div>
-    </div>
+  <div
+    class="absolute bg-white w-[645px] h-[573px] rounded-[16px] shadow-2xl flex flex-col"
+    style="left: calc(50% - 322.5px); top: calc(50% - 286.5px);"
+  >
+  <!-- Header com input de busca -->
+<!-- Header com input de busca -->
+<div
+  class="flex justify-between items-center border-b border-gray-200 px-6 py-6"
+  style="width: 645px; height: 72px;"
+>
+  <div class="relative w-full h-full">
+    <!-- Ícone -->
+    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+          d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+      </svg>
+    </span>
 
-    <!-- Conteúdo rolável -->
-    <div class="overflow-y-auto custom-scrollbar px-6 pt-4 pb-6" style="max-height: calc(80vh - 72px - 72px); min-height: calc(80vh - 72px - 72px);">
-      <!-- Entidade selecionada -->
-      <div>
+    <!-- Campo de busca -->
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      placeholder="Encontre a busca desejada"
+      class="w-full h-full pl-12 pr-20 text-sm rounded-lg placeholder-gray-400 focus:outline-none focus:ring-0 font-medium text-[#1F2937] flex items-center"
+    />
+
+    <!-- ESC -->
+    <span
+      class="absolute right-4 top-1/2 -translate-y-1/2  text-xs px-2 py-1 rounded-md border text-gray-600 border-gray-200 shadow-sm font-mono font-normal cursor-pointer"
+      (click)="closeFilter()"
+    >
+      ESC
+    </span>
+  </div>
+</div>
+
+
+
+    <!-- Conteúdo scrollável -->
+    <div class="flex-1 overflow-y-auto px-6 py-4 custom-scrollbar">
+      <div class="flex items-center gap-2 mb-4">
         <span class="text-xs text-gray-600">Entidade selecionada</span>
-        <span class="inline-flex items-center px-3 py-1 ml-2 text-sm font-medium rounded-full bg-teal-50 text-teal-600">{{ entityName }}</span>
+        <span class="px-3 py-1 text-sm font-medium bg-teal-50 text-teal-600 rounded-full">
+          {{ entityName }}
+        </span>
       </div>
 
-      <!-- Cards de filtros -->
-      <div class="pt-4 grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-4">
         <ng-container *ngFor="let card of filteredCards">
-          <div class="flex flex-row items-start gap-4 p-4 border border-gray-200 rounded-xl">
-            <div class="flex flex-col flex-1 gap-2">
-              <div class="flex flex-col gap-1">
-                <div class="flex justify-between items-center">
-                  <h3 class="text-base font-medium text-gray-800">{{ card.title }}</h3>
-                  <input
-                    type="checkbox"
-                    [(ngModel)]="card.checked"
-                    class="rounded text-blue-600 focus:ring-blue-500 border-gray-300"
-                  />
-                </div>
-                <div class="text-xs text-gray-600">Busca ativa</div>
+          <div
+            class="flex flex-col border border-gray-200 rounded-xl p-4 relative"
+            style="width: 290.75px; height: 120px;"
+          >
+            <!-- Checkbox no canto superior direito -->
+            <input
+              type="checkbox"
+              [(ngModel)]="card.checked"
+              class="absolute top-4 right-4 rounded text-blue-600 focus:ring-blue-500 border-gray-300"
+            />
+        
+            <!-- Conteúdo -->
+            <div
+              class="flex flex-col gap-[2px]"
+              style="width: 226.75px; height: 42px;"
+            >
+              <h3
+                class="text-[16px] leading-[24px] font-medium text-[#1F2937] truncate"
+              >
+                {{ card.title }}
+              </h3>
+              <div
+                class="text-[12px] leading-[16px] font-medium text-[#525252]"
+              >
+                Busca ativa
               </div>
-              <div class="text-sm text-gray-600 flex items-center gap-2">
-                <span>Criada por:</span>
-                <span class="flex items-center gap-2">
-                  <span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold text-blue-800 bg-blue-100">{{ card.initials }}</span>
-                  <span class="text-gray-600">{{ card.owner }}</span>
+            </div>
+        
+            <!-- Criado por -->
+            <div class="flex gap-2 items-center text-sm text-gray-600 mt-auto">
+              <span>Criada por:</span>
+              <span class="flex items-center gap-2">
+                <span
+                  class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold bg-blue-100 text-blue-800"
+                >
+                  {{ card.initials }}
                 </span>
-              </div>
+                <span class="truncate">{{ card.owner }}</span>
+              </span>
             </div>
           </div>
         </ng-container>
+        
       </div>
+      
+      
     </div>
 
     <!-- Rodapé -->
-    <div class="sticky bottom-0 bg-white px-6 py-4 border-t border-gray-200 flex justify-end shadow-lg rounded-b-2xl">
-      <button 
-        class="bg-gray-900 text-white px-6 py-3 text-sm font-semibold rounded-lg hover:bg-gray-800"
+    <div class="flex justify-end px-6 py-4 border-t border-gray-200">
+      <button
+        class="flex justify-center items-center gap-[10px] px-[16px] py-[14px] w-[282px] h-[46px] bg-[#1F2937] text-white text-sm font-semibold rounded-[8px] hover:bg-gray-800"
         (click)="saveFilters()"
       >
         Incluir nas buscas selecionadas [{{ getSelectedCount() }}]
       </button>
     </div>
+    
   </div>
 </div>
 
@@ -84,7 +121,7 @@
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #E5E7EB;
-    border-radius: 999px;
+    border-radius: 9999px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {

@@ -1,134 +1,207 @@
 <div
   class="header transition-all duration-300 mx-auto"
-  [ngClass]="{ 'header-scrolled': isScrolled, 'header-default': !isScrolled }"
+  [ngClass]="{
+    'header-default': !isScrolled && !showEntitiesDrawer,
+    'header-scrolled': isScrolled,
+    'scrolled-no-drawer': isScrolled && !showEntitiesDrawer,
+    'drawer-open': showEntitiesDrawer
+  }"
 >
   <!-- Versão Desktop -->
   <ng-container *ngIf="!isMobile">
-    <!-- Versão Completa (quando não rolado) -->
+    
+    <!-- Versão 1: Drawer fechado, sem scroll -->
     <div
-      *ngIf="!isLoading && !errorMessage && (!isScrolled && (noticia$ | async)) as noticia"
-      class="flex flex-col justify-between px-4 py-3 w-full max-w-[590px] h-[162px]"
+      *ngIf="!isLoading && !errorMessage && !isScrolled && !showEntitiesDrawer && (noticia$ | async) as noticia"
+      class="absolute top-[32px] left-0 w-[625px] h-[162px] flex flex-col gap-[20px] px-0 py-0"
     >
-      <!-- Topo: Voltar -->
-      <app-back-button (backClicked)="onBack()"></app-back-button>
+      <!-- Voltar -->
+      <div class="flex items-center text-xs text-gray-700 gap-2">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 11.0833L2.91667 7L7 2.91667" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11.0833 7H2.91667" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <a [routerLink]="['/navBar']" class="font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-decoration-none">
+          Voltar à tela anterior
+        </a>    
+            </div>
 
-      <!-- Meio: Info + Data -->
-      <div class="flex justify-between items-start">
-        <!-- Esquerda -->
-        <div class="flex flex-col gap-1">
-          <!-- Metadados -->
-          <div
-            class="flex items-center gap-2 text-[12px] text-gray-700 whitespace-nowrap leading-none"
-          >
-            <span class="font-semibold">{{ noticia.veiculo || 'N/A' }}</span>
-            <span class="text-gray-400">•</span>
-            <span class="text-gray-600">{{ noticia.local || 'N/A' }}</span>
-            <span class="text-gray-400">•</span>
-            <span class="text-gray-800 font-medium">{{ noticia.sentimento || 'N/A' }}</span>
+      <!-- Metadados e Data -->
+      <div class="flex justify-between items-start w-full">
+        <div class="flex flex-col gap-[6px]">
+          <div class="flex items-center gap-3 text-sm leading-[20px] font-semibold">
+            <span class="text-gray-900">{{ noticia.veiculo || 'Globo News' }}</span>
+            <div class="w-[4px] h-[4px] bg-gray-300 rounded-full"></div>
+            <span class="text-gray-500">{{ noticia.local || 'São Paulo, SP' }}</span>
+            <div class="w-[4px] h-[4px] bg-gray-300 rounded-full"></div>
+            <span class="text-gray-800">{{ noticia.sentimento || 'Positivo' }}</span>
           </div>
-
-          <!-- Intervalo -->
-          <div class="text-gray-900 text-lg font-semibold">
-            {{ noticia.intervalo || 'N/A' }}
+          <div class="text-[20px] font-semibold text-gray-900 tracking-[-0.018em] leading-[28px]">
+            {{ noticia.intervalo || '10:17:01 - 10:23:59' }}
           </div>
         </div>
 
-        <!-- Direita: Data -->
-        <div class="text-[12px] text-gray-500 text-right leading-tight">
-          <div>{{ noticia.dataFixa || 'N/A' }}</div>
-          <div>às {{ noticia.horario || 'N/A' }}</div>
+        <div class="flex flex-col items-end gap-[2px] w-[66px] text-[12px] text-gray-500 text-right leading-[16px] font-medium">
+          <div>{{ '07/12/2024' }}</div>
+          <div>às {{ noticia.horario || '10:17' }}</div>
         </div>
       </div>
 
-      <!-- Rodapé: Botões -->
-      <div class="flex items-center gap-4 mt-4">
+      <!-- Botões -->
+      <div class="flex items-center gap-4 mt-[-10px]">
         <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
         <app-share-button
-          class="px-4 py-2 rounded-lg transition ml-auto"
+          class="px-4 py-2 rounded-lg ml-[390px] transition ml-auto"
           (shareClicked)="onShare()"
         ></app-share-button>
       </div>
     </div>
 
-    <!-- Versão Compacta (quando rolado) -->
+    <!-- Versão 2: Drawer aberto, sem scroll -->
     <div
-      *ngIf="!isLoading && !errorMessage && (isScrolled && (noticia$ | async)) as noticia"
-      class="bg-white h-[78px] flex items-center px-4 w-full max-w-[1270px] mx-auto"
+      *ngIf="!isLoading && !errorMessage && !isScrolled && showEntitiesDrawer && (noticia$ | async) as noticia"
+      class="absolute top-[32px] left-[-41px] w-[625px] h-[162px] flex flex-col gap-[20px] px-0 py-0"
     >
+      <!-- Mesmo conteúdo que a versão 1 -->
+      <!-- Voltar -->
+      <div class="flex items-center text-xs text-gray-700 gap-2">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 11.0833L2.91667 7L7 2.91667" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11.0833 7H2.91667" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <a [routerLink]="['/navBar']" class="font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-decoration-none">
+          Voltar à tela anterior
+        </a>          </div>
+
+      <!-- Metadados e Data -->
       <div class="flex justify-between items-start w-full">
-        <!-- Esquerda: Voltar + Título -->
-        <div class="flex flex-col gap-1">
-          <app-back-button (backClicked)="onBack()"></app-back-button>
-          <h1 class="text-[16px] text-gray-700 font-semibold leading-none truncate">
-            {{ noticia.titulo || 'N/A' }}
-          </h1>
+        <div class="flex flex-col gap-[6px]">
+          <div class="flex items-center gap-3 text-sm leading-[20px] font-semibold">
+            <span class="text-gray-900">{{ noticia.veiculo || 'Globo News' }}</span>
+            <div class="w-[4px] h-[4px] bg-gray-300 rounded-full"></div>
+            <span class="text-gray-500">{{ noticia.local || 'São Paulo, SP' }}</span>
+            <div class="w-[4px] h-[4px] bg-gray-300 rounded-full"></div>
+            <span class="text-emerald-800">{{ noticia.sentimento || 'Positivo' }}</span>
+          </div>
+          <div class="text-[20px] font-semibold text-gray-900 tracking-[-0.018em] leading-[28px]">
+            {{ noticia.intervalo || '10:17:01 - 10:23:59' }}
+          </div>
         </div>
 
-        <!-- Direita: Botões -->
-        <div class="flex items-center gap-4">
-          <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
-          <app-share-button (shareClicked)="onShare()"></app-share-button>
+        <div class="flex flex-col items-end gap-[2px] w-[66px] text-[12px] text-gray-500 text-right leading-[16px] font-medium">
+          <div>{{ '07/12/2024' }}</div>
+          <div>às {{ noticia.horario || '10:17' }}</div>
         </div>
+      </div>
+
+      <!-- Botões -->
+      <div class="flex items-center gap-4 mt-[-10px]">
+        <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
+        <app-share-button
+          class="px-4 py-2 rounded-lg ml-[390px] transition ml-auto"
+          (shareClicked)="onShare()"
+        ></app-share-button>
+      </div>
+    </div>
+
+<!-- Versão 3: Com scroll e drawer fechado -->
+<div
+  *ngIf="!isLoading && !errorMessage && isScrolled && !showEntitiesDrawer && (noticia$ | async) as noticia"
+  class="flex flex-wrap flex-row justify-between items-start content-start px-[24px] pt-[16px] pb-[16px] pl-[124px] gap-x-[104px] gap-y-[15px] absolute top-[0px] right-0 w-[1087px] h-[78px] bg-white shadow-[0px_6px_12px_rgba(0,0,0,0.03)] z-40"
+  style="isolation: isolate;"
+>
+  <!-- Coluna da esquerda -->
+  <div class="flex flex-col ml-2 items-start gap-[2px] w-[511px] h-[42px] z-0">
+    <!-- Voltar -->
+    <div class="flex items-center gap-[6px] text-xs text-[#1F2937] w-[134px] h-[16px]">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 11.0833L2.91667 7L7 2.91667" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.0833 7H2.91667" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <a [routerLink]="['/navBar']" class="font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-decoration-none">
+        Voltar à tela anterior
+      </a>      
+      </div>
+
+    <!-- Título -->
+    <div class="w-full h-[24px]">
+      <span class="text-[16px] font-semibold leading-[24px] text-[#1F2937] tracking-[-0.01em]">
+        {{ noticia.titulo || 'Novo depoimento de Cid é visto como esclarecimento para...' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Coluna da direita (botões) -->
+  <div class="flex flex-row items-center gap-[4px] w-[209px] h-[46px] z-2">
+    <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
+    <app-share-button (shareClicked)="onShare()"></app-share-button>
+  </div>
+
+  <!-- Divider horizontal opcional (caso queira como na especificação) -->
+  <div class="absolute bottom-0 left-0 w-full h-[1px] bg-[#E5E7EB] z-1"></div>
+</div>
+
+
+    <!-- Versão 4: Com scroll e drawer aberto -->
+    <div
+      *ngIf="!isLoading && !errorMessage && isScrolled && showEntitiesDrawer && (noticia$ | async) as noticia"
+      class="fixed top-[0px] right-[500px] w-[955px] h-[78px] px-[124px] py-[16px] bg-white flex justify-between items-center gap-[15px_104px] z-40"
+      style="isolation: isolate"
+    >
+      <div class="flex flex-col gap-[2px] mr w-[511px]">
+        <div class="flex items-center ml-[180px] gap-[6px] text-xs text-gray-700">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.99984 11.0834L2.9165 7.00008L6.99984 2.91675" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.0832 7H2.9165" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            
+            <a [routerLink]="['/navBar']" class="font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-decoration-none">
+              Voltar à tela anterior
+            </a>       
+             </div>
+        <div class="text-[16px]  ml-[180px] font-semibold truncate text-[#1F2937] leading-[24px] tracking-[-0.01em]">
+          {{ noticia.titulo }}
+        </div>
+      </div>
+      <div class="flex items-center  gap-[4px] w-[209px] h-[46px]">
+        <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
+        <app-share-button (shareClicked)="onShare()"></app-share-button>
       </div>
     </div>
   </ng-container>
-</div>
+
   <!-- Versão Mobile -->
   <ng-container *ngIf="isMobile">
     <div
       *ngIf="!isLoading && !errorMessage && (noticia$ | async) as noticia"
       class="bg-white flex flex-col px-4 py-3 w-full"
     >
-      <!-- Botões Voltar e Compartilhar -->
       <div class="flex flex-row justify-between items-center w-full max-w-[327px] h-[20px] mb-3">
         <app-back-button (backClicked)="onBack()"></app-back-button>
-        <!-- Links: Contêiner para o botão de compartilhar -->
         <div class="flex flex-row items-center">
-          <svg class="w-6 h-6" style="margin-top: 5px;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.5 4.66675C11.4665 4.66675 12.25 3.88325 12.25 2.91675C12.25 1.95025 11.4665 1.16675 10.5 1.16675C9.5335 1.16675 8.75 1.95025 8.75 2.91675C8.75 3.88325 9.5335 4.66675 10.5 4.66675Z" stroke="#2563EB" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3.5 8.75C4.4665 8.75 5.25 7.9665 5.25 7C5.25 6.0335 4.4665 5.25 3.5 5.25C2.5335 5.25 1.75 6.0335 1.75 7C1.75 7.9665 2.5335 8.75 3.5 8.75Z" stroke="#2563EB" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.5 12.8333C11.4665 12.8333 12.25 12.0498 12.25 11.0833C12.25 10.1168 11.4665 9.33325 10.5 9.33325C9.5335 9.33325 8.75 10.1168 8.75 11.0833C8.75 12.0498 9.5335 12.8333 10.5 12.8333Z" stroke="#2563EB" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5.01074 7.88086L8.99491 10.2025" stroke="#2563EB" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8.98908 3.79761L5.01074 6.11927" stroke="#2563EB" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg><app-share-button (shareClicked)="onShare()"></app-share-button>
+          <svg class="w-6 h-6" style="margin-top: 5px;" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="..." stroke="#2563EB"/>
+          </svg>
+          <app-share-button (shareClicked)="onShare()"></app-share-button>
         </div>
       </div>
 
-
       <!-- Conteúdo -->
       <div class="flex flex-col items-start w-[327px] gap-2">
-        <div class="flex flex-col items-start w-[327px] gap-3">
-          <!-- Metadados -->
-          <div class="flex items-center gap-3 text-[14px] text-gray-700 whitespace-nowrap leading-none">
-            <span class="font-semibold">{{ noticia.veiculo || 'N/A' }}</span>
-            <span class="text-gray-400">•</span>
-            <span class="text-gray-600">{{ noticia.local || 'N/A' }}</span>
-            <span class="text-gray-400">•</span>
-            <span class="text-gray-800 font-medium">{{ noticia.sentimento || 'N/A' }}</span>
-          </div>
-
-          <!-- Intervalo e Data -->
-          <div class="flex flex-col w-[327px] gap-2">
-            <!-- Intervalo -->
-            <div class="flex flex-row items-center w-[327px] h-[20px] gap-3">
-              <div class="text-gray-900 font-semibold text-[20px]">
-                {{ noticia.intervalo || 'N/A' }}
-              </div>
-            </div>
-
-            <!-- Data -->
-            <div class="flex">
-              <div
-                class="flex flex-row w-[190px] h-[16px] text-[12px] text-gray-500 whitespace-nowrap leading-none gap-1"
-              >
-                <span>{{ noticia.dataFixa || 'N/A' }}</span>
-                <span>às</span>
-                <span>{{ noticia.horario || 'N/A' }}</span>
-              </div>
-            </div>
-          </div>
+        <div class="flex items-center gap-3 text-[14px] text-gray-700 leading-none">
+          <span class="font-semibold">{{ noticia.veiculo || 'N/A' }}</span>
+          <span class="text-gray-400">•</span>
+          <span class="text-gray-600">{{ noticia.local || 'N/A' }}</span>
+          <span class="text-gray-400">•</span>
+          <span class="text-gray-800 font-medium">{{ noticia.sentimento || 'N/A' }}</span>
+        </div>
+        <div class="text-[20px] font-semibold text-gray-900 mt-2">
+          {{ noticia.intervalo || 'N/A' }}
+        </div>
+        <div class="text-[12px] text-gray-500">
+          {{ noticia.dataFixa || 'N/A' }} às {{ noticia.horario || 'N/A' }}
         </div>
       </div>
     </div>
   </ng-container>
-
+</div>

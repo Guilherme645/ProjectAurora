@@ -65,7 +65,7 @@
   padding-left: 16px;
   padding-right: 16px;
   box-sizing: border-box;
-  padding-top: 12px; /* Altura da versão completa do cabeçalho */
+  padding-top: 25px; /* Altura da versão completa do cabeçalho */
 }
 
 /* Ajuste para quando o cabeçalho estiver na versão compacta */

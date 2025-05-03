@@ -7,7 +7,7 @@
       class="player-container touch-none bg-white shadow-lg rounded-[6px]"
       [ngClass]="{
         'fixed bottom-4 z-50 w-[311px] h-[183px]': isFloating,
-        'w-[590px] h-[367px] relative': !isFloating
+        'w-[625px] h-[367px] relative': !isFloating
       }"
       [ngStyle]="isFloating ? getFloatingStyles() : {}"
       cdkDrag="isFloating"
@@ -30,17 +30,18 @@
           Seu navegador não suporta o elemento de vídeo.
         </video>
         <button 
-          class="absolute inset-0 flex items-center justify-center" 
-          (click)="togglePlay()"
+        class="absolute inset-0 flex items-center justify-center"
+        (click)="togglePlay()"
+      >
+        <svg 
+          *ngIf="!isPlaying"
+          class="w-10 h-10 text-white opacity-80 hover:opacity-100"
+          fill="currentColor"
+          viewBox="0 0 24 24"
         >
-          <svg class="w-10 h-10 text-white opacity-80 hover:opacity-100" fill="currentColor" viewBox="0 0 24 24">
-            <path *ngIf="!isPlaying" d="M8 5v14l11-7z" />
-            <g *ngIf="isPlaying">
-              <rect x="6" y="4" width="4" height="16" rx="1" />
-              <rect x="14" y="4" width="4" height="16" rx="1" />
-            </g>
-          </svg>
-        </button>
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </button>
       </div>
     </div>
   </div>

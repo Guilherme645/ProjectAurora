@@ -130,7 +130,7 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getFloatingStyles(): { [key: string]: string } {
     const styles: { [key: string]: string } = {
-      ['bottom']: '16px',
+      ['bottom']: '40px',
       ['zIndex']: '40'
     };
 
@@ -142,7 +142,7 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } else {
       if (this.showEntitiesDrawer) {
-        styles['right'] = '400px';
+        styles['right'] = '480px';
       } else {
         styles['right'] = '16px';
       }

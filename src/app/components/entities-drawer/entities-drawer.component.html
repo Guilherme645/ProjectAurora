@@ -1,68 +1,67 @@
 <!-- Versão Desktop -->
 <div
   *ngIf="!isMobile"
-  class="w-[438px] h-[785px] bg-white rounded-tl-[8px] flex flex-col  px-[24px] gap-[20px] relative"
-  style="top: 24px; left: 16px;"
+  class="w-[438px] bg-white rounded-tl-[8px] flex flex-col relative"
+  style="height: 100vh; top: 24px; left: 16px;"
 >
   <!-- Cabeçalho com título, subtítulo e botões -->
-  <div>
+  <div class="px-[24px] pt-[24px]">
     <!-- Mostrar título e subtítulo quando a pesquisa NÃO está visível -->
     <div
-  *ngIf="!isSearchVisible"
-  class="flex flex-row justify-between   w-[390px] h-[42px] p-0 ml-[-16px]"
->
-<div class="flex flex-col w-[185px] h-[42px] gap-[4px]">
-  <h2 class="text-[18px] font-semibold leading-[100%] tracking-[-0.018em] text-black font-inter">
-    Entidades
-  </h2>  <span class="font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-gray-400 font-inter">
-    {{ totalEntities }} entidades extraídas do texto
-  </span>
-  
-</div>
-
-  <div class="flex items-center gap-2">
-    <!-- Botão com ícone de lupa -->
-    <button type="button" class="p-2 bg-white hover:bg-gray-100" (click)="toggleSearch()">
-      <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-      </svg>
-    </button>
-    <!-- Botão com ícone de seta (fechar) -->
-    <button
-      type="button"
-      class="p-2 bg-[#F3F4F6] rounded-md hover:bg-gray-100 w-[38px] h-[38px] flex items-center justify-center"
-      (click)="closeDrawer()"
+      *ngIf="!isSearchVisible"
+      class="flex flex-row justify-between w-[390px] h-[42px] p-0"
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-        <path d="M4 14H10V20" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M20 10H14V4" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M14 10L21 3" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M3 21L10 14" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </button>
-  </div>
-</div>
-
+      <div class="flex flex-col w-[185px] h-[42px] gap-[4px]">
+        <h2 class="text-[18px] font-semibold leading-[100%] tracking-[-0.018em] text-black font-inter">
+          Entidades
+        </h2>
+        <span class="font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-gray-400 font-inter">
+          {{ totalEntities }} entidades extraídas do texto
+        </span>
+      </div>
+      <div class="flex items-center gap-2">
+        <!-- Botão com ícone de lupa -->
+        <button type="button" class="p-2 bg-white hover:bg-gray-100" (click)="toggleSearch()">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+        <!-- Botão com ícone de seta (fechar) -->
+        <button
+          type="button"
+          class="p-2 bg-[#F3F4F6] rounded-md hover:bg-gray-100 w-[38px] h-[38px] flex items-center justify-center"
+          (click)="closeDrawer()"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M4 14H10V20" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M20 10H14V4" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M14 10L21 3" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 21L10 14" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
 
     <!-- Campo de busca -->
-    <div *ngIf="isSearchVisible" class="flex items-center w-[390px] h-[46px] justify-between bg-white  ml-[-16px] rounded-md ">
+    <div *ngIf="isSearchVisible" class="flex items-center w-[390px] h-[46px] justify-between bg-white rounded-md ">
       <div class="relative">
         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
         </svg>
         <input
-        #searchInput
-        type="text"
-        placeholder="Insira a entidade"
-        [(ngModel)]="searchQuery"
-        (input)="filterEntities()"
-        class="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 w-[336px] h-[46px] placeholder-gray-500
-               focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-[rgba(59,130,246,0.25)] transition-all duration-150 ease-in-out"
-      />
-       </div>
-       <button
+          #searchInput
+          type="text"
+          placeholder="Insira a entidade"
+          [(ngModel)]="searchQuery"
+          (input)="filterEntities()"
+          class="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 w-[336px] h-[46px] placeholder-gray-500
+                 focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-[rgba(59,130,246,0.25)] transition-all duration-150 ease-in-out"
+        />
+      </div>
+      <button
         (click)="clearSearch()"
-        class="flex items-center justify-center w-[46px] h-[46px] rounded bg-gray-100 hover:bg-gray-200 transition">
+        class="flex items-center justify-center w-[46px] h-[46px] rounded bg-gray-100 hover:bg-gray-200 transition"
+      >
         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -71,9 +70,9 @@
   </div>
 
   <!-- Conteúdo rolável -->
-  <div class="flex-1 overflow-y-auto hide-scrollbar  ml-[-16px]  mr-[16px] space-y-[24px]">
+  <div class="flex-1 overflow-y-auto hide-scrollbar mt-10 px-[24px] space-y-[24px]">
     <!-- Card: Datas extraídas -->
-    <div class="w-full h-[128px] p-[20px_16px] rounded-[4px] border border-gray-200 flex flex-col gap-[24px] ">
+    <div class="w-full h-[128px] p-[20px_16px] rounded-[4px] border border-[#F1F3F7] flex flex-col gap-[24px] ">
       <div class="flex justify-between items-start">
         <div>
           <h3 class="text-sm font-semibold text-gray-700 flex items-center">
@@ -84,47 +83,61 @@
             {{ displayedDates.length }} resultados
           </p>
         </div>
-        <label class="relative inline-block  w-[40px] h-[20px]">
-          <input type="checkbox" [(ngModel)]="datesEnabled" (change)="toggleDates()" class="opacity-0 w-0 h-0"/>
+        <label class="relative inline-block w-[50px] h-[28px]">
+          <input
+            type="checkbox"
+            [(ngModel)]="datesEnabled"
+            (change)="toggleDates()"
+            class="opacity-0 w-0 h-0"
+          />
           <span
             [ngClass]="{
-              'bg-[#ccc]': !datesEnabled,
+              'bg-[#F3F4F6]': !datesEnabled,
               'bg-[#2563eb]': datesEnabled,
               'before:left-[2px]': !datesEnabled,
-              'before:translate-x-[20px]': datesEnabled
+              'before:translate-x-[22px]': datesEnabled
             }"
-            class="absolute cursor-pointer inset-0 transition-all duration-[0.4s] rounded-[20px] before:content-[''] before:absolute before:h-[16px] before:w-[16px] before:bottom-[2px] before:bg-white before:transition-all before:duration-[0.4s] before:rounded-full"
+            class="absolute inset-0 cursor-pointer transition-all duration-[0.4s] rounded-full
+                   before:content-[''] before:absolute before:bottom-[2px] before:left-[2px]
+                   before:h-[24px] before:w-[24px] before:bg-white before:rounded-full
+                   before:transition-all before:duration-[0.4s]"
           ></span>
         </label>
+        
       </div>
       <div class="flex flex-wrap gap-2">
         <span
           *ngFor="let date of displayedDates; let i = index"
-          class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 relative"
+          class="inline-flex items-center justify-between h-[28px] px-3 rounded-md text-xs font-medium bg-blue-100 text-blue-800"
         >
           {{ date }}
           <button
-            class="ml-2 flex flex-col gap-[2px]"
+            class="ml-2 w-[12px] h-[12px] flex items-center justify-center"
             (click)="openEntityModal($event, date, 'date')"
           >
-            <span class="w-1 h-1 rounded-full bg-blue-700"></span>
-            <span class="w-1 h-1 rounded-full bg-blue-700"></span>
-            <span class="w-1 h-1 rounded-full bg-blue-700"></span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 6.5C6.27614 6.5 6.5 6.27614 6.5 6C6.5 5.72386 6.27614 5.5 6 5.5C5.72386 5.5 5.5 5.72386 5.5 6C5.5 6.27614 5.72386 6.5 6 6.5Z" stroke="#1D4ED8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 3C6.27614 3 6.5 2.77614 6.5 2.5C6.5 2.22386 6.27614 2 6 2C5.72386 2 5.5 2.22386 5.5 2.5C5.5 2.77614 5.72386 3 6 3Z" stroke="#1D4ED8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 10C6.27614 10 6.5 9.77614 6.5 9.5C6.5 9.22386 6.27614 9 6 9C5.72386 9 5.5 9.22386 5.5 9.5C5.5 9.77614 5.72386 10 6 10Z" stroke="#1D4ED8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
         </span>
+      
         <button
           type="button"
           *ngIf="dates.length > displayedDates.length && !searchQuery"
-          class="text-blue-600 text-xs hover:underline"
+          class="text-blue-600 text-xs hover:underline h-[28px] flex items-center"
           (click)="showAllDates()"
         >
           Ver todos (+{{ dates.length - displayedDates.length }})
         </button>
       </div>
+      
     </div>
+      
 
     <!-- Card: Lugares extraídos -->
-    <div class=" p-4 rounded-lg border border-gray-200">
+    <div class="p-4 rounded-lg border border-[#F1F3F7]">
       <div class="flex justify-between items-start mb-2">
         <div>
           <h3 class="text-sm font-semibold text-gray-700 flex items-center">
@@ -135,47 +148,61 @@
             {{ displayedPlaces.length }} resultados
           </p>
         </div>
-        <label class="relative inline-block w-[40px] h-[20px]">
-          <input type="checkbox" [(ngModel)]="placesEnabled" (change)="togglePlaces()" class="opacity-0 w-0 h-0"/>
+        <label class="relative inline-block w-[50px] h-[28px]">
+          <input
+            type="checkbox"
+            [(ngModel)]="placesEnabled"
+            (change)="togglePlaces()"
+            class="opacity-0 w-0 h-0"
+          />
           <span
             [ngClass]="{
-              'bg-[#ccc]': !placesEnabled,
+              'bg-[#F3F4F6]': !placesEnabled,
               'bg-[#2563eb]': placesEnabled,
               'before:left-[2px]': !placesEnabled,
-              'before:translate-x-[20px]': placesEnabled
+              'before:translate-x-[22px]': placesEnabled
             }"
-            class="absolute cursor-pointer inset-0 transition-all duration-[0.4s] rounded-[20px] before:content-[''] before:absolute before:h-[16px] before:w-[16px] before:bottom-[2px] before:bg-white before:transition-all before:duration-[0.4s] before:rounded-full"
+            class="absolute inset-0 cursor-pointer transition-all duration-[0.4s] rounded-full
+                   before:content-[''] before:absolute before:bottom-[2px] before:left-[2px]
+                   before:h-[24px] before:w-[24px] before:bg-white before:rounded-full
+                   before:transition-all before:duration-[0.4s]"
           ></span>
         </label>
+        
       </div>
       <div class="flex mt-5 flex-wrap gap-2">
         <span
           *ngFor="let place of displayedPlaces; let i = index"
-          class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800 relative"
+          class="inline-flex items-center justify-between h-[28px] px-3 rounded-md text-xs font-medium bg-green-100 text-green-800"
         >
           {{ place }}
           <button
-            class="ml-2  flex flex-col gap-[2px]"
+            class="ml-2 w-[12px] h-[12px] flex items-center justify-center"
             (click)="openEntityModal($event, place, 'place')"
           >
-            <span class="w-1 h-1 rounded-full bg-green-500"></span>
-            <span class="w-1 h-1 rounded-full bg-green-500"></span>
-            <span class="w-1 h-1 rounded-full bg-green-500"></span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 6.5C6.27614 6.5 6.5 6.27614 6.5 6C6.5 5.72386 6.27614 5.5 6 5.5C5.72386 5.5 5.5 5.72386 5.5 6C5.5 6.27614 5.72386 6.5 6 6.5Z" stroke="#115E59" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 3C6.27614 3 6.5 2.77614 6.5 2.5C6.5 2.22386 6.27614 2 6 2C5.72386 2 5.5 2.22386 5.5 2.5C5.5 2.77614 5.72386 3 6 3Z" stroke="#115E59" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 10C6.27614 10 6.5 9.77614 6.5 9.5C6.5 9.22386 6.27614 9 6 9C5.72386 9 5.5 9.22386 5.5 9.5C5.5 9.77614 5.72386 10 6 10Z" stroke="#115E59" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
         </span>
+      
         <button
-          type="button"
           *ngIf="places.length > displayedPlaces.length && !searchQuery"
-          class="text-gray-600 text-xs hover:underline"
+          type="button"
+          class="text-gray-600 text-xs hover:underline h-[28px] flex items-center"
           (click)="showAllPlaces()"
         >
-          Ver todos (+{{ places.length - displayedPlaces.length }})
+          Ver todas (+{{ places.length - displayedPlaces.length }})
         </button>
       </div>
+      
+      
     </div>
 
     <!-- Card: Pessoas extraídas -->
-    <div class="p-4 rounded-lg border border-gray-200">
+    <div class="p-4 rounded-lg border border-[#F1F3F7]">
       <div class="flex justify-between items-start mb-2">
         <div>
           <h3 class="text-sm font-semibold text-gray-700 flex items-center">
@@ -186,47 +213,60 @@
             {{ displayedPeople.length }} resultados
           </p>
         </div>
-        <label class="relative inline-block w-[40px] h-[20px]">
-          <input type="checkbox" [(ngModel)]="peopleEnabled" (change)="togglePeople()" class="opacity-0 w-0 h-0"/>
+        <label class="relative inline-block w-[50px] h-[28px]">
+          <input
+            type="checkbox"
+            [(ngModel)]="peopleEnabled"
+            (change)="togglePeople()"
+            class="opacity-0 w-0 h-0"
+          />
           <span
             [ngClass]="{
-              'bg-[#ccc]': !peopleEnabled,
+              'bg-[#F3F4F6]': !peopleEnabled,
               'bg-[#2563eb]': peopleEnabled,
               'before:left-[2px]': !peopleEnabled,
-              'before:translate-x-[20px]': peopleEnabled
+              'before:translate-x-[22px]': peopleEnabled
             }"
-            class="absolute cursor-pointer inset-0 transition-all duration-[0.4s] rounded-[20px] before:content-[''] before:absolute before:h-[16px] before:w-[16px] before:bottom-[2px] before:bg-white before:transition-all before:duration-[0.4s] before:rounded-full"
+            class="absolute inset-0 cursor-pointer transition-all duration-[0.4s] rounded-full
+                   before:content-[''] before:absolute before:bottom-[2px] before:left-[2px]
+                   before:h-[24px] before:w-[24px] before:bg-white before:rounded-full
+                   before:transition-all before:duration-[0.4s]"
           ></span>
         </label>
+        
       </div>
       <div class="flex mt-5 flex-wrap gap-2">
         <span
           *ngFor="let person of displayedPeople; let i = index"
-          class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-[#FEF9C3] text-yellow-800 relative"
+          class="inline-flex items-center justify-between h-[28px] px-3 rounded-md text-xs font-medium bg-[#FEF9C3] text-yellow-800"
         >
           {{ person }}
           <button
-            class="ml-2 flex flex-col gap-[2px]"
+            class="ml-2 w-[12px] h-[12px] flex items-center justify-center"
             (click)="openEntityModal($event, person, 'person')"
           >
-            <span class="w-1 h-1 rounded-full bg-yellow-500"></span>
-            <span class="w-1 h-1 rounded-full bg-yellow-500"></span>
-            <span class="w-1 h-1 rounded-full bg-yellow-500"></span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 6.5C6.27614 6.5 6.5 6.27614 6.5 6C6.5 5.72386 6.27614 5.5 6 5.5C5.72386 5.5 5.5 5.72386 5.5 6C5.5 6.27614 5.72386 6.5 6 6.5Z" stroke="#CA8A04" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 3C6.27614 3 6.5 2.77614 6.5 2.5C6.5 2.22386 6.27614 2 6 2C5.72386 2 5.5 2.22386 5.5 2.5C5.5 2.77614 5.72386 3 6 3Z" stroke="#CA8A04" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 10C6.27614 10 6.5 9.77614 6.5 9.5C6.5 9.22386 6.27614 9 6 9C5.72386 9 5.5 9.22386 5.5 9.5C5.5 9.77614 5.72386 10 6 10Z" stroke="#CA8A04" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
         </span>
+      
         <button
           type="button"
           *ngIf="people.length > displayedPeople.length && !searchQuery"
-          class="text-gray-600 text-xs hover:underline"
+          class="text-gray-600 text-xs hover:underline h-[28px] flex items-center"
           (click)="showAllPeople()"
         >
           Ver todos (+{{ people.length - displayedPeople.length }})
         </button>
       </div>
+      
     </div>
 
     <!-- Card: Organizações extraídas -->
-    <div class=" p-4 rounded-lg border border-gray-200">
+    <div class="p-4 rounded-lg border border-[#F1F3F7]">
       <div class="flex justify-between items-start mb-2">
         <div>
           <h3 class="text-sm font-semibold text-gray-700 flex items-center">
@@ -237,47 +277,60 @@
             {{ displayedOrganizations.length }} resultados
           </p>
         </div>
-        <label class="relative inline-block w-[40px] h-[20px]">
-          <input type="checkbox" [(ngModel)]="organizationsEnabled" (change)="toggleOrganizations()" class="opacity-0 w-0 h-0"/>
+        <label class="relative inline-block w-[50px] h-[28px]">
+          <input
+            type="checkbox"
+            [(ngModel)]="organizationsEnabled"
+            (change)="toggleOrganizations()"
+            class="opacity-0 w-0 h-0"
+          />
           <span
             [ngClass]="{
-              'bg-[#ccc]': !organizationsEnabled,
+              'bg-[#F3F4F6]': !organizationsEnabled,
               'bg-[#2563eb]': organizationsEnabled,
               'before:left-[2px]': !organizationsEnabled,
-              'before:translate-x-[20px]': organizationsEnabled
+              'before:translate-x-[22px]': organizationsEnabled
             }"
-            class="absolute cursor-pointer inset-0 transition-all duration-[0.4s] rounded-[20px] before:content-[''] before:absolute before:h-[16px] before:w-[16px] before:bottom-[2px] before:bg-white before:transition-all before:duration-[0.4s] before:rounded-full"
+            class="absolute inset-0 cursor-pointer transition-all duration-[0.4s] rounded-full
+                   before:content-[''] before:absolute before:bottom-[2px] before:left-[2px]
+                   before:h-[24px] before:w-[24px] before:bg-white before:rounded-full
+                   before:transition-all before:duration-[0.4s]"
           ></span>
         </label>
+        
       </div>
       <div class="flex mt-5 flex-wrap gap-2">
         <span
           *ngFor="let org of displayedOrganizations; let i = index"
-          class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 relative"
+          class="inline-flex items-center justify-between h-[28px] px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800"
         >
           {{ org }}
           <button
-            class="ml-2 flex flex-col gap-[2px]"
+            class="ml-2 w-[12px] h-[12px] flex items-center justify-center"
             (click)="openEntityModal($event, org, 'organization')"
           >
-            <span class="w-1 h-1 rounded-full bg-gray-500"></span>
-            <span class="w-1 h-1 rounded-full bg-gray-500"></span>
-            <span class="w-1 h-1 rounded-full bg-gray-500"></span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 6.5C6.27614 6.5 6.5 6.27614 6.5 6C6.5 5.72386 6.27614 5.5 6 5.5C5.72386 5.5 5.5 5.72386 5.5 6C5.5 6.27614 5.72386 6.5 6 6.5Z" stroke="#4B5563" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 3C6.27614 3 6.5 2.77614 6.5 2.5C6.5 2.22386 6.27614 2 6 2C5.72386 2 5.5 2.22386 5.5 2.5C5.5 2.77614 5.72386 3 6 3Z" stroke="#4B5563" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 10C6.27614 10 6.5 9.77614 6.5 9.5C6.5 9.22386 6.27614 9 6 9C5.72386 9 5.5 9.22386 5.5 9.5C5.5 9.77614 5.72386 10 6 10Z" stroke="#4B5563" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
         </span>
+      
         <button
           type="button"
           *ngIf="organizations.length > displayedOrganizations.length && !searchQuery"
-          class="text-gray-600 text-xs hover:underline"
+          class="text-gray-600 text-xs hover:underline h-[28px] flex items-center"
           (click)="showAllOrganizations()"
         >
           Ver todos (+{{ organizations.length - displayedOrganizations.length }})
         </button>
       </div>
+      
     </div>
 
     <!-- Card: Profissões extraídas -->
-    <div class=" p-4 rounded-lg border border-gray-200">
+    <div class="p-4 rounded-lg border border-[#F1F3F7]">
       <div class="flex justify-between items-start mb-2">
         <div>
           <h3 class="text-sm font-semibold text-gray-700 flex items-center">
@@ -288,61 +341,86 @@
             {{ displayedProfissoes.length }} resultados
           </p>
         </div>
-        <label class="relative inline-block w-[40px] h-[20px]">
-          <input type="checkbox" [(ngModel)]="profissoesEnabled" (change)="toggleProfissoes()" class="opacity-0 w-0 h-0"/>
+        <label class="relative inline-block w-[50px] h-[28px]">
+          <input
+            type="checkbox"
+            [(ngModel)]="profissoesEnabled"
+            (change)="toggleProfissoes()"
+            class="opacity-0 w-0 h-0"
+          />
           <span
             [ngClass]="{
-              'bg-[#ccc]': !profissoesEnabled,
+              'bg-[#F3F4F6]': !profissoesEnabled,
               'bg-[#2563eb]': profissoesEnabled,
               'before:left-[2px]': !profissoesEnabled,
-              'before:translate-x-[20px]': profissoesEnabled
+              'before:translate-x-[22px]': profissoesEnabled
             }"
-            class="absolute cursor-pointer inset-0 transition-all duration-[0.4s] rounded-[20px] before:content-[''] before:absolute before:h-[16px] before:w-[16px] before:bottom-[2px] before:bg-white before:transition-all before:duration-[0.4s] before:rounded-full"
+            class="absolute cursor-pointer inset-0 transition-all duration-[0.4s] rounded-full
+                   before:content-[''] before:absolute before:h-[24px] before:w-[24px]
+                   before:bottom-[2px] before:left-[2px] before:bg-white
+                   before:transition-all before:duration-[0.4s] before:rounded-full"
           ></span>
         </label>
+        
       </div>
       <div class="flex mt-5 flex-wrap gap-2">
-        <span
-          *ngFor="let profissao of displayedProfissoes; let i = index"
-          class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800 relative"
-        >
-          {{ profissao }}
-          <button
-            class="ml-2 flex flex-col gap-[2px]"
-            (click)="openEntityModal($event, profissao, 'profissao')"
-          >
-            <span class="w-1 h-1 rounded-full bg-red-700"></span>
-            <span class="w-1 h-1 rounded-full bg-red-700"></span>
-            <span class="w-1 h-1 rounded-full bg-red-700"></span>
-          </button>
-        </span>
-        <button
-          type="button"
-          *ngIf="profissoes.length > displayedProfissoes.length && !searchQuery"
-          class="text-gray-600 text-xs hover:underline"
-          (click)="showAllProfissions()"
-        >
-          Ver todos (+{{ profissoes.length - displayedProfissoes.length }})
-        </button>
-      </div>
+  <span
+    *ngFor="let profissao of displayedProfissoes; let i = index"
+    class="inline-flex items-center justify-between h-[28px] px-3 rounded-md text-xs font-medium bg-red-100 text-red-800"
+  >
+    {{ profissao }}
+    <button
+      class="ml-2 w-[12px] h-[12px] flex items-center justify-center"
+      (click)="openEntityModal($event, profissao, 'profissao')"
+    >
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 6.5C6.27614 6.5 6.5 6.27614 6.5 6C6.5 5.72386 6.27614 5.5 6 5.5C5.72386 5.5 5.5 5.72386 5.5 6C5.5 6.27614 5.72386 6.5 6 6.5Z" stroke="#B91C1C" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 3C6.27614 3 6.5 2.77614 6.5 2.5C6.5 2.22386 6.27614 2 6 2C5.72386 2 5.5 2.22386 5.5 2.5C5.5 2.77614 5.72386 3 6 3Z" stroke="#B91C1C" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 10C6.27614 10 6.5 9.77614 6.5 9.5C6.5 9.22386 6.27614 9 6 9C5.72386 9 5.5 9.22386 5.5 9.5C5.5 9.77614 5.72386 10 6 10Z" stroke="#B91C1C" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </span>
+
+  <button
+    type="button"
+    *ngIf="profissoes.length > displayedProfissoes.length && !searchQuery"
+    class="text-gray-600 text-xs hover:underline h-[28px] flex items-center"
+    (click)="showAllProfissions()"
+  >
+    Ver todos (+{{ profissoes.length - displayedProfissoes.length }})
+  </button>
+</div>
+
     </div>
   </div>
 
   <!-- Rodapé fixo -->
-  <div class="bg-white py-4 px-6 flex justify-between items-center border-t border-gray-200">
+  <div
+    class="bg-white flex items-center border-t border-gray-200"
+    style="width: 438px; height: 75px; justify-content: space-between; padding-top: 16px; padding-right: 40px; padding-bottom: 40px; padding-left: 40px;"
+  >
     <span class="text-sm text-gray-700">Destacar todas as categorias</span>
-    <label class="relative inline-block w-[40px] h-[20px]">
-      <input type="checkbox" [(ngModel)]="highlightAllCategories" (change)="toggleHighlightAll()" class="opacity-0 w-0 h-0"/>
+    <label class="relative inline-block w-[50px] h-[28px]">
+      <input
+        type="checkbox"
+        [(ngModel)]="highlightAllCategories"
+        (change)="toggleHighlightAll()"
+        class="opacity-0 w-0 h-0"
+      />
       <span
         [ngClass]="{
-          'bg-[#ccc]': !highlightAllCategories,
+          'bg-[#F3F4F6]': !highlightAllCategories,
           'bg-[#2563eb]': highlightAllCategories,
           'before:left-[2px]': !highlightAllCategories,
-          'before:translate-x-[20px]': highlightAllCategories
+          'before:translate-x-[22px]': highlightAllCategories
         }"
-        class="absolute cursor-pointer inset-0 transition-all duration-[0.4s] rounded-[20px] before:content-[''] before:absolute before:h-[16px] before:w-[16px] before:bottom-[2px] before:bg-white before:transition-all before:duration-[0.4s] before:rounded-full"
+        class="absolute cursor-pointer inset-0 transition-all duration-[0.4s] rounded-full
+               before:content-[''] before:absolute before:h-[24px] before:w-[24px]
+               before:bottom-[2px] before:left-[2px] before:bg-white
+               before:transition-all before:duration-[0.4s] before:rounded-full"
       ></span>
     </label>
+    
   </div>
 </div>
 
@@ -494,7 +572,7 @@
             <input type="checkbox" [(ngModel)]="datesEnabled" (change)="toggleDates()" class="opacity-0 w-0 h-0"/>
             <span
               [ngClass]="{
-                'bg-[#ccc]': !datesEnabled,
+                'bg-[#F3F4F6]': !datesEnabled,
                 'bg-[#2563eb]': datesEnabled,
                 'before:left-[2px]': !datesEnabled,
                 'before:translate-x-[20px]': datesEnabled
@@ -552,7 +630,7 @@
             />
             <span
               [ngClass]="{
-                'bg-[#ccc]': !placesEnabled,
+                'bg-[#F3F4F6]': !placesEnabled,
                 'bg-[#2563eb]': placesEnabled,
                 'before:left-[2px]': !placesEnabled,
                 'before:translate-x-[20px]': placesEnabled
@@ -605,7 +683,7 @@
             <input type="checkbox" [(ngModel)]="peopleEnabled" (change)="togglePeople()" class="opacity-0 w-0 h-0"/>
             <span
               [ngClass]="{
-                'bg-[#ccc]': !peopleEnabled,
+                'bg-[#F3F4F6]': !peopleEnabled,
                 'bg-[#2563eb]': peopleEnabled,
                 'before:left-[2px]': !peopleEnabled,
                 'before:translate-x-[20px]': peopleEnabled
@@ -658,7 +736,7 @@
             <input type="checkbox" [(ngModel)]="organizationsEnabled" (change)="toggleOrganizations()" class="opacity-0 w-0 h-0"/>
             <span
               [ngClass]="{
-                'bg-[#ccc]': !organizationsEnabled,
+                'bg-[#F3F4F6]': !organizationsEnabled,
                 'bg-[#2563eb]': organizationsEnabled,
                 'before:left-[2px]': !organizationsEnabled,
                 'before:translate-x-[20px]': organizationsEnabled
@@ -714,7 +792,7 @@
             <input type="checkbox" [(ngModel)]="datesEnabled" (change)="toggleDates()" class="opacity-0 w-0 h-0"/>
             <span
               [ngClass]="{
-                'bg-[#ccc]': !datesEnabled,
+                'bg-[#F3F4F6]': !datesEnabled,
                 'bg-[#2563eb]': datesEnabled,
                 'before:left-[2px]': !datesEnabled,
                 'before:translate-x-[20px]': datesEnabled
@@ -770,7 +848,7 @@
             <input type="checkbox" [(ngModel)]="placesEnabled" (change)="togglePlaces()" class="opacity-0 w-0 h-0"/>
             <span
               [ngClass]="{
-                'bg-[#ccc]': !placesEnabled,
+                'bg-[#F3F4F6]': !placesEnabled,
                 'bg-[#2563eb]': placesEnabled,
                 'before:left-[2px]': !placesEnabled,
                 'before:translate-x-[20px]': placesEnabled
@@ -826,7 +904,7 @@
             <input type="checkbox" [(ngModel)]="peopleEnabled" (change)="togglePeople()" class="opacity-0 w-0 h-0"/>
             <span
               [ngClass]="{
-                'bg-[#ccc]': !peopleEnabled,
+                'bg-[#F3F4F6]': !peopleEnabled,
                 'bg-[#2563eb]': peopleEnabled,
                 'before:left-[2px]': !peopleEnabled,
                 'before:translate-x-[20px]': peopleEnabled
@@ -882,7 +960,7 @@
             <input type="checkbox" [(ngModel)]="organizationsEnabled" (change)="toggleOrganizations()" class="opacity-0 w-0 h-0"/>
             <span
               [ngClass]="{
-                'bg-[#ccc]': !organizationsEnabled,
+                'bg-[#F3F4F6]': !organizationsEnabled,
                 'bg-[#2563eb]': organizationsEnabled,
                 'before:left-[2px]': !organizationsEnabled,
                 'before:translate-x-[20px]': organizationsEnabled
@@ -899,13 +977,14 @@
             >
               {{ org }}
               <button
-                class="ml-2 flex flex-col gap-[2px]"
-                (click)="openEntityModal($event, org, 'organization')"
-              >
-                <span class="w-1 h-1 rounded-full bg-gray-500"></span>
-                <span class="w-1 h-1 rounded-full bg-gray-500"></span>
-                <span class="w-1 h-1 rounded-full bg-gray-500"></span>
-              </button>
+  class="w-[12px] h-[12px] flex flex-col items-center justify-center gap-[2px] flex-none order-3 grow-0"
+  (click)="openEntityModal($event, org, 'organization')"
+>
+  <span class="w-1 h-1 rounded-full bg-gray-500"></span>
+  <span class="w-1 h-1 rounded-full bg-gray-500"></span>
+  <span class="w-1 h-1 rounded-full bg-gray-500"></span>
+</button>
+
             </span>
             <button
               type="button"
@@ -928,7 +1007,7 @@
       <input type="checkbox" [(ngModel)]="highlightAllCategories" (change)="toggleHighlightAll()" class="opacity-0 w-0 h-0"/>
       <span
         [ngClass]="{
-          'bg-[#ccc]': !highlightAllCategories,
+          'bg-[#F3F4F6]': !highlightAllCategories,
           'bg-[#2563eb]': highlightAllCategories,
           'before:left-[2px]': !highlightAllCategories,
           'before:translate-x-[20px]': highlightAllCategories
