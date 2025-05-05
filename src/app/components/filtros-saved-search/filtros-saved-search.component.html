@@ -33,8 +33,7 @@
     </div>
 
     <p class="search-results text-sm text-gray-500">9840 resultados</p>
-    <br />
-    <br />
+
   </div>
 
   <!-- Modal de Salvar Busca (Desktop) -->
@@ -65,17 +64,17 @@
       </div>
     </div>
   </div>
-<br>
+
    <!-- Filtros -->
-   <div *ngFor="let filtro of filtros" class="w-full">
-    <div class="flex justify-between items-center cursor-pointer py-2.5">
+   <div *ngFor="let filtro of filtros" class=" filter w-full ">
+    <div class="flex justify-between items-center cursor-pointer py-[5.5px]">
       <h2 class="text-sm font-bold text-gray-700">{{ filtro.nome }}</h2>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon w-5 h-5 text-gray-500 transition-transform duration-300" [ngClass]="{ 'rotate-180': filtro.aberto }">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
       </svg>
     </div>
 
-    <div class="py-1" *ngIf="filtro.aberto">
+    <div class="" *ngIf="filtro.aberto">
       <!-- Data -->
       <div *ngIf="filtro.nome === 'Data'" class="flex gap-4 w-full h-[62px]">
         <input 

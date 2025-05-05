@@ -6,7 +6,7 @@
   <div *ngIf="!isScrolled" class="py-4">
     <div class="flex items-center space-x-4">
       <!-- Barra de pesquisa -->
-      <div class="relative flex items-center w-[620px] h-[46px] ml-[-20px] bg-white rounded-lg border border-gray-500 px-4 search-bar">
+      <div class="relative flex items-center w-[588px] h-[46px] ml-[-20px] bg-white rounded-lg border border-gray-500 px-4 search-bar">
         <!-- Ícone de lupa -->
         <div class="text-gray-500">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -22,7 +22,7 @@
           placeholder="Buscar"
           class="w-[620px] h-[46px] text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none px-2">
         <!-- Botão para limpar busca -->
-        <button *ngIf="searchQuery" class="absolute ml-[530px] text-gray-500 hover:text-gray-700" (click)="clearSearch()">
+        <button *ngIf="searchQuery" class="absolute ml-[490px] text-gray-500 hover:text-gray-700" (click)="clearSearch()">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 3L3 9" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M3 3L9 9" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
@@ -45,7 +45,7 @@
         <input
         type="checkbox"
         id="selectAll"
-        class="h-4 w-4 accent-blue-600 rounded cursor-pointer"
+        class="h-[16px] w-[16px] accent-blue-600 rounded cursor-pointer"
         (change)="toggleSelectAll()" 
         [checked]="selectAll"
         aria-label="Selecionar todos os resultados">
@@ -92,78 +92,70 @@
   </div>
 
   <!-- Versão compacta (exibida ao rolar a página) -->
-  <div *ngIf="isScrolled" class="flex items-center w-[1040px] h-[79px] py-2 px-6">
-    <!-- Barra de pesquisa compacta -->
-    <div class="relative flex items-center w-[300px] h-[36px] bg-white rounded-md border border-blue-500 px-3">
-      <!-- Ícone de lupa -->
-      <div class="text-gray-500">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </svg>
-      </div>
-      <!-- Campo de busca -->
-      <input
-        type="text"
-        [(ngModel)]="searchQuery"
-        (ngModelChange)="searchChange.emit($event)"
-        placeholder="Buscar"
-        class="w-full h-[36px] text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none text-sm px-2">
-      <!-- Botão para limpar busca -->
-      <button *ngIf="searchQuery" class="absolute right-10 text-gray-500 hover:text-gray-700" (click)="clearSearch()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 6L6 18M6 6l12 12"></path>
-        </svg>
-      </button>
-      <!-- Botão de busca -->
-      <button class="absolute right-0 bg-blue-500 h-[36px] w-[36px] rounded-r-md flex items-center justify-center hover:bg-blue-600 transition" (click)="onSearch()">
-        <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </svg>
-      </button>
-    </div>
+  <div *ngIf="isScrolled" class="flex items-center w-[1040px] h-[79px] ml-[18px] py-3 px-4">
+    <!-- row -->
+    <div class="flex flex-row items-center gap-[32px] w-[1030px]h-[46px] relative">
 
-    <!-- Filtros -->
-    <div class="flex items-center gap-4 ml-[62px]">
-      <!-- Checkbox e botão "Todos os Resultados" -->
-      <div class="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="selectAllCompact"
-          class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500 rounded cursor-pointer"
-          [(ngModel)]="selectAll"
-          (change)="toggleSelectAll()"
-          aria-label="Selecionar todos os resultados">
-        <button
-          type="button"
-          class="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium transition-all"
-          [ngClass]="selectedTab === 'todos' ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:text-blue-600'"
-          (click)="selectTab('todos')">
-          Todos os resultados
+      <!-- frame-38: checkbox + abas -->
+      <div class="flex flex-row items-center gap-3 absolute left-[365px] top-[5px] w-[463px] h-[36px]">
+
+        <!-- Checkbox -->
+        <div class="flex items-center w-4 h-4">
+          <div class="flex items-center justify-center w-4 h-4 bg-white border border-gray-500 rounded"></div>
+        </div>
+
+        <!-- Nav Tabs -->
+        <div class="flex flex-row gap-[10px] h-[36px]">
+          <!-- Aba 1 -->
+          <div class="flex items-center px-3 py-2 gap-2 bg-gray-200 rounded-lg w-[157px] h-[36px]">
+            <span class="text-sm font-medium text-gray-800">Todos os resultados</span>
+          </div>
+          <!-- Aba 2 -->
+            <button type="button"
+            class="inline-flex items-center gap-1 px-4 py-1.5 rounded-md text-sm font-semibold border transition-all"
+            [ngClass]="selectedTab === 'brutos' ? 'bg-gray-200 text-gray-900 border-transparent' : 'border-transparent text-gray-700 hover:text-blue-600'"
+            (click)="selectTab('brutos')">
+      Resultados brutos
+      <div class="relative inline-block group">
+        <button type="button" 
+                class="flex h-4 w-4 items-center justify-center rounded-full bg-transparent text-white transition-colors"
+                aria-label="Informações sobre resultados brutos">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="info-icon">
+            <path class="info-circle" d="M8.00016 14.6666C11.6821 14.6666 14.6668 11.6818 14.6668 7.99992C14.6668 4.31802 11.6821 1.33325 8.00016 1.33325C4.31826 1.33325 1.3335 4.31802 1.3335 7.99992C1.3335 11.6818 4.31826 14.6666 8.00016 14.6666Z" fill="#4B5563"/>
+            <path d="M8 5.33325V7.99992" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 10.6667H8.00667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <span class="absolute left-1/2 transform -translate-x-1/2 mt-2 whitespace-nowrap bg-gray-900 text-white text-xs font-normal py-2 px-3 rounded-lg shadow-md opacity-0 transition-opacity group-hover:opacity-100">
+          Os resultados brutos só retornam menções <br> das mídias: TV, Rádio e Impressos
+        </span>
+      </div>
+    </button>         
+          <!-- Aba 3 -->
+          <div class="flex items-center px-3 py-2 gap-2 rounded-lg w-[86px] h-[36px]">
+            <span class="text-sm font-medium text-gray-800">Clippings</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input de Busca -->
+      <div class="flex items-center w-[326px] h-[46px]">
+        <div class="flex items-center border border-gray-300 rounded-l-md w-[280px] h-[46px] px-3 gap-2 bg-white">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 9.5C7.70914 9.5 9.5 7.70914 9.5 5.5C9.5 3.29086 7.70914 1.5 5.5 1.5C3.29086 1.5 1.5 3.29086 1.5 5.5C1.5 7.70914 3.29086 9.5 5.5 9.5Z" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10.5001 10.5L8.3501 8.35" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input type="text" placeholder="Buscar" class="w-full h-full outline-none text-sm text-gray-600 placeholder:text-gray-400 font-medium bg-transparent" />
+        </div>
+        <button class="flex items-center justify-center w-[46px] h-[46px] bg-blue-600 rounded-r-lg">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18.5a7.5 7.5 0 006.15-3.85z" />
+          </svg>
         </button>
       </div>
-
-      <!-- Botão "Resultados Brutos" -->
-      <button
-        type="button"
-        class="inline-flex items-center gap-1 px-3 py-1 rounded-md text-sm font-medium transition-all"
-        [ngClass]="selectedTab === 'brutos' ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:text-blue-600'"
-        (click)="selectTab('brutos')">
-        Resultados brutos
-        <div class="hs-tooltip relative inline-block">
-          <div class="flex h-4 w-4 items-center justify-center rounded-full bg-black text-white text-[10px] leading-none">i</div>
-        </div>
-      </button>
-
-      <!-- Botão "Clippings" -->
-      <button
-        type="type"
-        class="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium transition-all"
-        [ngClass]="selectedTab === 'clippings' ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:text-blue-600'"
-        (click)="selectTab('clippings')">
-        Clippings
-      </button>
+      
     </div>
+
+    <!-- Divider -->
   </div>
 </div>

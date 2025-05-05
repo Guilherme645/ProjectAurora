@@ -130,7 +130,7 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getFloatingStyles(): { [key: string]: string } {
     const styles: { [key: string]: string } = {
-      ['bottom']: '40px',
+      ['bottom']: '70px',
       ['zIndex']: '40'
     };
 

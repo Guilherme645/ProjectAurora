@@ -1,6 +1,6 @@
 <div class="flex h-screen">
   <!-- Sidebar vertical com ícones -->
-  <aside class="w-16 bg-[#151F2D] text-white flex flex-col justify-between py-4 items-center">
+  <aside class="w-[54px] bg-[#151F2D] text-white flex flex-col justify-between py-4 items-center">
     <!-- Ícones empilhados verticalmente -->
     <nav class="flex flex-col gap-6">
       <a routerLink="/navBar" class="hover:text-gray-300 flex justify-center items-center" title="Início">
@@ -15,13 +15,39 @@
           <path d="M17.5 17.5L13.9166 13.9166" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
-      <a routerLink="/saved-search" class="hover:text-gray-300 flex justify-center items-center" title="Resultados">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H13.3333L17.5 6.66667V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M14.1667 17.5V10.8334H5.83337V17.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M5.83337 2.5V6.66667H12.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
+      <a
+      routerLink="/saved-search"
+      title="Resultados"
+      class="flex justify-center items-center w-[36px] h-[36px] rounded-[8px] bg-[#253245] "
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H13.3333L17.5 6.66667V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5Z"
+          stroke="white"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M14.1667 17.5V10.8334H5.83337V17.5"
+          stroke="white"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M5.83337 2.5V6.66667H12.5"
+          stroke="white"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+    
       <button class="hover:text-gray-300 flex justify-center items-center" title="Relatórios">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3.33329 18.3333C2.89127 18.3333 2.46734 18.1577 2.15478 17.8451C1.84222 17.5326 1.66663 17.1087 1.66663 16.6666V3.33329C1.66663 2.89127 1.84222 2.46734 2.15478 2.15478C2.46734 1.84222 2.89127 1.66663 3.33329 1.66663H16.6666C17.1087 1.66663 17.5326 1.84222 17.8451 2.15478C18.1577 2.46734 18.3333 2.89127 18.3333 3.33329V16.6666C18.3333 17.1087 18.1577 17.5326 17.8451 17.8451C17.5326 18.1577 17.1087 18.3333 16.6666 18.3333" stroke="#6F809A" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,23 +86,26 @@
 
     <!-- Avatar com status -->
     <div class="relative">
-      <div class="w-10 h-10 rounded-full bg-white text-blue-800 font-bold flex items-center justify-center">
-        GS
+      <div class="relative flex justify-center items-center w-[46px] h-[46px] bg-[#DBEAFE] rounded-full">
+        <span class="text-[#1E40AF] font-semibold text-[16px] leading-[24px] tracking-[-0.01em]">
+          GS
+        </span>
+        <div class="absolute w-[12px] h-[12px] bg-[#14B8A6] border-2 border-[#151F2D] rounded-full right-[1px] top-0"></div>
       </div>
-      <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-[#111827] rounded-full"></span>
+      <span class=""></span>
     </div>
   </aside>
 
   <!-- Painel lateral fixo com borda à esquerda -->
-  <main class="w-64 bg-[#111A26] text-white py-6 px-4 border-l border-gray-600">
+  <main class="w-[260px] bg-[#111A26] text-white py-6 px-4 border-l border-gray-600">
     <div>
       <h2 class="text-sm font-semibold">Ministros</h2>
       <p class="text-xs text-gray-400 mb-6">Menu da busca</p>
     </div>
     <ul class="flex flex-col gap-2">
-      <ul class="space-y-2 text-sm">
+      <ul class="space-y-2 w-[236px] text-sm">
         <li>
-          <a href="#" class="flex items-center gap-2 bg-[#1f2937] text-white p-2 rounded-md font-medium">
+          <a href="#" class="flex items-center gap-2 bg-[#1f2937] text-white p-2 rounded-md ">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5.33337 4H14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M5.33337 8H14" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>

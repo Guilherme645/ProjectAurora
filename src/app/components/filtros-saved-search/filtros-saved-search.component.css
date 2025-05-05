@@ -1,13 +1,16 @@
 .filtro-container {
-    width: 308px;
-  height: 1340px;
-  gap: 40px;
-      padding: 16px;
-      border-radius: 8px;
-      margin-top: -85px;
-      margin-left: 23px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* Espaço entre cada filtro */
+  width: 308px;
+  height: auto;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: -85px;
+  margin-left: 23px;
+}
+
+
   .search-info {
       width: 198px;
       height: 76px;
