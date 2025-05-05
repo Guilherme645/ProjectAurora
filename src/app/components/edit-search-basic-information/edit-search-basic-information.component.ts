@@ -72,7 +72,6 @@ export class EditSearchBasicInformationComponent implements OnInit, OnDestroy {
     if (this.salvarBuscaForm.valid) {
       this.currentStep++;
     } else {
-      alert('Por favor, preencha todos os campos obrigatórios.');
     }
   }
 
