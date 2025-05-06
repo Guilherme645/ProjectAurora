@@ -2,7 +2,7 @@
   <div class="bg-white max-w-[1086px] w-full rounded-2xl shadow-lg p-6">
     <header class="mb-6">
       <h1 class="text-2xl font-semibold text-gray-900">Salvar nova busca</h1>
-      <p class="text-sm text-gray-500 mt-2">Insira as edições desejadas</p>
+      <p class="text-sm text-gray-500 mt-[2px]">Insira as edições desejadas</p>
     </header>
 
     <div class="flex items-start gap-8">
@@ -142,10 +142,9 @@
               >
                 <!-- Checkbox -->
                 <div class="flex justify-center items-center w-[51px] h-[54px] px-5 py-3">
-                  <input
-                    type="checkbox"
-                    class="w-4 h-4 rounded-lg cursor-pointer"
-                  />
+                  <input type="checkbox" id="select-all" class="mr-2 w-[16px] h-[16px] cursor-pointer" />
+
+                
                 </div>
 
                 <!-- Avatar and Name -->
@@ -181,7 +180,7 @@
 
             <!-- Linha de adicionar destinatário -->
             <div
-              class="flex flex-row items-center w-[765px] h-[70px] border-b border-gray-200 box-border"
+              class="flex flex-row items-center w-[765px] h-[70px]"
               *ngIf="showAddDestinationForm"
             >
               <!-- Nome do destinatário -->
@@ -274,7 +273,7 @@
 
             <!-- Link "Adicionar outro destinatário" -->
             <div
-              class="flex flex-col justify-center items-start px-5 gap-[10px] w-[765px] h-[54px] border-b border-gray-200"
+              class="flex flex-col justify-center items-start px-5 gap-[10px] w-[765px] h-[54px] "
               *ngIf="!showAddDestinationForm"
             >
               <a
@@ -289,7 +288,7 @@
         </div>
 
         <!-- Rodapé dentro do contêiner -->
-        <div class="p-6 border-t border-gray-200 flex justify-end gap-3 bg-white">
+        <div class="p-6  flex justify-end gap-3 bg-white">
           <button class="w-[124px] h-[46px] bg-white text-gray-600 font-semibold text-[15px] rounded-lg border border-gray-300 hover:bg-gray-200 transition-all" (click)="previousStep(); $event.stopPropagation()">Voltar</button>
           <button class="w-[179px] h-[46px] bg-gray-600 text-white font-semibold text-[15px] rounded-lg hover:bg-gray-700 transition-all" (click)="onSubmit(); $event.stopPropagation()">Concluir e salvar edições</button>
         </div>
