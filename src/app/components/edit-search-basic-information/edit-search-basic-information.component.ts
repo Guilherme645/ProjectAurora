@@ -83,23 +83,14 @@ export class EditSearchBasicInformationComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.salvarBuscaForm.valid) {
-      // Atualiza a busca no backend
-      this.dataService.updateSearch({
-        ...this.salvarBuscaForm.value,
-        status: this.isAlertActive ? 'Ativa' : 'Pendente',
-      }).subscribe({
-        next: () => {
-          this.saveEdits.emit();
-        },
-        error: (error) => {
-          console.error('Erro ao salvar edições:', error);
-          alert('Erro ao salvar as edições. Tente novamente.');
-        },
-      });
+      console.log('Form Submitted:', this.salvarBuscaForm.value);
+      // Emite o evento para o componente pai para fechar a modal
+      this.saveEdits.emit();
     } else {
       alert('Por favor, preencha todos os campos obrigatórios.');
     }
   }
+
 
   toggleAddDestinationForm(event: Event) {
     event.preventDefault();

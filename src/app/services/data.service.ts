@@ -1,8 +1,7 @@
-// data.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface User {
   name: string;
@@ -20,7 +19,6 @@ export interface Relatorio {
 }
 
 export interface MonitorCard {
-  id?: number; // Adicionado para identificar buscas
   title: string;
   startDate: string;
   endDate: string;
@@ -49,22 +47,11 @@ export class DataService {
   private veiculosUrl = 'assets/veiculos.json';
   private relatoriosUrl = 'assets/relatorio.json';
   private saveUsers = 'assets/SaveUsers.json';
-  private monitorCardsUrl = 'assets/monitor-card.json';
-  private mentionDetailsUrl = 'assets/mention-details.json';
+  private monitorCardsUrl = 'assets/monitor-card.json'; // Corrected URL (was monitor-card.json)
+  private mentionDetailsUrl = 'assets/mention-details.json'; // Added URL for mention details
   private filtrosSelecionados: any = {};
 
-  // Cache em memória para simular persistência
-  private monitorCardsCache: MonitorCard[] = [];
-
-  constructor(private http: HttpClient) {
-    // Inicializa o cache com os dados do JSON
-    this.http.get<MonitorCard[]>(this.monitorCardsUrl).subscribe(data => {
-      this.monitorCardsCache = data.map((card, index) => ({
-        ...card,
-        id: card.id || index + 1, // Garante que cada cartão tenha um ID
-      }));
-    });
-  }
+  constructor(private http: HttpClient) {}
 
   /** Método para obter os dados gerais com suporte a repetição infinita e filtro por usuário */
   getData(page: number = 1, pageSize: number = 10, user?: string): Observable<any> {
@@ -128,50 +115,7 @@ export class DataService {
 
   /** Método para obter os monitorCards */
   getMonitorCards(): Observable<MonitorCard[]> {
-    return of(this.monitorCardsCache).pipe(
-      catchError(error => {
-        console.error('Erro ao obter monitorCards:', error);
-        return of([]);
-      })
-    );
-  }
-
-  /** Método para atualizar uma busca */
-  updateSearch(search: MonitorCard): Observable<void> {
-    if (!search.id) {
-      console.error('ID da busca é necessário para atualização');
-      return of(void 0);
-    }
-    const index = this.monitorCardsCache.findIndex(card => card.id === search.id);
-    if (index !== -1) {
-      this.monitorCardsCache[index] = { ...search };
-      console.log('Busca atualizada no cache:', this.monitorCardsCache[index]);
-    } else {
-      console.error('Busca não encontrada para atualização:', search.id);
-    }
-    return of(void 0);
-  }
-
-  /** Método para criar uma nova busca */
-  createSearch(search: MonitorCard): Observable<MonitorCard> {
-    const newId = this.monitorCardsCache.length
-      ? Math.max(...this.monitorCardsCache.map(card => card.id || 0)) + 1
-      : 1;
-    const newSearch: MonitorCard = { ...search, id: newId };
-    this.monitorCardsCache.push(newSearch);
-    console.log('Nova busca criada no cache:', newSearch);
-    return of(newSearch);
-  }
-
-  /** Método para remover uma busca */
-  deleteSearch(search: MonitorCard): Observable<void> {
-    if (!search.id) {
-      console.error('ID da busca é necessário para remoção');
-      return of(void 0);
-    }
-    this.monitorCardsCache = this.monitorCardsCache.filter(card => card.id !== search.id);
-    console.log('Busca removida do cache:', search);
-    return of(void 0);
+    return this.http.get<MonitorCard[]>(this.monitorCardsUrl);
   }
 
   /** Método para obter os detalhes da menção */
