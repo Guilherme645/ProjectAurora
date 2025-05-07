@@ -27,8 +27,9 @@ export class ResultComponent implements OnInit {
 
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
   @ViewChild('highSearchDrawer') highSearchDrawerRef!: ElementRef; // Referência ao HighSearch
-  @ViewChild('saveSearchModal') saveSearchModalRef!: ElementRef; // Referência ao modal de save search
+  @ViewChild('saveSearchModal', { static: false }) saveSearchModalRef!: ElementRef;
   @ViewChild('filtrosContainer') filtrosContainerRef!: ElementRef; // Referência ao container de filtros (mobile)
+  @ViewChild('editModal') editModalRef!: ElementRef; // Referência ao modal de edição
 
   constructor(private dataService: DataService) {}
 
@@ -57,8 +58,17 @@ export class ResultComponent implements OnInit {
     }
 
     // Fechar o modal de save search se clicar fora
-    if (this.modalAberto && this.saveSearchModalRef && !this.saveSearchModalRef.nativeElement.contains(target)) {
-      this.fecharModal();
+   if (this.modalAberto && this.saveSearchModalRef) {
+  const clickedOutside = !this.saveSearchModalRef.nativeElement.contains(target);
+  if (clickedOutside) {
+    this.fecharModal();
+  }
+}
+
+
+    // Fechar o modal de edição se clicar fora
+    if (this.modalAberto && this.editModalRef && !this.editModalRef.nativeElement.contains(target)) {
+      this.closeEditModal();
     }
 
     // Fechar os filtros (mobile) se clicar fora
@@ -149,6 +159,10 @@ export class ResultComponent implements OnInit {
   }
 
   fecharModal() {
+    this.modalAberto = false;
+  }
+
+  closeEditModal() {
     this.modalAberto = false;
   }
 

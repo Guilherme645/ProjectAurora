@@ -8,17 +8,15 @@
     <div class="flex items-start gap-8">
       <!-- Abas (Steps) -->
       <nav class="w-[225px]">
-        <div class="flex items-center gap-3 mb-1" [class]="currentStep === 1 ? 'text-blue-600' : 'text-gray-500'">
-          <span class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors" [class]="currentStep >= 1 ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'">1</span>
+        <div class="flex items-center ml-3 gap-3 mb-1" [class]="currentStep === 1 ? 'text-blue-600' : 'text-gray-500'">
           <div>
             <span class="text-base font-medium" [class]="currentStep >= 1 ? 'text-blue-700' : 'text-gray-500'">Informações básicas</span>
           </div>
         </div>
-        <div class="flex items-center gap-3" [class]="currentStep === 2 ? 'text-blue-600' : 'text-gray-500'">
-          <span class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors" [class]="currentStep >= 2 ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'">2</span>
+        <div class="flex items-center mt-[20px] gap-3" [class]="currentStep === 2 ? 'text-blue-600' : 'text-gray-500'">
           <div>
-            <span class="text-base font-medium" [class]="currentStep >= 2 ? 'text-blue-700' : 'text-gray-500'">Alertas</span>
-            <p class="text-xs text-gray-400">Configuração opcional</p>
+            <span class="text-base ml-3  font-medium" [class]="currentStep >= 2 ? 'text-blue-700' : 'text-gray-500'">Alertas</span>
+            <p class="text-xs ml-3 text-gray-400">Configuração opcional</p>
           </div>
         </div>
       </nav>
@@ -104,7 +102,7 @@
 
           <section class="border border-gray-200 rounded-lg overflow-hidden">
             <div class="flex items-center px-4 py-4 border-b border-gray-200">
-              <input type="checkbox" id="select-all" class="mr-2 w-4 h-4 cursor-pointer" />
+              <input type="checkbox" id="select-all" class="mr-2 w-4 h-4 cursor-pointer" (change)="selectAll($event)" />
               <label for="select-all" class="text-sm text-gray-700 font-medium">Selecionar todos do Workspace</label>
             </div>
 
@@ -114,13 +112,13 @@
                 class="flex flex-row items-start w-[765px] h-[54px] border-b border-gray-200 box-border"
               >
                 <!-- Checkbox -->
-                <div class="flex justify-center items-center w-[51px] h-[54px] px-5 py-3">
+                <div class="flex justify-center mr-2 items-center w-[51px] h-[54px] px-5 py-3">
                   <input
                     type="checkbox"
-                    class="w-4 h-4 rounded-lg cursor-pointer"
+                    [(ngModel)]="user.selected"
+                    class="w-4 h-4 mr-2  rounded-lg cursor-pointer"
                   />
                 </div>
-
                 <!-- Avatar and Name -->
                 <div class="flex items-center w-[272px] h-[54px] py-2">
                   <div class="flex items-center w-[162px] h-[38px] space-x-3">
@@ -140,7 +138,6 @@
                     </span>
                   </div>
                 </div>
-
                 <!-- Email -->
                 <div class="flex items-center w-[324px] h-[54px] px-5 py-3">
                   <span
@@ -151,7 +148,7 @@
                 </div>
               </li>
             </ul>
-
+            
             <!-- Linha de adicionar destinatário -->
             <div
               class="flex flex-row items-center w-[765px] h-[70px] border-b border-gray-200 box-border"

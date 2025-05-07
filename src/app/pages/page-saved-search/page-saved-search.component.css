@@ -1,13 +1,18 @@
-/* Oculta a barra de rolagem mas mantém o scroll funcional */
-.scrollbar-hidden::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .scrollbar-hidden {
-    -ms-overflow-style: none;  /* IE e Edge */
-    scrollbar-width: none;     /* Firefox */
-  }
-  .layout-container {
-    display: flex;
-    height: 100vh;
-  }
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  margin-left: 12px;
+  padding: 20px;
+  margin-top: 76px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ensures cards adjust and stay close */
+  gap: 34px; /* Reduced gap between cards */
+}
+
+.monitor-card {
+  width: 100%; /* Ensures cards take full available width within minmax */
+  max-width: 350px; /* Optional: caps the maximum width of each card */
+}

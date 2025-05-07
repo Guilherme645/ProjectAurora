@@ -68,6 +68,10 @@ export class EditSearchBasicInformationComponent implements OnInit, OnDestroy {
     console.log('Alerta para menções negativas ativado:', this.isNegativeAlertActive);
   }
 
+  selectAll(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.userList.forEach(user => user.selected = checked);
+  }
   nextStep() {
     if (this.salvarBuscaForm.valid) {
       this.currentStep++;

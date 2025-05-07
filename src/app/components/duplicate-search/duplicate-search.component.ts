@@ -56,6 +56,11 @@ export class DuplicateSearchComponent implements OnInit {
     }
   }
 
+  selectAll(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.userList.forEach(user => user.selected = checked);
+  }
+
   onSubmit() {
     if (this.salvarBuscaForm.valid) {
       console.log('Form Submitted:', this.salvarBuscaForm.value);

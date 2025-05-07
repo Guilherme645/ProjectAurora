@@ -131,7 +131,7 @@
 
           <section class="border border-gray-200 rounded-lg overflow-hidden">
             <div class="flex items-center px-4 py-4 border-b border-gray-200">
-              <input type="checkbox" id="select-all" class="mr-2 w-4 h-4 cursor-pointer" />
+              <input type="checkbox" id="select-all" class="mr-2 w-4 h-4 cursor-pointer" (change)="selectAll($event)" />
               <label for="select-all" class="text-sm text-gray-700 font-medium">Selecionar todos do Workspace</label>
             </div>
 
@@ -141,12 +141,13 @@
                 class="flex flex-row items-start w-[765px] h-[54px] border-b border-gray-200 box-border"
               >
                 <!-- Checkbox -->
-                <div class="flex justify-center items-center w-[51px] h-[54px] px-5 py-3">
-                  <input type="checkbox" id="select-all" class="mr-2 w-[16px] h-[16px] cursor-pointer" />
-
-                
+                <div class="flex justify-center mr-2 items-center w-[51px] h-[54px] px-5 py-3">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="user.selected"
+                    class="w-4 h-4 mr-2  rounded-lg cursor-pointer"
+                  />
                 </div>
-
                 <!-- Avatar and Name -->
                 <div class="flex items-center w-[272px] h-[54px] py-2">
                   <div class="flex items-center w-[162px] h-[38px] space-x-3">
@@ -166,7 +167,6 @@
                     </span>
                   </div>
                 </div>
-
                 <!-- Email -->
                 <div class="flex items-center w-[324px] h-[54px] px-5 py-3">
                   <span
@@ -177,7 +177,7 @@
                 </div>
               </li>
             </ul>
-
+            
             <!-- Linha de adicionar destinatário -->
             <div
               class="flex flex-row items-center w-[765px] h-[70px]"

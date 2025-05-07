@@ -57,6 +57,11 @@ export class SaveSearchComponent implements OnInit {
     }
   }
 
+  selectAll(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.userList.forEach(user => user.selected = checked);
+  }
+
   onSubmit() {
     console.log('Form Submitted:', this.salvarBuscaForm.value);
   }
