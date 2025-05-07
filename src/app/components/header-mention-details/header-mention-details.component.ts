@@ -74,7 +74,7 @@ export class HeaderMentionDetailsComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    this.isScrolled = scrollTop > 200;
+    this.isScrolled = scrollTop > 50;
     console.log('Scroll detected', {
       isScrolled: this.isScrolled,
       scrollTop,

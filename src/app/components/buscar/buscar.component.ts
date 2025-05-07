@@ -36,7 +36,7 @@ export class BuscarComponent implements OnChanges {
 
   onSearch(): void {
     console.log('Buscando por:', this.searchQuery);
-    this.router.navigate(['/navBar'], { queryParams: { query: this.searchQuery } });
+    this.router.navigate(['/resultado'], { queryParams: { query: this.searchQuery } });
   }
 
   selecionarModo(modo: string) {
