@@ -1,6 +1,4 @@
-<!-- Versão Desktop -->
 <div *ngIf="!isMobile" class="filtro-container w-[308px] h-[1340px] space-y-10 p-4 rounded-lg -mt-[85px] ml-[23px]">
-
   <!-- Info da busca -->
   <div class="search-info w-full space-y-3 mb-[40px]">
     <nav class="breadcrumb text-xs text-black">
@@ -25,9 +23,25 @@
     </button>
   </div>
 
+  <!-- Badge Section (Frame 59) -->
+  <div class="flex flex-row items-start p-0 gap-2 w-[151px] h-[28px] mb-5">
+    <div *ngFor="let badge of badges; let i = index" class="flex flex-row items-start p-0 w-[{{badge.width}}px] h-[28px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+      <div class="flex flex-row items-center p-[6px] gap-[1px] w-[{{badge.width}}px] h-[28px] bg-white border border-gray-200 rounded-[6px] box-border">
+        <div class="flex flex-row items-center px-1 gap-[7px] w-[{{badge.textWidth}}px] h-[16px]">
+          <span class="w-[{{badge.textWidth}}px] h-[16px] font-medium text-xs leading-4 tracking-[-0.01em] text-gray-800">{{badge.nome}}</span>
+        </div>
+        <div class="flex flex-row justify-center items-center p-0 w-[15px] h-[15px] bg-gray-200 rounded-full cursor-pointer" (click)="removerBadge(badge.id)">
+          <svg class="w-[8px] h-[8px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 8">
+            <path stroke="#6B7280" stroke-width="1" d="M2 2l4 4M6 2L2 6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Filtros -->
-  <div *ngFor="let filtro of filtros" class="w-full">
-    <div class="flex justify-between items-center cursor-pointer py-2.5">
+  <div *ngFor="let filtro of filtros; trackBy: trackByFilter" class="w-full">
+    <div class="flex justify-between items-center cursor-pointer py-2.5" (click)="toggleSection(filtro.nome)">
       <h2 class="text-sm font-bold text-gray-700">{{ filtro.nome }}</h2>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon w-5 h-5 text-gray-500 transition-transform duration-300" [ngClass]="{ 'rotate-180': filtro.aberto }">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -42,12 +56,14 @@
           [(ngModel)]="dataInicio"
           class="w-1/2 h-full p-3 border border-transparent rounded-lg bg-gray-100 text-sm text-gray-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           placeholder="Data início"
+          (ngModelChange)="checkDates()"
         />
         <input 
           type="date"
           [(ngModel)]="dataFim"
           class="w-1/2 h-full p-3 border border-transparent rounded-lg bg-gray-100 text-sm text-gray-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           placeholder="Data fim"
+          (ngModelChange)="checkDates()"
         />
       </div>
 
@@ -60,15 +76,14 @@
           </li>
         </ul>
         <button *ngIf="filtro.mostrarMais"
-                class="bg-transparent border-none text-sky-700 text-sm font-bold cursor-pointer mt-2 hover:underline">
+                class="bg-transparent border-none text-sky-700 text-sm font-bold cursor-pointer mt-2 hover:underline"
+                (click)="mostrarMais(filtro)">
           Mostrar mais
         </button>
       </div>
     </div>
   </div>
 </div>
-
-
 <!-- Versão Mobile -->
 <div *ngIf="isMobile" class="mobile-layout-container w-full p-4">
   <div *ngIf="modalAberto" class="mobile-modal-overlay fixed inset-0 z-50 bg-black/50 flex items-center justify-center overflow-y-auto">

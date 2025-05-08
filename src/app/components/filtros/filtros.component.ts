@@ -7,6 +7,13 @@ interface Filtro {
   mostrarMais: boolean;
 }
 
+interface Badge {
+  id: number;
+  nome: string;
+  width: number;
+  textWidth: number;
+}
+
 @Component({
   selector: 'app-filtros',
   templateUrl: './filtros.component.html',
@@ -21,6 +28,11 @@ export class FiltrosComponent implements OnInit {
   @Output() closeModal = new EventEmitter<void>(); // For mobile filters overlay
   @Output() openSaveSearchModal = new EventEmitter<void>(); // For desktop modal open
   @Output() closeSaveSearchModal = new EventEmitter<void>(); // For desktop modal close
+
+  badges: Badge[] = [
+    { id: 1, nome: 'Manhã', width: 75, textWidth: 47 },
+    { id: 2, nome: 'Texto', width: 68, textWidth: 40 }
+  ];
 
   filtros: Filtro[] = [
     { nome: 'Hora', aberto: true, itens: ['Manhã (4091)', 'Tarde (3291)', 'Noite (1827)'], mostrarMais: false },
@@ -52,8 +64,52 @@ export class FiltrosComponent implements OnInit {
   }
 
   mostrarMais(filtro: Filtro): void {
-    filtro.itens.push(...['Mais 1', 'Mais 2', 'Mais 3']);
+    const baseItems: { [key: string]: { name: string; baseCount: number }[] } = {
+      'Hora': [
+        { name: 'Madrugada', baseCount: 1000 },
+        { name: 'Tarde Tardia', baseCount: 1500 },
+        { name: 'Noite Tardia', baseCount: 800 }
+      ],
+      'Tipo de mídia': [
+        { name: 'Imagem', baseCount: 2000 },
+        { name: 'Documento', baseCount: 1200 },
+        { name: 'Live', baseCount: 900 }
+      ],
+      'Veículos': [
+        { name: 'UOL', baseCount: 850 },
+        { name: 'Estadão', baseCount: 700 },
+        { name: 'Folha', baseCount: 600 }
+      ],
+      'Sentimento': [
+        { name: 'Muito Positivo', baseCount: 300 },
+        { name: 'Muito Negativo', baseCount: 150 },
+        { name: 'Indiferente', baseCount: 100 }
+      ],
+      'Localização': [
+        { name: 'Minas Gerais', baseCount: 700 },
+        { name: 'Bahia', baseCount: 550 },
+        { name: 'Paraná', baseCount: 400 }
+      ]
+    };
+
+    const additionalItems = baseItems[filtro.nome] || [
+      { name: 'Item Extra 1', baseCount: 500 },
+      { name: 'Item Extra 2', baseCount: 400 },
+      { name: 'Item Extra 3', baseCount: 300 }
+    ];
+
+    const newItems = additionalItems.map((item, index) => {
+      const existingCounts = filtro.itens.map(i => parseInt(i.match(/\d+/)?.[0] || '0'));
+      const nextCount = Math.max(...existingCounts, item.baseCount) + (index * 100);
+      return `${item.name} (${nextCount})`;
+    });
+
+    filtro.itens.push(...newItems);
     filtro.mostrarMais = false;
+  }
+
+  removerBadge(id: number): void {
+    this.badges = this.badges.filter(badge => badge.id !== id);
   }
 
   openModal(): void {
@@ -61,6 +117,13 @@ export class FiltrosComponent implements OnInit {
       this.modalAberto = true; // Open mobile modal locally
     } else {
       this.openSaveSearchModal.emit(); // Emit event for desktop modal
+    }
+  }
+
+  checkDates(): void {
+    if (this.dataInicio && this.dataFim && this.dataFim < this.dataInicio) {
+      alert('A data final não pode ser anterior à data inicial.');
+      this.dataFim = this.dataInicio;
     }
   }
 
