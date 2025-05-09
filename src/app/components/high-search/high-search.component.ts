@@ -41,7 +41,8 @@ export class HighSearchComponent {
     location: false
   };
 
-  isModalOpen = false;
+  isVehiclesModalOpen = false;
+  isLocationModalOpen = false;
 
   mediaTypes = {
     audio: false,
@@ -75,13 +76,15 @@ export class HighSearchComponent {
 
   toggleSection(section: keyof typeof this.isSectionOpen) {
     this.isSectionOpen[section] = !this.isSectionOpen[section];
-    this.isModalOpen = false;
+    this.isVehiclesModalOpen = false;
+    this.isLocationModalOpen = false;
   }
 
   openCalendar(input: 'start' | 'end') {
     this.selectedInput = input;
     this.showCalendar = true;
   }
+
   onDateSelected(date: Date) {
     if (this.etapaSelecionando === 'start') {
       this.selectedStartDate = date;
@@ -96,8 +99,6 @@ export class HighSearchComponent {
       }
     }
   }
-  
-  
 
   closeCalendar() {
     this.showCalendar = false;
@@ -151,6 +152,8 @@ export class HighSearchComponent {
     Object.keys(this.isSectionOpen).forEach((key) => {
       this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
     });
+    this.isVehiclesModalOpen = false;
+    this.isLocationModalOpen = false;
   }
 
   navigateToResults() {
@@ -159,11 +162,20 @@ export class HighSearchComponent {
     }
   }
 
-  openModal() {
+  openVehiclesModal() {
     Object.keys(this.isSectionOpen).forEach((key) => {
       this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
     });
-    this.isModalOpen = true;
+    this.isVehiclesModalOpen = true;
+    this.isLocationModalOpen = false;
+  }
+
+  openLocationModal() {
+    Object.keys(this.isSectionOpen).forEach((key) => {
+      this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
+    });
+    this.isVehiclesModalOpen = false;
+    this.isLocationModalOpen = true;
   }
 
   navigateToSimpleSearch() {
@@ -171,7 +183,7 @@ export class HighSearchComponent {
   }
   
   onCloseSection() {
-    this.isModalOpen = false;
+    this.isVehiclesModalOpen = false;
+    this.isLocationModalOpen = false;
   }
-  
 }

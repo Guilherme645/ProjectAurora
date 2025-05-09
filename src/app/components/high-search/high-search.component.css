@@ -4,8 +4,12 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  z-index: 9999;
 }
+
+.advanced-search-container {
+  padding-bottom: 100px; /* Espaço suficiente para o rodapé fixo */
+}
+
 
 /* Estilos gerais dos tooltips */
 .tooltip-all-words,
@@ -28,22 +32,19 @@ html, body {
   transition: opacity 0.3s ease-in-out;
   z-index: 1000;
 }
-.inputs:focus {
-  border: 1px solid #2563EB !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
 
 /* Ajuste da seta para todos os tooltips */
 .tooltip-all-words::after,
 .tooltip-any-words::after,
 .tooltip-exact-phrase::after,
 .tooltip-none-words::after {
+  content: '';
+  position: absolute;
   top: -8px;
   left: 50%;
   transform: translateX(-50%);
   border-width: 8px;
+  border-style: solid;
   border-color: transparent transparent #1f2937 transparent;
 }
 
@@ -72,6 +73,14 @@ html, body {
   opacity: 1;
 }
 
+/* Estilo dos inputs ao focar */
+.inputs:focus {
+  border: 1px solid #2563EB !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 🟢 Estilo do container do sidebar */
 .hs-overlay {
   max-width: 476px;
   height: 100vh;
@@ -81,24 +90,25 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-radius: 8px;
   position: fixed;
+  top: 0;
+  right: 0;
   box-sizing: border-box;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-  overflow-x: hidden; /* Impede scroll horizontal no contêiner principal */
+  z-index: 20;
+  overflow-x: hidden;
 }
 
 /* 🟢 Estilo da barra de rolagem */
 .advanced-search-container {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden; /* Impede scroll horizontal */
+  overflow-x: hidden;
   padding-left: 0;
   padding-right: 0;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centraliza os acordeões */
+  align-items: center;
 }
 
 .advanced-search-container::-webkit-scrollbar {
@@ -114,6 +124,37 @@ html, body {
   background-color: #9ca3af;
 }
 
+/* 🟢 Backdrop para modais */
+.backdrop-blur-sm {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(107, 114, 128, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+/* 🟢 Centered Modal Wrapper */
+.modal-wrapper {
+  position: relative;
+  max-width: 600px;
+  width: 90%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 30;
+  padding: 16px;
+}
+
+/* Center modals on desktop */
+@media (min-width: 1024px) {
+  .modal-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 /* 🟢 Títulos */
 .text-lg {
   font-size: 18px;
@@ -127,18 +168,16 @@ html, body {
   font-size: 13px;
   color: #ffffff;
   line-height: 1.5;
-  margin-left: -150px;
-  margin-top: -5px;
 }
 
 /* 🟢 Seção do Accordion */
 .accordion-section {
   flex-shrink: 0;
-  width: 428px; /* Largura fixa de 428px */
-  margin-left: 24px; /* Margem esquerda de 24px */
-  margin-right: 24px; /* Margem direita de 24px */
+  width: 428px;
+  margin-left: 24px;
+  margin-right: 24px;
   border-bottom: 1px solid #e5e7eb;
-  box-sizing: border-box; /* Garante que padding não aumente a largura */
+  box-sizing: border-box;
 }
 
 .accordion-header {
@@ -146,28 +185,16 @@ html, body {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 16px 0; /* Remove padding lateral para alinhar com margens */
+  padding: 16px 0;
   font-size: 14px;
   color: #111827;
-  font-weight: 500; /* Peso da fonte reduzido para 500 */
-}
-
-.accordion-content {
-  padding: 10px 0;
-  display: none;
-  transition: all 0.3s ease;
-}
-
-.accordion-content.show {
-  display: block;
-  margin-left: 0; /* Remove margem esquerda para alinhar com o divisor */
-  margin-right: 0; /* Alinha com o divisor */
+  font-weight: 500;
 }
 
 /* 🟢 Campos de entrada (list items) */
 .input-field,
 .date-field {
-  width: 380px; /* 428px - 24px (esquerda) - 24px (direita) */
+  width: 380px;
   padding: 12px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -175,8 +202,8 @@ html, body {
   outline: none;
   font-size: 14px;
   margin-bottom: 10px;
-  margin-left: 24px; /* Alinha com a margem do acordeão */
-  margin-right: 24px; /* Alinha com a margem do acordeão */
+  margin-left: 24px;
+  margin-right: 24px;
   box-sizing: border-box;
 }
 
@@ -195,8 +222,8 @@ html, body {
   color: #111827;
   cursor: pointer;
   margin-bottom: 8px;
-  margin-left: 24px; /* Alinha com a margem do acordeão */
-  margin-right: 24px; /* Alinha com a margem do acordeão */
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
 .custom-checkbox input[type="checkbox"] {
@@ -230,6 +257,7 @@ html, body {
   transform: rotate(45deg);
 }
 
+/* 🟢 Botões do rodapé */
 .modal-footer {
   display: flex;
   justify-content: space-between;
@@ -260,6 +288,7 @@ html, body {
   background-color: #1f2937;
 }
 
+/* 🟢 Ícones */
 .icon {
   transition: transform 0.3s ease;
 }
@@ -268,6 +297,7 @@ html, body {
   transform: rotate(180deg);
 }
 
+/* 🟢 Tooltip genérico */
 .tooltip-container {
   position: relative;
   cursor: pointer;
@@ -277,8 +307,6 @@ html, body {
   width: 20px;
   height: 20px;
   color: #4B5563;
-  margin-left: 90%;
-  margin-top: -40px;
 }
 
 .tooltip {
@@ -302,42 +330,32 @@ html, body {
   opacity: 1;
 }
 
+/* 🟢 Container de datas */
 .date-container {
   position: relative;
   display: flex;
   gap: 12px;
-  width: 380px; /* 428px - 24px (esquerda) - 24px (direita) */
-  margin-left: 24px; /* Alinha com a margem do acordeão */
-  margin-right: 24px; /* Alinha com a margem do acordeão */
+  width: 380px;
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
-.modal-overlay {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1999;
-  cursor: default;
-}
-
+/* 🟢 Modal do calendário */
 .calendar-modal-container {
   position: fixed;
   top: 50%;
-  left: calc(50% + 238px);
-  transform: translateY(-50%);
-  z-index: 2000;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
   width: 300px;
   background-color: white;
   border: 1px solid #d1d5db;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-left: -790px;
 }
 
-
-
-@media (max-width: 768px) {
+/* 🟢 Media Queries */
+@media (max-width: 1023px) {
   .calendar-modal-container {
     position: fixed;
     top: auto;
@@ -364,20 +382,9 @@ html, body {
   }
 
   input[type="date"] {
-    -webkit-appearance: none; 
-    -moz-appearance: textfield; 
-    appearance: none; 
-  }
-
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-  }
-
-  input[type="date"]::-moz-calendar-picker-indicator {
-    display: none; 
-  }
-
-  input[type="date"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
     background: #f9fafb;
     border: 1px solid #d1d5db;
     border-radius: 6px;
@@ -388,6 +395,11 @@ html, body {
 
   input[type="date"]:placeholder-shown {
     color: #9ca3af;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="date"]::-moz-calendar-picker-indicator {
+    display: none;
   }
 
   input[type="date"]::-webkit-inner-spin-button,

@@ -1,6 +1,9 @@
-<div role="dialog" 
-     class="fixed top-0 right-0 h-screen w-full max-w-[476px] bg-white border-l flex flex-col transform transition-all duration-300 lg:w-[476px]">  <!-- Cabeçalho -->
-  <div class="pt-8 flex-shrink-0">
+<div role="dialog" class="fixed top-0 right-0 h-screen w-full max-w-[476px] bg-white border-l flex flex-col transform transition-all duration-300 lg:w-[476px]">
+  <!-- Backdrop for blur effect -->
+  <div *ngIf="isVehiclesModalOpen || isLocationModalOpen" class="fixed inset-0 bg-gray-500 bg-opacity-50 backdrop-blur-sm z-10" (click)="onCloseSection()"></div>
+
+  <!-- Cabeçalho -->
+  <div class="pt-8 flex-shrink-0 relative z-0">
     <!-- Versão Mobile -->
     <div class="flex px-3 items-center justify-between lg:hidden">
       <div class="flex flex-col justify-between py-3 px-4">
@@ -19,7 +22,6 @@
         <div class="sidebar-header"></div>
         <app-side-bar (sidebarToggled)="onSidebarToggle($event)"></app-side-bar>
       </div>
-
     </div>
     <!-- Versão Desktop -->
     <div class="hidden lg:block">
@@ -39,94 +41,84 @@
     </span>
   </div>
 
-  <div class="flex-1 overflow-y-auto advanced-search-container px-4">
-   <!-- Palavras-chave -->
-<div class="accordion-section py-4 border-b">
-  <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('keywords')">
-    <span class="text-sm font-medium  text-gray-900 hover:text-[#2563EB] transition-colors duration-200">Palavras-chave</span>
-    <svg [ngClass]="{'rotate-180': isSectionOpen['keywords']}" class="w-5 h-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="m6 9 6 6 6-6"></path>
-    </svg>
-  </div>
-  <div class="overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{'max-h-[600px] opacity-100 pb-4': isSectionOpen['keywords'], 'max-h-0 opacity-0': !isSectionOpen['keywords']}">
-    <div class="space-y-4">
-      <div class="flex flex-col gap-2">
-       <div class="flex flex-col gap-2">
-  <div class="flex items-center gap-2">
-    <!-- Campo de busca -->
-    <div class="flex items-center w-full h-[61px] p-4 bg-gray-100 border border-gray-300 rounded-lg focus-within:border-blue-400">
-      <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Todas essas palavras" />
-    </div>
-
-    <!-- Ícone com Tooltip -->
-    <span class="relative cursor-pointer group" data-tooltip="Digite todas as palavras desejadas">
-      <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-        <!-- Muda de cinza (#4B5563) para preto escuro (#111827) -->
-        <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
-        <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-        <circle cx="12" cy="16" r="1.5" fill="white" />
-      </svg>
-      <span class="absolute left-1/2 top-full mt-2 transform -translate-x-1/2 bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-        Digite todas as palavras desejadas
-      </span>
-    </span>
-  </div>
-</div>
-
-        <div class="flex items-center">
-<div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
-            <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Qualquer uma dessas palavras">
-          </div>
-          <div class="ml-2 relative inline-block group">
-            <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <!-- Muda de cinza (#4B5563) para preto escuro (#111827) -->
-              <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
-              <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-              <circle cx="12" cy="16" r="1.5" fill="white" />
-            </svg>
-            <span class="tooltip-any-words absolute left-0 top-full mt-2 whitespace-nowrap min-w-[200px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
-              Digite as palavras que podem aparecer
-            </span>
-          </div>
-        </div>
-        <div class="flex items-center">
-<div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
-            <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Frase ou palavra exata">
-          </div>
-          <div class="ml-2 relative inline-block group">
-            <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <!-- Muda de cinza (#4B5563) para preto escuro (#111827) -->
-              <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
-              <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-              <circle cx="12" cy="16" r="1.5" fill="white" />
-            </svg>
-            <span class="tooltip-exact-phrase absolute left-0 top-full mt-2 whitespace-nowrap min-w-[280px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
-              Digite as palavras ou frase que devem aparecer
-            </span>
-          </div>
-        </div>
-        <div class="flex items-center">
-<div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
-            <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Nenhuma dessas palavras">
-          </div>
-          <div class="ml-2 relative inline-block group">
-            <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <!-- Muda de cinza (#4B5563) para preto escuro (#111827) -->
-              <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
-              <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-              <circle cx="12" cy="16" r="1.5" fill="white" />
-            </svg>
-            <span class="tooltip-none-words absolute left-0 top-full mt-2 whitespace-nowrap min-w-[240px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
-              Digite as palavras que não devem aparecer
-            </span>
+  <div class="flex-1 overflow-y-auto advanced-search-container px-4 relative z-0">
+    <!-- Palavras-chave -->
+    <div class="accordion-section py-4 border-b">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('keywords')">
+        <span class="text-sm font-medium text-gray-900 hover:text-[#2563EB] transition-colors duration-200">Palavras-chave</span>
+        <svg [ngClass]="{'rotate-180': isSectionOpen['keywords']}" class="w-5 h-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </div>
+      <div class="overflow-hidden transition-all duration-200 ease-in-out" [ngClass]="{'max-h-[600px] opacity-100 pb-4': isSectionOpen['keywords'], 'max-h-0 opacity-0': !isSectionOpen['keywords']}">
+        <div class="space-y-4">
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <div class="flex items-center w-full h-[61px] p-4 bg-gray-100 border border-gray-300 rounded-lg focus-within:border-blue-400">
+                <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Todas essas palavras" />
+              </div>
+              <span class="relative cursor-pointer group" data-tooltip="Digite todas as palavras desejadas">
+                <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
+                  <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                  <circle cx="12" cy="16" r="1.5" fill="white" />
+                </svg>
+                <span class="absolute left-1/2 top-full mt-2 transform -translate-x-1/2 bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Digite todas as palavras desejadas
+                </span>
+              </span>
+            </div>
+            <div class="flex items-center">
+              <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
+                <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Qualquer uma dessas palavras" />
+              </div>
+              <div class="ml-2 relative inline-block group">
+                <svg class="cursor-pointer transition_colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
+                  <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                  <circle cx="12" cy="16" r="1.5" fill="white" />
+                </svg>
+                <span class="tooltip-any-words absolute left-0 top-full mt-2 whitespace-nowrap min-w-[200px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
+                  Digite as palavras que podem aparecer
+                </span>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
+                <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Frase ou palavra exata" />
+              </div>
+              <div class="ml-2 relative inline-block group">
+                <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
+                  <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                  <circle cx="12" cy="16" r="1.5" fill="white" />
+                </svg>
+                <span class="tooltip-exact-phrase absolute left-0 top-full mt-2 whitespace-nowrap min-w-[280px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
+                  Digite as palavras ou frase que devem aparecer
+                </span>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="flex items-center rounded-lg bg-gray-100 p-4 w-full h-[61px] border border-gray-300 focus-within:border-blue-400">
+                <input type="text" class="w-full h-full bg-transparent text-gray-700 text-sm outline-none" placeholder="Nenhuma dessas palavras" />
+              </div>
+              <div class="ml-2 relative inline-block group">
+                <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
+                  <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                  <circle cx="12" cy="16" r="1.5" fill="white" />
+                </svg>
+                <span class="tooltip-none-words absolute left-0 top-full mt-2 whitespace-nowrap min-w-[240px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 transition-opacity group-hover:opacity-100 after:content-[''] after:absolute after:left-1/2 after:top-0 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-b-gray-900">
+                  Digite as palavras que não devem aparecer
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
- <!-- Seção Data -->
+    <!-- Seção Data -->
 <div class="accordion-section py-4 border-b">
   <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('date')">
     <span class="text-sm font-medium text-gray-900 hover:text-[#2563EB] transition-colors duration-200">Data</span>
@@ -183,7 +175,7 @@
 
   <!-- Calendário para desktop -->
   <div class="fixed inset-0" *ngIf="showCalendar" (click)="closeCalendar()"></div>
-  <div class="calendar-modal-container fixed top-1/2 left-[20%] transform -translate-x-[40%] -translate-y-1/2 bg-white rounded-lg shadow-xl" *ngIf="showCalendar">
+  <div class=" fixed top-1/2 left-[20%] transform -translate-x-[40%] -translate-y-1/2 bg-white rounded-lg shadow-xl" *ngIf="showCalendar">
     <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
   </div>
 </div>
@@ -213,28 +205,26 @@
 
     <!-- Veículos -->
     <div class="accordion-section pt-4 pb-4 border-b">
-      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="openModal()">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="openVehiclesModal()">
         <span class="text-sm font-medium text-gray-900 hover:text-[#2563EB] transition-colors duration-200">Veículos</span>
-        <svg [ngClass]="{ 'rotate-180': isSectionOpen.vehicles }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg [ngClass]="{'rotate-180': isVehiclesModalOpen}" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="m6 9 6 6 6-6"></path>
         </svg>
       </div>
-      <div class="modal-overlay" *ngIf="isModalOpen" (click)="onClose()"></div>
-      <div class="modal-container" *ngIf="isModalOpen">
+      <div class="modal-container relative z-20" *ngIf="isVehiclesModalOpen">
         <app-veiculos (closeSection)="onCloseSection()"></app-veiculos>
       </div>
-      
     </div>
 
     <!-- Sentimento -->
     <div class="accordion-section pt-4 pb-4 border-b">
       <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('sentiment')">
         <span class="text-sm font-medium text-gray-900 hover:text-[#2563EB] transition-colors duration-200">Sentimento</span>
-        <svg [ngClass]="{ 'rotate-180': isSectionOpen.sentiment }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg [ngClass]="{'rotate-180': isSectionOpen.sentiment}" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="m6 9 6 6 6-6"></path>
         </svg>
       </div>
-      <div class="px-4" [ngClass]="{ 'hidden': !isSectionOpen.sentiment }">
+      <div class="px-4" [ngClass]="{'hidden': !isSectionOpen.sentiment}">
         <label class="flex items-center gap-2 py-1">
           <input type="checkbox" [(ngModel)]="sentiments.positive" class="w-4 h-4 accent-blue-600 cursor-pointer" />
           <span class="text-sm font-medium text-gray-900">Positivo</span>
@@ -250,48 +240,40 @@
       </div>
     </div>
 
+    <!-- Localização -->
     <div class="accordion-section pt-4 pb-4 border-b">
-      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="toggleSection('location')">
+      <div class="accordion-header flex justify-between items-center py-4 px-4 cursor-pointer" (click)="openLocationModal()">
         <div class="flex items-center">
           <span class="text-sm font-medium text-gray-900 hover:text-[#2563EB] transition-colors duration-200">Localização</span>
-    
-          <!-- Ícone com tooltip -->
-<!-- Ícone com tooltip e hover preto escuro -->
-<div class="relative inline-block ml-2 group">
-  <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-    <!-- Muda de cinza (#4B5563) para preto escuro (#111827) -->
-    <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
-    <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-    <circle cx="12" cy="16" r="1.5" fill="white" />
-  </svg>
-
-  <!-- Tooltip -->
-  <span class="absolute left-20 top-full mt-1 whitespace-nowrap min-w-[240px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
-    O parâmetro de localização não funciona para <br> os tipos de mídia Web
-  </span>
-</div>
-
-
+          <div class="relative inline-block ml-2 group">
+            <svg class="cursor-pointer transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" class="fill-[#4B5563] group-hover:fill-gray-900" />
+              <path d="M12 7v6h0.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              <circle cx="12" cy="16" r="1.5" fill="white" />
+            </svg>
+            <span class="absolute left-20 top-full mt-1 whitespace-nowrap min-w-[240px] bg-gray-900 text-white text-xs font-normal py-2 px-4 rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
+              O parâmetro de localização não funciona para <br> os tipos de mídia Web
+            </span>
+          </div>
         </div>
-    
-        <svg [ngClass]="{ 'rotate-180': isSectionOpen.location }" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg [ngClass]="{'rotate-180': isLocationModalOpen}" class="icon size-5 text-gray-500 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="m6 9 6 6 6-6"></path>
         </svg>
       </div>
-      <div class="accordion-content px-4" [ngClass]="{ 'show': isSectionOpen.location }">
+      <div class="modal-container relative z-20" *ngIf="isLocationModalOpen">
         <app-localizacao (closeSection)="onCloseSection()"></app-localizacao>
       </div>
-    
+    </div>
 
-  <!-- Rodapé fixo -->
-  <div class="flex-shrink-0 p-4 bg-white border-t ">
-    <div class="flex justify-end gap-2">
-      <button class="py-2 px-4 text-sm font-medium text-gray-900 bg-transparent rounded-lg hover:bg-gray-100 transition-colors" (click)="clearSearch()">
+    <!-- Rodapé fixo -->
+    <div class="fixed bottom-0 left-0 w-[476px] h-[78px] bg-white border-t border-gray-200 shadow-[0px_10px_40px_10px_rgba(0,0,0,0.08)] flex justify-end items-center px-4 gap-3 z-50">
+      <button class="w-[128px] h-[46px] flex justify-center items-center px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 bg-gray-200 hover:bg-gray-300 transition-colors" (click)="clearSearch()">
         Limpar busca
       </button>
-      <button class="w-[119px] h-[46px] py-2 px-4 text-sm font-medium text-white bg-gray-700 rounded-lg hover:bg-gray-900 transition-colors" (click)="navigateToResults()">
+      <button class="w-[119px] h-[46px] flex justify-center items-center px-4 py-2 rounded-lg text-sm font-semibold text-white bg-gray-700 hover:bg-gray-900 transition-colors" (click)="navigateToResults()">
         Fazer busca
       </button>
     </div>
+    
   </div>
 </div>
