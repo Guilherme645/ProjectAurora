@@ -109,66 +109,43 @@ class="fixed inset-0 bg-black bg-opacity-40 z-50"
   <div *ngIf="modalAberto || duplicateModalAberto || removeModalAberto" class="modal-backdrop"></div>
 
   <!-- Modal de Edição -->
-  <div
-    *ngIf="modalAberto"
-    class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50"
-    role="dialog"
-    aria-modal="true"
-  >
-    <button
-      type="button"
-      aria-label="Fechar"
-      class="close-modal-button absolute z-[1001] top-4 right-4 flex items-center justify-center w-[40px] h-[40px] !bg-white rounded-md shadow-md"
-      (click)="closeEditModal()"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="text-black"
-      >
-        <path d="M18 6 6 18"></path>
-        <path d="M6 6l12 12"></path>
-      </svg>
-    </button>
+<div
+  *ngIf="modalAberto"
+  class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50 flex justify-center items-center"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="relative bg-white rounded-md shadow-lg w-full max-w-[500px]">
+    <app-botaox
+      (onClose)="closeEditModal()"
+      class="absolute top-4 right-4 w-[46px] h-[46px] flex items-center justify-center z-[2000]">
+    </app-botaox>
+
     <app-edit-search-basic-information (saveEdits)="saveEdits()"></app-edit-search-basic-information>
   </div>
+</div>
 
   <!-- Modal de Duplicação -->
-  <div
-    *ngIf="duplicateModalAberto"
-    class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50"
-    role="dialog"
-    aria-modal="true"
-  >
-    <button
-      type="button"
-      aria-label="Fechar"
-      class="close-modal-button absolute z-[1001] top-4 right-4 flex items-center justify-center w-[40px] h-[40px] !bg-white ml-80 rounded-md shadow-md "
-      (click)="closeDuplicateModal()"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="text-black"
-      >
-        <path d="M18 6 6 18"></path>
-        <path d="M6 6l12 12"></path>
-      </svg>
-    </button>
+ <!-- Modal de Duplicação -->
+<div
+  *ngIf="duplicateModalAberto"
+  class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50 flex justify-center items-center"
+  role="dialog"
+  aria-modal="true"
+>
+  <!-- Container do modal com posição relativa -->
+  <div class="relative bg-white rounded-md shadow-lg w-full max-w-[500px]">
+    
+    <!-- Botão de fechar com app-botaox posicionado dentro do modal -->
+    <app-botaox
+      (onClose)="closeDuplicateModal()"
+      class="absolute top-4 right-4 w-[46px] h-[46px] flex items-center justify-center z-[2000]">
+    </app-botaox>
+
+    <!-- Conteúdo do modal -->
     <app-duplicate-search (saveEdits)="saveEdits()"></app-duplicate-search>
   </div>
+</div>
 
   <!-- Modal de Remoção -->
   <div

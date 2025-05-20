@@ -30,30 +30,19 @@
 
    <!-- Modal de Save Search -->
 <div *ngIf="modalAberto" class="modal-overlay z-[1000]" role="dialog" aria-modal="true">
-  <button
-    type="button"
-    aria-label="Fechar"
-    (click)="fecharModal()"
-    class="absolute top-[43px] left-[1243px] w-[46px] h-[46px] flex items-center justify-center bg-white rounded-lg shadow-[0_10px_70px_rgba(0,0,0,0.08)] z-[2000]"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="none"
-      stroke="black"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="w-[20px] h-[20px]"
-    >
-      <path d="M18 6 6 18"></path>
-      <path d="M6 6l12 12"></path>
-    </svg>
-  </button>
+  <div class="modal-content relative">
+    <!-- Botão de fechar dentro do modal -->
+    <app-botaox
+      (onClose)="fecharModal()"
+      class="absolute top-4 right-4 w-[46px] h-[46px] flex items-center justify-center z-[20000]">
+    </app-botaox>
 
-  <app-save-search></app-save-search>
+    <div class="modal-body p-4">
+      <app-save-search></app-save-search>
+    </div>
+  </div>
 </div>
+
 
 
     <!-- Backdrop do HighSearch -->

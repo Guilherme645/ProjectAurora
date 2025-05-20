@@ -10,14 +10,13 @@ html, body {
   padding-bottom: 100px; /* Espaço suficiente para o rodapé fixo */
 }
 
-
 /* Estilos gerais dos tooltips */
 .tooltip-all-words,
 .tooltip-any-words,
 .tooltip-exact-phrase,
-.tooltip-none-words {
-  left: 50%;
-  transform: translateX(-50%);
+.tooltip-none-words,
+.tooltip-location {
+  position: absolute;
   top: 100%;
   margin-top: 0.5rem;
   white-space: nowrap;
@@ -37,7 +36,8 @@ html, body {
 .tooltip-all-words::after,
 .tooltip-any-words::after,
 .tooltip-exact-phrase::after,
-.tooltip-none-words::after {
+.tooltip-none-words::after,
+.tooltip-location::after {
   content: '';
   position: absolute;
   top: -8px;
@@ -49,27 +49,43 @@ html, body {
 }
 
 /* Ajustes específicos de largura e posicionamento */
+/* Ajustes específicos de largura e posicionamento */
 .tooltip-all-words {
   min-width: 180px;
+  left: -120px
 }
 
 .tooltip-any-words {
   min-width: 200px;
+  left: 0; /* Alinha à esquerda do ícone, considerando o ml-2 */
+  left: -260px
 }
 
 .tooltip-exact-phrase {
   min-width: 280px;
+  left: 0;
+  left: -310px
 }
 
 .tooltip-none-words {
-  min-width: 240px;
+ min-width: 240px;
+    left: 0;
+    left: -286px;
+    margin-top: -18px;
 }
 
-/* Exibe o tooltip ao passar o mouse */
-.group:hover .tooltip-all-words,
-.group:hover .tooltip-any-words,
-.group:hover .tooltip-exact-phrase,
-.group:hover .tooltip-none-words {
+.tooltip-location {
+  min-width: 240px;
+    left: 200px;
+    transform: translateX(-50%);
+}
+
+/* Exibe o tooltip ao passar o mouse apenas no ícone SVG */
+.tooltip-trigger:hover + .tooltip-all-words,
+.tooltip-trigger:hover + .tooltip-any-words,
+.tooltip-trigger:hover + .tooltip-exact-phrase,
+.tooltip-trigger:hover + .tooltip-none-words,
+.tooltip-trigger:hover + .tooltip-location {
   opacity: 1;
 }
 

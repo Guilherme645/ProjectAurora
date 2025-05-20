@@ -1,4 +1,79 @@
-/* Remove overflow desnecessário e garante rolagem global */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 111;
+}
+
+.modal-content {
+  position: relative; /* Importante para referenciar top/right do botão */
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 70px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  min-height: 300px;
+}
+
+/* Botão personalizado */
+app-botaox {
+  position: absolute;
+  top: -135px;     /* top-4 = 16px */
+  left: 810px;   /* right-4 = 16px */
+}
+
+.modal-header {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-body {
+  padding: 16px;
+}
+
+
+
+.close-button {
+    width: 46px;
+    height: 46px;
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    display: flex;
+    margin-top: -151px;
+    align-items: center;
+    margin-left: 475px;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #f3f4f6;
+}
+
+.close-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 480px) {
+  .close-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .close-button svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Outros estilos permanecem os mesmos */
 html, body {
   height: 100%;
   overflow-y: auto;
@@ -49,28 +124,6 @@ app-modal-account {
   border-left: 1px solid #d1d5db;
   transition: transform 0.3s ease-in-out;
   z-index: 101;
-}
-
-/* Modal de salvar pesquisa */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 111;
-}
-
-/* Botão de fechar modal */
-/* Botão de fechar modal */
-.close-modal-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: 1001; /* adicione este z-index */
 }
 
 /* Sidebar fixa */

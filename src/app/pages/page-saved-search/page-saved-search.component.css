@@ -16,3 +16,9 @@
   width: 100%; /* Ensures cards take full available width within minmax */
   max-width: 350px; /* Optional: caps the maximum width of each card */
 }
+/* Botão personalizado */
+app-botaox {
+  position: absolute;
+  top: -288px;
+    left: 858px;
+}
