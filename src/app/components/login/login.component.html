@@ -149,7 +149,6 @@
 
   <!-- Alerta de Erro -->
   <div 
-    *ngIf="showError"
     class="fixed top-5 right-5 flex items-center w-[324px] h-[52px] p-4 text-sm text-red-800 bg-red-100 border border-red-400 rounded-[12px] shadow"
     role="alert"
   >
@@ -157,7 +156,6 @@
     <button 
       type="button"
       class="ml-auto -mx-1.5 -my-1.5 bg-red-100 text-red-800 rounded-lg p-1.5 inline-flex items-center justify-center h-8 w-8 hover:bg-red-200"
-      (click)="showError = false"
     >
       <span class="sr-only">Fechar</span>
       <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
