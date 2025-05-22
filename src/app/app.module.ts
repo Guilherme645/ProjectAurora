@@ -62,6 +62,7 @@ import { SharedModule } from './shared/shared.module'; // importa o módulo com 
 import { SidebarResultSavedSearchComponent } from './components/sidebar-result-saved-search/sidebar-result-saved-search.component';
 import { SaveEntitiesFilterComponent } from './components/save-entities-filter/save-entities-filter.component';
 import { DiscardChangesModalComponent } from './components/discard-changes-modal/discard-changes-modal.component';
+import { ClippingComponent } from './components/clipping/clipping.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { DiscardChangesModalComponent } from './components/discard-changes-modal
   ModalEntitieOptionComponent,
   SidebarResultSavedSearchComponent,
   SaveEntitiesFilterComponent,
-  DiscardChangesModalComponent
+  DiscardChangesModalComponent,
+  ClippingComponent
   
   ],
   imports: [
