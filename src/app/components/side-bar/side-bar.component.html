@@ -169,11 +169,11 @@
   <!-- Clippings -->
   <li>
     <div class="hs-tooltip [--placement:right] inline-block">
-      <a routerLink="/home/clippings" routerLinkActive="active" 
+      <a routerLink="/clippings" routerLinkActive="active" 
       class="menu-item flex items-center gap-2 p-2 text-sm text-white hover:bg-gray-700 rounded-lg transition-all"
       [ngClass]="{'w-[236px] px-3': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/clippings') }">
         <!-- Ícone OUTLINED (inativo) -->
-        <svg *ngIf="!isActive('/home/clippings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg *ngIf="!isActive('/clippings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2"></path>
           <path d="M10 22H8"></path>
           <path d="M16 22h-2"></path>
@@ -184,7 +184,7 @@
           <path d="m18 6-8.586 8.586"></path>
         </svg>
         <!-- Ícone FILLED (ativo) -->
-        <svg *ngIf="isActive('/home/clippings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg *ngIf="isActive('/clippings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2" fill="white"></path>
           <path d="M10 22H8"></path>
           <path d="M16 22h-2"></path>
@@ -401,9 +401,9 @@
             </a>
           </li>
           <li>
-            <a routerLink="/home/clippings" routerLinkActive="active" 
+            <a routerLink="/clippings" routerLinkActive="active" 
                class="menu-item p-3 w-[327px] h-11 flex items-center text-sm text-white rounded-lg hover:bg-gray-600 transition-all"
-               [ngClass]="{ 'bg-gray-700': isActive('/home/clippings') }">
+               [ngClass]="{ 'bg-gray-700': isActive('/clippings') }">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-3">
                 <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2"></path>
                 <path d="M10 22H8"></path>
