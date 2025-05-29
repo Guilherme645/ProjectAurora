@@ -2,306 +2,729 @@
   {
     "timestamp": 0,
     "end": 4000,
-    "text": "galera chega aí vocês viram esse novo trailer do Superman eu vi também a gente viu tudo junto né fiz"
+    "text": "galera chega aí vocês viram esse novo trailer do Superman eu vi também a gente viu tudo junto né fiz",
+    "entidades": {
+      "pessoas": ["Superman"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 4000,
     "end": 10000,
-    "text": "react mas teve uma coisinha ali que me chamou atenção não sei se vocês perceberam um eggeg umeg que pode"
+    "text": "react mas teve uma coisinha ali que me chamou atenção não sei se vocês perceberam um eggeg umeg que pode",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 10000,
     "end": 15000,
-    "text": "ter mostrado pra gente que o Batman do Robert Patson e o Superman do David C estão no mesmo universo"
+    "text": "ter mostrado pra gente que o Batman do Robert Patson e o Superman do David C estão no mesmo universo",
+    "entidades": {
+      "pessoas": ["Batman", "Robert Patson", "Superman", "David C"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 15000,
     "end": 26000,
-    "text": "você reparou nisso vamos ver isso agora"
+    "text": "você reparou nisso vamos ver isso agora",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 26000,
     "end": 32000,
-    "text": "nunter aqui galera superman tá chegando na voadora né literalmente né e não tá chegando sozinho isso que eu achei"
+    "text": "nunter aqui galera superman tá chegando na voadora né literally né e não tá chegando sozinho isso que eu achei",
+    "entidades": {
+      "pessoas": ["Superman"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 32000,
     "end": 36000,
-    "text": "legal james G não tem medo de mostrar outros né outros personagens o filme dele a gente vai ter outros"
+    "text": "legal james G não tem medo de mostrar outros né outros personagens o filme dele a gente vai ter outros",
+    "entidades": {
+      "pessoas": ["James G"], 
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 36000,
     "end": 40000,
-    "text": "heróis que nunca apareceram em filmes da DC vai ter o Lanterna Verde do Gui Garner vai ter a mulher"
+    "text": "heróis que nunca apareceram em filmes da DC vai ter o Lanterna Verde do Gui Garner vai ter a mulher",
+    "entidades": {
+      "pessoas": ["Lanterna Verde", "Gui Garner"],
+      "lugares": [],
+      "organizacoes": ["DC"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 40000,
     "end": 45000,
-    "text": "Gavião o Metamor vai ter vários outros faltou algum aí faltou mas eu não lembro agora ah tem a SuperG"
+    "text": "Gavião o Metamor vai ter vários outros faltou algum aí faltou mas eu não lembro agora ah tem a SuperG",
+    "entidades": {
+      "pessoas": ["Mulher Gavião", "Metamorfo", "SuperG"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 45000,
     "end": 49000,
-    "text": "também mas uma porrada de gente né faz sentido já que esse filme é é o início de um novo"
+    "text": "também mas uma porrada de gente né faz sentido já que esse filme é é o início de um novo",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 49000,
     "end": 55000,
-    "text": "universo de filmes da DC é o primeiro passo sabe de uma coisa realmente grande saída diretamente da cabeça de"
+    "text": "universo de filmes da DC é o primeiro passo sabe de uma coisa realmente grande saída diretamente da cabeça de",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": ["DC"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 55000,
     "end": 61000,
-    "text": "um maluco né completamente imprevisível lá do James Gun então tá maneiro tá começou legal não podia começar um filme"
+    "text": "um maluco né completamente imprevisível lá do James Gun então tá maneiro tá começou legal não podia começar um filme",
+    "entidades": {
+      "pessoas": ["James Gun"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 61000,
     "end": 66000,
-    "text": "solo do Superman cara ia ficar estranho e aí galera com o início desse universo da DC no cinema muita"
+    "text": "solo do Superman cara ia ficar estranho e aí galera com o início desse universo da DC no cinema muita",
+    "entidades": {
+      "pessoas": ["Superman"],
+      "lugares": [],
+      "organizacoes": ["DC"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 66000,
     "end": 71000,
-    "text": "gente tá perdida em relação ao Batman né aliás ao Batman não ao The Batman o filme do Morcegão estrelado"
+    "text": "gente tá perdida em relação ao Batman né aliás ao Batman não ao The Batman o filme do Morcegão estrelado",
+    "entidades": {
+      "pessoas": ["Batman", "The Batman", "Morcegão"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 71000,
     "end": 76000,
-    "text": "pelo Robert Patson pois é e aí onde que ele encaixa nisso tudo aliás onde que ele se bate encaixa"
+    "text": "pelo Robert Patson pois é e aí onde que ele encaixa nisso tudo aliás onde que ele se bate encaixa",
+    "entidades": {
+      "pessoas": ["Robert Patson"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 76000,
     "end": 82000,
-    "text": "né gostou editor tô demais hein porque tipo ele não fazia parte do antigo universo da DEC no cinema e"
+    "text": "né gostou editor tô demais hein porque tipo ele não fazia parte do antigo universo da DEC no cinema e",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": ["DEC"], 
+      "datas": [],
+      "profissoes": ["editor"]
+    }
   },
   {
     "timestamp": 82000,
     "end": 87000,
-    "text": "parece que também não faz desse novo universo né ou será que faz ou será que faz todo mundo segue"
+    "text": "parece que também não faz desse novo universo né ou será que faz ou será que faz todo mundo segue",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 87000,
     "end": 92000,
-    "text": "negando mas tem gente que já viu disso no trailer Superman de que sim o Batman do Petson também existe"
+    "text": "negando mas tem gente que já viu disso no trailer Superman de que sim o Batman do Petson também existe",
+    "entidades": {
+      "pessoas": ["Superman", "Batman", "Petson"], 
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 92000,
     "end": 98000,
-    "text": "naquele mesmo universo e que em algum momento ele vai se encontrar com o Superman do David Cad porque assim"
+    "text": "naquele mesmo universo e que em algum momento ele vai se encontrar com o Superman do David Cad porque assim",
+    "entidades": {
+      "pessoas": ["Superman", "David Cad"], 
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 98000,
     "end": 103000,
-    "text": "quando você olha o filme The Batman ele parece rolar em algum universo próprio né do do Batman da mesma"
+    "text": "quando você olha o filme The Batman ele parece rolar em algum universo próprio né do do Batman da mesma",
+    "entidades": {
+      "pessoas": ["The Batman", "Batman"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 103000,
     "end": 106000,
-    "text": "forma que outros filmes como por exemplo o Coringa né que são realmente de outro mundo né que não é"
+    "text": "forma que outros filmes como por exemplo o Coringa né que são realmente de outro mundo né que não é",
+    "entidades": {
+      "pessoas": ["Coringa"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 106000,
     "end": 110000,
-    "text": "nenhum dos universos da DC isso que eu quero dizer né nem o próprio The Battle né e dá para"
+    "text": "nenhum dos universos da DC isso que eu quero dizer né nem o próprio The Battle né e dá para",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": ["DC"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 110000,
     "end": 116000,
-    "text": "entender isso perfeitamente mas como a DC sempre sofreu muito na tentativa de criar universo compartilhado igual o da Marvel"
+    "text": "entender isso perfeitamente mas como a DC sempre sofreu muito na tentativa de criar universo compartilhado igual o da Marvel",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": ["DC", "Marvel"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 116000,
     "end": 120000,
-    "text": "é claro que os fãs estão mais do que dois para ver tudo isso ganha uma forma sabe principalmente em"
+    "text": "é claro que os fãs estão mais do que dois para ver tudo isso ganha uma forma sabe principalmente em",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 120000,
     "end": 126000,
-    "text": "relação à Liga da Justiça todo mundo quer que ela seja grandiosa galera igual os Vingadores lá na concorrência eles"
+    "text": "relação à Liga da Justiça todo mundo quer que ela seja grandiosa galera igual os Vingadores lá na concorrência eles",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": ["Liga da Justiça", "Vingadores"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 126000,
     "end": 131000,
-    "text": "querem isso não quer que seja uma parada maneira universo compartilhado coeso né talvez isso até aconteça um dia mas"
+    "text": "querem isso não quer que seja uma parada maneira universo compartilhado coeso né talvez isso até aconteça um dia mas",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 131000,
     "end": 135000,
-    "text": "o James Guy é experiente ele sabe que tem que dar um passo por vez um passo de cada vez"
+    "text": "o James Guy é experiente ele sabe que tem que dar um passo por vez um passo de cada vez",
+    "entidades": {
+      "pessoas": ["James Guy"], 
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 135000,
     "end": 140000,
-    "text": "então o foco agora é começar esse universo novo de filmes da DC então o primeiro passo é um passo"
+    "text": "então o foco agora é começar esse universo novo de filmes da DC então o primeiro passo é um passo",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": ["DC"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 140000,
     "end": 144000,
-    "text": "de cada vez nesse filme do Superman a gente já vai ter uma referência interessante que é a presença do"
+    "text": "de cada vez nesse filme do Superman a gente já vai ter uma referência interessante que é a presença do",
+    "entidades": {
+      "pessoas": ["Superman"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 144000,
     "end": 150000,
-    "text": "Rick Flag é o mesmo que apareceu lá na animação do Creature Commandos em 2024 é o novo universo da"
+    "text": "Rick Flag é o mesmo que apareceu lá na animação do Creature Commandos em 2024 é o novo universo da",
+    "entidades": {
+      "pessoas": ["Rick Flag"],
+      "lugares": [],
+      "organizacoes": ["Creature Commandos"],
+      "datas": ["2024"],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 150000,
     "end": 157000,
-    "text": "DC tomando forma lentamente tá percebendo agora Batman cara tem gente que jura que já viu olha só como foi"
+    "text": "DC tomando forma lentamente tá percebendo agora Batman cara tem gente que jura que já viu olha só como foi",
+    "entidades": {
+      "pessoas": ["Batman"],
+      "lugares": [],
+      "organizacoes": ["DC"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 157000,
     "end": 164000,
-    "text": "isso a enchente de Gotham bom galera numa cena muito rápida no trailer de Superman a gente vê né o"
+    "text": "isso a enchente de Gotham bom galera numa cena muito rápida no trailer de Superman a gente vê né o",
+    "entidades": {
+      "pessoas": ["Superman"],
+      "lugares": ["Gotham"],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 164000,
     "end": 169000,
-    "text": "homem de aço voando para salvar uma mulher de um monstrengo lá né é um ciju gigante que tá andando"
+    "text": "homem de aço voando para salvar uma mulher de um monstrengo lá né é um ciju gigante que tá andando",
+    "entidades": {
+      "pessoas": ["homem de aço"], 
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 169000,
     "end": 174000,
-    "text": "lá pro metrópolis lógico caiu pequeno não existe né e ele passa voando sabe de um lado de um prédio"
+    "text": "lá pro metrópolis lógico caiu pequeno não existe né e ele passa voando sabe de um lado de um prédio",
+    "entidades": {
+      "pessoas": [],
+      "lugares": ["Metropolis"],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 174000,
     "end": 178000,
-    "text": "onde tem um telão passando notícias da TV é realmente muito rápido isso tem que pôra tem que tem que"
+    "text": "onde tem um telão passando notícias da TV é realmente muito rápido isso tem que pôra tem que tem que",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": ["TV"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 178000,
     "end": 182000,
-    "text": "ser assim tipo eu né mas não fui eu que peguei esse negócio não mas tipo assim tinha que ser"
+    "text": "ser assim tipo eu né mas não fui eu que peguei esse negócio não mas tipo assim tinha que ser",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 182000,
     "end": 187000,
-    "text": "tipo eu tipo não tipo quem pegou e a notícia que tá rolando ali diz que grandes enchentes tão causando"
+    "text": "tipo eu tipo não tipo quem pegou e a notícia que tá rolando ali diz que grandes enchentes tão causando",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 187000,
     "end": 194000,
-    "text": "muito sofrimento mas isso é dito sem contexto nenhum tipo como assim grandes enchantes né onde que estão esses alaramentos"
+    "text": "muito sofrimento mas isso é dito sem contexto nenhum tipo como assim grandes enchantes né onde que estão esses alaramentos",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 194000,
     "end": 198000,
-    "text": "que que aconteceu é em São Paulo p deveria ser né sempre acontece lá mas não a gente tá falando"
+    "text": "que que aconteceu é em São Paulo p deveria ser né sempre acontece lá mas não a gente tá falando",
+    "entidades": {
+      "pessoas": [],
+      "lugares": ["São Paulo"],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 198000,
     "end": 204000,
-    "text": "de né tava aparecendo esse metrópolis e aí que entra a teoria né segundo algumas pessoas mais empolgadas digamos assim"
+    "text": "de né tava aparecendo esse metrópolis e aí que entra a teoria né segundo algumas pessoas mais empolgadas digamos assim",
+    "entidades": {
+      "pessoas": [],
+      "lugares": ["Metropolis"],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 204000,
     "end": 210000,
-    "text": "essa tal enchente citada casualmente na TV é justamente o alamento de Goton City sabe aquele provocado pelo Charaden the"
+    "text": "essa tal enchente citada casualmente na TV é justamente o alamento de Goton City sabe aquele provocado pelo Charaden the",
+    "entidades": {
+      "pessoas": ["Charada"], 
+      "lugares": ["Goton City"], 
+      "organizacoes": ["TV"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 210000,
     "end": 216000,
-    "text": "Batman sabe quase acabou com a cidade inteira aí sim né isso provaria que o o enquanto o super metal"
+    "text": "Batman sabe quase acabou com a cidade inteira aí sim né isso provaria que o o enquanto o super metal",
+    "entidades": {
+      "pessoas": ["Batman", "Superman"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 216000,
     "end": 221000,
-    "text": "ativo em metrópolis voando para lá e para cá aquela versão do Batman também tá ativa em Gota e faria"
+    "text": "ativo em metrópolis voando para lá e para cá aquela versão do Batman também tá ativa em Gota e faria",
+    "entidades": {
+      "pessoas": ["Batman"],
+      "lugares": ["Metropolis", "Gota"], 
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 221000,
     "end": 227000,
-    "text": "sentido porque o tempo de atuação dos dois seria parecido sabe são versões jovens dos heróis não são não são"
+    "text": "sentido porque o tempo de atuação dos dois seria parecido sabe são versões jovens dos heróis não são não são",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 227000,
     "end": 231000,
-    "text": "totalmente iniciantes os dois sabe mas também não são tão experientes quanto os que a gente estava acostumado a ver"
+    "text": "totalmente iniciantes os dois sabe mas também não são tão experientes quanto os que a gente estava acostumado a ver",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 231000,
     "end": 237000,
-    "text": "em outros filmes percebe tá batendo mais ou menos ali e convenhamos se fosse verdade seria divertido para caramba galera"
+    "text": "em outros filmes percebe tá batendo mais ou menos ali e convenhamos se fosse verdade seria divertido para caramba galera",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 237000,
     "end": 244000,
-    "text": "vocês iam gostar de ver David C sué né junto com o com o Robert Patson né Purpurina Adão mas"
+    "text": "vocês iam gostar de ver David C sué né junto com o com o Robert Patson né Purpurina Adão mas",
+    "entidades": {
+      "pessoas": ["David C", "Robert Patson"], 
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 244000,
     "end": 253000,
-    "text": "essa teoria lá vem né infelizmente não se sustenta universo DC e Elws e ela não se sustenta galera porque"
+    "text": "essa teoria lá vem né infelizmente não se sustenta universo DC e Elws e ela não se sustenta galera porque",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": ["DC", "Elws"], 
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 253000,
     "end": 259000,
-    "text": "as duas franquias Universo DC e The Batman já tem seus planos muito bem traçados cara já estão com seus"
+    "text": "as duas franquias Universo DC e The Batman já tem seus planos muito bem traçados cara já estão com seus",
+    "entidades": {
+      "pessoas": ["The Batman"],
+      "lugares": [],
+      "organizacoes": ["DC"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 259000,
     "end": 264000,
-    "text": "planos traçadaços lá sabe o James Gun vai introduzir o novo Batman em The Brave and the Bow né filme"
+    "text": "planos traçadaços lá sabe o James Gun vai introduzir o novo Batman em The Brave and the Bow né filme",
+    "entidades": {
+      "pessoas": ["James Gun", "Batman"],
+      "lugares": [],
+      "organizacoes": [], 
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 264000,
     "end": 270000,
-    "text": "que vai ser dirigido pelo Andy Musquete o mesmo diretor de It coisa daquele filme do Flash uh coisa louca"
+    "text": "que vai ser dirigido pelo Andy Musquete o mesmo diretor de It coisa daquele filme do Flash uh coisa louca",
+    "entidades": {
+      "pessoas": ["Andy Musquete", "Flash"], 
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": ["diretor"]
+    }
   },
   {
     "timestamp": 270000,
     "end": 273000,
-    "text": "né mas não era culpa só dele a gente tem que admitir o cara é bom do outro lado Metes"
+    "text": "né mas não era culpa só dele a gente tem que admitir o cara é bom do outro lado Metes",
+    "entidades": {
+      "pessoas": [], 
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 273000,
     "end": 278000,
-    "text": "ainda vai fazer mais dois filmes do Batman o próximo sai agora em 2027 agora não em 2027 e vai"
+    "text": "ainda vai fazer mais dois filmes do Batman o próximo sai agora em 2027 agora não em 2027 e vai",
+    "entidades": {
+      "pessoas": ["Batman"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": ["2027"],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 278000,
     "end": 284000,
-    "text": "ser uma trilogia sobre esse Batman mais detetive sabe mais sombrio batman que lida comas maiores com a Liga da"
+    "text": "ser uma trilogia sobre esse Batman mais detetive sabe mais sombrio batman que lida comas maiores com a Liga da",
+    "entidades": {
+      "pessoas": ["Batman"],
+      "lugares": [],
+      "organizacoes": ["Liga da Justiça"],
+      "datas": [],
+      "profissoes": ["detetive"]
+    }
   },
   {
     "timestamp": 284000,
     "end": 289000,
-    "text": "Justiça ele deve ficar lá em The Brave the B mesmo que inclusive deve ter um hobbin algo que faz"
+    "text": "Justiça ele deve ficar lá em The Brave the B mesmo que inclusive deve ter um hobbin algo que faz",
+    "entidades": {
+      "pessoas": [], 
+      "lugares": [],
+      "organizacoes": ["Liga da Justiça"],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 289000,
     "end": 293000,
-    "text": "tempo que não acontece então assim tanto James Gun quanto Mat Reeves e outros fãões da DC como por exemplo"
+    "text": "tempo que não acontece então assim tanto James Gun quanto Mat Reeves e outros fãões da DC como por exemplo",
+    "entidades": {
+      "pessoas": ["James Gun", "Mat Reeves"], 
+      "organizacoes": ["DC"],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 293000,
     "end": 298000,
-    "text": "o Peter Saffron já deixaram claro que esses dois universos não vão se misturar tudo que ficar de fora do"
+    "text": "o Peter Saffron já deixaram claro que esses dois universos não vão se misturar tudo que ficar de fora do",
+    "entidades": {
+      "pessoas": ["Peter Saffron"], 
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 298000,
     "end": 304000,
-    "text": "universo do James Gun vai ser considerado elsews né da mesma forma que acontece nos quadrinhos da DC sabe multiparalelos"
+    "text": "universo do James Gun vai ser considerado elsews né da mesma forma que acontece nos quadrinhos da DC sabe multiparalelos",
+    "entidades": {
+      "pessoas": ["James Gun"],
+      "lugares": [],
+      "organizacoes": ["DC", "elsews"], 
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 304000,
     "end": 309000,
-    "text": "onde coisas diferentes do normal acontecem né e não tem nada a ver com o universo principal não não interfere"
+    "text": "onde coisas diferentes do normal acontecem né e não tem nada a ver com o universo principal não não interfere",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 309000,
     "end": 314000,
-    "text": "no universo principal tu quer saber de uma coisa é melhor assim cara fica melhor assim dá dá para ter"
+    "text": "no universo principal tu quer saber de uma coisa é melhor assim cara fica melhor assim dá dá para ter",
+    "entidades": {
+      "pessoas": [],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 314000,
     "end": 321000,
-    "text": "mais histórias né mais possibilidades se os dois se unissem a gente teria várias limitações o Batman do Robert Patson"
+    "text": "mais histórias né mais possibilidades se os dois se unissem a gente teria várias limitações o Batman do Robert Patson",
+    "entidades": {
+      "pessoas": ["Batman", "Robert Patson"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": []
+    }
   },
   {
     "timestamp": 321000,
     "end": 325000,
-    "text": "ele vive no mundo mais realista sabe ele tem mais skills de detetive mesmo não dá para imaginar esse Batman"
+    "text": "ele vive no mundo mais realista sabe ele tem mais skills de detetive mesmo não dá para imaginar esse Batman",
+    "entidades": {
+      "pessoas": ["Batman"],
+      "lugares": [],
+      "organizacoes": [],
+      "datas": [],
+      "profissoes": ["detetive"]
+    }
   }
 ]

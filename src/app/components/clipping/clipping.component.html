@@ -1,118 +1,139 @@
-<div class="w-full h-screen bg-gray-50 flex overflow-hidden">
-  <!-- COLUNA ESQUERDA: VÍDEO, SLIDER e ENTIDADES -->
-<div class="flex flex-col items-center w-3/5 max-w-[800px] mx-auto overflow-y-auto overflow-x-hidden pt-6 pr-4">
-  <!-- PLAYER DE VÍDEO -->
-<video
-  #videoPlayer
-  controls
-  (timeupdate)="onTimeUpdate($event)"
-  (loadedmetadata)="onLoadedMetadata($event)"
-  class="w-[752px] h-[416px] rounded-[6px] object-cover shadow mb-4"
->
-  <source src="assets/video.mp4" type="video/mp4" />
-</video>
-<!-- SLIDER DE TEMPO COM BOTÕES LATERAIS -->
-<div class="relative w-[564px] h-[100px] mx-auto">
+<div class="w-full h-screen bg-gray-50 flex flex-col overflow-hidden">
+  <app-header-clipping></app-header-clipping>
 
-  <!-- Botão à esquerda -->
-  <button
-    class="absolute left-[-90px] top-[5px] flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm"
-  >
-    +5min
-  </button>
+  <div class="flex flex-row flex-1 overflow-hidden">
+    <div class="flex flex-col items-center w-3/5 max-w-[800px] mx-auto overflow-y-auto overflow-x-hidden pr-4 pt-6 hide-scrollbar">
+      <video #videoPlayer controls (timeupdate)="onTimeUpdate($event)" (loadedmetadata)="onLoadedMetadata($event)"
+        class="w-[752px] h-[416px] rounded-[6px] object-cover shadow mb-4 flex-shrink-0">
+        <source src="assets/video.mp4" type="video/mp4" />
+      </video>
 
-  <!-- Faixa azul clara de fundo -->
-  <div class="absolute left-0 top-[3px] w-[580px] h-[48px] bg-[rgba(37,99,235,0.15)] border border-[#2563EB] rounded-[4px]"></div>
-
-  <!-- Pegador esquerdo -->
-   <div class="absolute w-2 h-5 bg-blue-600 rounded-l cursor-pointer"
-       [ngStyle]="{ left: (startLeft - 8) + 'px', top: '14px' }"
-       (mousedown)="startDragging('start')">
-  </div>
-
-  <!-- Pegador direito -->
-  <div
-    class="absolute w-[8px] h-[19px] bg-[#2563EB] rounded-r-[4px] cursor-pointer"
-    [ngStyle]="{ left: endLeft + 'px', top: '14px' }"
-    (mousedown)="startDragging('end')"
-  ></div>
-
-  <!-- Linha de tempo atual -->
-  <div
-    class="absolute w-px h-[54px] bg-[#2563EB]"
-    [ngStyle]="{ left: currentLeft + 'px', top: '0px' }"
-  ></div>
-
-  <!-- Tooltip de tempo atual -->
-  <div
-    class="absolute bg-[#111827] text-white text-xs font-medium px-2 py-1 rounded shadow z-10"
-    [ngStyle]="{ top: '57px', left: getTooltipPosition(currentLeft) + 'px' }"
-  >
-    {{ formatTimestamp(currentTime) }}
-  </div>
-
-  <!-- Marcas (timestamps) -->
-  <div
-    *ngFor="let mark of timeMarks"
-    class="absolute text-[#2563EB] text-xs font-medium leading-none"
-    [ngStyle]="{ left: mark.left + 'px', top: '60px', zIndex: 5 }"
-  >
-    {{ mark.label }}
-  </div>
-
-  <!-- Botão à direita -->
-  <button
-    class="absolute right-[-115px] top-[5px] flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm"
-  >
-    +5min
-  </button>
-</div>
-
-
-
-    <!-- PAINEL DE ENTIDADES -->
-    <div class="mt-[101px] w-full max-w-[720px]">
-      <app-entities-drawer
-        [textoOriginal]="getTranscriptText()"
-        (textoMarcadoChange)="updateMarkedText($event)"
-        (close)="onCloseDrawer()"
-        (openEntityOptions)="onOpenEntityOptions($event)"
-      ></app-entities-drawer>
-    </div>
-  </div>
-
-  <!-- COLUNA DIREITA: TRANSCRIÇÃO -->
-  <div class="w-[538px] h-full bg-white shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] rounded-tl-[8px] flex flex-col">
-    <!-- Cabeçalho -->
-    <div class="flex items-center justify-between border-b border-gray-200 shadow-sm px-8 py-6">
-      <div class="flex flex-col gap-1">
-        <h2 class="text-sm font-semibold text-black">Transcrição</h2>
-        <span class="text-xs font-medium text-gray-500">Menção completa</span>
-      </div>
-      <button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100">
-        <svg class="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
-        </svg>
-      </button>
-    </div>
-
-    <!-- Lista de transcrição -->
-    <div class="overflow-y-auto p-8 space-y-4">
-      <div
-        *ngFor="let item of transcript"
-        (click)="seekTo(item.timestamp)"
-        [ngClass]="{
-          'bg-blue-900 text-white': item.timestamp <= currentTime && currentTime < item.end,
-          'bg-blue-100 text-blue-900': item.end <= currentTime,
-          'text-gray-500': currentTime < item.timestamp,
-          'cursor-pointer': true,
-          'rounded-lg px-4 py-2': true
-        }"
-      >
-        <div class="text-xs font-semibold mb-1 text-gray-400">
-          {{ formatTimestamp(item.timestamp) }}
+      <div class="relative w-[564px] h-[100px] mx-auto flex-shrink-0">
+        <button
+          class="absolute left-[-90px] top-[5px] flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm">
+          +5min
+        </button>
+        <div
+          class="absolute left-0 top-[3px] w-[580px] h-[48px] bg-[rgba(37,99,235,0.15)] border border-[#2563EB] rounded-[4px]">
         </div>
-        <p class="text-base leading-6 tracking-tight" [innerHTML]="item.text"></p>
+        <div class="absolute w-2 h-5 bg-blue-600 rounded-l cursor-pointer z-10"
+          [ngStyle]="{ left: (startLeft - 4 < 0 ? 0 : startLeft - 4) + 'px', top: '14px' }" 
+          (mousedown)="startDragging('start')">
+        </div>
+        <div class="absolute w-[8px] h-[19px] bg-[#2563EB] rounded-r-[4px] cursor-pointer z-10"
+          [ngStyle]="{ left: endLeft + 'px', top: '14px' }" 
+          (mousedown)="startDragging('end')">
+        </div>
+        <div class="absolute w-px h-[54px] bg-[#2563EB] z-20"
+          [ngStyle]="{ left: currentLeft + 'px', top: '0px' }">
+        </div>
+        <div
+          class="absolute bg-[#111827] text-white text-xs font-medium px-2 py-1 rounded shadow z-30 whitespace-nowrap"
+          [ngStyle]="{ top: '57px', left: getTooltipPosition(currentLeft) + 'px' }">
+          {{ formatTimestamp(currentTime) }}
+        </div>
+        <div *ngFor="let mark of timeMarks" class="absolute text-[#2563EB] text-xs font-medium leading-none whitespace-nowrap"
+          [ngStyle]="{ left: mark.left + 'px', top: '60px', zIndex: 5 }">
+          {{ mark.label }}
+        </div>
+        <button
+          class="absolute right-[-115px] top-[5px] flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm">
+          +5min
+        </button>
+      </div>
+
+      <div class="mt-[101px] w-full max-w-[720px] flex-shrink-0">
+        <app-entities-drawer [textoOriginal]="getTranscriptText()"
+          (textoMarcadoChange)="updateMarkedText($event)" (close)="onCloseDrawer()"
+          (openEntityOptions)="onOpenEntityOptions($event)"></app-entities-drawer>
+      </div>
+    </div>
+
+    <div
+      class="w-[538px] h-full mt-10 bg-white shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] rounded-tl-[8px] flex flex-col border-l border-gray-200">
+      <div
+        class="flex items-center justify-between border-b border-gray-200 shadow-sm px-6 sm:px-8 py-3 flex-shrink-0 h-[68px]">
+        <ng-container *ngIf="!buscandoTranscricao">
+          <div class="flex flex-col gap-1">
+            <h2 class="text-sm font-semibold text-black">Transcrição</h2>
+            <span class="text-xs font-medium text-gray-500">Menção completa</span>
+          </div>
+          <button (click)="ativarBuscaTranscricao()" title="Buscar na transcrição"
+            class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100">
+            <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24">
+              <path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
+            </svg>
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="buscandoTranscricao">
+          <div class="flex items-center w-full gap-x-2">
+            <div
+              class="flex-grow flex items-center h-[40px] border border-gray-300 rounded-md px-3 bg-white shadow-sm hover:border-gray-400 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
+              <svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <input type="text" id="campoBuscaTranscricao" [(ngModel)]="termoBuscaTranscricao"
+                (ngModelChange)="onTermoBuscaChange()" placeholder="Insira a palavra que deseja buscar"
+                class="flex-grow h-full bg-transparent text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0 border-none p-0">
+
+              <div class="flex items-center text-xs text-gray-500 ml-2 flex-shrink-0">
+                <span *ngIf="termoBuscaTranscricao.trim() && totalMatches > 0">{{ currentMatchIndex + 1 }} de {{ totalMatches }}</span>
+                <span *ngIf="termoBuscaTranscricao.trim() && totalMatches === 0">0 resultados</span>
+                
+                <button (click)="navigateToPreviousMatch()"
+                  [disabled]="totalMatches === 0 || currentMatchIndex <= 0"
+                  class="ml-2 p-0.5 hover:bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed" title="Resultado anterior">
+                  <svg class="w-4 h-4 transform rotate-180" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+                <button (click)="navigateToNextMatch()"
+                  [disabled]="totalMatches === 0 || currentMatchIndex >= totalMatches - 1"
+                  class="ml-1 p-0.5 hover:bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed" title="Próximo resultado">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+                 <button *ngIf="termoBuscaTranscricao.trim()" (click)="limparTermoBusca()" title="Limpar busca" class="ml-1 p-0.5 hover:bg-gray-200 rounded">
+                  <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <button (click)="desativarBuscaTranscricao()" title="Fechar modo de busca"
+              class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 flex-shrink-0">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </ng-container>
+      </div>
+
+      <div #transcriptionListContainer class="overflow-y-auto p-8 space-y-4 flex-grow hide-scrollbar">
+        <div *ngFor="let item of transcript; let i = index" 
+             (click)="seekTo(item.timestamp)"
+             class="transcription-item rounded-lg px-4 py-2 cursor-pointer"
+             [ngClass]="{
+               'bg-blue-900 text-white': item.timestamp <= currentTime && currentTime < item.end && !buscandoTranscricao,
+               'bg-blue-100 text-blue-900': item.end <= currentTime && !buscandoTranscricao,
+               'text-gray-700': !(item.timestamp <= currentTime && currentTime < item.end && !buscandoTranscricao) && !(item.end <= currentTime && !buscandoTranscricao)
+             }">
+          <div class="text-xs font-semibold mb-1" 
+               [ngClass]="{'text-blue-300': (item.timestamp <= currentTime && currentTime < item.end && !buscandoTranscricao) || (item.end <= currentTime && !buscandoTranscricao), 'text-gray-400': !((item.timestamp <= currentTime && currentTime < item.end && !buscandoTranscricao) || (item.end <= currentTime && !buscandoTranscricao)) }">
+            {{ formatTimestamp(item.timestamp) }}
+          </div>
+          <p class="text-base leading-6 tracking-tight" [innerHTML]="item.text "></p>
+        </div>
       </div>
     </div>
   </div>

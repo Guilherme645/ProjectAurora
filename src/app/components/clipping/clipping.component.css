@@ -1,0 +1,9 @@
+/* Em src/styles.css ou src/styles.scss */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Para navegadores baseados em WebKit (Chrome, Safari, Edge, Opera) */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* Para IE e Edge (versões mais antigas) */
+  scrollbar-width: none;  /* Para Firefox */
+}

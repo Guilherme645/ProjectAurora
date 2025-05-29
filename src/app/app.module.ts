@@ -63,6 +63,7 @@ import { SidebarResultSavedSearchComponent } from './components/sidebar-result-s
 import { SaveEntitiesFilterComponent } from './components/save-entities-filter/save-entities-filter.component';
 import { DiscardChangesModalComponent } from './components/discard-changes-modal/discard-changes-modal.component';
 import { ClippingComponent } from './components/clipping/clipping.component';
+import { HeaderClippingComponent } from "./components/header-clipping/header-clipping.component";
 
 @NgModule({
   declarations: [
@@ -121,8 +122,8 @@ import { ClippingComponent } from './components/clipping/clipping.component';
   SidebarResultSavedSearchComponent,
   SaveEntitiesFilterComponent,
   DiscardChangesModalComponent,
-  ClippingComponent
-  
+  ClippingComponent,
+HeaderClippingComponent  
   ],
   imports: [
     BrowserModule,
@@ -132,8 +133,6 @@ import { ClippingComponent } from './components/clipping/clipping.component';
     ReactiveFormsModule,
     DragDropModule,
     SharedModule // importa o módulo onde o pipe está declarado e exportado
-
-    
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent] // ✅ GARANTA QUE ESTÁ CORRETO
