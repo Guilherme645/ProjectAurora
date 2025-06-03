@@ -1,9 +1,85 @@
-/* Em src/styles.css ou src/styles.scss */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none; /* Para navegadores baseados em WebKit (Chrome, Safari, Edge, Opera) */
+/* Definir a cor padrão do texto como preta */
+.transcription-item {
+  color: #1F2937 !important; /* Cor preta escura */
+  transition: background-color 0.3s;
+  position: relative;
 }
 
-.hide-scrollbar {
-  -ms-overflow-style: none;  /* Para IE e Edge (versões mais antigas) */
-  scrollbar-width: none;  /* Para Firefox */
+/* Ajustar o fundo para o item sendo reproduzido */
+.transcription-item.bg-blue-900 {
+  background-color: #DBEAFE !important; /* Um azul claro para melhor contraste com o texto preto */
+}
+
+/* Ajustar o fundo para itens já reproduzidos */
+.transcription-item.bg-blue-100 {
+  background-color: #EFF6FF !important; /* Um azul ainda mais claro */
+}
+
+/* Estilizar o timestamp */
+.transcription-item .text-blue-400 {
+  color: #2563EB !important; /* Um azul mais vibrante para o timestamp em itens reproduzidos */
+}
+
+.transcription-item .text-gray-500 {
+  color: #6B7280 !important; /* Cinza para timestamps de itens não reproduzidos */
+}
+
+/* Estilos para marcações de entidades */
+.transcription-item .entity-person {
+  background-color: #FEF9C3 !important;
+  color: #854D0E !important;
+  padding: 0 5px !important;
+  border-radius: 4px !important;
+}
+
+.transcription-item .entity-location {
+  background-color: #CCFBF1 !important;
+  color: #115E59 !important;
+  padding: 0 5px !important;
+  border-radius: 4px !important;
+}
+
+.transcription-item .entity-organization {
+  background-color: #F3F4F6 !important;
+  color: #1F2937 !important;
+  padding: 0 5px !important;
+  border-radius: 4px !important;
+}
+
+.transcription-item .entity-date {
+  background-color: #DBEAFE !important;
+  color: #1E40AF !important;
+  padding: 0 5px !important;
+  border-radius: 4px !important;
+}
+
+.transcription-item .entity-profissoes {
+  background-color: #FEE2E2 !important;
+  color: #991B1B !important;
+  padding: 0 5px !important;
+  border-radius: 4px !important;
+}
+
+/* Estilo para o destaque da busca */
+.transcription-item .bg-yellow-200 {
+  background-color: #FEF08A !important;
+  border-radius: 2px !important;
+  padding: 0 2px !important;
+  position: relative;
+  z-index: 10;
+  color: #1F2937 !important; /* Garante que o texto dentro do <mark> também seja preto */
+}
+
+/* Estilo para o item de busca atual */
+.transcription-item.current-search-match {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Novo estilo para a área de busca integrada */
+.buscandoTranscricao .flex-grow {
+  width: 100%;
+}
+
+.buscandoTranscricao input#campoBuscaTranscricao {
+  width: 100%;
 }

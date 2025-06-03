@@ -1,0 +1,169 @@
+<div
+  *ngIf="!isMobile && isClippingComponent"
+  class=" bottom-5 right-0 w-[750px] bg-white rounded-tl-[8px] shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] p-6 flex flex-col"
+>
+  <!-- Cabeçalho -->
+  <div class="flex justify-between items-start mb-6">
+    <div class="flex flex-col gap-1">
+      <h2 class="text-[18px] font-semibold tracking-tight text-black font-inter">Entidades</h2>
+      <span class="text-xs font-medium text-gray-500 font-inter">
+        {{ totalEntities }} entidades extraídas do texto
+      </span>
+    </div>
+    <div class="flex gap-2">
+      <!-- Botão para toggle de todas as categorias -->
+      <button
+        (click)="toggleHighlightAll()"
+        class="w-[46px] h-[46px] flex items-center justify-center rounded bg-gray-100 hover:bg-gray-200"
+        title="Destacar todas as categorias"
+      >
+        <svg
+          *ngIf="!highlightAllCategories"
+          class="w-4 h-4 text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        <svg
+          *ngIf="highlightAllCategories"
+          class="w-4 h-4 text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <!-- Botão para fechar -->
+      <button
+        (click)="closeDrawer()"
+        class="w-[46px] h-[46px] flex items-center justify-center rounded bg-gray-100 hover:bg-gray-200"
+        title="Fechar"
+      >
+        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Campo de busca -->
+  <div *ngIf="isSearchVisible" class="mb-6">
+    <div class="flex items-center w-full h-[46px] bg-white">
+      <div class="relative w-full max-w-[640px]">
+        <svg
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
+          />
+        </svg>
+        <input
+          #searchInput
+          type="text"
+          [(ngModel)]="searchQuery"
+          (input)="debouncedFilterEntities()"
+          placeholder="Insira a entidade"
+          class="pl-10 pr-4 py-2 w-full h-[46px] border border-gray-300 rounded-md text-sm text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-[rgba(59,130,246,0.25)] transition duration-150"
+        />
+      </div>
+      <button
+        (click)="clearSearch()"
+        class="ml-2 w-[46px] h-[46px] flex items-center justify-center rounded bg-gray-100 hover:bg-gray-200"
+      >
+        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Grid de categorias -->
+  <div class="grid grid-cols-2 gap-4">
+    <ng-container *ngFor="let card of entityCards">
+      <div class="bg-white border border-[#F1F3F7] rounded-lg p-4">
+        <!-- Título e toggle -->
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-800 flex items-center">
+              <span class="inline-block w-2 h-2 rounded-full mr-2" [ngStyle]="{ backgroundColor: card.color }"></span>
+              {{ card.title }}
+            </h3>
+            <p class="text-xs text-gray-500 ml-4 mt-1">{{ card.items.length }} resultados</p>
+          </div>
+          <label class="relative inline-block w-[50px] h-[28px]">
+            <input
+              type="checkbox"
+              [(ngModel)]="card.enabled"
+              (change)="card.toggle()"
+              class="opacity-0 w-0 h-0"
+            />
+            <span
+              [ngClass]="{
+                'bg-[#F3F4F6]': !card.enabled,
+                'bg-[#2563eb]': card.enabled,
+                'before:left-[2px]': !card.enabled,
+                'before:translate-x-[22px]': card.enabled
+              }"
+              class="absolute inset-0 cursor-pointer transition-all duration-300 rounded-full before:content-[''] before:absolute before:bottom-[2px] before:left-[2px] before:h-[24px] before:w-[24px] before:bg-white before:rounded-full before:transition-all"
+            ></span>
+          </label>
+        </div>
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 mt-2">
+          <span
+            *ngFor="let item of card.displayedItems"
+            class="inline-flex items-center justify-between h-[28px] px-3 rounded-md text-xs font-medium"
+            [ngClass]="card.tagClass"
+          >
+            {{ item }}
+            <button
+              (click)="openEntityModal($event, item, card.type)"
+              class="ml-2 w-3 h-3 flex items-center justify-center"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path
+                  d="M6 6.5C6.276 6.5 6.5 6.276 6.5 6S6.276 5.5 6 5.5 5.5 5.724 5.5 6s.224.5.5.5Z"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6 3C6.276 3 6.5 2.776 6.5 2.5S6.276 2 6 2s-.5.224-.5.5S5.724 3 6 3Z"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6 10c.276 0 .5-.224.5-.5S6.276 9 6 9s-.5.224-.5.5.224.5.5.5Z"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </span>
+
+          <!-- Botão "ver todos" -->
+          <button
+            *ngIf="card.allItems.length > card.displayedItems.length && !searchQuery"
+            (click)="card.showAll()"
+            type="button"
+            class="text-blue-600 text-xs hover:underline h-[28px] flex items-center"
+          >
+            Ver todos (+{{ card.allItems.length - card.displayedItems.length }})
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

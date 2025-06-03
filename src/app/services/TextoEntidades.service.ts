@@ -3,18 +3,30 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-interface TextoEntidadesData {
-  texto: string;
-  entidades: Entidades;
-}
-
-interface Entidades {
+export interface Entidades {
   pessoas: string[];
   lugares: string[];
   organizacoes: string[];
   datas: string[];
   profissoes: string[];
+}
 
+export interface TextoEntidadesData {
+  texto: string;
+  entidades: Entidades;
+}
+
+interface TranscriptItemJson {
+  timestamp: number;
+  end: number;
+  text: string;
+  entidades: {
+    pessoas?: string[];
+    lugares?: string[];
+    organizacoes?: string[];
+    datas?: string[];
+    profissoes?: string[];
+  };
 }
 
 @Injectable({
@@ -22,7 +34,15 @@ interface Entidades {
 })
 export class TextoEntidadesService {
   private textoOriginalSubject = new BehaviorSubject<string>('');
-  private entidadesSubject = new BehaviorSubject<Entidades>({ pessoas: [], lugares: [], organizacoes: [], datas: [], profissoes: [] });
+  private entidadesSubject = new BehaviorSubject<Entidades>({
+    pessoas: [],
+    lugares: [],
+    organizacoes: [],
+    datas: [],
+    profissoes: []
+  });
+
+  private transcriptItemsSubject = new BehaviorSubject<TranscriptItemJson[]>([]);
 
   constructor(private http: HttpClient) {
     this.loadData();
@@ -35,10 +55,52 @@ export class TextoEntidadesService {
         this.entidadesSubject.next(data.entidades);
       })
     ).subscribe({
-      error: (error) => {
-        console.error('Erro ao carregar texto-entidades.json:', error);
-      }
+      error: (error) => console.error('Erro ao carregar texto-entidades.json:', error)
     });
+  }
+
+  carregarTextoEntidadesAlternativo(): Observable<TextoEntidadesData> {
+    return this.http.get<TranscriptItemJson[]>('assets/transcricao_completa.json').pipe(
+      map((transcriptItems: TranscriptItemJson[]) => {
+        let fullText = '';
+        const aggregatedEntidades: Entidades = {
+          pessoas: [],
+          lugares: [],
+          organizacoes: [],
+          datas: [],
+          profissoes: []
+        };
+
+        for (const item of transcriptItems) {
+          fullText += item.text + ' ';
+          if (item.entidades) {
+            if (item.entidades.pessoas) aggregatedEntidades.pessoas.push(...item.entidades.pessoas);
+            if (item.entidades.lugares) aggregatedEntidades.lugares.push(...item.entidades.lugares);
+            if (item.entidades.organizacoes) aggregatedEntidades.organizacoes.push(...item.entidades.organizacoes);
+            if (item.entidades.datas) aggregatedEntidades.datas.push(...item.entidades.datas);
+            if (item.entidades.profissoes) aggregatedEntidades.profissoes.push(...item.entidades.profissoes);
+          }
+        }
+
+        aggregatedEntidades.pessoas = [...new Set(aggregatedEntidades.pessoas)];
+        aggregatedEntidades.lugares = [...new Set(aggregatedEntidades.lugares)];
+        aggregatedEntidades.organizacoes = [...new Set(aggregatedEntidades.organizacoes)];
+        aggregatedEntidades.datas = [...new Set(aggregatedEntidades.datas)];
+        aggregatedEntidades.profissoes = [...new Set(aggregatedEntidades.profissoes)];
+
+        this.transcriptItemsSubject.next(transcriptItems);
+
+        return {
+          texto: fullText.trim(),
+          entidades: aggregatedEntidades
+        };
+      }),
+      tap(processedData => {
+        this.textoOriginalSubject.next(processedData.texto);
+        this.entidadesSubject.next(processedData.entidades);
+        console.log('JSON alternativo processado. Texto:', processedData.texto.substring(0, 100) + "...", "Entidades:", processedData.entidades);
+      })
+    );
   }
 
   carregarTexto(): Observable<string> {
@@ -57,54 +119,148 @@ export class TextoEntidadesService {
     return this.entidadesSubject.asObservable();
   }
 
-  substituirEntidades(opcoes: { pessoas?: boolean, lugares?: boolean, organizacoes?: boolean, datas?: boolean, profissoes?:boolean}): Observable<string> {
+  substituirEntidadesPorSegmento(opcoes: {
+    pessoas?: boolean;
+    lugares?: boolean;
+    organizacoes?: boolean;
+    datas?: boolean;
+    profissoes?: boolean;
+  }): Observable<string[]> {
+    return this.transcriptItemsSubject.asObservable().pipe(
+      map(transcriptItems => {
+        const currentEntidades = this.entidadesSubject.getValue();
+        const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        // Criar uma lista de todas as entidades com suas categorias e estilos
+        const allEntities: { entity: string; type: string; className: string; tagColor: string; textColor: string }[] = [];
+
+        if (opcoes.pessoas && currentEntidades.pessoas?.length) {
+          currentEntidades.pessoas.forEach(entity => allEntities.push({
+            entity,
+            type: 'pessoa',
+            className: 'entity-person',
+            tagColor: '#FEF9C3',
+            textColor: '#854D0E'
+          }));
+        }
+        if (opcoes.lugares && currentEntidades.lugares?.length) {
+          currentEntidades.lugares.forEach(entity => allEntities.push({
+            entity,
+            type: 'lugar',
+            className: 'entity-location',
+            tagColor: '#CCFBF1',
+            textColor: '#115E59'
+          }));
+        }
+        if (opcoes.organizacoes && currentEntidades.organizacoes?.length) {
+          currentEntidades.organizacoes.forEach(entity => allEntities.push({
+            entity,
+            type: 'organizacao',
+            className: 'entity-organization',
+            tagColor: '#F3F4F6',
+            textColor: '#1F2937'
+          }));
+        }
+        if (opcoes.datas && currentEntidades.datas?.length) {
+          currentEntidades.datas.forEach(entity => allEntities.push({
+            entity,
+            type: 'data',
+            className: 'entity-date',
+            tagColor: '#DBEAFE',
+            textColor: '#1E40AF'
+          }));
+        }
+        if (opcoes.profissoes && currentEntidades.profissoes?.length) {
+          currentEntidades.profissoes.forEach(entity => allEntities.push({
+            entity,
+            type: 'profissao',
+            className: 'entity-profissoes',
+            tagColor: '#FEE2E2',
+            textColor: '#991B1B'
+          }));
+        }
+
+        // Ordenar entidades por tamanho (maior para menor) para evitar substituições parciais
+        allEntities.sort((a, b) => b.entity.length - a.entity.length);
+
+        return transcriptItems.map(item => {
+          let textoMarcado = item.text;
+
+          // Substituir todas as entidades de uma vez
+          allEntities.forEach(({ entity, className, tagColor, textColor }) => {
+            const regex = new RegExp(`(?<!<span[^>]*>)${escapeRegex(entity)}(?!</span>)`, 'gi');
+            textoMarcado = textoMarcado.replace(regex, `<span class="${className}" style="background-color: ${tagColor}; color: ${textColor}; padding: 0 5px; border-radius: 4px;">${entity}</span>`);
+          });
+
+          return textoMarcado;
+        });
+      })
+    );
+  }
+
+  substituirEntidades(opcoes: {
+    pessoas?: boolean;
+    lugares?: boolean;
+    organizacoes?: boolean;
+    datas?: boolean;
+    profissoes?: boolean;
+  }): Observable<string> {
     return this.textoOriginalSubject.asObservable().pipe(
       map(textoOriginal => {
         let textoMarcado = textoOriginal;
-        const escaparRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const currentEntidades = this.entidadesSubject.getValue();
 
-        if (opcoes.pessoas && currentEntidades.pessoas) {
-          currentEntidades.pessoas.forEach(pessoa => {
-            const regex = new RegExp(escaparRegex(pessoa), 'g');
-            textoMarcado = textoMarcado.replace(regex, `<span class="entity-person">${pessoa}</span>`);
-          });
+        const allEntities: { entity: string; className: string; tagColor: string; textColor: string }[] = [];
+
+        if (opcoes.pessoas && currentEntidades.pessoas?.length) {
+          currentEntidades.pessoas.forEach(entity => allEntities.push({
+            entity,
+            className: 'entity-person',
+            tagColor: '#FEF9C3',
+            textColor: '#854D0E'
+          }));
         }
-        if (opcoes.lugares && currentEntidades.lugares) {
-          currentEntidades.lugares.forEach(lugar => {
-            const regex = new RegExp(escaparRegex(lugar), 'g');
-            textoMarcado = textoMarcado.replace(regex, `<span class="entity-location">${lugar}</span>`);
-          });
+        if (opcoes.lugares && currentEntidades.lugares?.length) {
+          currentEntidades.lugares.forEach(entity => allEntities.push({
+            entity,
+            className: 'entity-location',
+            tagColor: '#CCFBF1',
+            textColor: '#115E59'
+          }));
         }
-        if (opcoes.organizacoes && currentEntidades.organizacoes) {
-          currentEntidades.organizacoes.forEach(org => {
-            const regex = new RegExp(escaparRegex(org), 'g');
-            textoMarcado = textoMarcado.replace(regex, `<span class="entity-organization">${org}</span>`);
-          });
+        if (opcoes.organizacoes && currentEntidades.organizacoes?.length) {
+          currentEntidades.organizacoes.forEach(entity => allEntities.push({
+            entity,
+            className: 'entity-organization',
+            tagColor: '#F3F4F6',
+            textColor: '#1F2937'
+          }));
         }
-        if (opcoes.datas && currentEntidades.datas) {
-          currentEntidades.datas.forEach(data => {
-            const regex = new RegExp(escaparRegex(data), 'g');
-            textoMarcado = textoMarcado.replace(regex, `<span class="entity-date">${data}</span>`);
-          });
+        if (opcoes.datas && currentEntidades.datas?.length) {
+          currentEntidades.datas.forEach(entity => allEntities.push({
+            entity,
+            className: 'entity-date',
+            tagColor: '#DBEAFE',
+            textColor: '#1E40AF'
+          }));
         }
-        if (opcoes.profissoes && currentEntidades.profissoes) {
-          currentEntidades.profissoes.forEach(profissoes => {
-            const regex = new RegExp(escaparRegex(profissoes), 'g');
-            textoMarcado = textoMarcado.replace(regex, `<span class="entity-profissoes">${profissoes}</span>`);
-          });
+        if (opcoes.profissoes && currentEntidades.profissoes?.length) {
+          currentEntidades.profissoes.forEach(entity => allEntities.push({
+            entity,
+            className: 'entity-profissoes',
+            tagColor: '#FEE2E2',
+            textColor: '#991B1B'
+          }));
         }
 
-        textoMarcado = textoMarcado.replace(/<span class="entity-person">(.+?)<\/span>/g,
-          '<span style="background-color: #FEF9C3; color: #854D0E;  padding: 0 5px; border-radius: 4px;">$1</span>');
-        textoMarcado = textoMarcado.replace(/<span class="entity-location">(.+?)<\/span>/g,
-          '<span style="background-color: #CCFBF1; color: #115E59;  padding: 0 5px; border-radius: 4px;">$1</span>');
-        textoMarcado = textoMarcado.replace(/<span class="entity-organization">(.+?)<\/span>/g,
-          '<span style="background-color: #F3F4F6; color: #1F2937;  padding: 0 5px; border-radius: 4px;">$1</span>');
-        textoMarcado = textoMarcado.replace(/<span class="entity-date">(.+?)<\/span>/g,
-          '<span style="background-color: #DBEAFE; color: #1E40AF;  padding: 0 5px; border-radius: 4px;">$1</span>');
-          textoMarcado = textoMarcado.replace(/<span class="entity-profissoes">(.+?)<\/span>/g,
-            '<span style="background-color: #FEE2E2; color: #991B1B;  padding: 0 5px; border-radius: 4px;">$1</span>');
+        allEntities.sort((a, b) => b.entity.length - a.entity.length);
+
+        allEntities.forEach(({ entity, className, tagColor, textColor }) => {
+          const regex = new RegExp(`(?<!<span[^>]*>)${escapeRegex(entity)}(?!</span>)`, 'gi');
+          textoMarcado = textoMarcado.replace(regex, `<span class="${className}" style="background-color: ${tagColor}; color: ${textColor}; padding: 0 5px; border-radius: 4px;">${entity}</span>`);
+        });
+
         return textoMarcado;
       })
     );

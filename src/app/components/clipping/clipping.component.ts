@@ -1,19 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 import transcriptData from 'src/assets/transcricao_completa.json';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface TranscriptEntry {
   timestamp: number;
   end: number;
-  text: string;
-  originalText: string; // Sempre manter o texto original não modificado
-}
-
-// Declaração para o TypeScript reconhecer os métodos globais do Preline (se necessário)
-declare global {
-  interface Window {
-  
-  }
+  text: string | SafeHtml;
+  originalText: string;
 }
 
 @Component({
@@ -26,21 +20,21 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
   @ViewChild('transcriptionListContainer') transcriptionListContainer!: ElementRef<HTMLElement>;
 
-
   fullTranscript: TranscriptEntry[] = [];
-  transcript: TranscriptEntry[] = []; // Transcrição exibida (filtrada e com destaques)
-  markedText: string = ''; // Para entidades, não usado ativamente nesta versão da busca
+  transcript: TranscriptEntry[] = [];
+  markedText: string = '';
+  markedTextSegments: string[] = [];
 
   currentTime = 0;
   startTime: number | null = 0;
   endTime: number | null = null;
 
   dragging: 'start' | 'end' | null = null;
-  sliderWidth = 564; // Ajustado para a largura do elemento do slider
+  sliderWidth = 564;
   videoDurationMs = 0;
 
   startLeft = 0;
-  endLeft = this.sliderWidth; // Inicializado com a largura do slider
+  endLeft = this.sliderWidth;
   currentLeft = 0;
 
   timeMarks: { left: number; label: string }[] = [];
@@ -48,23 +42,24 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   buscandoTranscricao: boolean = false;
   termoBuscaTranscricao: string = '';
   totalMatches: number = 0;
-  currentMatchIndex: number = -1; // -1 significa nenhum match selecionado/encontrado
+  currentMatchIndex: number = -1;
 
-  constructor(private elRef: ElementRef, private textoEntidadesService: TextoEntidadesService) {}
+  constructor(
+    private elRef: ElementRef,
+    private textoEntidadesService: TextoEntidadesService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit() {
-    this.fullTranscript = transcriptData.map(item => ({ ...item, originalText: item.text })) as TranscriptEntry[];
-    // updateDisplayedTranscript será chamado em onLoadedMetadata
+    this.fullTranscript = transcriptData.map(item => ({
+      ...item,
+      originalText: item.text,
+      text: item.text
+    })) as TranscriptEntry[];
+    this.updateDisplayedTranscript();
   }
 
-  ngAfterViewInit(): void {
-    // Se houver componentes Preline neste template que precisam ser inicializados pelo JS do Preline
-    // setTimeout(() => {
-    //   if (window.HSStaticMethods) {
-    //     window.HSStaticMethods.autoInit();
-    //   }
-    // }, 0);
-  }
+  ngAfterViewInit(): void {}
 
   @HostListener('window:mouseup', ['$event'])
   onWindowMouseUp(event: MouseEvent) {
@@ -117,9 +112,9 @@ export class ClippingComponent implements OnInit, AfterViewInit {
 
   onTimeUpdate(event: Event) {
     const video = event.target as HTMLVideoElement;
-    if (!this.dragging) { // Só atualiza currentTime se não estiver arrastando o slider
-        this.currentTime = Math.floor(video.currentTime * 1000);
-        this.currentLeft = this.getLeftFromTime(this.currentTime);
+    if (!this.dragging) {
+      this.currentTime = Math.floor(video.currentTime * 1000);
+      this.currentLeft = this.getLeftFromTime(this.currentTime);
     }
   }
 
@@ -146,9 +141,9 @@ export class ClippingComponent implements OnInit, AfterViewInit {
       let labelOffset = 0;
       const labelText = this.formatTimestamp(ms);
       if (i > 0 && i < numMarks - 1) {
-        labelOffset = (labelText.length * 3); 
+        labelOffset = (labelText.length * 3);
       } else if (i === numMarks - 1) {
-        labelOffset = (labelText.length * 7); 
+        labelOffset = (labelText.length * 7);
       }
       this.timeMarks.push({
         left: this.getLeftFromTime(ms) - labelOffset,
@@ -183,58 +178,70 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   }
 
   updateDisplayedTranscript(): void {
-    let itemsToDisplay = [...this.fullTranscript];
+  let itemsToDisplay = [...this.fullTranscript];
 
-    // 1. Filtro de Busca Textual
-    if (this.buscandoTranscricao && this.termoBuscaTranscricao.trim() !== '') {
-      const searchTermLower = this.termoBuscaTranscricao.toLowerCase();
-      const regex = new RegExp(this.termoBuscaTranscricao.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-      
-      itemsToDisplay = itemsToDisplay
-        .filter(item => item.originalText.toLowerCase().includes(searchTermLower))
-        .map(item => ({
-          ...item,
-          text: item.originalText.replace(regex, match => `<mark class="bg-yellow-200 rounded px-0.5 py-0">${match}</mark>`)
-        }));
-    } else {
-      // Se não estiver buscando, restaura o texto original
-      itemsToDisplay = itemsToDisplay.map(item => ({ ...item, text: item.originalText }));
-    }
-
-    // 2. Filtro de Tempo (slider)
-    if (this.startTime !== null && this.endTime !== null && this.endTime > this.startTime) {
-      itemsToDisplay = itemsToDisplay.filter(
-        t => t.end >= this.startTime! && t.timestamp <= this.endTime!
-      );
-    }
-    
-    this.transcript = itemsToDisplay;
-
-    // 3. Contagem de Matches e atualização do índice na transcrição *visível e filtrada por tempo*
-    if (this.buscandoTranscricao && this.termoBuscaTranscricao.trim() !== '') {
-      this.totalMatches = this.transcript.reduce((count, item) => {
-        // Conta quantas tags <mark> existem no texto do item (cada <mark> é um match)
-        const matchesInItem = (item.text.match(/<mark/g) || []).length;
-        return count + matchesInItem;
-      }, 0);
-      
-      // Se currentMatchIndex for inválido para o novo totalMatches, reseta.
-      if (this.currentMatchIndex >= this.totalMatches || this.currentMatchIndex < 0) {
-        this.currentMatchIndex = this.totalMatches > 0 ? 0 : -1;
-      }
-    } else {
-      this.totalMatches = 0;
-      this.currentMatchIndex = -1;
-    }
-
-    // Rolar para o primeiro match se a busca resultou em algo
-    if (this.buscandoTranscricao && this.totalMatches > 0 && this.currentMatchIndex === 0) {
-        this.scrollToCurrentMatch(false); // Não suave para o primeiro scroll
-    } else if (!this.buscandoTranscricao) {
-        this.clearSearchHighlight(); // Limpa destaques visuais da busca
-    }
+  // 1. Aplicar marcações de entidades (usando markedTextSegments)
+  if (this.markedTextSegments.length === this.fullTranscript.length) {
+    itemsToDisplay = itemsToDisplay.map((item, index) => ({
+      ...item,
+      text: this.sanitizer.bypassSecurityTrustHtml(this.markedTextSegments[index] || item.originalText)
+    }));
   }
 
+  // 2. Filtro de Tempo (slider)
+  if (this.startTime !== null && this.endTime !== null && this.endTime > this.startTime) {
+    itemsToDisplay = itemsToDisplay.filter(
+      t => t.end >= this.startTime! && t.timestamp <= this.endTime!
+    );
+  }
+
+  // 3. Filtro de Busca Textual e Aplicação de Marcações de Busca
+  if (this.buscandoTranscricao && this.termoBuscaTranscricao.trim() !== '') {
+    const searchTermLower = this.termoBuscaTranscricao.toLowerCase();
+    const regex = new RegExp(this.termoBuscaTranscricao.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+
+    itemsToDisplay = itemsToDisplay
+      .filter(item => item.originalText.toLowerCase().includes(searchTermLower))
+      .map(item => {
+        let textToHighlight = typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString();
+        textToHighlight = textToHighlight.replace(regex, (match: string) => `<mark class="bg-yellow-200 rounded px-0.5 py-0">${match}</mark>`);
+        return {
+          ...item,
+          text: this.sanitizer.bypassSecurityTrustHtml(textToHighlight)
+        };
+      });
+  } else {
+    itemsToDisplay = itemsToDisplay.map(item => ({
+      ...item,
+      text: this.sanitizer.bypassSecurityTrustHtml(typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString())
+    }));
+  }
+
+  this.transcript = itemsToDisplay;
+
+  // 4. Contagem de Matches e atualização do índice na transcrição visível
+  if (this.buscandoTranscricao && this.termoBuscaTranscricao.trim() !== '') {
+    this.totalMatches = this.transcript.reduce((count, item) => {
+      const textContent = typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString();
+      const matchesInItem = (textContent.match(/<mark/g) || []).length;
+      return count + matchesInItem;
+    }, 0);
+
+    if (this.currentMatchIndex >= this.totalMatches || this.currentMatchIndex < 0) {
+      this.currentMatchIndex = this.totalMatches > 0 ? 0 : -1;
+    }
+  } else {
+    this.totalMatches = 0;
+    this.currentMatchIndex = -1;
+  }
+
+  // 5. Rolar para o primeiro match se a busca resultou em algo
+  if (this.buscandoTranscricao && this.totalMatches > 0 && this.currentMatchIndex === 0) {
+    this.scrollToCurrentMatch(false);
+  } else if (!this.buscandoTranscricao) {
+    this.clearSearchHighlight();
+  }
+}
   getTooltipPosition(currentLeft: number): number {
     const tooltipWidth = 56;
     const halfTooltip = tooltipWidth / 2;
@@ -245,24 +252,31 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   }
 
   getTranscriptText(): string {
-    return this.fullTranscript.map((t) => t.originalText).join(' ');
+    return this.fullTranscript.map(t => t.originalText).join(' ');
   }
 
   updateMarkedText(markedText: string): void {
     this.markedText = markedText;
-    // Implementar lógica se necessário, considerando que a busca já destaca.
-    // Esta função pode ser para um tipo diferente de marcação (entidades).
-    console.log('updateMarkedText precisa ser implementada para coexistir com a busca.');
+    this.updateDisplayedTranscript();
+    console.log('Texto marcado atualizado no ClippingComponent:', markedText.substring(0, 100) + "...");
+  }
+
+  updateMarkedTextSegments(markedTextSegments: string[]): void {
+    this.markedTextSegments = markedTextSegments;
+    this.updateDisplayedTranscript();
+    console.log('Segmentos marcados atualizados no ClippingComponent:', markedTextSegments.length);
   }
 
   onCloseDrawer(): void {
-    console.log('Entities drawer closed');
+    console.log('Gaveta de entidades fechada');
   }
 
   onOpenEntityOptions(event: {
-    entity: string; type: string; position: { top: number; left: number };
+    entity: string;
+    type: string;
+    position: { top: number; left: number };
   }): void {
-    console.log('Entity options opened:', event);
+    console.log('Opções de entidade abertas:', event);
   }
 
   ativarBuscaTranscricao(): void {
@@ -273,22 +287,21 @@ export class ClippingComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  desativarBuscaTranscricao(): void { // Renomeado para ser mais claro
+  desativarBuscaTranscricao(): void {
     this.buscandoTranscricao = false;
     this.termoBuscaTranscricao = '';
     this.currentMatchIndex = -1;
     this.totalMatches = 0;
-    this.updateDisplayedTranscript(); // Restaura a transcrição (sem filtro de texto e sem destaques de busca)
+    this.updateDisplayedTranscript();
     this.clearSearchHighlight();
   }
 
   onTermoBuscaChange(): void {
-    // Reseta o índice para o primeiro match sempre que o termo muda
-    this.currentMatchIndex = 0; 
+    this.currentMatchIndex = 0;
     this.updateDisplayedTranscript();
   }
-  
-  limparTermoBusca(): void { // Para o 'x' pequeno DENTRO do campo de busca
+
+  limparTermoBusca(): void {
     this.termoBuscaTranscricao = '';
     this.onTermoBuscaChange();
   }
@@ -311,10 +324,9 @@ export class ClippingComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    setTimeout(() => { // Permite que o DOM atualize com os <mark>s
+    setTimeout(() => {
       const allMarkedElements = Array.from(this.transcriptionListContainer.nativeElement.querySelectorAll('.transcription-item mark')) as HTMLElement[];
-      
-      this.clearSearchHighlight(); // Limpa destaques anteriores
+      this.clearSearchHighlight();
 
       if (allMarkedElements.length > 0 && this.currentMatchIndex < allMarkedElements.length) {
         const currentMarkElement = allMarkedElements[this.currentMatchIndex];

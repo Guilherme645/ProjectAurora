@@ -1,0 +1,48 @@
+/* Estilos para marcações de entidades na transcrição */
+.entity-person {
+  background-color: #FEF9C3 !important; /* Amarelo claro */
+  color: #854D0E !important; /* Marrom escuro */
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.entity-location {
+  background-color: #CCFBF1 !important; /* Verde claro */
+  color: #115E59 !important; /* Verde escuro */
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.entity-organization {
+  background-color: #F3F4F6 !important; /* Cinza claro */
+  color: #1F2937 !important; /* Cinza escuro */
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.entity-date {
+  background-color: #DBEAFE !important; /* Azul claro */
+  color: #1E40AF !important; /* Azul escuro */
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.entity-profissoes {
+  background-color: #FEE2E2 !important; /* Vermelho claro */
+  color: #991B1B !important; /* Vermelho escuro */
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+/* Estilo para marcações de busca (se aplicável) */
+.bg-yellow-200 {
+  background-color: #FEF08A !important; /* Amarelo para busca */
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Estilo para o item de transcrição com match atual */
+.current-search-match {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  border-left: 3px solid #2563EB !important;
+}

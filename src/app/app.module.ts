@@ -64,6 +64,7 @@ import { SaveEntitiesFilterComponent } from './components/save-entities-filter/s
 import { DiscardChangesModalComponent } from './components/discard-changes-modal/discard-changes-modal.component';
 import { ClippingComponent } from './components/clipping/clipping.component';
 import { HeaderClippingComponent } from "./components/header-clipping/header-clipping.component";
+import { ClippingEntitiesComponent } from './components/clipping-entities/clipping-entities.component';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,8 @@ import { HeaderClippingComponent } from "./components/header-clipping/header-cli
   SaveEntitiesFilterComponent,
   DiscardChangesModalComponent,
   ClippingComponent,
-HeaderClippingComponent  
+HeaderClippingComponent,
+ClippingEntitiesComponent  
   ],
   imports: [
     BrowserModule,
