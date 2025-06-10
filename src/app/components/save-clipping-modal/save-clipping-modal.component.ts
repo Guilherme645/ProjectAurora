@@ -56,7 +56,7 @@ export class SaveClippingModalComponent implements OnInit {
       return 'border-gray-200 bg-white text-gray-800 hover:border-gray-300';
     }
     if (this.opcaoSelecionada === cardType) {
-      return 'border-blue-500 border-2 bg-blue-50 text-gray-900 shadow-lg';
+      return 'border-gray-200 border-2 bg-white text-gray-900 ';
     }
     else {
       return 'border-gray-200 bg-white text-gray-400 hover:border-gray-300';

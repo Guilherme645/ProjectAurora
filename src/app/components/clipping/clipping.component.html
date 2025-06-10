@@ -20,62 +20,73 @@
         <source src="assets/video.mp4" type="video/mp4" />
       </video>
 
-   <div class="relative w-[752px] flex justify-center items-center h-[68px] flex-shrink-0">
+    <div class="relative w-[752px] flex justify-center items-center h-[68px] flex-shrink-0">
+        <button (click)="addTimelineContainer()"
+                class="absolute left-0 flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm hover:bg-gray-50 transition-colors">
+          +5min
+        </button>
 
-  <button (click)="addTimelineContainer()"
-          class="absolute left-0 flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm hover:bg-gray-50 transition-colors">
-    +5min
-  </button>
+        <div #timelineContainer
+            class="relative"
+            [style.width.px]="timelineScreenWidth"
+            style="height: 48px;">
 
-  <div #timelineContainer
-       class="relative"
-       [style.width.px]="timelineScreenWidth"
-       style="height: 48px;">
+          <div *ngFor="let container of timelineContainers; let i = index"
+                class="absolute top-0  h-full rounded-md transition-colors duration-200 cursor-pointer"
+                (click)="selectContainer(i)"
+                [ngClass]="{
+                  'bg-blue-600 border-blue-800': selectedIndex === i,
+                  'bg-blue-600/20 border-blue-500/30': selectedIndex !== i
+                }"
+                [style.width.px]="segmentWidth"
+     [style.left.px]="(i * segmentWidth) + 8"> 
+          </div>
+          
+          <div *ngFor="let mark of timeMarks"
+                class="absolute text-xs font-medium z-10 select-none pointer-events-none"
+                [ngClass]="{
+                  'text-white': selectedIndex !== null,
+                  'text-blue-800': selectedIndex === null
+                }"
+                style="top: 50%; transform: translateY(-50%);"
+                [style.left.px]="mark.left">
+            {{ mark.label }}
+          </div>
 
-    <div *ngFor="let container of timelineContainers; let i = index"
-         class="absolute top-0 h-full bg-blue-500/10 border border-blue-600 rounded-md"
-         [style.width.px]="segmentWidth"
-         [style.left.px]="i * segmentWidth">
-    </div>
+          <ng-container *ngIf="selectedIndex === null">
+            <div class="absolute top-0 h-full bg-blue-500/20 z-10 pointer-events-none"
+                [style.left.px]="startLeft"
+                [style.width.px]="endLeft - startLeft">
+            </div>
 
-    <div *ngFor="let mark of timeMarks"
-         class="absolute text-blue-800 text-xs font-medium z-10 select-none pointer-events-none"
-         style="top: 50%; transform: translateY(-50%);"
-         [style.left.px]="mark.left">
-      {{ mark.label }}
-    </div>
+            <div class="absolute w-2 bg-[#2563EB] cursor-ew-resize z-20"
+                style="height: 19px; border-radius: 4px 0 0 4px; top: 50%; transform: translateY(-50%);"
+                (mousedown)="startDragging('start')"
+                [style.left.px]="startLeft">
+            </div>
+            <div class="absolute w-2 bg-[#2563EB] cursor-ew-resize z-20"
+                style="height: 19px; border-radius: 0 4px 4px 0; top: 50%; transform: translateY(-50%);"
+                (mousedown)="startDragging('end')"
+                [style.left.px]="endLeft - 8">
+            </div>
+          </ng-container>
+          
+          <div class="absolute w-px bg-blue-700 z-30 pointer-events-none"
+              style="height: calc(100% + 8px); top: -4px;"
+              [style.left.px]="currentLeft">
+            <div class="absolute bg-gray-900 text-white text-xs font-medium px-2 py-1 rounded shadow-lg whitespace-nowrap"
+                [style.left.px]="getTooltipPosition(currentLeft) - currentLeft + 28"
+                style="top: 100%; transform: translateY(8px);">
+              {{ formatTimestamp(currentTime) }}
+            </div>
+          </div>
+        </div>
 
-    <div class="absolute top-0 h-full bg-blue-500/20 z-10 pointer-events-none"
-         [style.left.px]="startLeft"
-         [style.width.px]="endLeft - startLeft">
-    </div>
-
-    <div class="absolute w-2 bg-[#2563EB] cursor-ew-resize z-20"
-         style="height: 19px; border-radius: 4px 0 0 4px; top: 50%; transform: translateY(-50%);"
-         (mousedown)="startDragging('start')"
-         [style.left.px]="startLeft">
-    </div>
-    <div class="absolute w-2 bg-[#2563EB] cursor-ew-resize z-20"
-         style="height: 19px; border-radius: 0 4px 4px 0; top: 50%; transform: translateY(-50%);"
-         (mousedown)="startDragging('end')"
-         [style.left.px]="endLeft - 8"> </div>
-    <div class="absolute w-px bg-blue-700 z-30 pointer-events-none"
-         style="height: calc(100% + 8px); top: -4px;"
-         [style.left.px]="currentLeft">
-      <div class="absolute bg-gray-900 text-white text-xs font-medium px-2 py-1 rounded shadow-lg whitespace-nowrap"
-           style="top: 100%; left: 50%; transform: translate(-50%, 8px);">
-        {{ formatTimestamp(currentTime) }}
+        <button (click)="addTimelineContainer()"
+                class="absolute right-0 flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm hover:bg-gray-50 transition-colors">
+          +5min
+        </button>
       </div>
-    </div>
-  </div>
-
-  <button (click)="addTimelineContainer()"
-          class="absolute right-0 flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm hover:bg-gray-50 transition-colors">
-    +5min
-  </button>
-
-</div>
-
       <div class="mt-[101px] w-full max-w-[720px] flex-shrink-0">
         <app-clipping-entities
           [useAlternativeJson]="true"

@@ -86,7 +86,7 @@
 /* Ensure the timeline container matches the provided style */
 .timeline-container {
   box-sizing: border-box;
-  width: 564px;
+  width: 554px;
   height: 48px;
   background: rgba(37, 99, 235, 0.15);
   border: 1px solid #2563EB;

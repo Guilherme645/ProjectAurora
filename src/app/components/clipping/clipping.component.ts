@@ -14,7 +14,7 @@ interface TranscriptEntry {
   selector: 'app-clipping',
   templateUrl: './clipping.component.html',
   styleUrls: ['./clipping.component.css'],
-standalone: false,
+  standalone: false,
 })
 export class ClippingComponent implements OnInit, AfterViewInit {
   // --- REFERÊNCIAS DE ELEMENTOS ---
@@ -22,7 +22,7 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   @ViewChild('transcriptionListContainer') transcriptionListContainer!: ElementRef<HTMLElement>;
   @ViewChild('timelineContainer') timelineContainer!: ElementRef<HTMLElement>;
 
-  // --- PROPRIEDADES DE DADOS E ESTADO (Preservadas) ---
+  // --- PROPRIEDADES DE DADOS E ESTADO ---
   fullTranscript: TranscriptEntry[] = [];
   transcript: TranscriptEntry[] = [];
   markedText: string = '';
@@ -39,11 +39,12 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   isSaveModalVisible = false;
   isPlaying = false;
 
-  // --- PROPRIEDADES DA TIMELINE (LÓGICA DE REDIMENSIONAMENTO - VERSÃO FINAL) ---
-  readonly timelineScreenWidth = 564; // Largura total e FIXA da timeline na tela
-  segmentWidth = 564; // A largura de CADA bloco, que será calculada dinamicamente
-  timelineContainers: number[] = [0]; // Começa com 1 container
+  // --- PROPRIEDADES DA TIMELINE ---
+  readonly timelineScreenWidth = 554;
+  segmentWidth = 554;
+  timelineContainers: number[] = [0];
   timeMarks: { left: number; label: string }[] = [];
+  selectedIndex: number | null = null;
 
   // --- PROPRIEDADES DE TEMPO E POSIÇÃO ---
   videoDurationMs = 0;
@@ -68,7 +69,6 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Calcula o layout inicial para o primeiro bloco
     this.recalculateLayout();
   }
 
@@ -83,10 +83,7 @@ export class ClippingComponent implements OnInit, AfterViewInit {
     if (!this.dragging || !this.videoDurationMs || !this.timelineContainer) return;
 
     const sliderRect = this.timelineContainer.nativeElement.getBoundingClientRect();
-    // A posição do mouse é relativa ao container de largura fixa
     const x = Math.max(0, Math.min(event.clientX - sliderRect.left, this.timelineScreenWidth));
-
-    // Converte a posição do mouse (pixel) para tempo (ms) usando a largura FIXA
     const ms = (x / this.timelineScreenWidth) * this.videoDurationMs;
 
     if (this.dragging === 'start') {
@@ -94,6 +91,9 @@ export class ClippingComponent implements OnInit, AfterViewInit {
     } else if (this.dragging === 'end') {
       this.endTime = Math.min(this.videoDurationMs, (this.startTime !== null && ms <= this.startTime) ? this.startTime : ms);
     }
+    
+    // CORRETO: Ao arrastar as alças, a seleção visual do bloco é removida.
+    this.selectedIndex = null;
 
     this.updateAllElementPositions();
     this.updateDisplayedTranscript();
@@ -103,7 +103,6 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   recalculateLayout(): void {
     const numSegments = this.timelineContainers.length;
     if (numSegments > 0) {
-      // Divide a largura fixa da tela pelo número de blocos para obter a largura de cada um
       this.segmentWidth = this.timelineScreenWidth / numSegments;
     }
     this.generateTimeMarks();
@@ -112,10 +111,22 @@ export class ClippingComponent implements OnInit, AfterViewInit {
 
   addTimelineContainer() {
     this.timelineContainers.push(this.timelineContainers.length);
-    this.videoDurationMs += 300000; // Adiciona 5 minutos
-    // Apenas recalcula o layout, fazendo os blocos se reajustarem
+    this.videoDurationMs += 300000;
     this.recalculateLayout();
     this.updateDisplayedTranscript();
+  }
+
+  // --- MÉTODO CORRIGIDO ---
+  // Esta função agora APENAS atualiza o `selectedIndex` para a seleção visual.
+  // Ela NÃO afeta mais as alças de seleção (startTime/endTime).
+  selectContainer(index: number): void {
+    if (this.selectedIndex === index) {
+      // Se clicar no mesmo bloco, deseleciona.
+      this.selectedIndex = null;
+    } else {
+      // Se clicar em um novo bloco, seleciona-o.
+      this.selectedIndex = index;
+    }
   }
 
   updateAllElementPositions(): void {
@@ -124,14 +135,14 @@ export class ClippingComponent implements OnInit, AfterViewInit {
     this.currentLeft = this.getLeftFromTime(this.currentTime);
   }
 
-  // --- EVENTOS DO VÍDEO ---
+  // --- EVENTOS DO VÍDEO (sem alterações) ---
   onLoadedMetadata(event: Event) {
     const video = event.target as HTMLVideoElement;
     this.videoDurationMs = Math.floor(video.duration * 1000);
     this.startTime = 0;
     this.endTime = this.videoDurationMs;
     this.currentTime = 0;
-    this.recalculateLayout(); // Configura o estado inicial com a lógica de redimensionamento
+    this.recalculateLayout(); 
     this.updateDisplayedTranscript();
   }
 
@@ -145,49 +156,33 @@ export class ClippingComponent implements OnInit, AfterViewInit {
     this.dragging = handle;
   }
 
-  stopDragging() {
-    this.dragging = null;
-  }
-
   seekTo(timestamp: number) {
     if (this.videoPlayer) this.videoPlayer.nativeElement.currentTime = timestamp / 1000;
   }
 
-  // --- FUNÇÕES UTILITÁRIAS ---
+  // --- FUNÇÕES UTILITÁRIAS E RESTANTE DO CÓDIGO (sem alterações) ---
   getLeftFromTime(timeMs: number): number {
     if (this.videoDurationMs === 0) return 0;
-    // A posição em pixels é calculada com base na LARGURA FIXA da tela
     return (timeMs / this.videoDurationMs) * this.timelineScreenWidth;
   }
 
- generateTimeMarks() {
+  generateTimeMarks() {
     this.timeMarks = [];
     if (this.videoDurationMs <= 0) return;
-
-    // Define um número razoável de marcas para exibir, evitando poluição visual.
-    // Para um vídeo de 5min, isso mostrará 6 marcações (00:00, 01:00, ..., 05:00)
-    const numMarks = Math.floor(this.videoDurationMs / 60000); 
-
+    const numMarks = Math.floor(this.videoDurationMs / 60000);
     for (let i = 0; i <= numMarks; i++) {
         const fraction = numMarks > 0 ? (i / numMarks) : 0;
         const ms = fraction * this.videoDurationMs;
         const labelText = this.formatTimestamp(ms);
         let leftPosition = this.getLeftFromTime(ms);
-
-        // Estima a largura da label para ajustar a posição e evitar sobreposição
-        const labelWidth = labelText.length * 6; 
-
+        const labelWidth = labelText.length * 6;
         if (i === 0) {
-            // Primeira label, alinha à esquerda com um pequeno recuo
             leftPosition = 5;
         } else if (i === numMarks) {
-            // Última label, alinha a ponta direita dela com o final da timeline
             leftPosition = this.timelineScreenWidth - labelWidth - 5;
         } else {
-            // Labels intermediárias, centraliza a label no ponto
             leftPosition -= labelWidth / 2;
         }
-
         this.timeMarks.push({
             label: labelText,
             left: leftPosition
@@ -210,16 +205,13 @@ export class ClippingComponent implements OnInit, AfterViewInit {
     position = Math.min(this.timelineScreenWidth - tooltipWidth, position);
     return position;
   }
-
-  // --- FUNÇÕES DE TRANSCRIÇÃO, BUSCA E MODAL (preservadas e intactas) ---
-  updateDisplayedTranscript(): void {
-    let itemsToDisplay = [...this.fullTranscript]; if (this.markedTextSegments.length === this.fullTranscript.length) { itemsToDisplay = itemsToDisplay.map((item, index) => ({ ...item, text: this.sanitizer.bypassSecurityTrustHtml(this.markedTextSegments[index] || item.originalText) })); } if (this.startTime !== null && this.endTime !== null && this.endTime > this.startTime) { itemsToDisplay = itemsToDisplay.filter(t => t.end >= this.startTime! && t.timestamp <= this.endTime!); } if (this.buscandoTranscricao && this.termoBuscaTranscricao.trim() !== '') { const searchTermLower = this.termoBuscaTranscricao.toLowerCase(); const regex = new RegExp(this.termoBuscaTranscricao.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); itemsToDisplay = itemsToDisplay.filter(item => item.originalText.toLowerCase().includes(searchTermLower)).map(item => { let textToHighlight = typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString(); textToHighlight = textToHighlight.replace(regex, (match: string) => `<mark class="bg-yellow-200 rounded px-0.5 py-0">${match}</mark>`); return { ...item, text: this.sanitizer.bypassSecurityTrustHtml(textToHighlight) }; }); } else { itemsToDisplay = itemsToDisplay.map(item => ({ ...item, text: this.sanitizer.bypassSecurityTrustHtml(typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString()) })); } this.transcript = itemsToDisplay; if (this.buscandoTranscricao && this.termoBuscaTranscricao.trim() !== '') { this.totalMatches = this.transcript.reduce((count, item) => { const textContent = typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString(); const matchesInItem = (textContent.match(/<mark/g) || []).length; return count + matchesInItem; }, 0); if (this.currentMatchIndex >= this.totalMatches || this.currentMatchIndex < 0) { this.currentMatchIndex = this.totalMatches > 0 ? 0 : -1; } } else { this.totalMatches = 0; this.currentMatchIndex = -1; } if (this.buscandoTranscricao && this.totalMatches > 0 && this.currentMatchIndex === 0) { this.scrollToCurrentMatch(false); } else if (!this.buscandoTranscricao) { this.clearSearchHighlight(); }
-  }
+ 
+  updateDisplayedTranscript(): void { let itemsToDisplay = [...this.fullTranscript]; if (this.markedTextSegments.length === this.fullTranscript.length) { itemsToDisplay = itemsToDisplay.map((item, index) => ({ ...item, text: this.sanitizer.bypassSecurityTrustHtml(this.markedTextSegments[index] || item.originalText) })); } if (this.startTime !== null && this.endTime !== null && this.endTime > this.startTime) { itemsToDisplay = itemsToDisplay.filter(t => t.end >= this.startTime! && t.timestamp <= this.endTime!); } if (this.buscandoTranscricao && this.termoBuscaTranscricao.trim() !== '') { const searchTermLower = this.termoBuscaTranscricao.toLowerCase(); const regex = new RegExp(this.termoBuscaTranscricao.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); itemsToDisplay = itemsToDisplay.filter(item => item.originalText.toLowerCase().includes(searchTermLower)).map(item => { let textToHighlight = typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString(); textToHighlight = textToHighlight.replace(regex, (match: string) => `<mark class="bg-yellow-200 rounded px-0.5 py-0">${match}</mark>`); return { ...item, text: this.sanitizer.bypassSecurityTrustHtml(textToHighlight) }; }); } else { itemsToDisplay = itemsToDisplay.map(item => ({ ...item, text: this.sanitizer.bypassSecurityTrustHtml(typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString()) })); } this.transcript = itemsToDisplay; if (this.buscandoTranscricao && this.termoBuscaTranscricao.trim() !== '') { this.totalMatches = this.transcript.reduce((count, item) => { const textContent = typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString(); const matchesInItem = (textContent.match(/<mark/g) || []).length; return count + matchesInItem; }, 0); if (this.currentMatchIndex >= this.totalMatches || this.currentMatchIndex < 0) { this.currentMatchIndex = this.totalMatches > 0 ? 0 : -1; } } else { this.totalMatches = 0; this.currentMatchIndex = -1; } if (this.buscandoTranscricao && this.totalMatches > 0 && this.currentMatchIndex === 0) { this.scrollToCurrentMatch(false); } else if (!this.buscandoTranscricao) { this.clearSearchHighlight(); } }
   getTranscriptText(): string { return this.fullTranscript.map(t => t.originalText).join(' '); }
-  updateMarkedText(markedText: string): void { this.markedText = markedText; this.updateDisplayedTranscript(); console.log('Texto marcado atualizado no ClippingComponent:', markedText.substring(0, 100) + "..."); }
-  updateMarkedTextSegments(markedTextSegments: string[]): void { this.markedTextSegments = markedTextSegments; this.updateDisplayedTranscript(); console.log('Segmentos marcados atualizados no ClippingComponent:', markedTextSegments.length); }
-  onCloseDrawer(): void { console.log('Gaveta de entidades fechada'); }
-  onOpenEntityOptions(event: { entity: string; type: string; position: { top: number; left: number; }; }): void { console.log('Opções de entidade abertas:', event); }
+  updateMarkedText(markedText: string): void { this.markedText = markedText; this.updateDisplayedTranscript(); }
+  updateMarkedTextSegments(markedTextSegments: string[]): void { this.markedTextSegments = markedTextSegments; this.updateDisplayedTranscript(); }
+  onCloseDrawer(): void { }
+  onOpenEntityOptions(event: { entity: string; type: string; position: { top: number; left: number; }; }): void { }
   ativarBuscaTranscricao(): void { this.buscandoTranscricao = true; setTimeout(() => { const inputElement = document.getElementById('campoBuscaTranscricao'); inputElement?.focus(); }, 0); }
   desativarBuscaTranscricao(): void { this.buscandoTranscricao = false; this.termoBuscaTranscricao = ''; this.currentMatchIndex = -1; this.totalMatches = 0; this.updateDisplayedTranscript(); this.clearSearchHighlight(); }
   onTermoBuscaChange(): void { this.currentMatchIndex = 0; this.updateDisplayedTranscript(); }
