@@ -55,13 +55,14 @@
 </div>
     </div>
 
-    <div class="ml-auto flex flex-shrink-0 items-center gap-2"> 
-    <button type="button" 
-  class="flex h-[46px] w-[137px] flex-none items-center justify-center gap-2.5 rounded-lg bg-slate-100 px-4 py-[14px] hover:bg-slate-200">
-  <span class="text-center text-[15px] font-semibold leading-[18px] tracking-[-0.01em] text-slate-800">
-    Salvar edições
-  </span>
-</button>
+    <div class="ml-auto flex flex-shrink-0 items-center gap-2">
+  <button type="button"
+    (click)="onSaveEditionsClick()" 
+    class="flex h-[46px] w-[137px] flex-none items-center justify-center gap-2.5 rounded-lg bg-slate-100 px-4 py-[14px] hover:bg-slate-200">
+    <span class="text-center text-[15px] font-semibold leading-[18px] tracking-[-0.01em] text-slate-800">
+      Salvar edições
+    </span>
+  </button>
       <button type="button" 
               class="flex h-[46px] w-[46px] flex-none items-center justify-center rounded-lg p-0 hover:bg-gray-100">
         <svg class="h-5 w-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

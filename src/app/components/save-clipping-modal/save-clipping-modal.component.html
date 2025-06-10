@@ -1,0 +1,77 @@
+<div *ngIf="modalState === 'selection'">
+  <div class="flex flex-col bg-white rounded-2xl shadow-xl pointer-events-auto sm:max-w-lg sm:w-full m-3">
+    <div class="flex flex-col gap-6 p-10">
+
+      <div class="flex justify-between items-center w-full">
+        <div class="flex flex-col gap-1">
+          <h3 class="font-semibold text-gray-900 text-xl">Salvar clipping</h3>
+          <p class="text-xs font-medium text-gray-500">Selecione como deseja salvar essa menção abaixo</p>
+        </div>
+        <button type="button" (click)="closeModal()" class="flex justify-center items-center w-9 h-9 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100">
+          <span class="sr-only">Fechar</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L4 12" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 4L12 12" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div (click)="selecionarOpcao('rascunho')" class="p-6 flex flex-col gap-8 rounded cursor-pointer transition-all duration-200 border" [ngClass]="getCardClasses('rascunho')" tabindex="1">
+          <div class="flex items-center justify-center w-[46px] h-[46px] bg-gray-100 rounded-lg"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg></div>
+          <div class="flex flex-col gap-3"><h4 class="font-semibold text-sm text-inherit">Salvar como rascunho</h4><p class="text-xs font-medium leading-relaxed">Desejo finalizar a edição do meu clipping posteriormente</p></div>
+        </div>
+        <div (click)="selecionarOpcao('clipping')" class="p-6 flex flex-col gap-8 rounded cursor-pointer transition-all duration-200 border" [ngClass]="getCardClasses('clipping')" tabindex="2">
+          <div class="flex items-center justify-center w-[46px] h-[46px] bg-gray-100 rounded-lg"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg></div>
+          <div class="flex flex-col gap-2"><h4 class="font-semibold text-sm text-inherit">Salvar como clipping</h4><p class="text-xs font-medium leading-relaxed">O clipping será salvo nos resultados de busca e não poderá ser editado</p></div>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center gap-x-2">
+        <div *ngIf="showTitleError" class="flex items-center gap-x-2"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z" fill="#854D0E"/><path d="M9 6V9" stroke="#FAFAFA" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12H9.0075" stroke="#FAFAFA" stroke-linecap="round" stroke-linejoin="round"/></svg><p class="text-sm font-medium text-gray-600">Não é possível Salvar como Clipping sem adicionar um título a edição</p></div>
+        <div class="ml-auto"><button type="button" (click)="continuar()" [disabled]="!opcaoSelecionada" class="py-3.5 px-4 inline-flex items-center justify-center text-sm font-semibold rounded-lg text-white bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed">Continuar</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="modalState === 'review_draft'">
+  <div class="flex flex-col bg-white rounded-2xl shadow-xl pointer-events-auto w-full max-w-sm m-3">
+    <div class="flex flex-col items-center gap-8 p-10">
+      <div class="flex justify-between items-center w-full">
+        <div class="flex flex-col items-start gap-0.5"><h3 class="font-semibold text-xl text-gray-900">Revise o clipping</h3><p class="text-xs font-medium text-gray-500">Confirme antes de finalizar</p></div>
+        <button type="button" (click)="closeModal()" class="flex justify-center items-center w-9 h-9 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100"><span class="sr-only">Fechar</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L4 12" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 4L12 12" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <div class="flex flex-col items-start gap-4 w-full">
+        <div class="w-full h-44 bg-gray-300 rounded-lg bg-cover bg-center" style="background-image: url('https://i.ytimg.com/vi/b3_lVSrPB6w/maxresdefault.jpg')"></div>
+        <div class="flex flex-col items-start gap-1"><h4 class="text-xs font-semibold text-gray-900">{{ clippingData.titulo }}</h4><p class="text-xs text-gray-800">Sentimento {{ clippingData.sentimento }}</p></div>
+        <div class="flex flex-col items-start gap-1.5 w-full text-xs text-gray-500"><p>Descrição:</p><p class="line-clamp-2">{{ clippingData.descricao || 'Nenhuma descrição adicionada.' }}</p></div>
+      </div>
+      <div class="flex items-center justify-between w-full">
+        <button type="button" (click)="goBackToSelection()" class="w-[113px] h-[46px] inline-flex justify-center items-center text-[15px] font-semibold rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Voltar</button>
+        <button type="button" (click)="finalSaveDraft()" class="w-[191px] h-[46px] inline-flex justify-center items-center text-[15px] font-semibold rounded-lg text-white bg-gray-800 hover:bg-gray-900">Salvar como rascunho</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="modalState === 'review_clipping'">
+  <div class="flex flex-col bg-white rounded-2xl shadow-xl h-[603px] pointer-events-auto w-full max-w-sm m-3">
+    <div class="flex flex-col items-center gap-8 p-10">
+      <div class="flex justify-between items-center w-full">
+        <div class="flex flex-col items-start gap-0.5"><h3 class="font-semibold text-xl text-gray-900">Revise o clipping</h3><p class="text-xs font-medium text-gray-500">Confirme antes de finalizar</p></div>
+        <button type="button" (click)="closeModal()" class="flex justify-center items-center w-9 h-9 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100"><span class="sr-only">Fechar</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L4 12" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 4L12 12" stroke="#1F2937" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <div class="flex flex-col items-start gap-4 w-full">
+        <div class="w-full h-44 bg-gray-300 rounded-lg bg-cover bg-center" style="background-image: url('https://i.ytimg.com/vi/b3_lVSrPB6w/maxresdefault.jpg')"></div>
+        <div class="flex flex-col items-start gap-1"><h4 class="text-xs font-semibold text-gray-900">{{ clippingData.titulo }}</h4><p class="text-xs text-gray-800">Sentimento {{ clippingData.sentimento }}</p></div>
+        <div class="flex flex-col items-start gap-1.5 w-full text-xs text-gray-500"><p>Descrição:</p><p class="line-clamp-2">{{ clippingData.descricao || 'Nenhuma descrição adicionada.' }}</p></div>
+      </div>
+      <div class="flex items-start gap-x-2 p-3 rounded-md bg-amber-50">
+        <svg class="flex-shrink-0 mt-0.5 size-5 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+        <p class="text-xs font-medium text-amber-800">Ao subir clipping, não será mais possível editá-lo e, será adicionado aos resultados das buscas dos Workspaces endereçados</p>
+      </div>
+      <div class="flex items-center justify-between w-full">
+        <button type="button" (click)="goBackToSelection()" class="w-[113px] h-[46px] inline-flex justify-center items-center text-[15px] font-semibold rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Voltar</button>
+        <button type="button" (click)="finalSubmitClipping()" class="w-[191px] h-[46px] inline-flex justify-center items-center text-[15px] font-semibold rounded-lg text-white bg-gray-800 hover:bg-gray-900">Subir clipping</button>
+      </div>
+    </div>
+  </div>
+</div>

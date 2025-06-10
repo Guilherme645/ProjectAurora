@@ -83,3 +83,30 @@
 .buscandoTranscricao input#campoBuscaTranscricao {
   width: 100%;
 }
+/* Ensure the timeline container matches the provided style */
+.timeline-container {
+  box-sizing: border-box;
+  width: 564px;
+  height: 48px;
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid #2563EB;
+  border-radius: 4px;
+  position: relative;
+  margin-left: 8px;
+margin-right: -22px;
+}
+
+/* Adjust the video player container if needed to align with the timeline */
+video {
+  width: 752px;
+  height: 416px;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+/* Ensure the parent container has proper positioning */
+.relative {
+  position: relative;
+}

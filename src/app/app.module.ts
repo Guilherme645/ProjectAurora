@@ -65,6 +65,7 @@ import { DiscardChangesModalComponent } from './components/discard-changes-modal
 import { ClippingComponent } from './components/clipping/clipping.component';
 import { HeaderClippingComponent } from "./components/header-clipping/header-clipping.component";
 import { ClippingEntitiesComponent } from './components/clipping-entities/clipping-entities.component';
+import { SaveClippingModalComponent } from './components/save-clipping-modal/save-clipping-modal.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import { ClippingEntitiesComponent } from './components/clipping-entities/clippi
   DiscardChangesModalComponent,
   ClippingComponent,
 HeaderClippingComponent,
-ClippingEntitiesComponent  
+ClippingEntitiesComponent  ,
+SaveClippingModalComponent
   ],
   imports: [
     BrowserModule,

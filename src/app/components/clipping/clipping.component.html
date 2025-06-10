@@ -1,6 +1,18 @@
 <div class="w-full h-screen bg-gray-50 flex flex-col overflow-hidden">
-  <app-header-clipping></app-header-clipping>
-
+  <app-header-clipping 
+    (saveClicked)="openSaveModal()"
+    [(tituloMencao)]="clippingData.titulo"
+    [(descricaoClipping)]="clippingData.descricao"
+    (sentimentoChange)="clippingData.sentimento = $event">
+  </app-header-clipping>
+  <div *ngIf="isSaveModalVisible" 
+       class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 backdrop-blur-sm">
+    
+  <app-save-clipping-modal 
+      (close)="closeSaveModal()"
+      [clippingData]="clippingData">
+    </app-save-clipping-modal>
+  </div>
   <div class="flex flex-row flex-1 overflow-hidden">
     <div class="flex flex-col items-center w-3/5 max-w-[800px] mx-auto overflow-y-auto overflow-x-hidden pr-4 pt-6 hide-scrollbar">
       <video #videoPlayer controls (timeupdate)="onTimeUpdate($event)" (loadedmetadata)="onLoadedMetadata($event)"
@@ -8,39 +20,61 @@
         <source src="assets/video.mp4" type="video/mp4" />
       </video>
 
-      <div class="relative w-[564px] h-[100px] mx-auto flex-shrink-0">
-        <button
-          class="absolute left-[-90px] top-[5px] flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm">
-          +5min
-        </button>
-        <div
-          class="absolute left-0 top-[3px] w-[580px] h-[48px] bg-[rgba(37,99,235,0.15)] border border-[#2563EB] rounded-[4px]">
-        </div>
-        <div class="absolute w-2 h-5 bg-blue-600 rounded-l cursor-pointer z-10"
-          [ngStyle]="{ left: (startLeft - 4 < 0 ? 0 : startLeft - 4) + 'px', top: '14px' }" 
-          (mousedown)="startDragging('start')">
-        </div>
-        <div class="absolute w-[8px] h-[19px] bg-[#2563EB] rounded-r-[4px] cursor-pointer z-10"
-          [ngStyle]="{ left: endLeft + 'px', top: '14px' }" 
-          (mousedown)="startDragging('end')">
-        </div>
-        <div class="absolute w-px h-[54px] bg-[#2563EB] z-20"
-          [ngStyle]="{ left: currentLeft + 'px', top: '0px' }">
-        </div>
-        <div
-          class="absolute bg-[#111827] text-white text-xs font-medium px-2 py-1 rounded shadow z-30 whitespace-nowrap"
-          [ngStyle]="{ top: '57px', left: getTooltipPosition(currentLeft) + 'px' }">
-          {{ formatTimestamp(currentTime) }}
-        </div>
-        <div *ngFor="let mark of timeMarks" class="absolute text-[#2563EB] text-xs font-medium leading-none whitespace-nowrap"
-          [ngStyle]="{ left: mark.left + 'px', top: '60px', zIndex: 5 }">
-          {{ mark.label }}
-        </div>
-        <button
-          class="absolute right-[-115px] top-[5px] flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm">
-          +5min
-        </button>
+   <div class="relative w-[752px] flex justify-center items-center h-[68px] flex-shrink-0">
+
+  <button (click)="addTimelineContainer()"
+          class="absolute left-0 flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm hover:bg-gray-50 transition-colors">
+    +5min
+  </button>
+
+  <div #timelineContainer
+       class="relative"
+       [style.width.px]="timelineScreenWidth"
+       style="height: 48px;">
+
+    <div *ngFor="let container of timelineContainers; let i = index"
+         class="absolute top-0 h-full bg-blue-500/10 border border-blue-600 rounded-md"
+         [style.width.px]="segmentWidth"
+         [style.left.px]="i * segmentWidth">
+    </div>
+
+    <div *ngFor="let mark of timeMarks"
+         class="absolute text-blue-800 text-xs font-medium z-10 select-none pointer-events-none"
+         style="top: 50%; transform: translateY(-50%);"
+         [style.left.px]="mark.left">
+      {{ mark.label }}
+    </div>
+
+    <div class="absolute top-0 h-full bg-blue-500/20 z-10 pointer-events-none"
+         [style.left.px]="startLeft"
+         [style.width.px]="endLeft - startLeft">
+    </div>
+
+    <div class="absolute w-2 bg-[#2563EB] cursor-ew-resize z-20"
+         style="height: 19px; border-radius: 4px 0 0 4px; top: 50%; transform: translateY(-50%);"
+         (mousedown)="startDragging('start')"
+         [style.left.px]="startLeft">
+    </div>
+    <div class="absolute w-2 bg-[#2563EB] cursor-ew-resize z-20"
+         style="height: 19px; border-radius: 0 4px 4px 0; top: 50%; transform: translateY(-50%);"
+         (mousedown)="startDragging('end')"
+         [style.left.px]="endLeft - 8"> </div>
+    <div class="absolute w-px bg-blue-700 z-30 pointer-events-none"
+         style="height: calc(100% + 8px); top: -4px;"
+         [style.left.px]="currentLeft">
+      <div class="absolute bg-gray-900 text-white text-xs font-medium px-2 py-1 rounded shadow-lg whitespace-nowrap"
+           style="top: 100%; left: 50%; transform: translate(-50%, 8px);">
+        {{ formatTimestamp(currentTime) }}
       </div>
+    </div>
+  </div>
+
+  <button (click)="addTimelineContainer()"
+          class="absolute right-0 flex items-center justify-center w-[75px] h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg text-gray-800 font-semibold text-sm hover:bg-gray-50 transition-colors">
+    +5min
+  </button>
+
+</div>
 
       <div class="mt-[101px] w-full max-w-[720px] flex-shrink-0">
         <app-clipping-entities
