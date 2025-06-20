@@ -1,112 +1,273 @@
-/* Definir a cor padrão do texto como preta */
-.transcription-item {
-  color: #1F2937 !important; /* Cor preta escura */
-  transition: background-color 0.3s;
-  position: relative;
+/* ==========================================================================
+   Definição de Variáveis
+   ========================================================================== */
+:host {
+  --brand-blue-main: #2563EB;
+  --brand-blue-light-3: #EFF6FF;
+  --brand-blue-border: #2563EB;
+  --timeline-background: rgba(37, 99, 235, 0.15);
+  --timeline-handle-bg: #2563EB;
+  --timeline-playhead-color: #2563EB;
+  --timeline-played-range-bg: rgba(37, 99, 235, 0.3);
+  --timeline-tooltip-bg: #111827;
+  --timeline-tooltip-text: #D1D5DB;
+  --timeline-marker-text: rgba(37, 99, 235, 0.6);
+  
+  --button-bg: #FFFFFF;
+  --button-border: #E5E7EB;
+  --button-text: #1F2937;
+  --button-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+
+  --text-color-default: #1F2937;
+  --text-color-muted: #6B7280;
+  --border-color: #E5E7EB;
+  --background-color: #F9FAFB;
+  
+  --transcription-played-bg: #F3F4F6;
+  --transcription-playing-bg: #EFF6FF;
 }
 
-/* Ajustar o fundo para o item sendo reproduzido */
-.transcription-item.bg-blue-900 {
-  background-color: #DBEAFE !important; /* Um azul claro para melhor contraste com o texto preto */
-}
-
-/* Ajustar o fundo para itens já reproduzidos */
-.transcription-item.bg-blue-100 {
-  background-color: #EFF6FF !important; /* Um azul ainda mais claro */
-}
-
-/* Estilizar o timestamp */
-.transcription-item .text-blue-400 {
-  color: #2563EB !important; /* Um azul mais vibrante para o timestamp em itens reproduzidos */
-}
-
-.transcription-item .text-gray-500 {
-  color: #6B7280 !important; /* Cinza para timestamps de itens não reproduzidos */
-}
-
-/* Estilos para marcações de entidades */
-.transcription-item .entity-person {
-  background-color: #FEF9C3 !important;
-  color: #854D0E !important;
-  padding: 0 5px !important;
-  border-radius: 4px !important;
-}
-
-.transcription-item .entity-location {
-  background-color: #CCFBF1 !important;
-  color: #115E59 !important;
-  padding: 0 5px !important;
-  border-radius: 4px !important;
-}
-
-.transcription-item .entity-organization {
-  background-color: #F3F4F6 !important;
-  color: #1F2937 !important;
-  padding: 0 5px !important;
-  border-radius: 4px !important;
-}
-
-.transcription-item .entity-date {
-  background-color: #DBEAFE !important;
-  color: #1E40AF !important;
-  padding: 0 5px !important;
-  border-radius: 4px !important;
-}
-
-.transcription-item .entity-profissoes {
-  background-color: #FEE2E2 !important;
-  color: #991B1B !important;
-  padding: 0 5px !important;
-  border-radius: 4px !important;
-}
-
-/* Estilo para o destaque da busca */
-.transcription-item .bg-yellow-200 {
-  background-color: #FEF08A !important;
-  border-radius: 2px !important;
-  padding: 0 2px !important;
-  position: relative;
-  z-index: 10;
-  color: #1F2937 !important; /* Garante que o texto dentro do <mark> também seja preto */
-}
-
-/* Estilo para o item de busca atual */
-.transcription-item.current-search-match {
-  background-color: rgba(59, 130, 246, 0.1) !important;
-}
-
-/* Novo estilo para a área de busca integrada */
-.buscandoTranscricao .flex-grow {
-  width: 100%;
-}
-
-.buscandoTranscricao input#campoBuscaTranscricao {
-  width: 100%;
-}
-/* Ensure the timeline container matches the provided style */
-.timeline-container {
+/* ==========================================================================
+   Layout Principal
+   ========================================================================== */
+.clipping-container, .main-content, .player-column, .transcription-column {
+  /* Estas regras estão corretas e foram mantidas */
   box-sizing: border-box;
-  width: 554px;
+}
+.clipping-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.player-column {
+  flex: 3;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  min-width: 0;
+}
+.transcription-column {
+  flex: 2;
+  max-width: 538px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-left: 1px solid var(--border-color);
+  box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.05);
+}
+.video-player {
+  width: 100%;
+  max-width: 752px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   Timeline
+   ========================================================================== */
+.timeline-controls-container {
+  width: 100%;
+  max-width: 752px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.timeline-button {
+  width: 75px;
+  height: 45px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--button-bg);
+  border: 1px solid var(--button-border);
+  box-shadow: var(--button-shadow);
+  border-radius: 8px;
+  color: var(--button-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.timeline-button:hover {
+  background-color: var(--background-color);
+}
+.timeline-wrapper {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+.timeline-container {
+  position: relative;
+  width: 100%;
   height: 48px;
-  background: rgba(37, 99, 235, 0.15);
-  border: 1px solid #2563EB;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: var(--timeline-background);
+  border: 1px solid var(--brand-blue-border);
   border-radius: 4px;
-  position: relative;
-  margin-left: 8px;
-margin-right: -22px;
+}
+.selection-range {
+  position: absolute;
+  height: 100%;
+  background-color: transparent;
+  pointer-events: none;
+}
+.time-marker {
+  position: absolute;
+  transform: translateX(-50%);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--timeline-marker-text);
+  pointer-events: none;
+margin-left: 25px;
+}
+.handle {
+  position: absolute;
+  width: 8px;
+  height: 19px;
+  top: 50%;
+  background: var(--timeline-handle-bg);
+  cursor: ew-resize;
+  z-index: 20;
+  /* CORREÇÃO: margin-left removido */
+}
+.start-handle {
+  transform: translate(-50%, -50%); /* Garante centralização perfeita na posição */
+  border-radius: 4px 0 0 4px;
+  margin-left: -4px;
+
+}
+.end-handle {
+  transform: translate(-50%, -50%); /* CORREÇÃO: Usar -50% para centralizar corretamente */
+  border-radius: 0 4px 4px 0;
+  margin-left: 2px;
+
+}
+.playhead {
+  position: absolute;
+  width: 1px;
+  height: 54px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--timeline-playhead-color);
+  pointer-events: none;
+  z-index: 10;
+}
+.playhead-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--timeline-tooltip-bg);
+  color: var(--timeline-tooltip-text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.played-range {
+  display: block; /* Reativado para mostrar o progresso */
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: var(--timeline-played-range-bg);
+  border-radius: 4px 0 0 4px;
+  pointer-events: none;
+  z-index: 2; 
 }
 
-/* Adjust the video player container if needed to align with the timeline */
-video {
-  width: 752px;
-  height: 416px;
-  border-radius: 6px;
-  object-fit: cover;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+/* ==========================================================================
+   Transcrição (com os novos estilos)
+   ========================================================================== */
+.transcription-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+.search-panel {
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+.transcription-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+.transcription-item {
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.transcription-item:hover {
+  background-color: var(--background-color);
+}
+/* ADIÇÃO: Estilo para o item de transcrição já reproduzido */
+.transcription-item.played {
+  background-color: var(--transcription-played-bg);
+}
+/* ADIÇÃO: Estilo para o item de transcrição em reprodução */
+.transcription-item.playing {
+  background-color: var(--transcription-playing-bg);
+}
+.transcription-item .timestamp {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-color-muted);
+  margin-bottom: 4px;
+  transition: color 0.2s;
+}
+/* ADIÇÃO: Destaca o timestamp dos itens ativos/reproduzidos */
+.transcription-item.played .timestamp,
+.transcription-item.playing .timestamp {
+  color: var(--brand-blue-main);
+}
+.transcription-item .text-content {
+  color: var(--text-color-default);
+  line-height: 1.6;
 }
 
-/* Ensure the parent container has proper positioning */
-.relative {
-  position: relative;
+/* ==========================================================================
+   Regras de Responsividade (Mantidas)
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .main-content { flex-direction: column; overflow: auto; }
+  .player-column { overflow-y: visible; }
+  .transcription-column {
+    flex: none;
+    width: 100%;
+    max-width: none;
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+    box-shadow: none;
+  }
+}
+@media (max-width: 500px) {
+  .player-column, .transcription-column { padding: 12px; }
+  .timeline-controls-container { gap: 8px; }
+  .timeline-button { width: 60px; height: 40px; }
 }

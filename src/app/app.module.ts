@@ -66,6 +66,7 @@ import { ClippingComponent } from './components/clipping/clipping.component';
 import { HeaderClippingComponent } from "./components/header-clipping/header-clipping.component";
 import { ClippingEntitiesComponent } from './components/clipping-entities/clipping-entities.component';
 import { SaveClippingModalComponent } from './components/save-clipping-modal/save-clipping-modal.component';
+import { TesteComponent } from './components/teste/teste.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +128,8 @@ import { SaveClippingModalComponent } from './components/save-clipping-modal/sav
   ClippingComponent,
 HeaderClippingComponent,
 ClippingEntitiesComponent  ,
-SaveClippingModalComponent
+SaveClippingModalComponent,
+TesteComponent
   ],
   imports: [
     BrowserModule,
