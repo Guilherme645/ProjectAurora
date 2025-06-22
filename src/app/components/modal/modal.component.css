@@ -1,0 +1,139 @@
+/* Estilo para o fundo semi-transparente */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Estilos do corpo do modal, conforme a especificação "Body" */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  gap: 24px;
+  isolation: isolate;
+  position: relative; /* Mudado para relative para posicionar o botão de fechar */
+  width: 400px;
+  height: auto; /* Altura automática para se ajustar ao conteúdo */
+  min-height: 362px; /* Altura mínima da especificação */
+  background: #FFFFFF;
+  box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.07), 0px 2px 2px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+/* Estilos do botão de fechar 'X', conforme "Button Icons" */
+.modal-close-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  right: 10px;
+  top: 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  z-index: 2;
+  transition: background-color 0.2s;
+}
+.modal-close-btn:hover {
+  background-color: #f3f4f6;
+}
+
+/* Container de texto, conforme "row" */
+/* ... outros estilos ... */
+
+/* Container de texto, conforme "row" */
+.modal-text-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 16px; /* Agora este gap funcionará corretamente */
+  width: 320px;
+}
+
+/* Estilo do título, conforme "Title" (permanece igual) */
+.title {
+  width: 320px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #1F2937;
+  margin: 0;
+}
+
+/* Estilo do texto secundário, agora aplicado diretamente ao <p> */
+.secondary-text {
+  max-width: 328px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: #6B7280;
+  margin: 0;
+}
+
+/* ... outros estilos ... */
+/* Container dos botões, conforme "row-buttons" */
+.modal-buttons-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  gap: 16px; /* Aumentei o gap para melhor corresponder à imagem */
+  width: 320px;
+}
+
+/* Estilo base para os botões */
+.button-cancel,
+.button-confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  height: 46px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  letter-spacing: -0.01em;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.button-cancel:hover,
+.button-confirm:hover {
+  opacity: 0.9;
+}
+
+/* Botão de Cancelar (seguindo a imagem, não a especificação de botão genérico) */
+.button-cancel {
+  background: transparent;
+  color: #6B7280; /* Cor do texto secundário */
+}
+
+/* Botão de Confirmação (vermelho), conforme especificação */
+.button-confirm {
+  background: #FEE2E2;
+  color: #991B1B;
+}

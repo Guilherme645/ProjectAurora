@@ -14,6 +14,7 @@ interface TimeMark {
   left: string;
   label: string;
   timeMs: number;
+  className?: string;
 }
 
 interface TimelineSegment {
@@ -49,6 +50,10 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   };
   isSaveModalVisible = false;
 
+headerVisivel: boolean = true;
+ultimaPosicaoScroll: number = 0;
+
+
   // --- Estado da Transcrição e Busca ---
   fullTranscript: TranscriptEntry[] = [];
   transcricaoExibida: TranscriptEntry[] = [];
@@ -58,26 +63,53 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   indiceResultadoAtual = -1;
 
   // --- Estado da Timeline ---
-  private timelineWidthPx = 0;
+  readonly timelineScreenWidth = 554;
+  segmentWidth = 554;
+  timelineContainers: number[] = [0];
+  selectedIndex: number | null = null;
+  private timelineWidthPx = 554;
   videoDurationMs = 0;
   tempoAtualMs = 0;
   tempoInicialMs = 0;
   tempoFinalMs = 0;
-  marcadoresTempo: TimeMark[] = [];
+
+  structuralMarkers: TimeMark[] = [];
+  selectionStartLabel: TimeMark | null = null;
+  selectionEndLabel: TimeMark | null = null;
+
   dragging: 'inicio' | 'fim' | null = null;
   draggingMarkerIndex: number | null = null;
   posicaoPlayerPx = 0;
   posicaoInicioPx = 0;
   posicaoFimPx = 0;
-  private splitPointsMs: number[] = []; // Armazena os pontos de corte para criar segmentos
+  private splitPointsMs: number[] = [];
+ isWarningModalVisible = false;
+  modalTitle = '';
+  modalMessage = '';
 
   // --- Estado para Entidades Marcadas ---
   markedTextSegments: string[] = [];
   markedText: string = '';
 
+@HostListener('window:keydown', ['$event'])
+handleKeyboardEvent(event: KeyboardEvent) {
+  // CORREÇÃO:
+  // 1. Verifica por 'Delete' (maiúsculo) E 'Backspace'.
+  // 2. Mantém a verificação se um segmento está selecionado (selectedIndex !== null).
+  if ((event.key === 'Delete' || event.key === 'Backspace') && this.selectedIndex !== null) {
+    
+    // IMPORTANTE: Previne o comportamento padrão do navegador.
+    // Impede que a tecla Backspace volte para a página anterior.
+    event.preventDefault();
+    
+    // Chama a função para preparar e mostrar o modal.
+    this.prepareDeleteModal();
+  }
+}
+
   constructor(
     private sanitizer: DomSanitizer,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -86,43 +118,119 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.updateTimelineWidth();
+    this.recalculateLayout();
     this.cdr.detectChanges();
   }
 
-  // --- Listeners de Eventos Globais ---
-  @HostListener('window:resize') onWindowResize(): void {
-    this.updateTimelineWidth();
-    this.updateAllPositions();
+onTranscriptionScroll(event: Event): void {
+  const scrollTop = (event.target as HTMLElement).scrollTop;
+
+  if (scrollTop > this.ultimaPosicaoScroll) {
+    // Scroll para baixo → recolher
+    this.headerVisivel = false;
+  } else {
+    // Scroll para cima → mostrar
+    this.headerVisivel = true;
   }
 
-  @HostListener('window:mousemove', ['$event']) 
+  this.ultimaPosicaoScroll = scrollTop;
+}
+
+
+  // --- Listeners de Eventos Globais ---
+  @HostListener('window:resize') onWindowResize(): void {
+    this.recalculateLayout();
+  }
+
+  @HostListener('window:mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (!this.dragging && this.draggingMarkerIndex === null) return;
     event.preventDefault();
 
     const rect = this.timelineContainerRef.nativeElement.getBoundingClientRect();
     const mouseX = Math.max(0, Math.min(event.clientX - rect.left, this.timelineWidthPx));
-    const tempoMs = this.calculateTimeFromPosition(mouseX);
-
-    if (this.dragging === 'inicio' && tempoMs < this.tempoFinalMs) {
-      this.tempoInicialMs = tempoMs;
-    } else if (this.dragging === 'fim' && tempoMs > this.tempoInicialMs) {
-      this.tempoFinalMs = tempoMs;
-    } else if (this.draggingMarkerIndex !== null) {
-      const marker = this.marcadoresTempo[this.draggingMarkerIndex];
-      marker.timeMs = tempoMs;
-      marker.left = `${mouseX}px`;
-      marker.label = this.formatTimestamp(tempoMs);
+    
+    // Lógica para arrastar as alças de seleção (handles)
+    if (this.dragging) {
+        const tempoMs = this.calculateTimeFromPosition(mouseX);
+        if (this.dragging === 'inicio' && tempoMs < this.tempoFinalMs) {
+            this.tempoInicialMs = tempoMs;
+        } else if (this.dragging === 'fim' && tempoMs > this.tempoInicialMs) {
+            this.tempoFinalMs = tempoMs;
+        }
+        this.updateAllPositions();
+        this.updateDisplayedTranscript();
+        this.adjustVideoPlayback();
+    } 
+    // MUDANÇA AQUI: Lógica para arrastar os marcadores de tempo
+    else if (this.draggingMarkerIndex !== null) {
+        const marker = this.structuralMarkers[this.draggingMarkerIndex];
+        if (marker) {
+            // Apenas atualiza a posição VISUAL (left) do marcador para dar o feedback.
+            // Não altera o 'timeMs' ou o 'label' para que a mudança não seja permanente.
+            marker.left = `${mouseX}px`;
+        }
     }
-
-    this.updateAllPositions();
-    this.updateDisplayedTranscript();
-    this.adjustVideoPlayback();
   }
 
-  @HostListener('window:mouseup') 
+  prepareDeleteModal(): void {
+    if (this.selectedIndex === null) {
+      return;
+    }
+
+    const segmentDuration = 300000; // 5 minutos em ms
+    const startTimeMs = this.selectedIndex * segmentDuration;
+    const endTimeMs = startTimeMs + segmentDuration;
+
+    const durationInMinutes = segmentDuration / 60000;
+    const startTimeStr = this.formatTimestamp(startTimeMs);
+    const endTimeStr = this.formatTimestamp(endTimeMs);
+
+    this.modalTitle = `Remover ${durationInMinutes} minutos`;
+    this.modalMessage = `Você deseja remover do clipping o seguinte trecho: <b>Globo News ${startTimeStr} até ${endTimeStr}?</b>`;
+    
+    this.isWarningModalVisible = true;
+  }
+
+   // As funções de confirmação e fechamento do modal permanecem as mesmas
+// As funções de confirmação e fechamento do modal permanecem as mesmas
+handleDeleteConfirm(): void {
+  if (this.selectedIndex === null) {
+    return;
+  }
+
+  // Remove o container visual do segmento
+  this.timelineContainers.splice(this.selectedIndex, 1);
+  
+  // ==========================================================
+  // CORREÇÃO: Diminui a duração total da timeline em 5 minutos
+  // ==========================================================
+  this.videoDurationMs -= 300000; // 300.000 ms = 5 minutos
+
+  // Limpa a seleção e fecha o modal
+  this.selectedIndex = null;
+  this.isWarningModalVisible = false;
+  
+  // Agora, ao recalcular, o layout usará a nova duração menor,
+  // corrigindo os marcadores de tempo.
+  this.recalculateLayout(); 
+  
+  console.log('Trecho removido!');
+}
+
+  handleModalClose(): void {
+    this.isWarningModalVisible = false;
+  }
+
+  @HostListener('window:mouseup')
   onMouseUp(): void {
+    // MUDANÇA AQUI: Verifica se estávamos arrastando um marcador de tempo
+    if (this.draggingMarkerIndex !== null) {
+        // Se sim, redesenha TODOS os marcadores em seus lugares originais.
+        // Isso faz com que o marcador arrastado "volte" para o lugar certo.
+        this.generateTimeMarks();
+    }
+
     this.dragging = null;
     this.draggingMarkerIndex = null;
     this.adjustVideoPlayback();
@@ -132,25 +240,24 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   onMetadadosCarregados(event: Event): void {
     const video = event.target as HTMLVideoElement;
     this.videoDurationMs = video.duration * 1000;
-    this.tempoFinalMs = this.videoDurationMs;
     this.tempoInicialMs = 0;
-    this.updateTimelineWidth();
-    this.updateAllPositions();
-    this.generateTimeMarks();
+    this.tempoFinalMs = this.videoDurationMs;
+    this.recalculateLayout();
     this.updateDisplayedTranscript();
   }
 
   onTempoAtualizado(event: Event): void {
     if (this.dragging || this.draggingMarkerIndex !== null) return;
     this.tempoAtualMs = (event.target as HTMLVideoElement).currentTime * 1000;
-    console.log('tempoAtualMs atualizado para:', this.formatTimestamp(this.tempoAtualMs));
     this.updateAllPositions();
     this.checkPlaybackBounds();
   }
 
-  iniciarArrasto(handle: 'inicio' | 'fim'): void {
+  iniciarArrasto(handle: 'inicio' | 'fim', event: MouseEvent): void {
+    event.stopPropagation();
     this.dragging = handle;
     this.draggingMarkerIndex = null;
+    this.selectedIndex = null;
   }
 
   iniciarArrastoMarcador(event: MouseEvent, index: number): void {
@@ -158,9 +265,34 @@ export class ClippingComponent implements OnInit, AfterViewInit {
     this.draggingMarkerIndex = index;
     this.dragging = null;
   }
+  
 
+  // Adicione esta função dentro da classe ClippingComponent
+
+/**
+ * Verifica se um marcador de tempo específico está dentro do segmento da timeline
+ * que está atualmente selecionado.
+ * @param marker O objeto do marcador de tempo a ser verificado.
+ * @returns {boolean} True se o marcador estiver no segmento selecionado, senão false.
+ */
+public isMarkerInSelectedSegment(marker: TimeMark): boolean {
+  // Se nenhum segmento estiver selecionado, não há o que fazer.
+  if (this.selectedIndex === null) {
+    return false;
+  }
+
+  // Calcula o tempo de início e fim do segmento selecionado.
+  // Cada segmento tem 300.000 ms (5 minutos).
+  const segmentStartTimeMs = this.selectedIndex * 300000;
+  const segmentEndTimeMs = segmentStartTimeMs + 360000; // 6 minutos * 60.000 ms
+
+  // Retorna true se o tempo do marcador estiver dentro do intervalo do segmento.
+  return marker.timeMs >= segmentStartTimeMs && marker.timeMs <= segmentEndTimeMs;
+}
+  
+  // (Opcional) Você pode manter ou remover esta função se não quiser o clique duplo.
   definirMarcadorComoInicioOuFim(index: number): void {
-    const markerTime = this.marcadoresTempo[index].timeMs;
+    const markerTime = this.structuralMarkers[index].timeMs;
 
     const diffInicio = Math.abs(markerTime - this.tempoInicialMs);
     const diffFim = Math.abs(markerTime - this.tempoFinalMs);
@@ -171,24 +303,60 @@ export class ClippingComponent implements OnInit, AfterViewInit {
       this.tempoFinalMs = markerTime;
     }
 
+    this.selectedIndex = null;
     this.updateAllPositions();
     this.updateDisplayedTranscript();
     this.adjustVideoPlayback();
   }
 
-  // --- Nova Lógica para Segmentos ---
+  // --- Lógica de Blocos da Timeline ---
+  addTimelineContainer(): void {
+    this.timelineContainers.push(this.timelineContainers.length);
+    this.videoDurationMs += 300000;
+    this.recalculateLayout();
+    this.updateDisplayedTranscript();
+  }
+
+  selectContainer(index: number | null, event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (this.selectedIndex === index) {
+      this.selectedIndex = null;
+    } else {
+      this.selectedIndex = index;
+      if (index !== null) {
+        const segmentStart = index * 300000;
+        const segmentEnd = Math.min((index + 1) * 300000, this.videoDurationMs);
+        this.tempoInicialMs = segmentStart;
+        this.tempoFinalMs = segmentEnd;
+        this.updateAllPositions();
+        this.updateDisplayedTranscript();
+        this.adjustVideoPlayback();
+      }
+    }
+    this.updateSelectionLabels();
+  }
+
+  recalculateLayout(): void {
+    const numSegments = this.timelineContainers.length;
+    if (numSegments > 0) {
+      this.segmentWidth = this.timelineWidthPx / numSegments;
+    }
+    this.generateTimeMarks();
+    this.updateAllPositions();
+  }
+
+  // --- Lógica de Segmentação ---
   public get selectionSegments(): TimelineSegment[] {
     if (this.tempoFinalMs <= this.tempoInicialMs) {
       return [];
     }
-
     const relevantSplits = this.splitPointsMs
       .filter(split => split > this.tempoInicialMs && split < this.tempoFinalMs)
       .sort((a, b) => a - b);
-
     const segmentBoundaries = [this.tempoInicialMs, ...relevantSplits, this.tempoFinalMs];
     const segments: TimelineSegment[] = [];
-
     for (let i = 0; i < segmentBoundaries.length - 1; i++) {
       segments.push({
         id: i,
@@ -196,39 +364,8 @@ export class ClippingComponent implements OnInit, AfterViewInit {
         endTimeMs: segmentBoundaries[i + 1]
       });
     }
-
     return segments;
   }
-
-addTimelineSegment(): void {
-  console.log('Botão +5min clicado');
-  if (this.videoPlayerRef) {
-    this.tempoAtualMs = this.videoPlayerRef.nativeElement.currentTime * 1000;
-    console.log('tempoAtualMs forçado para:', this.formatTimestamp(this.tempoAtualMs));
-  }
-  console.log('tempoInicialMs:', this.tempoInicialMs);
-  console.log('tempoFinalMs:', this.tempoFinalMs);
-  console.log('splitPointsMs antes:', [...this.splitPointsMs]);
-
-  const cutTimeMs = this.tempoAtualMs;
-  const minDistanceMs = 1000; // Tolerância mínima de 1 segundo entre cortes
-
-  // Verifica se o corte está dentro do intervalo total e não é excessivamente próximo de um ponto existente
-  const isTooClose = this.splitPointsMs.some(point => Math.abs(point - cutTimeMs) < minDistanceMs);
-  if (cutTimeMs >= 0 && cutTimeMs < this.tempoFinalMs && !isTooClose) {
-    this.splitPointsMs.push(cutTimeMs);
-    this.splitPointsMs.sort((a, b) => a - b); // Mantém a ordem crescente
-    this.cdr.detectChanges(); // Força a detecção de mudanças
-    console.log('Novo corte adicionado em:', this.formatTimestamp(cutTimeMs));
-    console.log('splitPointsMs depois:', [...this.splitPointsMs]);
-  } else {
-    console.log('Condição de corte não atendida. Razões possíveis:');
-    if (cutTimeMs < 0) console.log('- cutTimeMs < 0 (inválido)');
-    if (cutTimeMs >= this.tempoFinalMs) console.log('- cutTimeMs >= tempoFinalMs');
-    if (isTooClose) console.log('- Ponto muito próximo de um corte existente (menos de 1 segundo)');
-    if (cutTimeMs === this.tempoAtualMs && this.tempoAtualMs === 0) console.log('- tempoAtualMs não atualizado (provavelmente vídeo pausado ou não carregado)');
-  }
-}
 
   // --- Lógica de Controle de Reprodução do Vídeo ---
   adjustVideoPlayback(): void {
@@ -256,18 +393,14 @@ addTimelineSegment(): void {
   // --- Lógica da Transcrição e Busca ---
   updateDisplayedTranscript(): void {
     let items = [...this.fullTranscript];
-
     if (this.tempoFinalMs > this.tempoInicialMs) {
       items = items.filter(t => t.end >= this.tempoInicialMs && t.timestamp <= this.tempoFinalMs);
     }
-
     items = items.map((item, index) => {
       let textToDisplay: string | SafeHtml = item.originalText;
-
       if (this.markedTextSegments.length === this.fullTranscript.length && this.markedTextSegments[index]) {
         textToDisplay = this.markedTextSegments[index];
       }
-
       if (this.buscaAtiva && this.termoBusca.trim()) {
         const searchTermLower = this.termoBusca.toLowerCase();
         const regex = new RegExp(this.termoBusca.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
@@ -281,12 +414,9 @@ addTimelineSegment(): void {
           textToDisplay = this.sanitizer.bypassSecurityTrustHtml(textToDisplay);
         }
       }
-
       return { ...item, text: textToDisplay };
     });
-
     this.transcricaoExibida = items;
-
     if (this.buscaAtiva && this.termoBusca.trim()) {
       this.totalResultados = this.transcricaoExibida.reduce((count, item) => {
         const textContent = typeof item.text === 'string' ? item.text : (item.text as any).changingThisBreaksApplicationSecurity || item.text.toString();
@@ -299,7 +429,6 @@ addTimelineSegment(): void {
       this.totalResultados = 0;
       this.indiceResultadoAtual = -1;
     }
-
     if (this.buscaAtiva && this.totalResultados > 0 && this.indiceResultadoAtual === 0) {
       this.scrollToCurrentMatch(false);
     } else if (!this.buscaAtiva) {
@@ -400,16 +529,11 @@ addTimelineSegment(): void {
   onCloseDrawer(): void {}
   onOpenEntityOptions(event: any): void {}
 
-  private updateTimelineWidth(): void {
-    if (this.timelineContainerRef) {
-      this.timelineWidthPx = this.timelineContainerRef.nativeElement.offsetWidth;
-    }
-  }
-
   private updateAllPositions(): void {
     this.posicaoInicioPx = this.calculatePositionFromTime(this.tempoInicialMs);
     this.posicaoFimPx = this.calculatePositionFromTime(this.tempoFinalMs);
     this.posicaoPlayerPx = this.calculatePositionFromTime(this.tempoAtualMs);
+    this.updateSelectionLabels();
   }
 
   public calculatePositionFromTime(timeMs: number): number {
@@ -423,17 +547,53 @@ addTimelineSegment(): void {
   }
 
   private generateTimeMarks(): void {
-    this.marcadoresTempo = [];
+    this.structuralMarkers = [];
     if (this.videoDurationMs <= 0) return;
+
     const intervalMs = 60000;
     const numMarks = Math.floor(this.videoDurationMs / intervalMs);
+
     for (let i = 0; i <= numMarks; i++) {
       const timeMs = i * intervalMs;
-      this.marcadoresTempo.push({
+      if (timeMs > this.videoDurationMs) continue;
+
+      this.structuralMarkers.push({
         label: this.formatTimestamp(timeMs),
         left: `${this.calculatePositionFromTime(timeMs)}px`,
         timeMs: timeMs
       });
+    }
+  }
+
+  private updateSelectionLabels(): void {
+    if (this.selectedIndex !== null) {
+      this.selectionStartLabel = null;
+      this.selectionEndLabel = null;
+      return;
+    }
+
+    this.selectionStartLabel = {
+      label: this.formatTimestamp(this.tempoInicialMs),
+      left: `${this.posicaoInicioPx}px`,
+      timeMs: this.tempoInicialMs,
+      className: 'selection-marker start-marker'
+    };
+
+    this.selectionEndLabel = {
+      label: this.formatTimestamp(this.tempoFinalMs),
+      left: `${this.posicaoFimPx}px`,
+      timeMs: this.tempoFinalMs,
+      className: 'selection-marker end-marker'
+    };
+  }
+
+  updateSentimento(sentimento: string): void {
+    const validSentimentos: ClippingData['sentimento'][] = ['Automático', 'Positivo', 'Neutro', 'Negativo'];
+    if (validSentimentos.includes(sentimento as ClippingData['sentimento'])) {
+      this.clippingData.sentimento = sentimento as ClippingData['sentimento'];
+    } else {
+      console.warn(`Invalid sentimento value: ${sentimento}. Defaulting to 'Automático'.`);
+      this.clippingData.sentimento = 'Automático';
     }
   }
 

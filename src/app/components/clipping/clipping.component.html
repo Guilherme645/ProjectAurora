@@ -1,12 +1,25 @@
-<div class="w-full h-screen bg-gray-50 flex flex-col overflow-hidden">
-  <app-header-clipping 
-    (saveClicked)="openSaveModal()"
-    [(tituloMencao)]="clippingData.titulo"
-    [(descricaoClipping)]="clippingData.descricao">
-  </app-header-clipping>
+<div class="w-full h-screen flex flex-col overflow-hidden clipping-container">
 
-  <div *ngIf="isSaveModalVisible" 
-       class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 backdrop-blur-sm">
+  <app-modal
+    [isVisible]="isWarningModalVisible"
+    [title]="modalTitle"
+    [message]="modalMessage"
+    subMessage="Você perderá todas as edições feitas dentro desse trecho."
+    confirmButtonText="Remover trecho"
+    (confirm)="handleDeleteConfirm()"
+    (cancel)="handleModalClose()"
+    (close)="handleModalClose()">
+  </app-modal>
+ <app-header-clipping 
+  *ngIf="headerVisivel"
+  (saveClicked)="openSaveModal()"
+  [(tituloMencao)]="clippingData.titulo"
+  [(descricaoClipping)]="clippingData.descricao"
+  (sentimentoChange)="updateSentimento($event)">
+</app-header-clipping>
+
+
+  <div *ngIf="isSaveModalVisible" class="fixed inset-0 z-50 flex items-center justify-center bg-red backdrop-blur-sm">
     <app-save-clipping-modal 
       (close)="closeSaveModal()"
       [clippingData]="clippingData">
@@ -14,55 +27,84 @@
   </div>
 
   <div class="main-content">
+    
     <div class="player-column">
-      <video #playerVideo class="video-player" controls (loadedmetadata)="onMetadadosCarregados($event)" (timeupdate)="onTempoAtualizado($event)">
-        <source src="assets/video.mp4" type="video/mp4" />
-        Seu navegador não suporta o elemento de vídeo.
-      </video>
+      <div class="timeline-box"> 
+        <video #playerVideo class="video-player" controls 
+               (loadedmetadata)="onMetadadosCarregados($event)" 
+               (timeupdate)="onTempoAtualizado($event)">
+          <source src="assets/video.mp4" type="video/mp4" />
+          Seu navegador não suporta o elemento de vídeo.
+        </video>
 
-    <div class="timeline-controls-container">
-  <button (click)="addTimelineSegment()" class="timeline-button">+5min</button>
-  <div class="timeline-wrapper">
-    <div #containerTimeline class="timeline-container">
-      <div class="played-range" [style.width.px]="posicaoPlayerPx"></div>
-      <div *ngFor="let segment of selectionSegments" class="selection-range"
-           [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
-           [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)">
+      
+        <div class="timeline-controls-container">
+          <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
+          
+          <div class="timeline-wrapper">
+            <div #containerTimeline class="timeline-container" (click)="selectContainer(null)">
+              
+              <div class="played-range" [style.width.px]="posicaoPlayerPx"></div>
+              
+              <div *ngFor="let container of timelineContainers; let i = index"
+                   class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
+                   [ngClass]="{
+                     'bg-blue-600 border-blue-800': selectedIndex === i,
+                     'bg-blue-600/20 border-blue-500/30': selectedIndex !== i
+                   }"
+                   [style.width.px]="segmentWidth"
+                   [style.left.px]="i * segmentWidth"
+                   (click)="selectContainer(i, $event)">
+              </div>
+
+              <div *ngFor="let segment of selectionSegments" class="selection-range"
+                   [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
+                   [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)">
+              </div>
+
+              <div *ngFor="let marcador of structuralMarkers; let i = index"
+                   class="time-marker structural-marker"
+                   [ngClass]="{'time-marker--selected': isMarkerInSelectedSegment(marcador)}"
+                   [style.left]="marcador.left">
+                {{ marcador.label }}
+              </div>
+
+              <div *ngIf="selectedIndex === null"
+                   class="handle start-handle"
+                   [style.left.px]="posicaoInicioPx"
+                   (mousedown)="iniciarArrasto('inicio', $event)">
+              </div>
+
+              <div *ngIf="selectedIndex === null"
+                   class="handle end-handle"
+                   [style.left.px]="posicaoFimPx"
+                   (mousedown)="iniciarArrasto('fim', $event)">
+              </div>
+
+              <div class="playhead" [style.left.px]="posicaoPlayerPx">
+                <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
+              </div>
+
+            </div>
+          </div>
+
+          <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
+        </div>
       </div>
-      <div *ngFor="let marcador of marcadoresTempo; let i = index" 
-           class="time-marker" 
-           [style.left]="marcador.left"
-           (mousedown)="iniciarArrastoMarcador($event, i)"
-           (dblclick)="definirMarcadorComoInicioOuFim(i)">
-        {{ marcador.label }}
-      </div>
-      <div class="playhead" [style.left.px]="posicaoPlayerPx">
-        <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
-      </div>
-      <div class="handle start-handle" 
-           [style.left.px]="posicaoInicioPx" 
-           (mousedown)="iniciarArrasto('inicio')"></div>
-      <div class="handle end-handle" 
-           [style.left.px]="posicaoFimPx" 
-           (mousedown)="iniciarArrasto('fim')"></div>        
-    </div>
-  </div>
-  <button (click)="addTimelineSegment()" class="timeline-button">+5min</button>
-</div>
-<br>
-<br>
-      <div class="entities-placeholder">
-         <app-clipping-entities
-           [useAlternativeJson]="true"
-           (textoMarcadoChange)="updateMarkedText($event)"
-           (textoMarcadoSegmentsChange)="updateMarkedTextSegments($event)"
-           (close)="onCloseDrawer()"
-           (openEntityOptions)="onOpenEntityOptions($event)">
-         </app-clipping-entities>
+
+      <div class="entities-placeholder w-[790px] h-[754px] mt-[20px] left-[60px] ">
+        <app-clipping-entities
+          [useAlternativeJson]="true"
+          (textoMarcadoChange)="updateMarkedText($event)"
+          (textoMarcadoSegmentsChange)="updateMarkedTextSegments($event)"
+          (close)="onCloseDrawer()"
+          (openEntityOptions)="onOpenEntityOptions($event)">
+        </app-clipping-entities>
       </div>
     </div>
 
     <div class="transcription-column">
+      
       <div *ngIf="!buscaAtiva" class="flex items-center justify-between h-[68px] px-6 py-3 border-b border-gray-200 flex-shrink-0">
         <div class="flex flex-col">
           <h2 class="text-sm font-semibold text-gray-900">Transcrição e Entidades</h2>
@@ -89,6 +131,7 @@
             (keydown.escape)="desativarBusca()"
             placeholder="Insira a palavra que deseja buscar"
             #searchInput>
+
           <div *ngIf="termoBusca.trim().length > 0" class="flex items-center gap-1 flex-shrink-0">
             <span *ngIf="totalResultados > 0" class="text-xs font-medium text-gray-500 whitespace-nowrap">
               {{ indiceResultadoAtual + 1 }} de {{ totalResultados }}
@@ -98,28 +141,37 @@
             </span>
             <div class="flex items-center">
               <button (click)="navigateToPreviousMatch()" [disabled]="totalResultados === 0 || indiceResultadoAtual <= 0" class="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg class="w-4 h-4 transform rotate-180" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <svg class="w-4 h-4 transform rotate-180" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
               </button>
               <button (click)="navigateToNextMatch()" [disabled]="totalResultados === 0 || indiceResultadoAtual >= totalResultados - 1" class="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
               </button>
             </div>
             <button (click)="limparTermoBusca()" title="Limpar busca" class="p-1 rounded hover:bg-gray-100">
-              <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
             </button>
           </div>
         </div>
         <button (click)="desativarBusca()" title="Fechar busca" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0">
-          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
 
       <div #listaTranscricao class="transcription-list hide-scrollbar">
-        <div *ngFor="let item of transcricaoExibida" class="transcription-item" (click)="irParaTimestamp(item.timestamp)" [ngClass]="{ 'playing': item.timestamp <= tempoAtualMs && tempoAtualMs < item.end, 'played': item.end <= tempoAtualMs }">
+        <div *ngFor="let item of transcricaoExibida" class="transcription-item" 
+             (click)="irParaTimestamp(item.timestamp)" 
+             [ngClass]="{ 'playing': item.timestamp <= tempoAtualMs && tempoAtualMs < item.end, 'played': item.end <= tempoAtualMs }">
           <div class="timestamp">{{ formatTimestamp(item.timestamp) }}</div>
           <p class="text-content" [innerHTML]="item.text"></p>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+
+    </div> </div> </div> ```
