@@ -62,27 +62,33 @@ export class SaveClippingModalComponent implements OnInit {
       return 'border-gray-200 bg-white text-gray-400 hover:border-gray-300';
     }
   }
+readonly defaultTitleText = 'Insira o título da menção';
 
   /**
    * Valida o título e avança para a tela de revisão apropriada.
    */
-  continuar(): void {
-    if (!this.opcaoSelecionada) return;
+continuar(): void {
+  if (!this.opcaoSelecionada) return;
 
-    // Valida se o título está vazio para qualquer uma das opções
-    if (!this.clippingData.titulo || this.clippingData.titulo.trim() === '') {
-      this.showTitleError = true;
-      return;
-    }
-
-    // Direciona para a tela de revisão correta com base na opção
-    if (this.opcaoSelecionada === 'rascunho') {
-      this.modalState = 'review_draft';
-    } else { // Se for 'clipping'
-      this.modalState = 'review_clipping';
-    }
+  // --- CONDIÇÃO CORRIGIDA ---
+  // Verifica se o título é nulo, vazio, só tem espaços OU se ainda é o texto padrão.
+  if (
+    !this.clippingData.titulo ||
+    this.clippingData.titulo.trim() === '' ||
+    this.clippingData.titulo === this.defaultTitleText // <-- ADICIONE ESTA LINHA
+  ) {
+    this.showTitleError = true;
+    return; // Interrompe a função aqui
   }
 
+  // Se a validação passar, continua para a próxima tela
+  this.showTitleError = false; // Garante que o erro seja escondido se o usuário corrigir
+  if (this.opcaoSelecionada === 'rascunho') {
+    this.modalState = 'review_draft';
+  } else {
+    this.modalState = 'review_clipping';
+  }
+}
   /**
    * Ação final para salvar o clipping e fechar o modal.
    */
