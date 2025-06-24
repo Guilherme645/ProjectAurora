@@ -66,7 +66,7 @@
   width: 100%;
   max-width: 844px;
   margin-top: -25px;
-  margin-left: -125px;
+  margin-left: -50px;
     box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.05);
 
 }
@@ -172,6 +172,53 @@
 
 .time-marker.end-marker {
   transform: translateX(-20px); /* Alinha a borda direita do marcador com o final */
+}
+
+/* Adicione este CSS ao final do seu arquivo clipping.component.css */
+
+/* --- Estilos para Tooltip dos Marcadores (Handles) --- */
+.handle .handle-tooltip {
+  position: absolute;
+  bottom: 125%; /* Posiciona o tooltip acima do marcador */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1f2937; /* Cor de fundo escura (gray-800) */
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap; /* Impede que o texto quebre a linha */
+  opacity: 0; /* Começa invisível */
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none; /* Não interfere com os cliques do mouse */
+}
+
+/* Mostra o tooltip quando o mouse está sobre o marcador ou quando está sendo arrastado */
+.handle:hover .handle-tooltip,
+.handle.dragging .handle-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- Estilos para Destaque da Faixa de Seleção --- */
+
+/* Cor padrão da faixa de seleção */
+.selection-range {
+  position: absolute;
+  height: 100%;
+  background-color: rgba(59, 130, 246, 0.3); /* azul-500 com 30% de opacidade */
+  border-left: 1px solid rgba(59, 130, 246, 0.7);
+  border-right: 1px solid rgba(59, 130, 246, 0.7);
+  top: 0;
+  pointer-events: none;
+  transition: background-color 0.3s ease; /* Transição suave da cor */
+}
+
+/* Cor mais escura para a faixa de seleção quando o vídeo está tocando */
+.selection-range.playing {
+  background-color: rgba(12, 87, 207, 0.719); /* azul-500 com 50% de opacidade (mais escuro) */
 }
 
 .handle {

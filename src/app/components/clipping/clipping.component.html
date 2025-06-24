@@ -32,7 +32,9 @@
       <div class="timeline-box"> 
         <video #playerVideo class="video-player" controls 
                (loadedmetadata)="onMetadadosCarregados($event)" 
-               (timeupdate)="onTempoAtualizado($event)">
+               (timeupdate)="onTempoAtualizado($event)"
+               (play)="isVideoPlaying = true"
+               (pause)="isVideoPlaying = false">
           <source src="assets/video.mp4" type="video/mp4" />
           Seu navegador não suporta o elemento de vídeo.
         </video>
@@ -57,9 +59,10 @@
                    (click)="selectContainer(i, $event)">
               </div>
 
-              <div *ngFor="let segment of selectionSegments" class="selection-range"
+             <div *ngFor="let segment of selectionSegments" class="selection-range"
                    [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
-                   [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)">
+                   [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)"
+                   [ngClass]="{ 'playing': isVideoPlaying && (tempoInicialMs > 0 || tempoFinalMs < videoDurationMs) }">
               </div>
 
               <div *ngFor="let marcador of structuralMarkers; let i = index"
@@ -69,16 +72,20 @@
                 {{ marcador.label }}
               </div>
 
-              <div *ngIf="selectedIndex === null"
+           <div *ngIf="selectedIndex === null"
                    class="handle start-handle"
                    [style.left.px]="posicaoInicioPx"
+                   [ngClass]="{'dragging': dragging === 'inicio'}"
                    (mousedown)="iniciarArrasto('inicio', $event)">
+                   <div class="handle-tooltip">{{ formatTimestamp(tempoInicialMs) }}</div>
               </div>
 
               <div *ngIf="selectedIndex === null"
                    class="handle end-handle"
                    [style.left.px]="posicaoFimPx"
+                   [ngClass]="{'dragging': dragging === 'fim'}"
                    (mousedown)="iniciarArrasto('fim', $event)">
+                   <div class="handle-tooltip">{{ formatTimestamp(tempoFinalMs) }}</div>
               </div>
 
               <div class="playhead" [style.left.px]="posicaoPlayerPx">
@@ -92,7 +99,7 @@
         </div>
       </div>
 
-      <div class="entities-placeholder w-[790px] h-[754px] mt-[20px] left-[60px] ">
+      <div class="entities-placeholder w-[790px] h-[754px] mt-[20px]  ">
         <app-clipping-entities
           [useAlternativeJson]="true"
           (textoMarcadoChange)="updateMarkedText($event)"
@@ -105,10 +112,10 @@
 
     <div class="transcription-column">
       
-      <div *ngIf="!buscaAtiva" class="flex items-center justify-between h-[68px] px-6 py-3 border-b border-gray-200 flex-shrink-0">
+      <div *ngIf="!buscaAtiva" class="flex items-center justify-between h-[98px] px-6 py-3 border-b border-gray-200 flex-shrink-0">
         <div class="flex flex-col">
-          <h2 class="text-sm font-semibold text-gray-900">Transcrição e Entidades</h2>
-          <span class="text-xs font-medium text-gray-500">Busca e menção completa</span>
+          <h2 class="text-sm font-semibold text-gray-900">Transcrição</h2>
+          <span class="text-xs font-medium text-gray-500">Menção completa</span>
         </div>
         <button (click)="ativarBusca()" title="Buscar na transcrição" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors">
           <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -117,8 +124,8 @@
         </button>
       </div>
 
-      <div *ngIf="buscaAtiva" class="flex items-center gap-4 h-[68px] px-4 py-3 border-b border-gray-200 flex-shrink-0">
-        <div class="flex-grow flex items-center gap-2 h-[44px] pl-3 pr-2 bg-white border border-gray-200 rounded-md transition-all duration-200 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+      <div *ngIf="buscaAtiva" class="flex items-center gap-4 h-[98px] px-4 py-3 border-b border-gray-200 flex-shrink-0">
+        <div class="flex-grow flex items-center gap-2 h-[44px] pl-3 pr-2 bg-white border border-gray-200 rounded-md transition-all duration-200 ">
           <svg class="w-4 h-4 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
@@ -174,4 +181,6 @@
         </div>
       </div>
 
-    </div> </div> </div> ```
+    </div>
+  </div>
+</div>

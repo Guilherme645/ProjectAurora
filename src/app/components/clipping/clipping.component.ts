@@ -73,6 +73,9 @@ ultimaPosicaoScroll: number = 0;
   tempoInicialMs = 0;
   tempoFinalMs = 0;
 
+  // MODIFICAÇÃO AQUI: Nova propriedade para rastrear se o vídeo está tocando
+  isVideoPlaying: boolean = false;
+
   structuralMarkers: TimeMark[] = [];
   selectionStartLabel: TimeMark | null = null;
   selectionEndLabel: TimeMark | null = null;
@@ -194,6 +197,7 @@ onTranscriptionScroll(event: Event): void {
 
    // As funções de confirmação e fechamento do modal permanecem as mesmas
 // As funções de confirmação e fechamento do modal permanecem as mesmas
+// As funções de confirmação e fechamento do modal permanecem as mesmas
 handleDeleteConfirm(): void {
   if (this.selectedIndex === null) {
     return;
@@ -202,17 +206,22 @@ handleDeleteConfirm(): void {
   // Remove o container visual do segmento
   this.timelineContainers.splice(this.selectedIndex, 1);
   
-  // ==========================================================
-  // CORREÇÃO: Diminui a duração total da timeline em 5 minutos
-  // ==========================================================
+  // Diminui a duração total da timeline em 5 minutos
   this.videoDurationMs -= 300000; // 300.000 ms = 5 minutos
+
+  // ====================================================================
+  // CORREÇÃO: Reseta os marcadores de início e fim para os novos
+  // limites da timeline após a remoção de um trecho.
+  // ====================================================================
+  this.tempoInicialMs = 0;
+  this.tempoFinalMs = this.videoDurationMs;
 
   // Limpa a seleção e fecha o modal
   this.selectedIndex = null;
   this.isWarningModalVisible = false;
   
-  // Agora, ao recalcular, o layout usará a nova duração menor,
-  // corrigindo os marcadores de tempo.
+  // Agora, ao recalcular, o layout usará a nova duração e os novos
+  // tempos dos marcadores, corrigindo a posição de tudo.
   this.recalculateLayout(); 
   
   console.log('Trecho removido!');
@@ -270,11 +279,11 @@ handleDeleteConfirm(): void {
   // Adicione esta função dentro da classe ClippingComponent
 
 /**
- * Verifica se um marcador de tempo específico está dentro do segmento da timeline
- * que está atualmente selecionado.
- * @param marker O objeto do marcador de tempo a ser verificado.
- * @returns {boolean} True se o marcador estiver no segmento selecionado, senão false.
- */
+  * Verifica se um marcador de tempo específico está dentro do segmento da timeline
+  * que está atualmente selecionado.
+  * @param marker O objeto do marcador de tempo a ser verificado.
+  * @returns {boolean} True se o marcador estiver no segmento selecionado, senão false.
+  */
 public isMarkerInSelectedSegment(marker: TimeMark): boolean {
   // Se nenhum segmento estiver selecionado, não há o que fazer.
   if (this.selectedIndex === null) {
