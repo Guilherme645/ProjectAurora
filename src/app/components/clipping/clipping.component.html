@@ -33,8 +33,8 @@
         <video #playerVideo class="video-player" controls 
                (loadedmetadata)="onMetadadosCarregados($event)" 
                (timeupdate)="onTempoAtualizado($event)"
-               (play)="isVideoPlaying = true"
-               (pause)="isVideoPlaying = false">
+              (play)="onPlay()"
+       (pause)="isVideoPlaying = false">
           <source src="assets/video.mp4" type="video/mp4" />
           Seu navegador não suporta o elemento de vídeo.
         </video>
@@ -46,9 +46,11 @@
           <div class="timeline-wrapper">
             <div #containerTimeline class="timeline-container" (click)="selectContainer(null)">
               
-              <div class="played-range" [style.width.px]="posicaoPlayerPx"></div>
-              
-              <div *ngFor="let container of timelineContainers; let i = index"
+<div *ngIf="!dragging"
+     class="played-range"
+     [style.left.px]="posicaoInicioPx"
+     [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
+</div>              <div *ngFor="let container of timelineContainers; let i = index"
                    class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
                    [ngClass]="{
                      'bg-blue-600 border-blue-800': selectedIndex === i,

@@ -146,25 +146,25 @@ onTranscriptionScroll(event: Event): void {
   }
 
   @HostListener('window:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent): void {
-    if (!this.dragging && this.draggingMarkerIndex === null) return;
-    event.preventDefault();
+onMouseMove(event: MouseEvent): void {
+  if (!this.dragging && this.draggingMarkerIndex === null) return;
+  event.preventDefault();
 
-    const rect = this.timelineContainerRef.nativeElement.getBoundingClientRect();
-    const mouseX = Math.max(0, Math.min(event.clientX - rect.left, this.timelineWidthPx));
-    
-    // Lógica para arrastar as alças de seleção (handles)
-    if (this.dragging) {
-        const tempoMs = this.calculateTimeFromPosition(mouseX);
-        if (this.dragging === 'inicio' && tempoMs < this.tempoFinalMs) {
-            this.tempoInicialMs = tempoMs;
-        } else if (this.dragging === 'fim' && tempoMs > this.tempoInicialMs) {
-            this.tempoFinalMs = tempoMs;
-        }
-        this.updateAllPositions();
-        this.updateDisplayedTranscript();
-        this.adjustVideoPlayback();
-    } 
+  const rect = this.timelineContainerRef.nativeElement.getBoundingClientRect();
+  const mouseX = Math.max(0, Math.min(event.clientX - rect.left, this.timelineWidthPx));
+  
+  // Lógica para arrastar as alças de seleção (handles)
+  if (this.dragging) {
+      const tempoMs = this.calculateTimeFromPosition(mouseX);
+      if (this.dragging === 'inicio' && tempoMs < this.tempoFinalMs) {
+          this.tempoInicialMs = tempoMs;
+      } else if (this.dragging === 'fim' && tempoMs > this.tempoInicialMs) {
+          this.tempoFinalMs = tempoMs;
+      }
+      this.updateAllPositions();
+      this.updateDisplayedTranscript();
+      // A chamada problemática foi removida.
+  } 
     // MUDANÇA AQUI: Lógica para arrastar os marcadores de tempo
     else if (this.draggingMarkerIndex !== null) {
         const marker = this.structuralMarkers[this.draggingMarkerIndex];
@@ -232,18 +232,30 @@ handleDeleteConfirm(): void {
   }
 
   @HostListener('window:mouseup')
-  onMouseUp(): void {
-    // MUDANÇA AQUI: Verifica se estávamos arrastando um marcador de tempo
-    if (this.draggingMarkerIndex !== null) {
-        // Se sim, redesenha TODOS os marcadores em seus lugares originais.
-        // Isso faz com que o marcador arrastado "volte" para o lugar certo.
-        this.generateTimeMarks();
-    }
+onMouseUp(): void {
+  const wasDraggingSelection = !!this.dragging;
 
-    this.dragging = null;
-    this.draggingMarkerIndex = null;
+  if (this.draggingMarkerIndex !== null) {
+    this.generateTimeMarks();
+  }
+
+  this.dragging = null;
+  this.draggingMarkerIndex = null;
+
+  // NOVA LÓGICA PRINCIPAL
+  if (wasDraggingSelection) {
+    // Se o usuário estava arrastando um marcador, reseta o progresso para 0
+    if (this.videoPlayerRef) {
+      this.videoPlayerRef.nativeElement.currentTime = 0;
+      this.videoPlayerRef.nativeElement.pause(); // Garante que o vídeo fique pausado em 00:00
+    }
+    this.tempoAtualMs = 0;
+    this.updateAllPositions(); // Atualiza a UI para refletir o tempo 0
+  } else {
+    // Mantém o comportamento antigo para outras ações (ex: clique simples fora dos marcadores)
     this.adjustVideoPlayback();
   }
+}
 
   // --- Eventos do Player e Timeline ---
   onMetadadosCarregados(event: Event): void {
@@ -255,6 +267,20 @@ handleDeleteConfirm(): void {
     this.updateDisplayedTranscript();
   }
 
+  onPlay(): void {
+  this.isVideoPlaying = true;
+  if (this.videoPlayerRef) {
+    const video = this.videoPlayerRef.nativeElement;
+    const currentTimeMs = video.currentTime * 1000;
+    
+    // Verifica se o tempo atual está fora do intervalo selecionado
+    // (antes do início ou depois do fim)
+    if (currentTimeMs < this.tempoInicialMs || currentTimeMs >= this.tempoFinalMs) {
+      // Se estiver, move a agulha para o início da seleção antes de tocar
+      video.currentTime = this.tempoInicialMs / 1000;
+    }
+  }
+}
   onTempoAtualizado(event: Event): void {
     if (this.dragging || this.draggingMarkerIndex !== null) return;
     this.tempoAtualMs = (event.target as HTMLVideoElement).currentTime * 1000;
