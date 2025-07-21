@@ -1,0 +1,11 @@
+/* Adicione isso ao seu arquivo CSS global */
+body, html, app-root {
+  height: 100%;
+}
+
+.grid-layout {
+  display: grid;
+  /* Define duas colunas: a 1ª com 256px e a 2ª com o resto do espaço (1fr) */
+  grid-template-columns: 256px 1fr; 
+  height: 100%;
+}

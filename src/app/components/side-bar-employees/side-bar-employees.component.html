@@ -1,0 +1,437 @@
+<!-- Visualização Desktop -->
+<div *ngIf="!isMobile">
+  <div class="flex h-screen">
+    
+    <!-- Sidebar Compacta (Seleção de Usuários) -->
+    <div class="compact-sidebar flex flex-col items-center bg-[#0F141B] p-4">
+      <div *ngFor="let key of userKeys" class="flex justify-center">
+        <button 
+          class="sidebar-button w-10 h-10 rounded-lg flex justify-center items-center text-white mb-3 transition-all duration-300 ease-in-out relative"
+          [ngClass]="currentUser.name === users[key] ? 'bg-blue-800 w-[38px] h-[38px]' : ''"
+          [ngStyle]="currentUser.name !== users[key] ? {'background-color': '#253245'} : {}"
+          (click)="changeUser(key)">
+          <span 
+            class="font-semibold text-[14px] leading-[20px] text-center"
+            style="font-family: 'Inter', sans-serif; letter-spacing: -0.01em;">
+            {{ getInitials(users[key]) }}
+          </span>
+          <div *ngIf="currentUser.name === users[key]" 
+               class="absolute right-[-8px] w-[2px] h-[38px] bg-blue-500 transition-all duration-300 ease-in-out">
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Sidebar (unchanged for brevity, but ensure it also uses height: 100vh) -->
+    <div [ngClass]="{ 'sidebar-expanded w-[260px]': isExpanded, 'nav-minimize': !isExpanded }"
+         class="sidebar flex flex-col bg-gray-900 pt-4 transition-all duration-300">
+      
+      <!-- Cabeçalho do Sidebar -->
+      <div class="sidebar-header h-[60px] flex items-start justify-between px-4">
+        <!-- Conteúdo do usuário -->
+        <div class="flex flex-col">
+          <ng-container *ngIf="isExpanded;">
+            <h2 class="font-bold text-sm leading-5 tracking-tight mt-1">{{ currentUser.name }}</h2>
+            <p class="font-medium text-xs leading-4 tracking-tight text-gray-500">Workspace de Gerenciamento</p>
+            <h3 class="font-semibold text-xs mt-5 tracking-tight text-gray-400 pt-3">WORKSPACE</h3>
+          </ng-container>
+          <ng-template #initialsOnly>
+            <div class="w-10 h-10 bg-gray-700 text-white font-bold flex items-center justify-center rounded-lg">
+              {{ getInitials(currentUser.name) }}
+            </div>
+          </ng-template>
+        </div>
+
+        <button (click)="toggleSidebar()"
+        class="text-white hover:text-gray-300 transition-all"
+        [ngClass]="{
+          'ml-2 mt-1': isExpanded, 
+          'ml-0 mt-8': !isExpanded
+        }"
+        title="Expandir/Reduzir">
+      
+        <ng-container *ngIf="!isExpanded">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="14.999" y1="9.001" x2="21" y2="3"></line>
+            <polyline points="9 21 3 21 3 15"></polyline>
+            <line x1="3" y1="21" x2="9" y2="15"></line>
+          </svg>
+        </ng-container>
+      
+        <ng-container *ngIf="isExpanded">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 14H10V20" />
+            <path d="M20 10H14V4" />
+            <path d="M14 10L21 3" />
+            <path d="M3 21L10 14" />
+          </svg>
+        </ng-container>
+        
+      </button>
+      
+
+
+      </div>
+
+
+      <!-- Menu do Sidebar -->
+      <nav class="menu p-4 overflow-y-hidden overflow-x-hidden"
+      [ngClass]="{ 
+        'mt-9': isExpanded, 
+        'mt-[-0px]': !isExpanded 
+      }">
+   <ul class="flex flex-col p-0"
+       [ngClass]="{ 
+         'items-start gap-[6px] w-[260px]': isExpanded, 
+         'items-center gap-[16px] w-[68px]': !isExpanded 
+       }">
+    
+
+          <li>
+            <div class="hs-tooltip [--placement:right] inline-block">
+              <a 
+      routerLink="/navBar" 
+      routerLinkActive="active"
+      class="menu-item flex items-center gap-2 p-2 text-sm text-white hover:bg-gray-700 rounded-lg transition-all"
+      [ngClass]="{
+        'w-[236px] px-3 h-[36px]': isExpanded, 
+        'w-12 h-[36px] justify-center': !isExpanded, 
+        'bg-gray-700': isActive('/navBar') 
+      }">
+      <!-- Icons and text -->
+      <svg *ngIf="!isActive('/navBar')" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 8L10 3.33333L16 8V15.3333C16 15.687 15.8595 16.0261 15.6095 16.2761C15.3594 16.5262 15.0203 16.6667 14.6667 16.6667H5.33333C4.97971 16.6667 4.64057 16.5262 4.39052 16.2761C4.14048 16.0261 4 15.687 4 15.3333V8Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 16.6667V10H12V16.6667" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg *ngIf="isActive('/navBar')" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 6.00004L8 1.33337L14 6.00004V13.3334C14 13.687 13.8595 14.0261 13.6095 14.2762C13.3594 14.5262 13.0203 14.6667 12.6667 14.6667H3.33333C2.97971 14.6667 2.64057 14.5262 2.39052 14.2762C2.14048 14.0261 2 13.687 2 13.3334V6.00004Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 14.6667V8H10V14.6667" stroke="#1F2937" stroke-linecap="square" stroke-linejoin="round"/>
+      </svg>
+      <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Início</p>
+      <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+        Início
+      </span>
+    </a>
+    </div>
+  </li>
+
+  <!-- Busca Geral -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/busca" routerLinkActive="active" 
+      class="menu-item flex items-center gap-2 p-2 text-sm text-white hover:bg-gray-700 rounded-lg transition-all"
+      [ngClass]="{'w-[236px] px-3 ': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/busca') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/busca')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/busca')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" fill="white"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Colaboradores</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Colaboradores
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Buscas Salvas -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/saved-search" routerLinkActive="active" 
+      class="menu-item flex items-center gap-2 p-2 text-sm text-white hover:bg-gray-700 rounded-lg transition-all"
+      [ngClass]="{'w-[236px] px-3': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/saved-search') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/saved-search')" width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.6667 13L6.00001 10.3333L1.33334 13V2.33333C1.33334 1.97971 1.47382 1.64057 1.72387 1.39052C1.97392 1.14048 2.31305 1 2.66668 1H9.33334C9.68697 1 10.0261 1.14048 10.2762 1.39052C10.5262 1.64057 10.6667 1.97971 10.6667 2.33333V13Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/saved-search')" width="12" height="14" viewBox="0 0 12 14" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.6667 13L6.00001 10.3333L1.33334 13V2.33333C1.33334 1.97971 1.47382 1.64057 1.72387 1.39052C1.97392 1.14048 2.31305 1 2.66668 1H9.33334C9.68697 1 10.0261 1.14048 10.2762 1.39052C10.5262 1.64057 10.6667 1.97971 10.6667 2.33333V13Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Veículos</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Veículos
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Clippings -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/clippings" routerLinkActive="active" 
+      class="menu-item flex items-center gap-2 p-2 text-sm text-white hover:bg-gray-700 rounded-lg transition-all"
+      [ngClass]="{'w-[236px] px-3': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/clippings') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/clippings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2"></path>
+          <path d="M10 22H8"></path>
+          <path d="M16 22h-2"></path>
+          <circle cx="8" cy="8" r="2"></circle>
+          <path d="M9.414 9.414 12 12"></path>
+          <path d="M14.8 14.8 18 18"></path>
+          <circle cx="8" cy="16" r="2"></circle>
+          <path d="m18 6-8.586 8.586"></path>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/clippings')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2" fill="white"></path>
+          <path d="M10 22H8"></path>
+          <path d="M16 22h-2"></path>
+          <circle cx="8" cy="8" r="2" fill="none"></circle>
+          <path d="M9.414 9.414 12 12"></path>
+          <path d="M14.8 14.8 18 18"></path>
+          <circle cx="8" cy="16" r="2" fill="none"></circle>
+          <path d="m18 6-8.586 8.586"></path>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Clientes</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Clientes
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Relatórios -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/home/report" routerLinkActive="active" 
+      class="menu-item flex items-center gap-2 p-2 text-sm text-white hover:bg-gray-700 rounded-lg transition-all"
+      [ngClass]="{'w-[236px] px-3': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/report') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/home/report')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+          <path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3.5"></path>
+          <path d="M4.017 11.512a6 6 0 1 0 8.466 8.475"></path>
+          <path d="M9 16a1 1 0 0 1-1-1v-4c0-.552.45-1.008.995-.917a6 6 0 0 1 4.922 4.922c.091.544-.365.995-.917.995z"></path>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/home/report')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2v4a2 2 0 0 0 2 2h4" fill="none"></path>
+          <path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3.5" fill="white"></path>
+          <path d="M4.017 11.512a6 6 0 1 0 8.466 8.475" fill="none"></path>
+          <path d="M9 16a1 1 0 0 1-1-1v-4c0-.552.45-1.008.995-.917a6 6 0 0 1 4.922 4.922c.091.544-.365.995-.917.995z" fill="none"></path>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Busca Geral</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Busca Geral
+        </span>
+      </a>
+    </div>
+  </li>
+
+  <!-- Dashboard -->
+  <li>
+    <div class="hs-tooltip [--placement:right] inline-block">
+      <a routerLink="/home/dashboard" routerLinkActive="active" 
+      class="menu-item flex items-center gap-2 p-2 text-sm text-white hover:bg-gray-700 rounded-lg transition-all"
+      [ngClass]="{'w-[236px] px-3': isExpanded, 'w-12 justify-center': !isExpanded, 'bg-gray-700': isActive('/home/dashboard') }">
+        <!-- Ícone OUTLINED (inativo) -->
+        <svg *ngIf="!isActive('/home/dashboard')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+          <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+          <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+          <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+        </svg>
+        <!-- Ícone FILLED (ativo) -->
+        <svg *ngIf="isActive('/home/dashboard')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="7" height="9" x="3" y="3" rx="1" fill="white"></rect>
+          <rect width="7" height="5" x="14" y="3" rx="1" fill="white"></rect>
+          <rect width="7" height="9" x="14" y="12" rx="1" fill="white"></rect>
+          <rect width="7" height="5" x="3" y="16" rx="1" fill="white"></rect>
+        </svg>
+        <p *ngIf="isExpanded" class="text-sm ml-2 font-medium">Biblioteca de Clippings</p>
+        <span *ngIf="!isExpanded" class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg whitespace-nowrap">
+          Biblioteca de Clippings
+        </span>
+      </a>
+    </div>
+  </li>
+
+ 
+        </ul>
+      </nav>
+
+      <div 
+      class="sidebar-footer mt-auto flex flex-col p-0 pb-6 gap-4 mx-auto"
+      [ngClass]="{ 
+        'w-[260px] items-start': isExpanded, 
+        'w-[68px] items-center': !isExpanded 
+      }"
+    >
+      <!-- Divisor horizontal -->
+      <div [ngClass]="{ 'w-[260px]': isExpanded, 'w-[68px]': !isExpanded }" class="h-px bg-[#263244]"></div>
+    
+      <!-- Área do usuário -->
+      <div class="flex items-center gap-3"
+           [ngClass]="{ 
+             'px-[14px] w-[260px] h-[46px]': isExpanded, 
+             'flex-col w-[68px] h-auto': !isExpanded 
+           }"
+      >
+        <!-- Avatar + Status -->
+        <div class="relative flex justify-center items-center w-[46px] h-[46px] bg-[#DBEAFE] rounded-full">
+          <span class="text-[#1E40AF] font-semibold text-[16px] leading-[24px] tracking-[-0.01em]">
+            GS
+          </span>
+          <div class="absolute w-[12px] h-[12px] bg-[#14B8A6] border-2 border-[#151F2D] rounded-full right-[1px] top-0"></div>
+        </div>
+    
+        <!-- Informações do usuário -->
+        <div *ngIf="isExpanded" class="flex flex-col gap-[2px] w-[112px] h-[38px]">
+          <p class="text-white font-medium text-[14px] leading-[20px] tracking-[-0.01em]">Guilherme Sousa</p>
+          <p class="text-[#6F809A] font-medium text-[12px] leading-[16px] tracking-[-0.01em]">Analista</p>
+        </div>
+    
+        <!-- Botão dos três pontinhos (mostrado apenas na versão expandida) -->
+        <button
+        *ngIf="isExpanded"
+        (click)="onOpenModalClick($event)"
+        class="flex justify-center items-center w-[38px] h-[38px] rounded-[8px] p-0 text-gray-500 hover:text-gray-700 ml-auto transition-all
+               focus:outline-none focus:ring-2 focus:border-blue-500"
+        aria-label="Abrir menu de opções"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.00001 8.66665C8.3682 8.66665 8.66668 8.36817 8.66668 7.99998C8.66668 7.63179 8.3682 7.33331 8.00001 7.33331C7.63182 7.33331 7.33334 7.63179 7.33334 7.99998C7.33334 8.36817 7.63182 8.66665 8.00001 8.66665Z" stroke="#F3F4F6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8.00001 4.00002C8.3682 4.00002 8.66668 3.70154 8.66668 3.33335C8.66668 2.96516 8.3682 2.66669 8.00001 2.66669C7.63182 2.66669 7.33334 2.96516 7.33334 3.33335C7.33334 3.70154 7.63182 4.00002 8.00001 4.00002Z" stroke="#F3F4F6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8.00001 13.3333C8.3682 13.3333 8.66668 13.0349 8.66668 12.6667C8.66668 12.2985 8.3682 12 8.00001 12C7.63182 12 7.33334 12.2985 7.33334 12.6667C7.33334 13.0349 7.63182 13.3333 8.00001 13.3333Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      
+      
+      </div>
+    </div>
+
+    
+    
+    </div>
+  </div>
+</div>
+<!-- Mobile View -->
+<div *ngIf="isMobile">
+  <div class="mobile-layout">
+    <div [ngClass]="{ 'sidebar-open translate-x-0': isSidebarOpen, 'sidebar-closed -translate-x-full': !isSidebarOpen }" 
+         class="sidebar-mobile bg-gray-800 w-full h-screen fixed top-0 left-0 transition-transform duration-300 ease-in-out z-50 flex flex-col text-white">
+      <!-- Mobile Sidebar Header -->
+      <div class="sidebar-header flex justify-between items-center bg-white border-b border-white w-full h-[94px] gap-7 p-6">
+        <div class="workspace-info flex items-center gap-3 bg-white w-[327px] h-[46px] justify-between whitespace-nowrap">
+          <div class="workspace-icon bg-gray-800 text-white font-bold text-base p-2 rounded-lg">ST</div>
+          <div class="workspace-title-container w-[144px] h-[42px] flex flex-col justify-center gap-1">
+            <h1 class="workspace-title text-black m-0 w-24 h-[22px] font-semibold text-lg leading-tight tracking-tight ml-[-80px]">Workspace</h1>
+            <p class="workspace-subtitle text-gray-500 w-[144px] h-4 font-medium text-xs leading-4 tracking-tight text-center ml-[-80px]">Supremo Tribunal Federal</p>
+          </div>
+        </div>
+        <button (click)="toggleSidebar()" 
+                class="close-button border border-gray-300 rounded-lg flex items-center justify-center text-black bg-white w-[46px] h-[46px] gap-2 p-2 cursor-pointer hover:bg-gray-100 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile Sidebar Menu -->
+      <nav class="menu p-4 flex-grow">
+        <h3 class="menu-title text-xs font-bold mb-4 text-gray-400">MENU WORKSPACE</h3>
+        <ul class="p-0 m-0 list-none">
+          <li>
+            <a routerLink="/navBar" routerLinkActive="active" 
+               class="menu-item p-3 w-[327px] h-11 flex items-center text-sm text-white rounded-lg hover:bg-gray-600 transition-all"
+               [ngClass]="{ 'bg-gray-700': isActive('/navBar') }">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-3">
+                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              </svg>
+              <p class="text-sm font-medium">Início</p>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/busca" routerLinkActive="active" 
+               class="menu-item p-3 w-[327px] h-11 flex items-center text-sm text-white rounded-lg hover:bg-gray-600 transition-all"
+               [ngClass]="{ 'bg-gray-700': isActive('/busca') }">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-3">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </svg>
+              <p class="text-sm font-medium">Busca Geral</p>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/home/saved-search" routerLinkActive="active" 
+               class="menu-item p-3 w-[327px] h-11 flex items-center text-sm text-white rounded-lg hover:bg-gray-600 transition-all"
+               [ngClass]="{ 'bg-gray-700': isActive('/home/saved-search') }">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-3">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"></path>
+                <path d="M17 21v-8H7v8"></path>
+                <path d="M7 3v4h10V3"></path>
+              </svg>
+              <p class="text-sm font-medium">Buscas Salvas</p>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/clippings" routerLinkActive="active" 
+               class="menu-item p-3 w-[327px] h-11 flex items-center text-sm text-white rounded-lg hover:bg-gray-600 transition-all"
+               [ngClass]="{ 'bg-gray-700': isActive('/clippings') }">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-3">
+                <path d="M4 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2"></path>
+                <path d="M10 22H8"></path>
+                <path d="M16 22h-2"></path>
+                <circle cx="8" cy="8" r="2"></circle>
+                <path d="M9.414 9.414 12 12"></path>
+                <path d="M14.8 14.8 18 18"></path>
+                <circle cx="8" cy="16" r="2"></circle>
+                <path d="m18 6-8.586 8.586"></path>
+              </svg>
+              <p class="text-sm font-medium">Clippings</p>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/home/dashboard" routerLinkActive="active" 
+               class="menu-item p-3 w-[327px] h-11 flex items-center text-sm text-white rounded-lg hover:bg-gray-600 transition-all"
+               [ngClass]="{ 'bg-gray-700': isActive('/home/dashboard') }">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-3">
+                <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+              </svg>
+              <p class="text-sm font-medium">Dashboard</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Sidebar Footer -->
+      <div class="sidebar-footer flex flex-col bg-gray-800 p-4 border-t border-gray-700 w-full h-[130px] gap-5">
+        <div class="footer-content w-[375px] h-[46px] flex gap-6 pr-6 pl-6">
+          <div class="avatar w-[46px] h-[46px] bg-blue-100 text-blue-800 font-bold flex items-center justify-center rounded-full">AC</div>
+          <div class="user-info w-[269px] h-[38px] flex flex-col gap-[2px] flex-grow">
+            <p class="user-name text-sm font-bold">Antônio Costa</p>
+            <p class="user-role text-xs text-gray-400">Analista</p>
+          </div>
+        </div>
+        <div class="logout-container w-[375px] h-11 pr-6 pl-6 gap-2">
+          <button class="button-close flex items-center gap-2 text-white p-2 border-none rounded-lg text-sm font-semibold cursor-pointer hover:bg-gray-600 transition-all w-full"
+                  (click)="logout()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="order-first">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" x2="9" y1="12" y2="12"></line>
+            </svg>
+            Sair da conta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

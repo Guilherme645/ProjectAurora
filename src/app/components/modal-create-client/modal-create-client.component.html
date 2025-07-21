@@ -1,0 +1,191 @@
+<div class="fixed inset-0 flex justify-center items-center bg-black-50 bg-opacity-20 z-50">
+  <div class="bg-white max-w-[1086px] w-full rounded-2xl shadow-lg p-6">
+    <header class="mb-6">
+      <h1 class="text-2xl font-semibold text-gray-900">Criar cliente</h1>
+      <p class="text-sm text-gray-500 mt-[2px]">Insira as informações do cliente abaixo</p>
+    </header>
+
+    <div class="flex items-start gap-8">
+      <!-- Abas (Steps) -->
+      <nav class="w-[225px]">
+        <div 
+          class="flex items-center gap-3 my-2 h-[52px]"
+          [class]="currentStep === 1 ? 'text-blue-600' : 'text-gray-500'">
+          
+         
+    
+          <div>
+            <span 
+              class="text-base font-medium"
+              [class]="currentStep >= 1 ? 'text-blue-700' : 'text-gray-500'">
+              Informações básicas
+            </span>
+          </div>
+        </div>
+    
+        <div 
+          class="flex items-center gap-3 my-2 h-[52px]"
+          [class]="currentStep === 2 ? 'text-blue-600' : 'text-gray-500'">
+          
+         
+    
+          <div>
+            <span 
+              class="text-base font-medium"
+              [class]="currentStep >= 2 ? 'text-blue-700' : 'text-gray-500'">
+              Alertas
+            </span>
+            <p class="text-xs text-gray-400">Configuração opcional</p>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Etapa 1: Informações básicas -->
+     <!-- col (Conteúdo da Etapa 1) -->
+      <section *ngIf="currentStep === 1" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
+        <!-- Removido h-[413px] e flex-none order-1 flex-grow-1, agora é flex-1 para preencher o espaço restante -->
+        <form [formGroup]="clientForm" class="w-full h-full flex flex-col">
+          <!-- Cabeçalho da Seção (Informações básicas do cliente) -->
+          <div class="box-border flex items-center px-8 py-8 gap-2.5 w-full h-[84px] bg-gray-50 border-b border-gray-200 flex-shrink-0 self-stretch">
+            <h2 class="text-sm font-semibold font-inter text-gray-800 leading-5 tracking-tight">Informações básicas do cliente</h2>
+          </div>
+
+          <!-- Corpo do Formulário (campos de input) -->
+          <!-- Esta div terá rolagem interna se os campos excederem a altura disponível -->
+          <div class="flex flex-col items-start p-0 w-full flex-1 overflow-y-auto">
+            <!-- flex-1 para que esta div ocupe o espaço restante e o scroll funcione aqui -->
+            <!-- row-inputs -->
+            <div class="flex flex-col justify-center items-start p-8 gap-6 w-full flex-none order-0 self-stretch flex-grow-0">
+              <!-- Nome fantasia e Tipo de cliente -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <div>
+                  <label for="fantasyName" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">Nome fantasia</label>
+                  <input id="fantasyName" type="text" formControlName="fantasyName" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o nome fantasia">
+                  <div *ngIf="clientForm.get('fantasyName')?.touched && clientForm.get('fantasyName')?.invalid" class="text-red-500 text-xs mt-1">
+                    Nome fantasia é obrigatório
+                  </div>
+                </div>
+                <div>
+                  <label for="clientType" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">Tipo de cliente</label>
+                  <select id="clientType" formControlName="clientType" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+                    <option value="" disabled>Selecione</option>
+                    <!-- Assuming clientTypes is an array of { value: string, label: string } -->
+                    <option *ngFor="let type of clientTypes" [value]="type.value">{{ type.label }}</option>
+                  </select>
+                  <div *ngIf="clientForm.get('clientType')?.touched && clientForm.get('clientType')?.invalid" class="text-red-500 text-xs mt-1">
+                    Tipo de cliente é obrigatório
+                  </div>
+                </div>
+              </div>
+
+              <!-- CPF / CNPJ do cliente e Inscrição estadual -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <div>
+                  <label for="clientCpfCnpj" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">CPF / CNPJ do cliente</label>
+                  <input id="clientCpfCnpj" type="text" formControlName="clientCpfCnpj" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o CPF ou CNPJ do cliente">
+                  <div *ngIf="clientForm.get('clientCpfCnpj')?.touched && clientForm.get('clientCpfCnpj')?.invalid" class="text-red-500 text-xs mt-1">
+                    CPF/CNPJ é obrigatório
+                  </div>
+                </div>
+                <div>
+                  <label for="stateRegistration" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">Inscrição estadual</label>
+                  <input id="stateRegistration" type="text" formControlName="stateRegistration" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a inscrição estadual">
+                  <div *ngIf="clientForm.get('stateRegistration')?.touched && clientForm.get('stateRegistration')?.invalid" class="text-red-500 text-xs mt-1">
+                    Inscrição estadual é obrigatória
+                  </div>
+                </div>
+              </div>
+
+              <!-- Inscrição municipal -->
+              <div class="w-full">
+                <label for="municipalRegistration" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">Inscrição municipal</label>
+                <input id="municipalRegistration" type="text" formControlName="municipalRegistration" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a inscrição municipal">
+                <div *ngIf="clientForm.get('municipalRegistration')?.touched && clientForm.get('municipalRegistration')?.invalid" class="text-red-500 text-xs mt-1">
+                  Inscrição municipal é obrigatória
+                </div>
+              </div>
+
+              <!-- Telefone e E-mail -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <div>
+                  <label for="phone" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">Telefone</label>
+                  <input id="phone" type="text" formControlName="phone" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o telefone">
+                  <div *ngIf="clientForm.get('phone')?.touched && clientForm.get('phone')?.invalid" class="text-red-500 text-xs mt-1">
+                    Telefone é obrigatório
+                  </div>
+                </div>
+                <div>
+                  <label for="email" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">E-mail</label>
+                  <input id="email" type="email" formControlName="email" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="exemplo@example.com.br">
+                  <div *ngIf="clientForm.get('email')?.touched && clientForm.get('email')?.invalid" class="text-red-500 text-xs mt-1">
+                    {{ clientForm.get('email')?.hasError('required') ? 'E-mail é obrigatório' : 'E-mail inválido' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+     <div class="text-right mt-6 px-8">
+            <button type="button" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all" (click)="nextStep(); $event.stopPropagation()">Continuar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Etapa 2: Endereço -->
+      <section *ngIf="currentStep === 2" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
+        <form [formGroup]="clientForm">
+          <div class="p-5 bg-white rounded-xl max-h-[350px] overflow-y-auto">
+            <div class="bg-gray-50 border-b border-gray-200 px-8 py-6">
+              <h2 class="text-sm font-semibold text-gray-800">Informações de Endereço</h2>
+            </div>
+            <div class="px-8 py-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                  <label for="addressType" class="block text-sm font-medium text-gray-700 mb-1">Tipo de endereço</label>
+                  <select id="addressType" formControlName="addressType" class="w-full p-3 text-sm border border-gray-300 rounded-lg bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+                    <option value="" disabled>Selecione</option>
+                    <option value="residencial">Residencial</option>
+                    <option value="comercial">Comercial</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="cep" class="block text-sm font-medium text-gray-700 mb-1">CEP</label>
+                  <input id="cep" type="text" formControlName="cep" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o CEP">
+                </div>
+                <div>
+                  <label for="street" class="block text-sm font-medium text-gray-700 mb-1">Endereço</label>
+                  <input id="street" type="text" formControlName="street" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o endereço">
+                </div>
+                <div>
+                  <label for="number" class="block text-sm font-medium text-gray-700 mb-1">Número</label>
+                  <input id="number" type="text" formControlName="number" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="0">
+                </div>
+                <div>
+                  <label for="complement" class="block text-sm font-medium text-gray-700 mb-1">Complemento</label>
+                  <input id="complement" type="text" formControlName="complement" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o complemento">
+                </div>
+                <div>
+                  <label for="neighborhood" class="block text-sm font-medium text-gray-700 mb-1">Bairro</label>
+                  <input id="neighborhood" type="text" formControlName="neighborhood" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o bairro">
+                </div>
+                <div>
+                  <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Cidade/Município</label>
+                  <input id="city" type="text" formControlName="city" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a cidade ou município">
+                </div>
+                <div>
+                  <label for="state" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                  <input id="state" type="text" formControlName="state" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o estado">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rodapé -->
+          <div class="p-6 flex justify-end gap-3 bg-white">
+            <button class="w-[124px] h-[46px] bg-white text-gray-600 font-semibold text-[15px] rounded-lg border border-gray-300 hover:bg-gray-200 transition-all" (click)="previousStep(); $event.stopPropagation()">Voltar</button>
+            <button class="w-[179px] h-[46px] bg-gray-600 text-white font-semibold text-[15px] rounded-lg hover:bg-gray-700 transition-all" (click)="onSubmit(); $event.stopPropagation()">{{ editMode ? 'Salvar alteração' : 'Criar colaborador' }}</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>

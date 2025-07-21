@@ -66,8 +66,20 @@ import { ClippingComponent } from './components/clipping/clipping.component';
 import { HeaderClippingComponent } from "./components/header-clipping/header-clipping.component";
 import { ClippingEntitiesComponent } from './components/clipping-entities/clipping-entities.component';
 import { SaveClippingModalComponent } from './components/save-clipping-modal/save-clipping-modal.component';
-import { TesteComponent } from './components/teste/teste.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { SideBarEmployeesComponent } from './components/side-bar-employees/side-bar-employees.component';
+import { ClientsComponent } from './pages/clients/clients.component';
+import { EmployeesComponent } from './pages/employees/employees.component';
+import { CommonModule } from '@angular/common';
+import { TableEmployeesComponent } from './components/table-employees/table-employees.component';
+import { HeaderEmployeesComponent } from './components/header-employees/header-employees.component';
+import { SwitchComponent } from './components/switch/switch.component';
+import { ModalCreateCollaboratorComponent } from './components/modal-create-collaborator/modal-create-collaborator.component';
+import { TableClientsComponent } from './components/table-clients/table-clients.component';
+import { ModalCreateClientComponent } from './components/modal-create-client/modal-create-client.component';
+import { ModalCreateContractUsersComponent } from './components/modal-create-contract-users/modal-create-contract-users.component';
+import { ModalDesactivedEmployeesComponent } from './components/modal-desactived-employees/modal-desactived-employees.component';
+import { HeaderClientComponent } from './components/header-client/header-client.component';
 
 @NgModule({
   declarations: [
@@ -130,8 +142,19 @@ import { ModalComponent } from './components/modal/modal.component';
 HeaderClippingComponent,
 ClippingEntitiesComponent  ,
 SaveClippingModalComponent,
-TesteComponent,
-ModalComponent
+ModalComponent,
+SideBarEmployeesComponent,
+ClientsComponent,
+EmployeesComponent,
+TableEmployeesComponent,
+HeaderEmployeesComponent,
+SwitchComponent,
+ModalCreateCollaboratorComponent,
+TableClientsComponent,
+ModalCreateClientComponent,
+ModalCreateContractUsersComponent,
+ModalDesactivedEmployeesComponent,
+HeaderClientComponent
   ],
   imports: [
     BrowserModule,
@@ -140,7 +163,8 @@ ModalComponent
     FormsModule,
     ReactiveFormsModule,
     DragDropModule,
-    SharedModule // importa o módulo onde o pipe está declarado e exportado
+    SharedModule,
+    CommonModule 
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent] // ✅ GARANTA QUE ESTÁ CORRETO

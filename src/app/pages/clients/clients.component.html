@@ -1,0 +1,35 @@
+
+<div class="relative min-h-screen bg-gray-50">
+  <!-- Sidebar Fixo e Responsivo -->
+  <aside class="w-[314px] fixed top-0 left-0 h-full bg-neutral-800 text-white z-20 transition-transform duration-300 ease-in-out lg:translate-x-0 -translate-x-full">
+    <app-side-bar-employees 
+      (userChange)="onUserChange($event)" 
+      (openModalExternally)="toggleModal()">
+    </app-side-bar-employees>
+  </aside>
+
+  <!-- Conteúdo Principal Responsivo -->
+  <main class="lg:ml-[314px] p-4 sm:p-8 flex flex-col items-center gap-8">
+    <!-- Header do Conteúdo -->
+    <div class="w-full max-w-6xl">
+      <app-header-client (openModal)="toggleModal()"></app-header-client>
+    </div>
+
+    <!-- Container da Tabela Responsivo -->
+    <div class="w-full max-w-6xl h-auto bg-white border border-gray-200 rounded-lg shadow-sm">
+      <app-table-clients></app-table-clients>
+    </div>
+  </main>
+
+<!-- Modal de Criação/Edição de Colaborador -->
+  <div *ngIf="isModalOpen"
+       class="fixed inset-0 flex items-center justify-center z-[1050] bg-black bg-opacity-40 backdrop-blur-sm"
+       (click)="closeModal()">
+    <!-- Este div interno impede que o clique no modal se propague para o overlay -->
+    <div (click)="$event.stopPropagation()">
+      <app-modal-create-client 
+        [editMode]="false" 
+        (close)="closeModal()">
+      </app-modal-create-client>
+    </div>
+  </div>

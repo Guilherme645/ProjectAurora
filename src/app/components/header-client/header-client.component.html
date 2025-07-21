@@ -1,0 +1,20 @@
+<div class="flex w-full flex-col items-start justify-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <!-- Coluna da Esquerda: Título e Subtítulo -->
+  <div class="flex flex-col gap-1">
+    <h1 class="text-xl font-semibold text-gray-800">
+      Clientes
+    </h1>
+    <p class="text-xs font-medium text-gray-500">
+Tabela de gerenciamento de clientes
+    </p>
+  </div>
+
+  <!-- Coluna da Direita: Botão de Ação -->
+  <div class="self-start sm:self-center">
+    <button 
+      (click)="openModal.emit()" 
+      class="flex h-[46px] items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-[15px] font-semibold text-white transition-colors hover:bg-blue-700">
+      Criar cliente
+    </button>
+  </div>
+</div>
