@@ -80,6 +80,8 @@ import { ModalCreateClientComponent } from './components/modal-create-client/mod
 import { ModalCreateContractUsersComponent } from './components/modal-create-contract-users/modal-create-contract-users.component';
 import { ModalDesactivedEmployeesComponent } from './components/modal-desactived-employees/modal-desactived-employees.component';
 import { HeaderClientComponent } from './components/header-client/header-client.component';
+import { ModalContractComponent } from './components/modal-contract/modal-contract.component';
+import { ModalCreateContractUserComponent } from './components/modal-create-contract-user/modal-create-contract-user.component';
 
 @NgModule({
   declarations: [
@@ -154,7 +156,9 @@ TableClientsComponent,
 ModalCreateClientComponent,
 ModalCreateContractUsersComponent,
 ModalDesactivedEmployeesComponent,
-HeaderClientComponent
+HeaderClientComponent,
+ModalContractComponent,
+ModalCreateContractUserComponent
   ],
   imports: [
     BrowserModule,

@@ -24,13 +24,13 @@ interface client {
 
 
 @Component({
-  selector: 'app-modal-create-client',
-  templateUrl: './modal-create-client.component.html',
-  styleUrls: ['./modal-create-client.component.css'],
+  selector: 'app-modal-create-contract-user',
+  templateUrl: './modal-create-contract-user.component.html',
+  styleUrls: ['./modal-create-contract-user.component.css'],
   standalone: false
 })
-export class ModalCreateClientComponent implements OnInit {
-  @Input() editMode: boolean = false;
+export class ModalCreateContractUserComponent implements OnInit {
+ @Input() editMode: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
   @Output() clientCreated = new EventEmitter<any>(); // NEW EVENT EMITTER
