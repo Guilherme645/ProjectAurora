@@ -21,23 +21,35 @@ export class SideBarEmployeesComponent implements OnInit {
   userRole = 'Analista';
   isClicked = false;
   users: { [key: string]: string } = {};
-  menuItems = [
+   menuItems = [
     { label: 'Início', link: '/navBar', icon: 'home' },
     {
-      label: 'Busca Geral',
+      label: 'Colaboradores', // Ajustado: Era 'Busca Geral' no TS
       link: '/busca',
       icon: 'search',
+      // subItems permanecem iguais se forem relevantes para este item
       subItems: [
         { label: 'Buscas Salvas', link: '/saved-search', icon: 'bookmark' }
       ],
       open: false
     },
-    { label: 'Clippings', link: '/clippings', icon: 'clip' },
-    { label: 'Relatórios', link: '/home/report', icon: 'report' },
-    { label: 'Dashboard', link: '/home/dashboard', icon: 'dashboard' },
+    { 
+      label: 'Clientes', // Ajustado: Era 'Clippings' no TS
+      link: '/clippings', // O link "/clippings" permanece, mas agora representa "Clientes"
+      icon: 'clip' 
+    },
+    { 
+      label: 'Busca Geral', // Ajustado: Era 'Relatórios' no TS
+      link: '/home/report', // O link "/home/report" permanece, mas agora representa "Busca Geral"
+      icon: 'report' 
+    },
+    { 
+      label: 'Biblioteca de Clippings', // Ajustado: Era 'Dashboard' no TS
+      link: '/home/dashboard', // O link "/home/dashboard" permanece, mas agora representa "Biblioteca de Clippings"
+      icon: 'dashboard' 
+    },
     { label: 'Configurações', link: '/home/settings', icon: 'settings' }
   ];
-
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {

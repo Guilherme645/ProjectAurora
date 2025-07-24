@@ -102,10 +102,22 @@ export class SideBarComponent implements OnInit {
     this.sidebarToggled.emit(this.isSidebarOpen);
   }
 
-  changeUser(userKey: string): void {
-    this.currentUser.name = this.users[userKey] || 'Usuário Desconhecido';
-    this.userChange.emit(this.currentUser.name);
+
+ changeUser(userKey: string): void {
+  const userName = this.users[userKey] || 'Usuário Desconhecido';
+  this.currentUser.name = userName;
+  this.userChange.emit(this.currentUser.name);
+
+  console.log('User clicked:', userName);
+  console.log('User Key clicked:', userKey); // Adicionado para depuração
+  console.log('Initials:', this.getInitials(userName));
+
+  // Modifique esta condição para verificar a chave diretamente
+  if (userKey === 'SD_USER') { // <<-- ALTERADO AQUI
+    console.log('Navigating to /clients (triggered by SD_USER)');
+    this.router.navigate(['/clients']);
   }
+}
 
   logout(): void {
     console.log('Usuário deslogado');

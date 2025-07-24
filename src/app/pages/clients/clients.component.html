@@ -23,7 +23,8 @@
       <app-modal-create-client
         [editMode]="false"
         (close)="closeModal()"
-        (clientCreated)="openContractModal($event)"> </app-modal-create-client>
+        (clientCreated)="openContractModal($event)">
+      </app-modal-create-client>
     </div>
   </div>
 
@@ -32,8 +33,19 @@
        (click)="closeContractModal()">
     <div (click)="$event.stopPropagation()">
       <app-modal-contract
-      (close)="closeContractModal()">
-      </app-modal-contract>
+        [clientName]="newlyCreatedClientName" (cancel)="closeContractModal()"
+        (registerLater)="closeContractModal()"
+        (continueRegistration)="openCreateContractUserModal()"> </app-modal-contract>
+    </div>
+  </div>
+
+  <div *ngIf="isCreateContractUserModalOpen"
+       class="fixed inset-0 flex items-center justify-center z-[1070] bg-black bg-opacity-40 backdrop-blur-sm"
+       (click)="closeCreateContractUserModal()">
+    <div (click)="$event.stopPropagation()">
+      <app-modal-create-contract-user
+        (close)="closeCreateContractUserModal()">
+      </app-modal-create-contract-user>
     </div>
   </div>
 </div>

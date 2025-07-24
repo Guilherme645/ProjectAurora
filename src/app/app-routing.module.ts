@@ -11,6 +11,8 @@ import { ResultSavedSearchComponent } from './pages/result-saved-search/result-s
 import { PageSavedSearchComponent } from './pages/page-saved-search/page-saved-search.component';
 import { DescricaoContainerComponent } from './descricao-container/descricao-container.component';
 import { ClippingComponent } from './components/clipping/clipping.component';
+import { ClientsComponent } from './pages/clients/clients.component';
+import { EmployeesComponent } from './pages/employees/employees.component';
 
 export const routes: Routes = [ 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -25,6 +27,10 @@ export const routes: Routes = [
   { path: 'saved-search', component: PageSavedSearchComponent },
   { path: 'textos', component: DescricaoContainerComponent },
     { path: 'clippings', component: ClippingComponent },
+        { path: 'clients', component: ClientsComponent },
+                { path: 'employees', component: EmployeesComponent },
+
+
 
 
 
