@@ -1,41 +1,44 @@
 <div class="flex flex-col">
   <div class="p-1.5 min-w-full inline-block align-middle">
     <div class="overflow-hidden">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+      <table class="min-w-full divide-y">
+        <thead class="">
           <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-mail</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo de usuário</th>
-            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <!-- Filter Icon Column Header -->
-              <button type="button" class="inline-flex items-center p-1.5 text-gray-500 hover:text-gray-700">
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <th scope="col" class="px-6 h-11 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+            <th scope="col" class="px-6 h-11 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-mail</th>
+            <th scope="col" class="px-6 h-11 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo de usuário</th>
+            <th scope="col" class="px-6 h-11 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <button 
+                type="button" 
+                class="inline-flex justify-center items-center w-[30px] h-[30px] bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
+                <svg 
+                  class="w-4 h-4 text-gray-800" 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor" 
+                  stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V19l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
               </button>
             </th>
-            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
-            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"></th> <!-- Empty header for three dots -->
+            <th scope="col" class="px-6 h-11 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+            <th scope="col" class="px-6 h-11 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
           <tr *ngFor="let collaborator of collaborators" class="odd:bg-white even:bg-gray-50 hover:bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ collaborator.name }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ collaborator.email }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-              <span class="py-1 px-2.5 inline-flex items-center gap-x-1 text-xs font-medium rounded-full"
-                    [ngClass]="{
-                      'bg-teal-100 text-teal-800': collaborator.userType === 'Owner',
-                      'bg-blue-100 text-blue-800': collaborator.userType === 'Analista Interno'
-                    }">
-                {{ collaborator.userType }}
-              </span>
+            <td class="px-6 h-11 whitespace-nowrap text-sm font-medium text-gray-800">{{ collaborator.name }}</td>
+            <td class="px-6 h-11 whitespace-nowrap text-sm text-gray-800">{{ collaborator.email }}</td>
+            <td class="px-6 h-11 whitespace-nowrap text-sm text-gray-800">
+              <app-chips 
+                [label]="collaborator.userType" 
+                [color]="getChipColor(collaborator.userType)">
+              </app-chips>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-              <!-- Empty cell for the filter column -->
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+            <td class="px-6 h-11 whitespace-nowrap text-center text-sm font-medium">
+              </td>
+            <td class="px-6 h-11 whitespace-nowrap text-center text-sm font-medium">
               <div class="flex items-center justify-center gap-x-4">
                 <app-switch 
                   [value]="collaborator.status === 'active'" 
@@ -43,8 +46,7 @@
                 </app-switch>
               </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-              <!-- Three dots dropdown button -->
+            <td class="px-6 h-11 whitespace-nowrap text-center text-sm font-medium">
               <div class="hs-dropdown relative inline-flex" data-hs-dropdown>
                 <button id="hs-dropdown-vertical-actions-{{collaborator.id}}" type="button" class="hs-dropdown-toggle p-1 inline-flex justify-center items-center gap-2 font-medium text-gray-700 hover:text-gray-900 focus:text-gray-900 transition-all text-sm">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +69,8 @@
   </div>
 
   <!-- Rodapé com Paginação -->
-  <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+  
+</div><div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center ">
     <div>
       <p class="text-sm text-gray-600">
         Mostrando <span class="font-semibold text-gray-800">10</span> de <span class="font-semibold text-gray-800">{{ collaborators.length }}</span> resultados
@@ -89,4 +92,3 @@
       </nav>
     </div>
   </div>
-</div>

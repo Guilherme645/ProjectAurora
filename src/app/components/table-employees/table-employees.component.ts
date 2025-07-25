@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { ChipColor } from '../chips/chips.component';
 
 // Definimos a interface para tipar nossos dados
 export interface Collaborator {
@@ -19,10 +20,8 @@ export interface Collaborator {
 })
 export class TableEmployeesComponent implements AfterViewInit {
 
-  // Output event to notify the parent component when a collaborator is to be deactivated
   @Output() deactivateCollaborator = new EventEmitter<Collaborator>();
 
-  // Dados mocados para a tabela
   collaborators: Collaborator[] = [
     { id: 1, name: 'John Brown', email: 'johnbrown@bluebossa.com.br', userType: 'Owner', registrationDate: '2024-01-15', lastLogin: '2025-06-29', status: 'active' },
     { id: 2, name: 'Jim Green', email: 'jimgreen@bluebossa.com.br', userType: 'Analista Interno', registrationDate: '2024-02-20', lastLogin: '2025-06-30', status: 'active' },
@@ -40,25 +39,33 @@ export class TableEmployeesComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (window.HSStaticMethods) {
-        window.HSStaticMethods.autoInit();
+      if ((window as any).HSStaticMethods) {
+        (window as any).HSStaticMethods.autoInit();
       }
     }, 100);
   }
 
-  /**
-   * Lida com a mudança de status do colaborador quando o switch é acionado.
-   * @param collaborator O objeto do colaborador que foi modificado.
-   * @param newStatus O novo estado do switch (true para 'active', false para 'inactive').
-   */
   onStatusChange(collaborator: Collaborator, newStatus: boolean): void {
-    // If the new status is 'inactive' (switch is turned off), emit the event to open the modal
     if (!newStatus) {
       this.deactivateCollaborator.emit(collaborator);
     } else {
-      // If the status is being changed to 'active', update it directly
       collaborator.status = 'active';
       console.log(`Status do colaborador ${collaborator.name} (ID: ${collaborator.id}) alterado para: ${collaborator.status}`);
+    }
+  }
+
+  /**
+   * 👇 2. ADICIONE ESTA FUNÇÃO
+   * Converte o tipo de usuário para a cor correspondente do chip.
+   */
+  getChipColor(type: 'Owner' | 'Analista Interno'): ChipColor {
+    switch (type) {
+      case 'Owner':
+        return 'green';
+      case 'Analista Interno':
+        return 'blue';
+      default:
+        return 'gray';
     }
   }
 }

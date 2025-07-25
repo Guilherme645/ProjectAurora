@@ -82,6 +82,7 @@ import { ModalDesactivedEmployeesComponent } from './components/modal-desactived
 import { HeaderClientComponent } from './components/header-client/header-client.component';
 import { ModalContractComponent } from './components/modal-contract/modal-contract.component';
 import { ModalCreateContractUserComponent } from './components/modal-create-contract-user/modal-create-contract-user.component';
+import { ChipsComponent } from './components/chips/chips.component';
 
 @NgModule({
   declarations: [
@@ -158,7 +159,8 @@ ModalCreateContractUsersComponent,
 ModalDesactivedEmployeesComponent,
 HeaderClientComponent,
 ModalContractComponent,
-ModalCreateContractUserComponent
+ModalCreateContractUserComponent,
+ChipsComponent
   ],
   imports: [
     BrowserModule,

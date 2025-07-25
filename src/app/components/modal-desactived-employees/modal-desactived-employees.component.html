@@ -10,35 +10,29 @@
     </div>
 
     <!-- row -->
-    <div class="flex flex-col justify-center items-center gap-6 w-[320px] h-[166px] flex-none order-0 self-stretch flex-grow-0 z-0">
+    <div class="flex flex-col justify-center items-center gap-6 w-[320px] h-auto flex-none order-0 self-stretch flex-grow-0 z-0">
       <!-- Title -->
-      <h2 class="w-[320px] h-[22px] font-inter font-semibold text-lg leading-tight text-center tracking-tight text-gray-900 flex-none order-0 self-stretch flex-grow-0">
+      <h2 class="w-full font-inter font-semibold text-lg leading-tight text-center tracking-tight text-gray-900">
         {{ title }}
       </h2>
 
       <!-- Frame 9 -->
-      <div class="flex flex-col items-center gap-2 w-[320px] h-[76px] flex-none order-1 self-stretch flex-grow-0">
+      <div class="flex flex-col items-center gap-4 w-full">
         <!-- Secondary text message (Name & Email) -->
-        <div class="w-[328px] h-[40px] font-inter font-medium text-sm leading-5 text-center tracking-tight text-gray-600 flex-none order-0 flex-grow-0">
+        <div class="w-full font-inter font-medium text-sm leading-5 text-center tracking-tight text-gray-600">
           <p class="font-semibold">Nome: {{ collaboratorName }}</p>
           <p>E-mail: {{ collaboratorEmail }}</p>
         </div>
 
-        <!-- Badge -->
-        <div class="flex flex-row items-start w-[109px] h-[28px] flex-none order-1 flex-grow-0">
-          <!-- _badge-and-tag -->
-          <div class="flex flex-row items-center p-1.5 gap-px w-[109px] h-[28px] bg-blue-100 rounded-md flex-none order-0 flex-grow-0">
-            <!-- Placeholder -->
-            <div class="flex flex-row items-center gap-1 w-[97px] h-[16px] flex-none order-2 flex-grow-0">
-              <span class="w-[89px] h-[16px] font-inter font-medium text-xs leading-4 tracking-tight text-blue-800 flex-none order-1 flex-grow-0">
-                {{ collaboratorUserType }}
-              </span>
-            </div>
-          </div>
-        </div>
+        <!-- MUDANÇA: Badge substituído pelo componente app-chip -->
+        <app-chips
+          *ngIf="collaboratorUserType"
+          [label]="collaboratorUserType"
+          [color]="getChipColor(collaboratorUserType)">
+        </app-chips>
         
         <!-- Secondary text message (Question) -->
-        <p class="w-[328px] h-[20px] font-inter font-medium text-sm leading-5 text-center tracking-tight text-gray-600 flex-none order-2 flex-grow-0">
+        <p class="w-full font-inter font-medium text-sm leading-5 text-center tracking-tight text-gray-600">
           Deseja desativar o usuário acima?
         </p>
       </div>
@@ -49,18 +43,16 @@
       <!-- Button (Cancelar) -->
       <button
         (click)="cancel.emit()"
-        class="flex justify-center items-center px-4 py-3.5 gap-2.5 w-[320px] h-[46px] rounded-lg flex-none order-0 self-stretch flex-grow-0
-               font-inter font-semibold text-base leading-tight text-center tracking-tight text-gray-900 hover:bg-gray-100 transition"
-      >
+        class="flex justify-center items-center px-4 py-3.5 gap-2.5 w-[320px] h-[46px] rounded-lg
+               font-inter font-semibold text-base leading-tight text-center tracking-tight text-gray-900 hover:bg-gray-100 transition">
         Cancelar
       </button>
 
       <!-- Button (Desativar) -->
       <button
         (click)="confirm.emit()"
-        class="flex justify-center items-center px-4 py-3.5 gap-2.5 w-[320px] h-[46px] bg-red-100 rounded-lg flex-none order-1 self-stretch flex-grow-0
-               font-inter font-semibold text-base leading-tight text-center tracking-tight text-red-800 hover:bg-red-200 transition"
-      >
+        class="flex justify-center items-center px-4 py-3.5 gap-2.5 w-[320px] h-[46px] bg-red-100 rounded-lg
+               font-inter font-semibold text-base leading-tight text-center tracking-tight text-red-800 hover:bg-red-200 transition">
         {{ confirmText }}
       </button>
     </div>

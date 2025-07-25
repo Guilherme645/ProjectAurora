@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import { ChipColor } from '../chips/chips.component';
 
 export interface Client {
   id: number;
@@ -14,8 +15,7 @@ export interface Client {
   styleUrls: ['./table-clients.component.css'],
   standalone: false
 })
-export class TableClientsComponent {
-  // Dados mocados para a tabela
+export class TableClientsComponent implements AfterViewInit {
   clients: Client[] = [
     { id: 1, name: 'Superior TribunalFederal', cnpjCpf: '00.581.040/0001-45', type: 'Público', contracts: 1 },
     { id: 2, name: 'Procuradoria Geral', cnpjCpf: '22.302.716/0001-02', type: 'Público', contracts: 1 },
@@ -29,9 +29,29 @@ export class TableClientsComponent {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (window.HSStaticMethods) {
-        window.HSStaticMethods.autoInit();
+      // A lógica para inicializar plugins JS como o dropdown do Preline
+      if ((window as any).HSStaticMethods) {
+        (window as any).HSStaticMethods.autoInit();
       }
     }, 100);
+  }
+
+  /**
+   * 👇 2. ADICIONE ESTA FUNÇÃO
+   * Converte o tipo de cliente para a cor correspondente do chip.
+   * @param type - O tipo de cliente ('Público', 'Privado', 'Notas')
+   * @returns A cor do chip (ex: 'blue')
+   */
+  getChipColor(type: 'Público' | 'Privado' | 'Notas'): ChipColor {
+    switch (type) {
+      case 'Público':
+        return 'blue';
+      case 'Privado':
+        return 'yellow';
+      case 'Notas':
+        return 'green';
+      default:
+        return 'gray';
+    }
   }
 }
