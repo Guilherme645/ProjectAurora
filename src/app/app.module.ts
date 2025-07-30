@@ -83,6 +83,7 @@ import { HeaderClientComponent } from './components/header-client/header-client.
 import { ModalContractComponent } from './components/modal-contract/modal-contract.component';
 import { ModalCreateContractUserComponent } from './components/modal-create-contract-user/modal-create-contract-user.component';
 import { ChipsComponent } from './components/chips/chips.component';
+import { VeichlesTableComponent } from './components/veichles-table/veichles-table.component';
 
 @NgModule({
   declarations: [
@@ -160,7 +161,8 @@ ModalDesactivedEmployeesComponent,
 HeaderClientComponent,
 ModalContractComponent,
 ModalCreateContractUserComponent,
-ChipsComponent
+ChipsComponent,
+VeichlesTableComponent
   ],
   imports: [
     BrowserModule,

@@ -73,7 +73,17 @@ export class ModalCreateClientComponent implements OnInit {
     }
   }
   
-  // Métodos de navegação do formulário
-  nextStep(): void { /* ... */ }
-  previousStep(): void { /* ... */ }
+ // ✅ Lógica para avançar para a próxima etapa
+  nextStep(): void {
+    if (this.currentStep < 2) {
+      this.currentStep++;
+    }
+  }
+
+  // ✅ Lógica para voltar para a etapa anterior
+  previousStep(): void {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
 }

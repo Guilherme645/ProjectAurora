@@ -1,0 +1,79 @@
+<div class="flex w-full max-w-[765px] flex-col overflow-hidden rounded-md border border-gray-200 bg-white">
+  
+  <div class="flex h-[70px] w-full items-center px-4 py-3">
+    <div class="flex h-[46px] w-full items-center rounded-lg border border-gray-200 bg-white px-4 shadow-sm">
+      <svg class="mr-2 text-gray-500" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.5 11.5L14 14M13 7.5C13 10.5376 10.5376 13 7.5 13C4.46243 13 2 10.5376 2 7.5C2 4.46243 4.46243 2 7.5 2C10.5376 2 13 4.46243 13 7.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <input 
+        type="text" 
+        placeholder="Pesquisar veículo" 
+        class="h-full w-full border-none bg-transparent text-[15px] font-medium text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-0"
+        [(ngModel)]="searchTerm">
+    </div>
+  </div>
+
+  <div class="flex w-full flex-row border-t border-gray-200">
+    
+    <div class="flex w-[57px] shrink-0 flex-col divide-y divide-gray-200">
+      <div class="flex h-[54px] items-center justify-center px-5 py-3">
+        <div 
+          class="flex h-4 w-4 cursor-pointer items-center justify-center rounded border"
+          [ngClass]="{
+            'bg-blue-600 border-blue-600': isAllSelected,
+            'bg-white border-gray-200': !isAllSelected
+          }"
+          (click)="toggleAllSelection()">
+          <svg class="h-3.5 w-3.5" [ngClass]="isAllSelected ? 'text-white' : 'text-transparent'" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.6667 3.5L5.25 9.91667L2.33333 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div *ngFor="let vehicle of filteredVehicles" class="flex h-[54px] items-center justify-center px-5 py-2">
+        <div 
+          class="flex h-4 w-4 cursor-pointer items-center justify-center rounded border"
+          [ngClass]="{
+            'bg-blue-600 border-blue-600': vehicle.selected,
+            'bg-white border-gray-200': !vehicle.selected
+          }"
+          (click)="toggleSelection(vehicle)">
+          <svg class="h-3.5 w-3.5" [ngClass]="vehicle.selected ? 'text-white' : 'text-transparent'" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.6667 3.5L5.25 9.91667L2.33333 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-grow flex-col divide-y divide-gray-200">
+      <div class="flex h-[54px] items-center px-5 py-3">
+        <span class="inline-flex items-center gap-1 text-xs font-medium text-gray-500">
+          Veículo
+          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.66663 10L7.99996 13.3333L11.3333 10" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.3333 6.00002L7.99996 2.66669L4.66663 6.00002" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+      <div *ngFor="let vehicle of filteredVehicles" class="flex h-[54px] items-center gap-3 px-5 py-2">
+        <img [src]="vehicle.logoUrl" [alt]="vehicle.name" class="h-9 w-9 rounded-full object-contain">
+        <span class="text-sm font-medium text-gray-800">{{ vehicle.name }}</span>
+      </div>
+    </div>
+
+    <div class="flex flex-grow flex-col divide-y divide-gray-200">
+       <div class="flex h-[54px] items-center gap-2.5 px-5 py-3">
+        <span class="flex-grow text-xs font-medium text-gray-500">Tipo de mídia</span>
+        <button class="flex h-[38px] items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-[15px] font-semibold text-gray-800 shadow-sm">
+          Todos
+          <svg class="h-3.5 w-3.5" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div *ngFor="let vehicle of filteredVehicles" class="flex h-[54px] items-center px-5 py-2">
+        <span class="text-sm font-medium text-gray-800">{{ vehicle.mediaType }}</span>
+      </div>
+    </div>
+
+  </div>
+</div>
