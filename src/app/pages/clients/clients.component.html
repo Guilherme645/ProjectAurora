@@ -12,16 +12,17 @@
     </div>
 
     <div class="w-full max-w-6xl h-auto bg-white border border-gray-200 rounded-lg shadow-sm">
-      <app-table-clients></app-table-clients>
+      <app-table-clients (editClient)="handleEdit($event)"></app-table-clients>
     </div>
   </main>
-
+  
   <div *ngIf="isModalOpen"
        class="fixed inset-0 flex items-center justify-center z-[1050] bg-black bg-opacity-40 backdrop-blur-sm"
        (click)="closeModal()">
     <div (click)="$event.stopPropagation()">
       <app-modal-create-client
-        [editMode]="false"
+        [editMode]="!!selectedClientForEdit"
+        [clientData]="selectedClientForEdit"
         (close)="closeModal()"
         (clientCreated)="openContractModal($event)">
       </app-modal-create-client>

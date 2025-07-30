@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-interface Collaborator {
+export interface Collaborator {
   fullName: string;
   email: string;
   password: string;

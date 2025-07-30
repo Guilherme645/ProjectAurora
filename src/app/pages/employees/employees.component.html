@@ -17,22 +17,25 @@
     <!-- Container da Tabela Responsivo -->
     <div class="w-full max-w-6xl h-auto bg-white border border-gray-200 rounded-lg shadow-sm">
       <!-- Listen for the deactivateCollaborator event from app-table-employees -->
-      <app-table-employees (deactivateCollaborator)="onDeactivateCollaborator($event)"></app-table-employees>
-    </div>
+ <app-table-employees 
+        (deactivateCollaborator)="onDeactivateCollaborator($event)"
+        (editCollaborator)="handleEdit($event)">
+    </app-table-employees>
+      </div>
   </main>
 
   <!-- Modal de Criação/Edição de Colaborador -->
-  <div *ngIf="isModalOpen"
-       class="fixed inset-0 flex items-center justify-center z-[1050] bg-black bg-opacity-40 backdrop-blur-sm"
-       (click)="closeModal()">
-    <!-- Este div interno impede que o clique no modal se propague para o overlay -->
-    <div (click)="$event.stopPropagation()">
-      <app-modal-create-collaborator 
-        [editMode]="false" 
-        (close)="closeModal()">
-      </app-modal-create-collaborator>
-    </div>
+ <div *ngIf="isModalOpen"
+     class="fixed inset-0 flex items-center justify-center z-[1050] bg-black bg-opacity-40 backdrop-blur-sm"
+     (click)="closeModal()">
+  <div (click)="$event.stopPropagation()">
+    <app-modal-create-collaborator 
+      [editMode]="!!selectedCollaboratorForEdit" 
+      [collaboratorData]="selectedCollaboratorForEdit"
+      (close)="closeModal()">
+    </app-modal-create-collaborator>
   </div>
+</div>
 
   <!-- Modal de Desativação de Colaborador -->
   <app-modal-desactived-employees

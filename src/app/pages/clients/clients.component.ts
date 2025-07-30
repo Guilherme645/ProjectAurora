@@ -1,27 +1,72 @@
+// Caminho do arquivo: src/app/pages/clients/clients.component.ts (Exemplo)
+
 import { Component } from '@angular/core';
 
+// =================================================================================
+// 👇 VERIFIQUE SE ESTE CAMINHO ESTÁ CORRETO PARA A ESTRUTURA DO SEU PROJETO
+// Se o seu componente 'table-clients' estiver em outra pasta, este caminho precisa mudar.
+import { Client as TableClient } from '../../components/table-clients/table-clients.component';
+import { ModalClient } from '../../components/modal-create-client/modal-create-client.component';
+// =================================================================================
+
 @Component({
-  selector: 'app-clients', // Certifique-se de que este é o seletor do seu componente principal
-  templateUrl: './clients.component.html', // Onde o HTML principal está
+  selector: 'app-clients',
+  templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css'],
-  standalone: false // ou true, dependendo da sua configuração do Angular
+  standalone: false
 })
 export class ClientsComponent {
-  // Controla a visibilidade do modal de criação de cliente (app-modal-create-client)
-  isModalOpen: boolean = false;
-
-  // Controla a visibilidade do modal de prompt de contrato (app-modal-contract)
-  isContractModalOpen: boolean = false;
-
-  // NOVO: Controla a visibilidade do modal de criação de contrato/usuário (app-modal-create-contract-user)
-  isCreateContractUserModalOpen: boolean = false;
-
-  // Armazena o nome do cliente recém-criado para passar para o modal de contrato
+  isModalOpen = false;
+  selectedClientForEdit: ModalClient | null = null;
+  
+  // Demais propriedades...
+  isContractModalOpen = false;
+  isCreateContractUserModalOpen = false;
   newlyCreatedClientName: string | undefined;
 
   constructor() {}
 
-  // Método para abrir/fechar o modal de criação de cliente (app-modal-create-client)
+  openCreationModal(): void {
+    this.selectedClientForEdit = null;
+    this.isModalOpen = true;
+  }
+
+  // 👇 Note que o tipo aqui é TableClient, que é o alias para a interface importada
+  handleEdit(clientToEdit: TableClient): void {
+    this.selectedClientForEdit = {
+      fantasyName: clientToEdit.name,
+      clientCpfCnpj: clientToEdit.cnpjCpf,
+      clientType: clientToEdit.type.toLowerCase(),
+      email: clientToEdit.email || '',
+      phone: clientToEdit.phone || '',
+      stateRegistration: clientToEdit.stateRegistration || '',
+      municipalRegistration: clientToEdit.municipalRegistration || '',
+    };
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedClientForEdit = null;
+  }
+
+  // Demais métodos...
+  openContractModal(clientData: { fantasyName: string }): void {
+    this.newlyCreatedClientName = clientData.fantasyName;
+    this.isContractModalOpen = true;
+  }
+
+  closeContractModal(): void { this.isContractModalOpen = false; }
+  openCreateContractUserModal(): void { this.isContractModalOpen = false; this.isCreateContractUserModalOpen = true; }
+  closeCreateContractUserModal(): void { this.isCreateContractUserModalOpen = false; }
+
+
+    // Método para lidar com a mudança de usuário (se necessário)
+  onUserChange(event: any) {
+    console.log('User changed:', event);
+  }
+
+ // Método para abrir/fechar o modal de criação de cliente (app-modal-create-client)
   toggleModal() {
     this.isModalOpen = !this.isModalOpen;
     // Se o modal principal for fechado, garantir que os outros também estejam
@@ -29,48 +74,5 @@ export class ClientsComponent {
       this.isContractModalOpen = false;
       this.isCreateContractUserModalOpen = false;
     }
-  }
-
-  // Método para fechar o modal de criação de cliente
-  closeModal() {
-    this.isModalOpen = false;
-    // Limpar dados do cliente quando o modal de criação é fechado
-    this.newlyCreatedClientName = undefined;
-  }
-
-  // Chamado quando um cliente é criado no app-modal-create-client
-  // Ele recebe os dados do cliente e abre o modal de prompt de contrato
-  openContractModal(clientData: { fantasyName: string }) { // Assumindo que clientData tem fantasyName
-    this.closeModal(); // Fecha o modal de criação do cliente
-    this.newlyCreatedClientName = clientData.fantasyName; // Armazena o nome para o próximo modal
-    this.isContractModalOpen = true; // Abre o modal de prompt de contrato
-    console.log('Cliente criado, abrindo modal de contrato para:', clientData.fantasyName);
-  }
-
-  // Chamado para fechar o modal de prompt de contrato (app-modal-contract)
-  closeContractModal() {
-    this.isContractModalOpen = false;
-    // Limpar o nome do cliente ao fechar este modal (se não for continuar)
-    this.newlyCreatedClientName = undefined;
-    console.log('Modal de contrato fechado.');
-  }
-
-  // NOVO: Chamado quando "Continuar cadastro" é clicado no app-modal-contract
-  // Fecha o modal de prompt de contrato e abre o modal de criação de contrato/usuário
-  openCreateContractUserModal(): void {
-    this.closeContractModal(); // Fecha o modal de prompt de contrato
-    this.isCreateContractUserModalOpen = true; // Abre o modal de criação de contrato/usuário
-    console.log('Continuando cadastro, abrindo modal de criação de contrato/usuário.');
-  }
-
-  // NOVO: Chamado para fechar o modal de criação de contrato/usuário (app-modal-create-contract-user)
-  closeCreateContractUserModal(): void {
-    this.isCreateContractUserModalOpen = false;
-    console.log('Modal de criação de contrato/usuário fechado.');
-  }
-
-  // Método para lidar com a mudança de usuário (se necessário)
-  onUserChange(event: any) {
-    console.log('User changed:', event);
   }
 }
