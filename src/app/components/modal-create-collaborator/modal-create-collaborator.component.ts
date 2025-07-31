@@ -32,7 +32,7 @@ export interface Collaborator {
 export class ModalCreateCollaboratorComponent implements OnInit {
   @Input() editMode: boolean = false;
   @Input() collaboratorData: Collaborator | null = null;
-  
+    passwordVisible = false;
   @Output() close = new EventEmitter<void>();
   @Output() collaboratorSaved = new EventEmitter<Collaborator>();
 
@@ -78,6 +78,11 @@ export class ModalCreateCollaboratorComponent implements OnInit {
     }
   }
 
+
+    // Função para alternar a visibilidade da senha
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
   nextStep(): void {
     const step1Controls = ['fullName', 'email', 'password', 'collaboratorType', 'cpfCnpj'];
     let isStep1Valid = true;

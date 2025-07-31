@@ -40,6 +40,7 @@ export class ModalCreateContractUserComponent implements OnInit {
   @Input() editMode: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
+  passwordVisible = false;
 
   currentStep: number = 1;
   contractForm!: FormGroup;
@@ -106,6 +107,11 @@ export class ModalCreateContractUserComponent implements OnInit {
       this.userForm.markAllAsTouched();
       if (this.userForm.valid) this.currentStep = 3;
     }
+  }
+
+
+    togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
   }
 
   previousStep(): void {

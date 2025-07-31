@@ -32,9 +32,7 @@
             <span 
               class="text-base font-medium"
               [class]="currentStep >= 2 ? 'text-blue-700' : 'text-gray-500'">
-              Alertas
-            </span>
-            <p class="text-xs text-gray-400">Configuração opcional</p>
+Endereço <br> Opcional            </span>
           </div>
         </div>
       </nav>
@@ -78,12 +76,12 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                 <div>
-                    <label for="clientCpfCnpj" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">CPF / CNPJ do cliente</label>
-                    <input id="clientCpfCnpj" type="text" formControlName="clientCpfCnpj" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o CPF ou CNPJ do cliente">
-                    <div *ngIf="clientForm.get('clientCpfCnpj')?.touched && clientForm.get('clientCpfCnpj')?.invalid" class="text-red-500 text-xs mt-1">
-                        CPF/CNPJ é obrigatório
-                    </div>
-                </div>
+          <label for="clientCpfCnpj" class="block text-sm font-medium text-gray-700 mb-1">CPF / CNPJ <span class="text-red-500">*</span></label>
+          <input id="clientCpfCnpj" type="text" formControlName="clientCpfCnpj" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o CPF ou CNPJ do cliente">
+          <div *ngIf="clientForm.get('clientCpfCnpj')?.touched && clientForm.get('clientCpfCnpj')?.invalid" class="text-red-500 text-xs mt-1">
+            CPF/CNPJ é obrigatório.
+          </div>
+        </div>
                 <div>
                     <label for="stateRegistration" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">Inscrição estadual</label>
                     <input id="stateRegistration" type="text" formControlName="stateRegistration" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a inscrição estadual">
@@ -93,13 +91,10 @@
                 </div>
             </div>
 
-            <div class="w-full">
-                <label for="municipalRegistration" class="block text-sm font-semibold font-inter text-gray-900 mb-2 leading-tight tracking-tight">Inscrição municipal</label>
-                <input id="municipalRegistration" type="text" formControlName="municipalRegistration" class="box-border flex items-center w-full h-[45px] bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3.5 font-inter font-medium text-sm leading-tight tracking-tight text-gray-700 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a inscrição municipal">
-                <div *ngIf="clientForm.get('municipalRegistration')?.touched && clientForm.get('municipalRegistration')?.invalid" class="text-red-500 text-xs mt-1">
-                    Inscrição municipal é obrigatória
-                </div>
-            </div>
+            <div>
+          <label for="municipalRegistration" class="block text-sm font-medium text-gray-700 mb-1">Inscrição municipal</label>
+          <input id="municipalRegistration" type="text" formControlName="municipalRegistration" class="w-[332px] p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a inscrição municipal">
+        </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                 <div>
