@@ -1,43 +1,38 @@
-<div class="relative min-h-screen ">
-  <!-- Sidebar Fixo e Responsivo -->
-    <div class="bg-neutral-800 text-white fixed h-full z-50">
+<div class="relative min-h-screen">
+  <div class="bg-neutral-800 text-white fixed h-full z-50">
     <app-side-bar-employees 
       (userChange)="onUserChange($event)" 
       (openModalExternally)="toggleModal()">
     </app-side-bar-employees>
-    </div>
+  </div>
 
-  <!-- Conteúdo Principal Responsivo -->
   <main class="lg:ml-[314px] p-4 sm:p-8 flex flex-col items-center gap-8">
-    <!-- Header do Conteúdo -->
     <div class="w-full max-w-6xl">
       <app-header-employees (openModal)="toggleModal()"></app-header-employees>
     </div>
 
-    <!-- Container da Tabela Responsivo -->
     <div class="w-full max-w-6xl h-auto bg-white border border-gray-200 rounded-lg shadow-sm">
-      <!-- Listen for the deactivateCollaborator event from app-table-employees -->
- <app-table-employees 
+      <app-table-employees 
+        [collaborators]="collaborators"
         (deactivateCollaborator)="onDeactivateCollaborator($event)"
         (editCollaborator)="handleEdit($event)">
-    </app-table-employees>
-      </div>
+      </app-table-employees>
+    </div>
   </main>
 
-  <!-- Modal de Criação/Edição de Colaborador -->
- <div *ngIf="isModalOpen"
-     class="fixed inset-0 flex items-center justify-center z-[1050] bg-black bg-opacity-40 backdrop-blur-sm"
-     (click)="closeModal()">
-  <div (click)="$event.stopPropagation()">
-    <app-modal-create-collaborator 
-      [editMode]="!!selectedCollaboratorForEdit" 
-      [collaboratorData]="selectedCollaboratorForEdit"
-      (close)="closeModal()">
-    </app-modal-create-collaborator>
+  <div *ngIf="isModalOpen"
+       class="fixed inset-0 flex items-center justify-center z-[1050] bg-black bg-opacity-40 backdrop-blur-sm"
+       (click)="closeModal()">
+    <div (click)="$event.stopPropagation()">
+      <app-modal-create-collaborator 
+        [editMode]="!!selectedCollaboratorForEdit" 
+        [collaboratorData]="selectedCollaboratorForEdit"
+        (close)="closeModal()"
+        (collaboratorSaved)="handleCollaboratorSaved($event)">
+      </app-modal-create-collaborator>
+    </div>
   </div>
-</div>
 
-  <!-- Modal de Desativação de Colaborador -->
   <app-modal-desactived-employees
     *ngIf="isDeactivationModalOpen"
     [collaboratorName]="selectedCollaboratorForDeactivation?.name"

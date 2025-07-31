@@ -1,10 +1,8 @@
-// Caminho do arquivo: src/app/components/table-clients/table-clients.component.ts
+// src/app/components/table-clients/table-clients.component.ts
 
-import { Component, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
 import { ChipColor } from '../chips/chips.component';
 
-// =================================================================================
-// 👇 GARANTA QUE "export" ESTÁ EXATAMENTE AQUI. É ISSO QUE TORNA A INTERFACE VISÍVEL.
 export interface Client {
   id: number;
   name: string;
@@ -16,7 +14,6 @@ export interface Client {
   stateRegistration?: string;
   municipalRegistration?: string;
 }
-// =================================================================================
 
 @Component({
   selector: 'app-table-clients',
@@ -25,14 +22,12 @@ export interface Client {
   standalone: false
 })
 export class TableClientsComponent implements AfterViewInit {
+  // ✅ 1. A lista de clientes agora é um Input, recebida do componente pai.
+  @Input() clients: Client[] = [];
+  
   @Output() editClient = new EventEmitter<Client>();
 
-  clients: Client[] = [
-    { id: 1, name: 'Superior Tribunal Federal', cnpjCpf: '00.581.040/0001-45', type: 'Público', contracts: 1, email: 'stf@exemplo.com', phone: '(61) 3217-3000', stateRegistration: 'ISENTO', municipalRegistration: 'ISENTO' },
-    { id: 2, name: 'Procuradoria Geral', cnpjCpf: '22.302.716/0001-02', type: 'Público', contracts: 1, email: 'pgr@exemplo.com', phone: '(61) 3105-5100', stateRegistration: 'ISENTO', municipalRegistration: 'ISENTO' },
-    { id: 3, name: 'Nestlé Brasil Ltda.', cnpjCpf: '60.409.075/0001-52', type: 'Privado', contracts: 3, email: 'contato@nestle.com.br', phone: '(11) 5508-4400', stateRegistration: '110.041.222.118', municipalRegistration: '9.345.678-3' },
-    { id: 4, name: 'Tribunal de Contas da União', cnpjCpf: '00.373.840/0001-90', type: 'Público', contracts: 1, email: 'tcu@exemplo.com', phone: '(61) 3316-7248', stateRegistration: 'ISENTO', municipalRegistration: 'ISENTO' },
-  ];
+  // ❌ 2. A lista de clientes fixos foi removida daqui.
 
   constructor() {}
 
