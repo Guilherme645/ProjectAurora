@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, HostListener, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators'; // Import retry and catchError
 import { DataService, MentionDetails } from 'src/app/services/data.service';
@@ -22,7 +23,9 @@ export class HeaderMentionDetailsComponent implements OnInit {
   textoOriginal: string = ''; // Novo campo para o texto descritivo
   isPlayerMinimized: boolean = false; // Novo campo para controlar o player
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.checkScreenSize();
@@ -92,6 +95,8 @@ export class HeaderMentionDetailsComponent implements OnInit {
   onEditMention() {
     console.log('Edit mention clicked');
     this.editClicked.emit();
+        this.router.navigate(['/clippings']); 
+
   }
 
   onShare() {
