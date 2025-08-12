@@ -255,13 +255,15 @@ export class PageSavedSearchComponent implements OnInit, OnDestroy {
     this.modalToClose = null;
   }
 
-  onConfirmDiscard() {
-    this.showDiscardModal = false;
-    if (this.modalToClose === 'edit') {
-      this.modalService.closeEditModal();
-    } else if (this.modalToClose === 'duplicate') {
-      this.modalService.closeDuplicateModal();
-    }
-    this.modalToClose = null;
-  }
+onConfirmDiscard() {
+  this.showDiscardModal = false;
+
+  // Fecha explicitamente todos os modais
+  this.modalService.closeEditModal();
+  this.modalService.closeDuplicateModal();
+  this.modalService.closeRemoveModal(); // Se houver um modal de remoção
+  
+  // Limpa a variável de controle
+  this.modalToClose = null; 
+}
 }

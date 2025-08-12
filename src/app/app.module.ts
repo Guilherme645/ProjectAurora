@@ -84,6 +84,7 @@ import { ModalContractComponent } from './components/modal-contract/modal-contra
 import { ModalCreateContractUserComponent } from './components/modal-create-contract-user/modal-create-contract-user.component';
 import { ChipsComponent } from './components/chips/chips.component';
 import { VeichlesTableComponent } from './components/veichles-table/veichles-table.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Adicione esta linha
 
 @NgModule({
   declarations: [
@@ -169,6 +170,7 @@ VeichlesTableComponent
     AppRoutingModule,
     RouterModule, // ✅ IMPORTANTE PARA AS ROTAS FUNCIONAREM
     FormsModule,
+        BrowserAnimationsModule, // Adicione esta linha
     ReactiveFormsModule,
     DragDropModule,
     SharedModule,

@@ -1,15 +1,33 @@
+// tag-filter.component.ts
 import { Component, EventEmitter, HostListener, OnInit, Output, Renderer2 } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
-    selector: 'app-tag-filter',
-    templateUrl: './tag-filter.component.html',
-    styleUrls: ['./tag-filter.component.css'],
-    standalone: false
+  selector: 'app-tag-filter',
+  templateUrl: './tag-filter.component.html',
+  styleUrls: ['./tag-filter.component.css'],
+  standalone: false,
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({ transform: 'translateY(0)', opacity: 1 })),
+      transition(':enter', [
+        style({ transform: 'translateY(20px)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-out', style({ transform: 'translateY(20px)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class TagFilterComponent implements OnInit {
+  public Object = Object; 
+
   entidades: { [key: string]: string[] } = {};
-  filteredEntities: string[] = [];
+  filteredEntidades: { [key: string]: string[] } = {};
+  selectedTags: { [key: string]: string[] } = {};
+  
   isMobile: boolean = false;
   selectedCategory: string = 'Data';
   searchQuery: string = '';
@@ -24,19 +42,17 @@ export class TagFilterComponent implements OnInit {
     this.loadEntidades();
   }
 
-  /** 🔹 Carrega as entidades do Service */
   loadEntidades(): void {
     this.dataservice.getEntidades().subscribe({
       next: (data) => {
         this.entidades = data.entidades;
-        this.filterEntities();
+        this.filteredEntidades = { ...this.entidades };
       },
       error: (err) => {
         console.error('Erro ao carregar entidades:', err);
       }
     });
   }
-
 
   @HostListener('window:resize')
   checkScreenSize(): void {
@@ -56,17 +72,48 @@ export class TagFilterComponent implements OnInit {
     this.isMobileModalOpen = false;
     this.closeModal.emit();
   }
+
   filterEntities(): void {
-    if (!this.entidades || !this.entidades[this.selectedCategory]) {
-      this.filteredEntities = [];
+    if (!this.searchQuery) {
+      this.filteredEntidades = { ...this.entidades };
       return;
     }
-    this.filteredEntities = this.entidades[this.selectedCategory];
+
+    const query = this.searchQuery.toLowerCase();
+    this.filteredEntidades = {};
+    for (const category of Object.keys(this.entidades)) {
+      const filtered = this.entidades[category].filter(item => 
+        item.toLowerCase().includes(query)
+      );
+      if (filtered.length > 0) {
+        this.filteredEntidades[category] = filtered;
+      }
+    }
   }
 
   selectCategory(category: string): void {
     this.selectedCategory = category;
-    this.filterEntities();
+    
+    const element = document.getElementById(category);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+  
+  toggleTag(category: string, tag: string): void {
+    if (!this.selectedTags[category]) {
+      this.selectedTags[category] = [];
+    }
+    const index = this.selectedTags[category].indexOf(tag);
+    if (index > -1) {
+      this.selectedTags[category].splice(index, 1);
+    } else {
+      this.selectedTags[category].push(tag);
+    }
+  }
+
+  isSelected(category: string, tag: string): boolean {
+    return this.selectedTags[category] && this.selectedTags[category].includes(tag);
   }
 
   @HostListener('document:click', ['$event'])

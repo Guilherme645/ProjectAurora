@@ -17,6 +17,8 @@ export interface Relatorio {
   corFundo: string;
   corTexto: string;
   criadoEm: string;
+    selected?: boolean;
+
 }
 
 export interface MonitorCard {

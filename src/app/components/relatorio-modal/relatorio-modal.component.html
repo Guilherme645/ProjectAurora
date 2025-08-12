@@ -22,8 +22,9 @@
                   <th colspan="4" class="p-3 bg-white">
                     <div class="flex justify-between items-center">
                       <div class="relative w-full">
-                        <input type="text" placeholder="Pesquisar relatório"
-                        class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 outline-none bg-white shadow-sm placeholder:font-normal">
+         <input type="text" placeholder="Pesquisar relatório"
+         class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 outline-none bg-white shadow-sm placeholder:font-normal"
+         [(ngModel)]="searchText">
                  
                         <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -46,31 +47,37 @@
                   </th>
                 </tr>
                 <tr class="bg-gray-50 text-gray-500">
-                  <th class="p-3 w-10 text-[12px]">
-                    <input type="checkbox" class="rounded border-gray-300 focus:ring focus:ring-blue-300">
-                  </th>
+                      <th class="p-3 w-10 text-[12px]">
+      <input type="checkbox" 
+             class="rounded border-gray-300 focus:ring focus:ring-blue-300"
+             [checked]="allSelected" 
+             (change)="toggleAll($event)">
+    </th>
                   <th class="p-3 text-left text-[12px]">NOME</th>
                   <th class="p-3 text-left text-[12px]">CRIADO POR</th>
                   <th class="p-3 text-left text-[12px]">CRIADO EM</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
-                <tr *ngFor="let relatorio of getRelatoriosPaginados()" class="hover:bg-gray-50">
-                  <td class="p-3">
-                    <input type="checkbox" class="rounded border-gray-300 focus:ring focus:ring-blue-300">
-                  </td>
-                  <td class="p-3">{{ relatorio.nome }}</td>
-                  <td class="p-3 flex items-center">
-                    <div class="w-[38px] h-[38px] rounded-full text-white flex items-center justify-center shadow-sm"
-                         [style.backgroundColor]="relatorio.corFundo"
-                         [style.color]="relatorio.corTexto"
-                         style="font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: -0.01em; text-align: center;">
-                      {{ relatorio.sigla }}
-                    </div>
-                    <span class="ml-2 text-gray-800">{{ relatorio.criadoPor }}</span>
-                  </td>
-                  <td class="p-3 text-gray-600">{{ relatorio.criadoEm }}</td>
-                </tr>
+               <tbody>
+  <tr *ngFor="let relatorio of getRelatoriosPaginados()" class="hover:bg-gray-50">
+    <td class="p-3">
+      <input type="checkbox" 
+             class="rounded border-gray-300 focus:ring focus:ring-blue-300"
+             [(ngModel)]="relatorio.selected"> 
+    </td>
+    <td class="p-3">{{ relatorio.nome }}</td>
+    <td class="p-3 flex items-center">
+      <div class="w-[38px] h-[38px] rounded-full text-white flex items-center justify-center shadow-sm"
+           [style.backgroundColor]="relatorio.corFundo"
+           [style.color]="relatorio.corTexto"
+           style="font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: -0.01em; text-align: center;">
+        {{ relatorio.sigla }}
+      </div>
+      <span class="ml-2 text-gray-800">{{ relatorio.criadoPor }}</span>
+    </td>
+    <td class="p-3 text-gray-600">{{ relatorio.criadoEm }}</td>
+  </tr>
               </tbody>
             </table>
           </div>

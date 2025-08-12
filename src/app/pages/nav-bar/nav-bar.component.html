@@ -1,7 +1,5 @@
-<!-- Versão Desktop -->
 <div *ngIf="!isMobile">
   <div class="layout-container">
-    <!-- Sidebar SEMPRE visível e acima do overlay -->
     <div class="bg-neutral-800 text-white fixed h-full z-50">
       <app-side-bar 
         (userChange)="onUserChange($event)" 
@@ -9,14 +7,12 @@
       </app-side-bar>
     </div>
 
-    <!-- Fundo escurecido -->
     <div 
       *ngIf="isModalVisible"
       class="fixed inset-0 z-40"
       style="background-color: #b8bacd80;">
     </div>
 
-    <!-- Modal com referência -->
     <div 
       *ngIf="isModalVisible"
       #modalWrapper
@@ -25,36 +21,29 @@
       <app-modal-account></app-modal-account>
     </div>
 
-    <!-- Modais de Busca -->
-    <!-- Fundo escurecido do drawer -->
-<div 
-*ngIf="isSearchOpen"
-class="fixed inset-0 bg-black bg-opacity-40 z-50"
-(click)="closeHighSearch()">
-</div>
+    <div 
+      *ngIf="isSearchOpen"
+      class="fixed inset-0 bg-black bg-opacity-40 z-50"
+      (click)="closeHighSearch()">
+    </div>
 
-<!-- Drawer lateral (agora com z-50 para ficar acima do fundo escuro) -->
-<div 
-*ngIf="isSearchOpen" 
-class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-50"
-[ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}"
-(click)="$event.stopPropagation()">
-<div class="p-4 w-full h-full">
-  <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
-</div>
-</div>
-
+    <div 
+      *ngIf="isSearchOpen" 
+      class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray-300 transition-transform duration-300 ease-in-out z-50"
+      [ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}"
+      (click)="$event.stopPropagation()">
+      <div class="p-4 w-full h-full">
+        <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
+      </div>
+    </div>
 
     <app-input-busca #searchModal *ngIf="isBuscaOpen" (closeBusca)="closeBusca()"></app-input-busca>
 
-
     <app-relatorio-modal 
-    *ngIf="modalAberto" 
-    #relatorioModal
-    (fechar)="modalAberto = false">
-  </app-relatorio-modal>
-  
-  
+      *ngIf="modalAberto" 
+      #relatorioModal
+      (fechar)="modalAberto = false">
+    </app-relatorio-modal>
 
     <div class="main-content">
       <header class="header fixed-header">
@@ -67,35 +56,24 @@ class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray
       </header>
     
       <main class="main pt-20">
-        <!-- Adicionando o <hr> antes dos cards -->
-        <div class="relative">
-          <hr style="
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 10000px;
-            border: none;
-            border-top: 1px solid #e5e7eb;
-            margin: 0;
-          " />
+        <div class="container-fluid mx-auto">
+          <hr class="my-5 border-t border-gray-200" />
+          
+          <div class="space-y-[32px] mt-5">
+            <ng-container *ngFor="let noticia of filteredNoticias; let last = last">
+              <div class="card">
+                <app-card 
+                  [noticias]="noticia" 
+                  [isSelected]="noticia.selected"
+                  (selectionChange)="onSelectionChange($event)">
+                </app-card>
+              </div>
+              
+              <hr *ngIf="!last" class=" w-[590px] ml-[80px] my-8 border-t border-gray-200" />
+            </ng-container>
+          </div>
         </div>
         
-        <div class="space-y-[32px] mt-5">
-          <ng-container *ngFor="let noticia of filteredNoticias; let last = last">
-            <div class="card">
-              <app-card 
-                [noticias]="noticia" 
-                [isSelected]="allSelected"
-                (selectionChange)="onSelectionChange($event)">
-              </app-card>
-            </div>
-            
-            <!-- Divider entre cards, exceto após o último -->
-            <hr *ngIf="!last" class=" w-[590px] ml-[80px] my-8 border-t border-gray-200" />
-          </ng-container>
-        </div>
-        
-
         <div *ngIf="isLoading" class="loading text-center py-4">Carregando mais notícias...</div>
       </main>
 
@@ -104,10 +82,10 @@ class="fixed inset-y-0 right-0 w-[476px] bg-white shadow-lg border-l border-gray
       </div>
 
       <app-mensoes 
-      [selectedCount]="selectedMentionsCount" 
-      (abrirRelatorioModal)="modalAberto = true">
-    </app-mensoes>
-        </div>
+        [selectedCount]="selectedMentionsCount" 
+        (abrirRelatorioModal)="modalAberto = true">
+      </app-mensoes>
+    </div>
   </div>
 </div>
 

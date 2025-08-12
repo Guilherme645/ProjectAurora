@@ -8,11 +8,11 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class CardComponent {
-  @Input() noticias: any;
-  @Input() isSelected: boolean = false;
   @Input() allSelected: boolean = false; // Recebe o estado de "Selecionar Todos"
   @Input() searchQuery: string = '';
-  @Output() selectionChange = new EventEmitter<boolean>();
+@Input() noticias: any;
+@Input() isSelected: boolean = false; // Mantenha este input para a verificação do checkbox
+@Output() selectionChange = new EventEmitter<{ noticia: any, isSelected: boolean }>();
 
   isModalOpen: boolean = false;
   isMobile: boolean = window.innerWidth <= 768;
@@ -56,11 +56,10 @@ export class CardComponent {
     }
   }
 
-  onCheckboxChange(event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.isSelected = checked;
-    this.selectionChange.emit(checked);
-  }
+onCheckboxChange(event: Event): void {
+  const checked = (event.target as HTMLInputElement).checked;
+  this.selectionChange.emit({ noticia: this.noticias, isSelected: checked });
+}
 
   openEntitiesModal(): void {
     this.isEntitiesModalOpen = true;

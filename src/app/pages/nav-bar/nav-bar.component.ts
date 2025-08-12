@@ -30,7 +30,6 @@ export class NavBarComponent implements OnInit {
   isModalVisible: boolean = false;
   modalAberto = false;
 
-  // Referências dos elementos
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
   @ViewChild('searchDrawer') searchDrawerRef!: ElementRef;
   @ViewChild('relatorioModal') relatorioModalRef!: ElementRef;
@@ -79,7 +78,6 @@ export class NavBarComponent implements OnInit {
     }
   }
   
-
   setSelectedTab(tab: string) {
     this.selectedTab = tab;
     this.page = 1;
@@ -99,13 +97,13 @@ export class NavBarComponent implements OnInit {
     this.isLoading = true;
     this.dataService.getData(this.page, this.pageSize, this.currentUser).subscribe(
       (data) => {
-        console.log('Dados recebidos (página ' + this.page + ', usuário ' + this.currentUser + '):', data);
         if (data && data.noticias && data.noticias.length > 0) {
-          this.noticias = this.noticias.concat(data.noticias);
+          // MODIFICAÇÃO: Adiciona a propriedade 'selected' a cada notícia
+          const newNoticias = data.noticias.map((n: any) => ({ ...n, selected: false }));
+          this.noticias = this.noticias.concat(newNoticias);
           this.filterNoticias();
           this.hasMoreData = data.noticias.length === this.pageSize;
         } else {
-          console.warn('Nenhuma notícia encontrada para o usuário:', this.currentUser);
           this.hasMoreData = false;
         }
         this.isLoading = false;
@@ -146,8 +144,24 @@ export class NavBarComponent implements OnInit {
     this.filterNoticias();
   }
 
+  // MODIFICAÇÃO: Método para "Selecionar Todos"
   onSelectAll(selectAll: boolean) {
     this.allSelected = selectAll;
+    this.filteredNoticias.forEach(noticia => noticia.selected = selectAll);
+    this.selectedMentionsCount = selectAll ? this.filteredNoticias.length : 0;
+  }
+
+  // MODIFICAÇÃO: Gerenciamento do estado de seleção individual
+  onSelectionChange(event: { noticia: any, isSelected: boolean }) {
+    const item = this.noticias.find(n => n.id === event.noticia.id);
+    if (item) {
+      item.selected = event.isSelected;
+    }
+    // Recalcula a contagem total
+    this.selectedMentionsCount = this.noticias.filter(n => n.selected).length;
+    
+    // Sincroniza o checkbox "Selecionar Todos"
+    this.allSelected = this.selectedMentionsCount === this.noticias.length;
   }
 
   onUserChange(user: string) {
@@ -156,6 +170,8 @@ export class NavBarComponent implements OnInit {
     this.noticias = [];
     this.filteredNoticias = [];
     this.hasMoreData = true;
+    this.allSelected = false; // Reset the select all state
+    this.selectedMentionsCount = 0; // Reset the count
     this.loadNoticias();
   }
 
@@ -168,28 +184,16 @@ export class NavBarComponent implements OnInit {
     this.isDropdownOpen = false;
   }
 
-  onSelectionChange(event: any) {
-    if (event.isSelected) {
-      this.selectedMentionsCount++;
-    } else {
-      this.selectedMentionsCount--;
-    }
-  }
-
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   toggleSearch(): void {
-    console.log('Toggle search chamado. isSearchOpen antes:', this.isSearchOpen);
     this.isSearchOpen = !this.isSearchOpen;
-    console.log('isSearchOpen depois:', this.isSearchOpen);
   }
 
   openBusca(): void {
-    console.log('Abrindo busca. isBuscaOpen antes:', this.isBuscaOpen);
     this.isBuscaOpen = true;
-    console.log('isBuscaOpen depois:', this.isBuscaOpen);
   }
 
   closeHighSearch(): void {
@@ -202,6 +206,5 @@ export class NavBarComponent implements OnInit {
 
   toggleModal() {
     this.isModalVisible = !this.isModalVisible;
-    console.log('Estado do modal:', this.isModalVisible);
   }
 }

@@ -92,7 +92,7 @@ class="fixed inset-0 bg-black bg-opacity-40 z-50"
         </div>
 
         <!-- Monitor Cards -->
-        <div *ngIf="!isLoading && !errorMessage" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 z-0 relative">
+<div *ngIf="!isLoading && !errorMessage" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ml-[-8px] mt-12 z-0 relative">
           <app-monitor-card
             *ngFor="let card of filteredMonitorCards"
             [title]="card.title"
@@ -110,44 +110,35 @@ class="fixed inset-0 bg-black bg-opacity-40 z-50"
 
   <!-- Modal de Edição -->
 <div
-  *ngIf="modalAberto"
-  class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50 flex justify-center items-center"
-  role="dialog"
-  aria-modal="true"
+    *ngIf="modalAberto && !showDiscardModal"
+    class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50 flex justify-center items-center"
+    role="dialog"
+    aria-modal="true"
 >
-  <div class="relative bg-white rounded-md shadow-lg w-full max-w-[500px]">
-    <app-botaox
-      (onClose)="closeEditModal()"
-      class="absolute top-4 right-4 w-[46px] h-[46px] flex items-center justify-center z-[2000]">
-    </app-botaox>
-
-    <app-edit-search-basic-information (saveEdits)="saveEdits()"></app-edit-search-basic-information>
-  </div>
+    <div class="relative bg-white rounded-md shadow-lg w-full max-w-[500px]">
+        <app-botaox
+            (onClose)="showDiscardModal = true"
+            class="absolute top-4 right-4 w-[46px] h-[46px] flex items-center justify-center z-[2000]">
+        </app-botaox>
+        <app-edit-search-basic-information (saveEdits)="saveEdits()"></app-edit-search-basic-information>
+    </div>
 </div>
 
-  <!-- Modal de Duplicação -->
- <!-- Modal de Duplicação -->
 <div
-  *ngIf="duplicateModalAberto"
-  class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50 flex justify-center items-center"
-  role="dialog"
-  aria-modal="true"
+    *ngIf="duplicateModalAberto && !showDiscardModal"
+    class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50 flex justify-center items-center"
+    role="dialog"
+    aria-modal="true"
 >
-  <!-- Container do modal com posição relativa -->
-  <div class="relative bg-white rounded-md shadow-lg w-full max-w-[500px]">
+    <div class="relative bg-white rounded-md shadow-lg w-full max-w-[500px]">
+        <app-botaox
+            (onClose)="showDiscardModal = true"
+            class="absolute top-4 right-4 w-[46px] h-[46px] flex items-center justify-center z-[2000]">
+        </app-botaox>
+        <app-duplicate-search (saveEdits)="saveEdits()"></app-duplicate-search>
+    </div>
     
-    <!-- Botão de fechar com app-botaox posicionado dentro do modal -->
-    <app-botaox
-      (onClose)="closeDuplicateModal()"
-      class="absolute top-4 right-4 w-[46px] h-[46px] flex items-center justify-center z-[2000]">
-    </app-botaox>
-
-    <!-- Conteúdo do modal -->
-    <app-duplicate-search (saveEdits)="saveEdits()"></app-duplicate-search>
-  </div>
 </div>
-
-  <!-- Modal de Remoção -->
   <div
     *ngIf="removeModalAberto"
     class="fixed inset-0 z-[999] backdrop-blur-sm bg-[#dbdce6]/50"
@@ -157,11 +148,9 @@ class="fixed inset-0 bg-black bg-opacity-40 z-50"
  
     <app-remove-saved-search (cancel)="onCancelRemove()" (confirmRemove)="onConfirmRemove()"></app-remove-saved-search>
   </div>
-
-  <app-discard-changes-modal
+<app-discard-changes-modal
     *ngIf="showDiscardModal"
     [context]="modalContext"
     (cancel)="onCancelDiscard()"
     (confirm)="onConfirmDiscard()"
-  ></app-discard-changes-modal>
-</div>
+></app-discard-changes-modal>

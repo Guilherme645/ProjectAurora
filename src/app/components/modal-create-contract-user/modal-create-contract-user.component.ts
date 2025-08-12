@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+// Suas interfaces existentes
 interface Contract {
   number: string;
   startDate: string;
@@ -36,7 +37,8 @@ interface Vehicle {
   styleUrls: ['./modal-create-contract-user.component.css'],
   standalone: false
 })
-export class ModalCreateContractUserComponent implements OnInit {
+// >>> MUDANÇA: Implementa o AfterViewInit
+export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
   @Input() editMode: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
@@ -62,7 +64,7 @@ export class ModalCreateContractUserComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.contractForm = this.fb.group({
       number: ['', Validators.required],
       startDate: ['', Validators.required],
@@ -70,7 +72,7 @@ export class ModalCreateContractUserComponent implements OnInit {
       situation: ['', Validators.required],
       responsibleWorkspace: ['', Validators.required],
       workspaceName: [''],
-      file: [null],
+      file: [null, Validators.required], // Adicionado validador para o ficheiro
     });
 
     this.userForm = this.fb.group({
@@ -87,8 +89,6 @@ export class ModalCreateContractUserComponent implements OnInit {
       state: [''],
     });
 
-    // Este formulário não possui campos no template da Etapa 3,
-    // o que causa a falha na validação.
     this.vehicleForm = this.fb.group({
       vehicle: ['', Validators.required],
       mediaType: ['', Validators.required],
@@ -97,6 +97,16 @@ export class ModalCreateContractUserComponent implements OnInit {
     if (this.editMode) {
       // Lógica de edição
     }
+  }
+
+  // >>> MUDANÇA: Adiciona o ngAfterViewInit para inicializar a Preline UI
+  ngAfterViewInit(): void {
+    // A inicialização é feita dentro de um setTimeout para garantir que o HTML foi renderizado
+    setTimeout(() => {
+      if (window.HSStaticMethods) {
+        window.HSStaticMethods.autoInit();
+      }
+    }, 100);
   }
 
   nextStep(): void {
@@ -109,8 +119,7 @@ export class ModalCreateContractUserComponent implements OnInit {
     }
   }
 
-
-    togglePasswordVisibility(): void {
+  togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;
   }
 
@@ -118,33 +127,25 @@ export class ModalCreateContractUserComponent implements OnInit {
     if (this.currentStep > 1) this.currentStep--;
   }
 
-  // ✅ FUNÇÃO CORRIGIDA
   onSubmit(): void {
     if (this.currentStep === 3) {
-      // NOTA: A validação this.vehicleForm.valid provavelmente está falhando
-      // porque o formulário não está conectado à sua tabela de veículos na UI.
-      // Para fazer o fluxo funcionar, vamos salvar os dados dos outros formulários
-      // e fechar o modal.
-
       const contractData = this.contractForm.value;
       const userData = this.userForm.value;
-      // const vehicleData = ...; // Você precisará obter os dados da tabela de veículos.
-
-      // 1. Emite os dados salvos para o componente pai.
-      this.save.emit({ contract: contractData, user: userData });
       
-      // 2. Emite o evento para fechar o modal. Esta linha estava faltando.
+      this.save.emit({ contract: contractData, user: userData });
       this.close.emit();
-
     } else {
-      // Se não for a última etapa, apenas avança.
       this.nextStep();
     }
   }
 
   onFileChange(event: any): void {
-    if (event.target.files.length > 0) {
-      this.contractForm.patchValue({ file: event.target.files[0] });
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.contractForm.patchValue({ file: file });
+      // Força a revalidação do formulário
+      this.contractForm.get('file')?.updateValueAndValidity();
     }
   }
 }

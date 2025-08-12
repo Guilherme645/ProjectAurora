@@ -7,19 +7,45 @@
 
     <div class="flex items-start gap-8">
       <!-- Abas (Steps) -->
-      <nav class="w-[225px]">
-        <div class="flex items-center ml-3 gap-3 mb-1" [class]="currentStep === 1 ? 'text-blue-600' : 'text-gray-500'">
-          <div>
-            <span class="text-base font-medium" [class]="currentStep >= 1 ? 'text-blue-700' : 'text-gray-500'">Informações básicas</span>
-          </div>
-        </div>
-        <div class="flex items-center mt-[20px] gap-3" [class]="currentStep === 2 ? 'text-blue-600' : 'text-gray-500'">
-          <div>
-            <span class="text-base ml-3  font-medium" [class]="currentStep >= 2 ? 'text-blue-700' : 'text-gray-500'">Alertas</span>
-            <p class="text-xs ml-3 text-gray-400">Configuração opcional</p>
-          </div>
-        </div>
-      </nav>
+    <nav class="w-[225px]">
+  <div
+    class="flex items-center gap-3 p-2 mb-1 rounded-lg"
+    [ngClass]="{
+      'bg-slate-50': currentStep === 1,
+      'text-blue-600': currentStep === 1,
+      'text-gray-500': currentStep !== 1
+    }"
+  >
+    <div>
+      <span
+        class="text-base font-medium"
+        [ngClass]="{
+          'text-blue-700': currentStep >= 1,
+          'text-gray-500': currentStep < 1
+        }"
+      >Informações básicas</span>
+    </div>
+  </div>
+  <div
+    class="flex items-center mt-4 gap-3 p-2 rounded-lg"
+    [ngClass]="{
+      'bg-slate-50': currentStep === 2,
+      'text-blue-600': currentStep === 2,
+      'text-gray-500': currentStep !== 2
+    }"
+  >
+    <div>
+      <span
+        class="text-base font-medium"
+        [ngClass]="{
+          'text-blue-700': currentStep >= 2,
+          'text-gray-500': currentStep < 2
+        }"
+      >Alertas</span>
+      <p class="text-xs text-gray-400">Configuração opcional</p>
+    </div>
+  </div>
+</nav>
 
       <!-- Etapa 1: Informações básicas -->
       <section *ngIf="currentStep === 1" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">

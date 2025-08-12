@@ -8,5 +8,5 @@ declare global {
   }
 }
 
-// Adicione esta linha se estiver a usar módulos no seu ficheiro .d.ts
+// Adicione esta linha de volta para que o arquivo seja tratado como um módulo
 export {};

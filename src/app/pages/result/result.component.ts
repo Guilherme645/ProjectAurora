@@ -103,14 +103,18 @@ export class ResultComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSearchOpen = false;
   }
 
-  onSelectionChange(selected: boolean): void {
-    if (selected) {
-      this.selectedMentionsCount++;
-    } else {
-      this.selectedMentionsCount--;
+  // MODIFICAÇÃO: Gerenciamento do estado de seleção individual
+  onSelectionChange(event: { noticia: any, isSelected: boolean }) {
+    const item = this.noticias.find(n => n.id === event.noticia.id);
+    if (item) {
+      item.selected = event.isSelected;
     }
+    // Recalcula a contagem total
+    this.selectedMentionsCount = this.noticias.filter(n => n.selected).length;
+    
+    // Sincroniza o checkbox "Selecionar Todos"
+    this.allSelected = this.selectedMentionsCount === this.noticias.length;
   }
-
   loadNoticias() {
     this.dataService.getData().subscribe(
       (data) => {

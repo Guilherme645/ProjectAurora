@@ -1,9 +1,30 @@
 {
   "entidades": {
-    "Data": ["sexta-feira", "janeiro", "2024"],
-    "Profissão": ["ministros", "advogados", "juiz"],
-    "Pessoa": ["Dias Toffoli", "Rosa Weber", "Alexandre de Moraes"],
-    "Lugar": ["Rio Grande do Sul", "Brasília"],
-    "Organização": ["STF", "OAB"]
+    "Data": [
+      "25 de julho de 2025",
+      "05 de agosto de 2025",
+      "Primeiro semestre de 2025"
+    ],
+    "Profissão": [
+      "Analista",
+      "Juiz",
+      "Advogado"
+    ],
+    "Pessoa": [
+      "Guilherme Sousa",
+      "Alexandre de Moraes",
+      "Luiz Inácio Lula da Silva"
+    ],
+    "Lugar": [
+      "Brasília",
+      "São Paulo",
+      "Rio de Janeiro"
+    ],
+    "Organização": [
+      "OAB",
+      "Ministério Público",
+      "Supremo Tribunal Federal"
+   
+    ]
   }
 }

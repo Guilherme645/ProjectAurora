@@ -49,8 +49,7 @@
 <div  *ngIf="isMobile" class="card-mobile w-[325px] max-w-full box-border" [attr.data-card-id]="noticias.id">
   <div class="mobile-header">
     <div class="left-info">
-      <input type="checkbox" class="checkbox-input" [checked]="isSelected || allSelected" (change)="onCheckboxChange($event)" />
-      <img class="mobile-logo" [src]="noticias.logo" alt="Logo do Veículo" />
+<input type="checkbox" class="checkbox-input" [checked]="isSelected" (change)="onCheckboxChange($event)" />      <img class="mobile-logo" [src]="noticias.logo" alt="Logo do Veículo" />
       <div class="mobile-veiculo">
         <div class="veiculo-tipo">
           <span class="vehicle-name">{{ noticias.veiculo }}</span>

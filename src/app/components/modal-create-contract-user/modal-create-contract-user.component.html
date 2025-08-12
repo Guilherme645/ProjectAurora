@@ -1,356 +1,299 @@
-  <div class="bg-white max-w-[1086px] w-full rounded-2xl shadow-lg p-6" (click)="$event.stopPropagation()">
-    <header class="flex flex-col items-start p-0 gap-0.5 w-[208px] h-[42px]">
-      <h1 class="w-[220px] h-6 font-inter font-semibold text-xl leading-6 tracking-tight text-black">Criar Contrato e Usuários</h1>
-      <p class="w-[160px] h-4 font-inter font-medium text-xs leading-4 tracking-tight text-gray-600">Insira as informações abaixo</p>
-    </header>
+<div class="bg-white max-w-[1086px] w-full rounded-2xl shadow-lg p-6" (click)="$event.stopPropagation()">
+  <header class="flex flex-col items-start p-0 gap-0.5 w-[220px] h-[42px]">
+    <h1 class="w-[220px] h-6 font-semibold text-xl leading-6 tracking-tight text-black">Criar Contrato e Usuários</h1>
+    <p class="w-[160px] h-4 font-medium text-xs leading-4 tracking-tight text-gray-600">Insira as informações abaixo</p>
+  </header>
 
-    <div class="flex items-start gap-8">
-      <!-- Navigation Steps -->
-      <nav class="w-[225px] h-[164px] flex flex-col items-start p-0 gap-0 mt-10">
-        <!-- Step 1: Contratos e Workspace -->
-        <div class="flex items-center gap-3 my-2 h-[52px] w-full px-3 py-2 rounded-lg"
-             [ngClass]="{
-               'bg-blue-50 text-blue-700': currentStep === 1,
-               'text-gray-600 hover:bg-gray-100': currentStep !== 1
-             }">
-          <span class="text-sm font-medium leading-5 tracking-tight"
-                [ngClass]="{
-                  'text-blue-700': currentStep >= 1,
-                  'text-gray-600': currentStep < 1
-                }">
-            Contratos e Workspace
-          </span>
-        </div>
-        <!-- Step 2: Usuários -->
-        <div class="flex items-center gap-3 my-2 h-[52px] w-full px-3 py-2 rounded-lg"
-             [ngClass]="{
-               'bg-blue-50 text-blue-700': currentStep === 2,
-               'text-gray-600 hover:bg-gray-100': currentStep !== 2
-             }">
-          <span class="text-sm font-medium leading-5 tracking-tight"
-                [ngClass]="{
-                  'text-blue-700': currentStep >= 2,
-                  'text-gray-600': currentStep < 2
-                }">
-            Usuários
-          </span>
-        </div>
-        <!-- Step 3: Veículos -->
-        <div class="flex items-center gap-3 my-2 h-[52px] w-full px-3 py-2 rounded-lg"
-             [ngClass]="{
-               'bg-blue-50 text-blue-700': currentStep === 3,
-               'text-gray-600 hover:bg-gray-100': currentStep !== 3
-             }">
-          <span class="text-sm font-medium leading-5 tracking-tight"
-                [ngClass]="{
-                  'text-blue-700': currentStep >= 3,
-                  'text-gray-600': currentStep < 3
-                }">
-            Veículos
-          </span>
-        </div>
-      </nav>
+  <div class="flex items-start gap-8">
+    <nav class="w-[225px] h-[164px] flex flex-col items-start p-0 gap-0 mt-10">
+      <div class="flex items-center gap-3 my-2 h-[52px] w-full px-3 py-2 rounded-lg"
+           [ngClass]="{
+             'bg-blue-50 text-blue-700': currentStep === 1,
+             'text-gray-600 hover:bg-gray-100': currentStep !== 1
+           }">
+        <span class="text-sm font-medium leading-5 tracking-tight"
+              [ngClass]="{
+                'text-blue-700': currentStep >= 1,
+                'text-gray-600': currentStep < 1
+              }">
+          Contratos e Workspace
+        </span>
+      </div>
+      <div class="flex items-center gap-3 my-2 h-[52px] w-full px-3 py-2 rounded-lg"
+           [ngClass]="{
+             'bg-blue-50 text-blue-700': currentStep === 2,
+             'text-gray-600 hover:bg-gray-100': currentStep !== 2
+           }">
+        <span class="text-sm font-medium leading-5 tracking-tight"
+              [ngClass]="{
+                'text-blue-700': currentStep >= 2,
+                'text-gray-600': currentStep < 2
+              }">
+          Usuários
+        </span>
+      </div>
+      <div class="flex items-center gap-3 my-2 h-[52px] w-full px-3 py-2 rounded-lg"
+           [ngClass]="{
+             'bg-blue-50 text-blue-700': currentStep === 3,
+             'text-gray-600 hover:bg-gray-100': currentStep !== 3
+           }">
+        <span class="text-sm font-medium leading-5 tracking-tight"
+              [ngClass]="{
+                'text-blue-700': currentStep >= 3,
+                'text-gray-600': currentStep < 3
+              }">
+          Veículos
+        </span>
+      </div>
+    </nav>
 
-      <!-- Step 1: Contratos e Workspace -->
-      <section *ngIf="currentStep === 1" class="w-[785px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
-        <form [formGroup]="contractForm" class="w-full h-full flex flex-col">
-          <div class="box-border flex items-center px-8 py-8 gap-2.5 w-full h-[84px] bg-gray-50 border-b border-gray-200">
-            <h2 class="text-sm font-semibold text-gray-800">Contrato 1</h2>
+    <section *ngIf="currentStep === 1" class="w-[785px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
+      <form [formGroup]="contractForm" class="w-full h-full flex flex-col">
+        <div class="box-border flex items-center px-8 py-8 gap-2.5 w-full h-[84px] bg-gray-50 border-b border-gray-200">
+          <h2 class="text-sm font-semibold text-gray-800">Contrato 1</h2>
+        </div>
+        <div class="flex flex-col items-start p-8 gap-6 w-full flex-1 overflow-y-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div>
+              <label for="number" class="block text-sm font-semibold text-gray-900 mb-2">Número do contrato</label>
+              <input id="number" type="text" formControlName="number" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o número">
+            </div>
+            <div>
+              <label for="startDate" class="block text-sm font-semibold text-gray-900 mb-2">Data de assinatura</label>
+              <input id="startDate" type="date" formControlName="startDate" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+            </div>
           </div>
-          <div class="flex flex-col items-start p-8 gap-6 w-full flex-1 overflow-y-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div>
-                <label for="number" class="block text-sm font-semibold text-gray-900 mb-2">Número do contrato</label>
-                <input id="number" type="text" formControlName="number" class="w-full h-[45px] bg-white border border-gray-200 rounded-lg px-4 py-3.5" placeholder="Insira o número">
-              </div>
-              <div>
-                <label for="startDate" class="block text-sm font-semibold text-gray-900 mb-2">Data de assinatura</label>
-                <input id="startDate" type="date" formControlName="startDate" class="w-full h-[45px] bg-white border border-gray-200 rounded-lg px-4 py-3.5">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div>
+              <label for="endDate" class="block text-sm font-semibold text-gray-900 mb-2">Fim vigência</label>
+              <input id="endDate" type="date" formControlName="endDate" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+            </div>
+            <div class="relative w-full">
+              <label for="situation" class="block text-sm font-medium text-gray-700 mb-1.5">Situação do contrato</label>
+              <div class="relative">
+                <select id="situation" formControlName="situation" class="block w-full p-3 appearance-none rounded-lg border border-gray-300 bg-white pr-10 text-base text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+                  <option value="" disabled selected class="text-gray-500">Selecione</option>
+                  <option value="active">Ativo</option>
+                  <option value="inactive">Inativo</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.5 0.5L4.5 4.5L8.5 0.5" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
               </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div>
-                <label for="endDate" class="block text-sm font-semibold text-gray-900 mb-2">Fim vigência</label>
-                <input id="endDate" type="date" formControlName="endDate" class="w-full h-[45px] bg-white border border-gray-200 rounded-lg px-4 py-3.5">
-              </div>
-              <div class="relative w-full">
-  <label for="situation" class="block text-sm font-medium text-gray-700 mb-1.5">
-    Situação do contrato
-  </label>
-  
-  <div class="relative">
-    <select 
-      id="situation" 
-      formControlName="situation" 
-      class="block w-full h-[45px] appearance-none rounded-lg border border-gray-300 bg-white py-2 pl-4 pr-10 text-base text-gray-900 shadow-sm placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-    >
-      <option value="" disabled selected class="text-gray-500">Selecione</option>
-      <option value="active">Ativo</option>
-      <option value="inactive">Inativo</option>
-    </select>
-    
-    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-    <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.5 0.5L4.5 4.5L8.5 0.5" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-    </div>
-  </div>
-</div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div class="relative w-full">
-  <label for="responsibleWorkspace" class="block text-sm font-medium text-gray-700 mb-1.5">
-    Responsável pelo workspace
-  </label>
-  
-  <div class="relative">
-    <select 
-      id="responsibleWorkspace" 
-      formControlName="responsibleWorkspace" 
-      class="block w-full h-[45px] appearance-none rounded-lg border border-gray-300 bg-white py-2 pl-4 pr-10 text-base text-gray-900 shadow-sm placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-    >
-      <option value="" disabled selected class="text-gray-500">Selecione</option>
-      <option value="workspace1">Workspace 1</option>
-    </select>
-    
-    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-      <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.5 0.5L4.5 4.5L8.5 0.5" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-    </div>
-  </div>
-</div>
-              <div>
-                <label for="workspaceName" class="block text-sm font-semibold text-gray-900 mb-2">Nome do Workspace do contrato</label>
-                <input id="workspaceName" type="text" formControlName="workspaceName" class="w-full h-[45px] bg-white border border-gray-200 rounded-lg px-4 py-3.5" placeholder="Insira o nome">
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div class="relative w-full">
+              <label for="responsibleWorkspace" class="block text-sm font-medium text-gray-700 mb-1.5">Responsável pelo workspace</label>
+              <div class="relative">
+                <select id="responsibleWorkspace" formControlName="responsibleWorkspace" class="block w-full p-3 appearance-none rounded-lg border border-gray-300 bg-white pr-10 text-base text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+                  <option value="" disabled selected class="text-gray-500">Selecione</option>
+                  <option value="workspace1">Workspace 1</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.5 0.5L4.5 4.5L8.5 0.5" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
               </div>
             </div>
             <div>
-              <label class="block text-sm font-semibold text-gray-900 mb-2">Arquivo</label>
-              <div data-hs-file-upload='{
-                "url": "/upload",
-                "extensions": {
-                  "default": {
-                    "class": "shrink-0 size-5"
-                  },
-                  "xls": {
-                    "class": "shrink-0 size-5"
-                  },
-                  "zip": {
-                    "class": "shrink-0 size-5"
-                  },
-                  "csv": {
-                    "icon": "<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" width=\\\"24\\\" height=\\\"24\\\" viewBox=\\\"0 0 24 24\\\" fill=\\\"none\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"><path d=\\\"M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4\\\"/><path d=\\\"M14 2v4a2 2 0 0 0 2 2h4\\\"/><path d=\\\"m5 12-3 3 3 3\\\"/><path d=\\\"m9 18 3-3-3-3\\\"/></svg>",
-                    "class": "shrink-0 size-5"
-                  }
+              <label for="workspaceName" class="block text-sm font-semibold text-gray-900 mb-2">Nome do Workspace do contrato</label>
+              <input id="workspaceName" type="text" formControlName="workspaceName" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o nome">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-2">Arquivo</label>
+            <div data-hs-file-upload='{
+              "url": "/upload",
+              "extensions": {
+                "default": { "class": "shrink-0 size-5" },
+                "xls": { "class": "shrink-0 size-5" },
+                "zip": { "class": "shrink-0 size-5" },
+                "csv": {
+                  "icon": "<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" width=\\\"24\\\" height=\\\"24\\\" viewBox=\\\"0 0 24 24\\\" fill=\\\"none\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"><path d=\\\"M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4\\\"/><path d=\\\"M14 2v4a2 2 0 0 0 2 2h4\\\"/><path d=\\\"m5 12-3 3 3 3\\\"/><path d=\\\"m9 18 3-3-3-3\\\"/></svg>",
+                  "class": "shrink-0 size-5"
                 }
-              }'>
-                <template data-hs-file-upload-preview="">
-                  <div class="p-3 bg-white border border-solid border-gray-300 rounded-xl">
-                    <div class="mb-1 flex justify-between items-center">
-                      <div class="flex items-center gap-x-3">
-                        <span class="size-10 flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg" data-hs-file-upload-file-icon="">
-                          <img class="rounded-lg hidden" data-dz-thumbnail="">
-                        </span>
-                        <div>
-                          <p class="text-sm font-medium text-gray-800">
-                            <span class="truncate inline-block max-w-75 align-bottom" data-hs-file-upload-file-name=""></span>.<span data-hs-file-upload-file-ext=""></span>
-                          </p>
-                          <p class="text-xs text-gray-500" data-hs-file-upload-file-size=""></p>
-                        </div>
-                      </div>
-                      <div class="flex items-center gap-x-2">
-                        <button type="button" class="text-gray-500 hover:text-gray-800 focus:outline-hidden focus:text-gray-800" data-hs-file-upload-remove="">
-                          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 6h18"></path>
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                            <line x1="10" x2="10" y1="11" y2="17"></line>
-                            <line x1="14" x2="14" y1="11" y2="17"></line>
-                          </svg>
-                        </button>
+              }
+            }'>
+              <template data-hs-file-upload-preview="">
+                <div class="p-3  bg-white border border-solid border-gray-300 rounded-xl">
+                  <div class="mb-1 flex justify-between items-center">
+                    <div class="flex items-center gap-x-3">
+                      <span class="size-10 flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg" data-hs-file-upload-file-icon="">
+                        <img class="rounded-lg hidden" data-dz-thumbnail="">
+                      </span>
+                      <div>
+                        <p class="text-sm font-medium text-gray-800">
+                          <span class="truncate inline-block max-w-75 align-bottom" data-hs-file-upload-file-name=""></span>.<span data-hs-file-upload-file-ext=""></span>
+                        </p>
+                        <p class="text-xs text-gray-500" data-hs-file-upload-file-size=""></p>
                       </div>
                     </div>
-
-                    <div class="flex items-center gap-x-3 whitespace-nowrap">
-                      <div class="flex w-full h-2 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-hs-file-upload-progress-bar="">
-                        <div class="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition-all duration-500 hs-file-upload-complete:bg-green-500" style="width: 0" data-hs-file-upload-progress-bar-pane=""></div>
-                      </div>
-                      <div class="w-10 text-end">
-                        <span class="text-sm text-gray-800">
-                          <span data-hs-file-upload-progress-bar-value="">0</span>%
-                        </span>
-                      </div>
+                    <div class="flex items-center gap-x-2">
+                      <button type="button" class="text-gray-500 hover:text-gray-800 focus:outline-hidden focus:text-gray-800" data-hs-file-upload-remove="">
+                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M3 6h18"></path>
+                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                          <line x1="10" x2="10" y1="11" y2="17"></line>
+                          <line x1="14" x2="14" y1="11" y2="17"></line>
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                </template>
-
-                <div class="cursor-pointer flex flex-col items-center p-48px gap-20px isolation-isolate w-[701px] h-[144px] bg-white border border-dashed border-gray-300 rounded-12px" data-hs-file-upload-trigger="">
-                  <div class="text-center">
-                    <span class="inline-flex justify-center items-center size-16">
-                      
-                    </span>
-
-                    <div class=" mt-[-25px] flex flex-wrap justify-center text-sm/6 text-gray-600">
-                      <span class="pe-1 font-medium text-gray-800">
-                        Drop your file here or
-                      </span>
-                      <span class="bg-white font-semibold text-blue-600 hover:text-blue-700 rounded-lg decoration-2 hover:underline focus-within:outline-hidden focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">browse</span>
+                  <div class="flex items-center gap-x-3 whitespace-nowrap">
+                    <div class="flex w-full h-2 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-hs-file-upload-progress-bar="">
+                      <div class="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition-all duration-500 hs-file-upload-complete:bg-green-500" style="width: 0" data-hs-file-upload-progress-bar-pane=""></div>
                     </div>
-
-                    <p class="mt-1 text-xs text-gray-400">
-             Máximo tamanho: 50MB
-                    </p>
+                    <div class="w-10 text-end">
+                      <span class="text-sm text-gray-800">
+                        <span data-hs-file-upload-progress-bar-value="">0</span>%
+                      </span>
+                    </div>
                   </div>
                 </div>
-
-                <div class="mt-4 space-y-2 empty:mt-0" data-hs-file-upload-previews=""></div>
+              </template>
+              <div class="cursor-pointer w-[700px] flex flex-col items-center p-48px gap-20px isolation-isolate w-full h-[144px] bg-white border border-dashed border-gray-300 rounded-12px" data-hs-file-upload-trigger="">
+                <div class="text-center">
+                  <span class="inline-flex w-[700px] justify-center items-center size-16"></span>
+                  <div class="mt-[-25px] flex flex-wrap justify-center text-sm/6 text-gray-600">
+                    <span class="pe-1 font-medium text-gray-800">Drop your file here or</span>
+                    <span class="bg-white font-semibold text-blue-600 hover:text-blue-700 rounded-lg decoration-2 hover:underline focus-within:outline-hidden focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">browse</span>
+                  </div>
+                  <p class="mt-1 text-xs text-gray-400">Máximo tamanho: 50MB</p>
+                </div>
               </div>
+              <div class="mt-4 space-y-2 empty:mt-0" data-hs-file-upload-previews=""></div>
             </div>
-          </div>
-          <div class="text-right mt-6 px-8">
-            <button type="button" (click)="nextStep()" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg">Continuar</button>
-          </div>
-        </form>
-      </section>
-
-      <!-- Step 2: Usuários -->
-      <section *ngIf="currentStep === 2" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
-        <form [formGroup]="userForm" class="w-full h-full flex flex-col">
-          <div class="box-border flex items-center px-8 py-8 gap-2.5 w-full h-[84px] bg-gray-50 border-b border-gray-200">
-            <h2 class="text-sm font-semibold text-gray-800">Informações básicas do usuário</h2>
-          </div>
-          <div class="flex flex-col items-start p-8 gap-6 w-full flex-1 overflow-y-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div>
-                <label for="fullName" class="block text-sm font-semibold text-gray-900 mb-2">Nome completo</label>
-                <input id="fullName" type="text" formControlName="fullName" class="w-full h-[45px] bg-white border border-gray-300 rounded-lg px-4 py-3.5" placeholder="Insira o nome">
-              </div>
-              <div>
-                <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">E-mail</label>
-                <input id="email" type="email" formControlName="email" class="w-full h-[45px] bg-white border border-gray-300 rounded-lg px-4 py-3.5" placeholder="exemplo@gmail.com">
-              </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div class="relative w-full">
-  <label for="userType" class="block text-sm font-medium text-gray-700 mb-1.5">
-    Tipo de usuário
-  </label>
-  
-  <div class="relative">
-    <select 
-      id="userType" 
-      formControlName="userType" 
-      class="block w-full h-[45px] appearance-none rounded-lg border border-gray-300 bg-white py-2 pl-4 pr-10 text-base text-gray-900 shadow-sm placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-    >
-      <option value="" disabled selected class="text-gray-500">Selecione</option>
-      <option *ngFor="let type of userTypes" [value]="type.value">{{ type.label }}</option>
-    </select>
-    
-    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-      <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.5 0.5L4.5 4.5L8.5 0.5" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-    </div>
-  </div>
-</div>
-               <div>
-          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Senha <span class="text-red-500">*</span></label>
-          <div class="relative">
-            <input id="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password" class="w-full p-3 pr-10 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a senha">
-            <button type="button" (click)="togglePasswordVisibility()" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700">
-              <svg *ngIf="!passwordVisible" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-              <svg *ngIf="passwordVisible" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
-            </button>
-          </div>
-           <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid" class="text-red-500 text-xs mt-1">
-            <span *ngIf="userForm.get('password')?.hasError('required')">A senha é obrigatória.</span>
-            <span *ngIf="userForm.get('password')?.hasError('minlength')">A senha deve ter no mínimo 6 caracteres.</span>
           </div>
         </div>
+        <div class="text-right mt-6 px-8">
+          <button type="button" (click)="nextStep()" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg">Continuar</button>
+        </div>
+      </form>
+    </section>
 
-        <!-- Tipo de usuário -->
-        
-              <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">Desejo cadastrar o endereço desse usuário</label>
-                <input id="desiredPassword" type="checkbox" formControlName="desiredPassword" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+    <section *ngIf="currentStep === 2" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
+      <form [formGroup]="userForm" class="w-full h-full flex flex-col">
+        <div class="box-border flex items-center px-8 py-8 gap-2.5 w-full h-[84px] bg-gray-50 border-b border-gray-200">
+          <h2 class="text-sm font-semibold text-gray-800">Informações básicas do usuário</h2>
+        </div>
+        <div class="flex flex-col items-start p-8 gap-6 w-full flex-1 overflow-y-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div>
+              <label for="fullName" class="block text-sm font-semibold text-gray-900 mb-2">Nome completo</label>
+              <input id="fullName" type="text" formControlName="fullName" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o nome">
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">E-mail</label>
+              <input id="email" type="email" formControlName="email" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="exemplo@gmail.com">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div class="relative w-full">
+              <label for="userType" class="block text-sm font-medium text-gray-700 mb-1.5">Tipo de usuário</label>
+              <div class="relative">
+                <select id="userType" formControlName="userType" class="block w-full p-3 appearance-none rounded-lg border border-gray-300 bg-white pr-10 text-base text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+                  <option value="" disabled selected class="text-gray-500">Selecione</option>
+                  <option *ngFor="let type of userTypes" [value]="type.value">{{ type.label }}</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.5 0.5L4.5 4.5L8.5 0.5" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
               </div>
             </div>
-            <div *ngIf="userForm.get('desiredPassword')?.value" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-             <div class="relative w-full">
-  <label for="addressType" class="block text-sm font-medium text-gray-700 mb-1.5">
-    Tipo de endereço
-  </label>
-  
-  <div class="relative">
-    <select 
-      id="addressType" 
-      formControlName="addressType" 
-      class="block w-full h-[45px] appearance-none rounded-lg border border-gray-300 bg-white py-2 pl-4 pr-10 text-base text-gray-900 shadow-sm placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-    >
-      <option value="" disabled selected class="text-gray-500">Selecione</option>
-      <option value="residencial">Residencial</option>
-      <option value="comercial">Comercial</option>
-    </select>
-    
-    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-       <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.5 0.5L4.5 4.5L8.5 0.5" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-    </div>
+            <div>
+              <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Senha <span class="text-red-500">*</span></label>
+              <div class="relative">
+                <input id="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password" class="w-full p-3 pr-10 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a senha">
+                <button type="button" (click)="togglePasswordVisibility()" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700">
+                  <svg *ngIf="!passwordVisible" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <svg *ngIf="passwordVisible" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                  </svg>
+                </button>
+              </div>
+              <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid" class="text-red-500 text-xs mt-1">
+                <span *ngIf="userForm.get('password')?.hasError('required')">A senha é obrigatória.</span>
+                <span *ngIf="userForm.get('password')?.hasError('minlength')">A senha deve ter no mínimo 6 caracteres.</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-2">Desejo cadastrar o endereço desse usuário</label>
+              <input id="desiredPassword" type="checkbox" formControlName="desiredPassword" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+            </div>
+          </div>
+          <div *ngIf="userForm.get('desiredPassword')?.value" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div class="relative w-full">
+              <label for="addressType" class="block text-sm font-medium text-gray-700 mb-1.5">Tipo de endereço</label>
+              <div class="relative">
+                <select id="addressType" formControlName="addressType" class="block w-full p-3 appearance-none rounded-lg border border-gray-300 bg-white pr-10 text-base text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+                  <option value="" disabled selected class="text-gray-500">Selecione</option>
+                  <option value="residencial">Residencial</option>
+                  <option value="comercial">Comercial</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.5 0.5L4.5 4.5L8.5 0.5" stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label for="cep" class="block text-sm font-semibold text-gray-900 mb-2">CEP</label>
+              <input id="cep" type="text" formControlName="cep" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o CEP">
+            </div>
+          </div>
+          <div *ngIf="userForm.get('desiredPassword')?.value" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div>
+              <label for="street" class="block text-sm font-semibold text-gray-900 mb-2">Endereço</label>
+              <input id="street" type="text" formControlName="street" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o endereço">
+            </div>
+            <div>
+              <label for="number" class="block text-sm font-semibold text-gray-900 mb-2">Número</label>
+              <input id="number" type="text" formControlName="number" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="0">
+            </div>
+          </div>
+          <div *ngIf="userForm.get('desiredPassword')?.value" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div>
+              <label for="complement" class="block text-sm font-semibold text-gray-900 mb-2">Complemento</label>
+              <input id="complement" type="text" formControlName="complement" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o complemento">
+            </div>
+            <div>
+              <label for="neighborhood" class="block text-sm font-semibold text-gray-900 mb-2">Bairro</label>
+              <input id="neighborhood" type="text" formControlName="neighborhood" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o bairro">
+            </div>
+          </div>
+          <div *ngIf="userForm.get('desiredPassword')?.value" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div>
+              <label for="state" class="block text-sm font-semibold text-gray-900 mb-2">Estado</label>
+              <input id="state" type="text" formControlName="state" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o estado">
+            </div>
+          </div>
+        </div>
+        <div class="p-6 flex justify-end gap-3">
+          <button type="button" (click)="previousStep()" class="bg-white text-gray-600 px-5 py-2.5 text-sm font-semibold rounded-lg border border-gray-300">Voltar</button>
+          <button type="button" (click)="nextStep()" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg">Continuar</button>
+        </div>
+      </form>
+    </section>
+
+    <section *ngIf="currentStep === 3" class="-mt-6 flex h-[505px] w-[765px] flex-col rounded-2xl bg-white shadow-sm">
+      <div class="flex-1 overflow-y-auto p-8">
+        <app-veichles-table></app-veichles-table>
+      </div>
+      <div class="flex shrink-0 justify-end gap-3 border-t border-gray-200 p-6">
+        <button type="button" (click)="previousStep()" class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-600">Voltar</button>
+        <button type="button" (click)="onSubmit()" class="rounded-lg bg-gray-600 px-5 py-2.5 text-sm font-semibold text-white">Salvar informações</button>
+      </div>
+    </section>
   </div>
 </div>
-              <div>
-                <label for="cep" class="block text-sm font-semibold text-gray-900 mb-2">CEP</label>
-                <input id="cep" type="text" formControlName="cep" class="w-full h-[45px] bg-white border border-gray-300 rounded-lg px-4 py-3.5" placeholder="Insira o CEP">
-              </div>
-            </div>
-            <div *ngIf="userForm.get('desiredPassword')?.value" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div>
-                <label for="street" class="block text-sm font-semibold text-gray-900 mb-2">Endereço</label>
-                <input id="street" type="text" formControlName="street" class="w-full h-[45px] bg-white border border-gray-300 rounded-lg px-4 py-3.5" placeholder="Insira o endereço">
-              </div>
-              <div>
-                <label for="number" class="block text-sm font-semibold text-gray-900 mb-2">Número</label>
-                <input id="number" type="text" formControlName="number" class="w-full h-[45px] bg-white border border-gray-300 rounded-lg px-4 py-3.5" placeholder="0">
-              </div>
-            </div>
-            <div *ngIf="userForm.get('desiredPassword')?.value" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div>
-                <label for="complement" class="block text-sm font-semibold text-gray-900 mb-2">Complemento</label>
-                <input id="complement" type="text" formControlName="complement" class="w-full h-[45px] bg-white border border-gray-300 rounded-lg px-4 py-3.5" placeholder="Insira o complemento">
-              </div>
-              <div>
-                <label for="neighborhood" class="block text-sm font-semibold text-gray-900 mb-2">Bairro</label>
-                <input id="neighborhood" type="text" formControlName="neighborhood" class="w-full h-[45px] bg-white border border-gray-300 rounded-lg px-4 py-3.5" placeholder="Insira o bairro">
-              </div>
-            </div>
-            <div *ngIf="userForm.get('desiredPassword')?.value" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div>
-                <label for="state" class="block text-sm font-semibold text-gray-900 mb-2">Estado</label>
-                <input id="state" type="text" formControlName="state" class="w-full h-[45px] bg-white border border-gray-300 rounded-lg px-4 py-3.5" placeholder="Insira o estado">
-              </div>
-            </div>
-          </div>
-          <div class="p-6 flex justify-end gap-3">
-            <button type="button" (click)="previousStep()" class="bg-white text-gray-600 px-5 py-2.5 text-sm font-semibold rounded-lg border border-gray-300">Voltar</button>
-            <button type="button" (click)="nextStep()" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg">Continuar</button>
-          </div>
-        </form>
-      </section>
-
-      <!-- Step 3: Veículos -->
-       <section *ngIf="currentStep === 3" class="-mt-6 flex h-[505px] w-[765px] flex-col rounded-2xl bg-white shadow-sm">
-          
-          <div class="flex-1 overflow-y-auto p-8">
-            <app-veichles-table></app-veichles-table>
-          </div>
-          
-          <div class="flex shrink-0 justify-end gap-3 border-t border-gray-200 p-6">
-            <button type="button" (click)="previousStep()" class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-600">Voltar</button>
-            <button type="button" (click)="onSubmit()" class="rounded-lg bg-gray-600 px-5 py-2.5 text-sm font-semibold text-white">Salvar informações</button>
-          </div>
-        </section>
-    </div>
-  </div>

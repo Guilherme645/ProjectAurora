@@ -48,11 +48,11 @@
         </div>
       </nav>
       <!-- Etapa 1: Informações básicas -->
-      <section *ngIf="currentStep === 1" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
-        <form [formGroup]="salvarBuscaForm">
-          <div class="flex items-center bg-gray-50 border-b border-gray-200 px-8 py-6">
+     <section *ngIf="currentStep === 1" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6 border border-gray-200">
+    <form [formGroup]="salvarBuscaForm">
+        <div class="flex items-center bg-gray-50 border-b border-gray-200 px-8 py-6 rounded-t-2xl">
             <h2 class="text-sm font-semibold text-gray-800">Informações básicas Busca Salva</h2>
-          </div>
+        </div>
 
           <div class="flex items-center justify-between px-8 py-6">
             <div>
@@ -84,7 +84,7 @@
           </div>
 
           <div class="text-right mt-6 px-8">
-            <button type="button" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all" (click)="nextStep(); $event.stopPropagation()">Concluir e salvar edições</button>
+            <button type="button" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all" (click)="nextStep(); $event.stopPropagation()">Continuar</button>
           </div>
         </form>
       </section>
@@ -129,54 +129,53 @@
             </div>
           </section>
 
-          <section class="border border-gray-200 rounded-lg overflow-hidden">
-            <div class="flex items-center px-4 py-4 border-b border-gray-200">
-              <input type="checkbox" id="select-all" class="mr-2 w-4 h-4 cursor-pointer" (change)="selectAll($event)" />
-              <label for="select-all" class="text-sm text-gray-700 font-medium">Selecionar todos do Workspace</label>
-            </div>
+         <section class="border border-gray-200 rounded-lg overflow-hidden">
+    <div class="flex items-center px-4 py-4 border-b border-gray-200">
+        <div class="flex items-center justify-center w-5 h-5 mr-3">
+            <input type="checkbox" id="select-all" class="w-4 h-4 cursor-pointer" (change)="selectAll($event)" />
+        </div>
+        <label for="select-all" class="text-sm text-gray-700 font-medium">Selecionar todos do Workspace</label>
+    </div>
 
-            <ul class="list-none">
-              <li
-                *ngFor="let user of userList"
-                class="flex flex-row items-start w-[765px] h-[54px] border-b border-gray-200 box-border"
-              >
-                <!-- Checkbox -->
-                <div class="flex justify-center mr-2 items-center w-[51px] h-[54px] px-5 py-3">
-                  <input
+    <ul class="list-none">
+        <li
+            *ngFor="let user of userList"
+            class="flex items-center w-[765px] h-[54px] border-b border-gray-200 box-border"
+        >
+            <div class="flex items-center justify-center w-5 h-5 ml-4 mr-3">
+                <input
                     type="checkbox"
                     [(ngModel)]="user.selected"
-                    class="w-4 h-4 mr-2  rounded-lg cursor-pointer"
-                  />
-                </div>
-                <!-- Avatar and Name -->
-                <div class="flex items-center w-[272px] h-[54px] py-2">
-                  <div class="flex items-center w-[162px] h-[38px] space-x-3">
+                    class="w-4 h-4 rounded-lg cursor-pointer"
+                />
+            </div>
+            <div class="flex items-center w-[272px] h-[54px] py-2">
+                <div class="flex items-center w-[162px] h-[38px] space-x-3">
                     <div
-                      class="w-[38px] h-[38px] rounded-full bg-blue-100 flex items-center justify-center isolate"
+                        class="w-[38px] h-[38px] rounded-full bg-blue-100 flex items-center justify-center isolate"
                     >
-                      <span
-                        class="w-5 h-5 font-inter text-sm font-semibold leading-5 tracking-tight text-center text-blue-800"
-                      >
-                        {{ user.avatar }}
-                      </span>
+                        <span
+                            class="w-5 h-5 font-inter text-sm font-semibold leading-5 tracking-tight text-center text-blue-800"
+                        >
+                            {{ user.avatar }}
+                        </span>
                     </div>
                     <span
-                      class="w-[112px] h-5 font-inter text-sm font-medium leading-5 tracking-tight text-gray-900"
+                        class="w-[112px] h-5 font-inter text-sm font-medium leading-5 tracking-tight text-gray-900"
                     >
-                      {{ user.name }}
+                        {{ user.name }}
                     </span>
-                  </div>
                 </div>
-                <!-- Email -->
-                <div class="flex items-center w-[324px] h-[54px] px-5 py-3">
-                  <span
+            </div>
+            <div class="flex items-center w-[324px] h-[54px] px-5 py-3">
+                <span
                     class="w-[161px] h-5 font-inter text-sm font-medium leading-5 tracking-tight text-center text-gray-900"
-                  >
+                >
                     {{ user.email }}
-                  </span>
-                </div>
-              </li>
-            </ul>
+                </span>
+            </div>
+        </li>
+    </ul>
             
             <!-- Linha de adicionar destinatário -->
             <div
@@ -289,8 +288,8 @@
 
         <!-- Rodapé dentro do contêiner -->
         <div class="p-6  flex justify-end gap-3 bg-white">
-          <button class="w-[124px] h-[46px] bg-white text-gray-600 font-semibold text-[15px] rounded-lg border border-gray-300 hover:bg-gray-200 transition-all" (click)="previousStep(); $event.stopPropagation()">Voltar</button>
-          <button class="w-[179px] h-[46px] bg-gray-600 text-white font-semibold text-[15px] rounded-lg hover:bg-gray-700 transition-all" (click)="onSubmit(); $event.stopPropagation()">Concluir e salvar edições</button>
+          <button class="w-[124px] h-[46px] bg-white text-gray-600 font-semibold text-[15px]  hover:bg-gray-200 transition-all" (click)="previousStep(); $event.stopPropagation()">Voltar</button>
+          <button class="w-[124px] h-[46px] bg-gray-600 text-white font-semibold text-[15px] rounded-lg hover:bg-gray-700 transition-all" (click)="onSubmit(); $event.stopPropagation()">Salvar busca</button>
         </div>
       </section>
     </div>
