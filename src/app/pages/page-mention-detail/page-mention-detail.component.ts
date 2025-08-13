@@ -21,7 +21,6 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   noticias: any[] = [];
   filteredNoticias: any[] = [];
   isMobile: boolean = window.innerWidth <= 768;
-  isSidebarOpen: boolean = true;
   allSelected: boolean = false;
   currentUser: string = 'Superior Tribunal Federal';
   selectedTab: string = 'todos';
@@ -36,7 +35,6 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   hasMoreData: boolean = true;
   videoDescription: SafeHtml = '';
-  showEntitiesDrawer: boolean = false;
   textoOriginal: string = '';
   entities: Entities = { dates: [], places: [], people: [], organizations: [] };
   isHeaderScrolled: boolean = false;
@@ -49,7 +47,8 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
   selectedEntityForSave?: { entity: string; type: string };
   errorMessage: string | null = null;
   private subscriptions = new Subscription();
-
+  isSidebarOpen: boolean = true;
+  showEntitiesDrawer: boolean = false;
   // Referências aos elementos
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef; // Para o modal de conta
   @ViewChild('entityModal') entityModalRef!: ElementRef; // Para o modal de opções de entidade
@@ -163,21 +162,29 @@ export class PageMentionDetailComponent implements OnInit, OnDestroy {
     this.currentUser = user;
   }
 
+ 
   onSidebarToggled(isOpen: boolean): void {
+    // 1. Defina o estado da sidebar para a ação desejada
     this.isSidebarOpen = isOpen;
+    
+    // 2. Se a sidebar está sendo aberta, garanta que o drawer de entidades seja fechado
+    if (isOpen) {
+      this.showEntitiesDrawer = false;
+      console.log('Fechando o drawer, pois a sidebar foi aberta.');
+    }
     console.log('Sidebar toggled, isSidebarOpen:', this.isSidebarOpen);
   }
-
   verEntidadesExtraidas(): void {
+    // 1. Alterne o estado do drawer
     this.showEntitiesDrawer = !this.showEntitiesDrawer;
+    console.log('Entities drawer toggled, showEntitiesDrawer:', this.showEntitiesDrawer);
+
+    // 2. Se o drawer de entidades está sendo aberto, garanta que a sidebar seja fechada
     if (this.showEntitiesDrawer) {
       this.isSidebarOpen = false;
-    } else {
-      this.isSidebarOpen = true;
+      console.log('Fechando a sidebar, pois o drawer de entidades foi aberto.');
     }
-    console.log('Entities drawer toggled, showEntitiesDrawer:', this.showEntitiesDrawer);
   }
-
   onOpenEntityOptions(event: { entity: string; type: string; position: { top: number; left: number } }): void {
     if (event.entity === '' && event.type === '') {
       // Se receber vazio (o próprio EntitiesDrawer mandou fechar)

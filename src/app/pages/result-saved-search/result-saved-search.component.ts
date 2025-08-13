@@ -22,7 +22,7 @@ interface Noticia {
 
 @Component({
   selector: 'app-result-saved-search',
-  templateUrl: './result-saved-search.component.html',
+  templateUrl:'./result-saved-search.component.html',
   styleUrls: ['./result-saved-search.component.css'],
   standalone: false
 })
@@ -34,6 +34,8 @@ export class ResultSavedSearchComponent implements OnInit {
   isSearchOpen: boolean = false;
   selectedTab: string = 'todos';
   isDropdownOpen: boolean = false;
+    allSelected: boolean = false;
+
   selectedOption: string = 'Mais relevantes';
   filtrosAbertos: boolean = false;
   isScrolled: boolean = false;
@@ -101,14 +103,17 @@ export class ResultSavedSearchComponent implements OnInit {
     this.aplicarFiltroNoticias();
   }
 
-  onSelectionChange(selected: boolean): void {
-    if (selected) {
-      this.selectedMentionsCount++;
-    } else {
-      this.selectedMentionsCount--;
+  onSelectionChange(event: { noticia: any, isSelected: boolean }) {
+    const item = this.noticias.find(n => n.id === event.noticia.id);
+    if (item) {
+      item.selected = event.isSelected;
     }
+    // Recalcula a contagem total
+    this.selectedMentionsCount = this.noticias.filter(n => n.selected).length;
+    
+    // Sincroniza o checkbox "Selecionar Todos"
+    this.allSelected = this.selectedMentionsCount === this.noticias.length;
   }
-
   onSelectAll(selected: boolean): void {
     this.selectAll = selected;
     this.filteredNoticias.forEach(noticia => noticia.selected = selected);

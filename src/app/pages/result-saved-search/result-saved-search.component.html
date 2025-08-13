@@ -34,7 +34,7 @@
                   [noticias]="noticia"
                   [searchQuery]="searchQuery"
                   [isSelected]="selectAll"
-                  (selectionChange)="onSelectionChange($event); noticia.selected = $event">
+                  (selectionChange)="onSelectionChange($event)">
                 </app-card>
               </div>
               <!-- Divider entre os cards, exceto após o último -->
@@ -146,7 +146,7 @@
         [noticias]="noticia"
         [searchQuery]="searchQuery"
         [isSelected]="selectAll"
-        (selectionChange)="onSelectionChange($event); noticia.selected = $event">
+                  (selectionChange)="onSelectionChange($event)">
       </app-card>
     </div>
   </main>
