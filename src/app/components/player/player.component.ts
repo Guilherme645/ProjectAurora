@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, ViewChild, Output, EventEmitter, O
 import { debounce } from 'lodash';
 import { TextoEntidadesService } from 'src/app/services/TextoEntidades.service';
 import { Subscription } from 'rxjs';
+import { DragConstrainPosition } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-player',
@@ -85,6 +86,43 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
+
+constrainToLayout: DragConstrainPosition = (point) => {
+  const el = this.playerRef?.nativeElement as HTMLElement;
+  const elW = el?.offsetWidth ?? 0;
+  const elH = el?.offsetHeight ?? 0;
+
+  const margin = 16;
+
+  // Sidebar (esquerda)
+  const sidebarEl = document.querySelector('.bg-neutral-800.fixed') as HTMLElement | null;
+  const sidebarWidth = sidebarEl ? sidebarEl.getBoundingClientRect().width : 0;
+
+  // Header (topo)
+  const headerEl = document.querySelector('.header-wrapper .header-inner') as HTMLElement | null;
+  const headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 64;
+
+  const viewportW = window.innerWidth;
+  const viewportH = window.innerHeight;
+
+  // Drawer (direita) — usa a classe que você acabou de colocar
+  const drawerEl = this.showEntitiesDrawer
+    ? (document.querySelector('.entities-drawer') as HTMLElement | null)
+    : null;
+
+  // Limite pela borda ESQUERDA efetiva do drawer; se fechado, limite é a borda da viewport
+  const drawerLeft = drawerEl ? drawerEl.getBoundingClientRect().left : viewportW;
+
+  const minX = sidebarWidth + margin;                 // não passar por baixo do sidebar
+  const maxX = Math.max(minX, drawerLeft - margin - elW); // não invadir área do drawer
+  const minY = headerHeight + margin;                 // não passar por baixo do header
+  const maxY = viewportH - margin - elH;              // não descer demais
+
+  const x = Math.min(Math.max(point.x, minX), maxX);
+  const y = Math.min(Math.max(point.y, minY), maxY);
+  return { x, y };
+};
+
 
   checkVideoAvailability(): void {
     if (!this.videoPlayer || !this.videoPlayer.nativeElement) {

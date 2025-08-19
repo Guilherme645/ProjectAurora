@@ -2,16 +2,16 @@
    Definição de Variáveis
    ========================================================================== */
 :host {
-  --brand-blue-main: #2563EB;
-  --brand-blue-light-3: #EFF6FF;
-  --brand-blue-border: #2563EB;
-  --timeline-background: rgba(37, 99, 235, 0.15);
-  --timeline-handle-bg: #2563EB;
-  --timeline-playhead-color: #2563EB;
---timeline-played-range-bg: rgba(37, 99, 235, 0.3); /* Cor da faixa de progresso reproduzido */
-  --timeline-tooltip-bg: #111827;
-  --timeline-tooltip-text: #D1D5DB;
-  --timeline-marker-text: rgba(37, 99, 235, 0.6);
+  --brand-blue-main: #737373;
+  --brand-blue-light-3: #ff0000;
+  --brand-blue-border: #9CA3AF;
+  --timeline-background: #fefce8;
+  --timeline-handle-bg: #1F2937;
+  --timeline-playhead-color: #374151;
+--timeline-played-range-bg: #FEFCE8; /* Cor da faixa de progresso reproduzido */
+  --timeline-tooltip-bg: #000000;
+  --timeline-tooltip-text: #ffffff;
+  --timeline-marker-text: #9CA3AF;
   
   --button-bg: #FFFFFF;
   --button-border: #E5E7EB;
@@ -22,7 +22,7 @@
   --text-color-muted: #6B7280;
   --background-color: #FAFBFC; /* Magenta neon */
   
-  --transcription-played-bg: #F3F4F6;
+  --transcription-played-bg: #fefce8;
   --transcription-playing-bg: #EFF6FF;
 }
 
@@ -208,9 +208,9 @@
 .selection-range {
   position: absolute;
   height: 100%;
-  background-color: rgba(59, 130, 246, 0.3); /* azul-500 com 30% de opacidade */
-  border-left: 1px solid rgba(59, 130, 246, 0.7);
-  border-right: 1px solid rgba(59, 130, 246, 0.7);
+  background-color: #F3F4F6; /* azul-500 com 30% de opacidade */
+  border-left: 1px solid #9CA3AF;
+  border-right: 1px solid #9CA3AF;
   top: 0;
   pointer-events: none;
   transition: background-color 0.3s ease; /* Transição suave da cor */
@@ -218,7 +218,7 @@
 
 /* Cor mais escura para a faixa de seleção quando o vídeo está tocando */
 .selection-range.playing {
-  background-color: rgba(12, 87, 207, 0.719); /* azul-500 com 50% de opacidade (mais escuro) */
+  background-color: #0c57cfb7; /* azul-500 com 50% de opacidade (mais escuro) */
 }
 
 .handle {

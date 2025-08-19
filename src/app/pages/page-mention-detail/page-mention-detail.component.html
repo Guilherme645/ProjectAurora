@@ -82,29 +82,35 @@ class="mt-[40px] w-[625px] "
 
     <!-- Drawer de entidades -->
     <div
-    *ngIf="showEntitiesDrawer"
-    class="fixed top-0 right-0 w-[462px] h-full bg-[#F7F8FA] z-50 transition-transform duration-300 "
-    [ngClass]="{'translate-x-0': showEntitiesDrawer, 'translate-x-full': !showEntitiesDrawer}"
-  >
-  
-      <app-entities-drawer
-        [textoOriginal]="textoOriginal"
-        (textoMarcadoChange)="onDescriptionReceived($event)"
-        (close)="verEntidadesExtraidas()"
-        (openEntityOptions)="onOpenEntityOptions($event)"
-      ></app-entities-drawer>
-    </div>
+  *ngIf="showEntitiesDrawer"
+  class="entities-drawer fixed top-0 right-0 w-[462px] h-full bg-[#F7F8FA] z-50 transition-transform duration-300"
+  [ngClass]="{
+    'translate-x-0': showEntitiesDrawer,
+    'translate-x-full': !showEntitiesDrawer
+  }"
+>
+  <app-entities-drawer
+    [textoOriginal]="textoOriginal"
+    (textoMarcadoChange)="onDescriptionReceived($event)"
+    (close)="verEntidadesExtraidas()"
+    (openEntityOptions)="onOpenEntityOptions($event)"
+  ></app-entities-drawer>
+</div>
+
 
     <!-- Modal para opções de entidade -->
-    <div *ngIf="isModalVisible && selectedEntity" class="w-[249px] h-[112px]"></div>
-    <app-modal-entitie-option
-      *ngIf="isModalVisible && selectedEntity"
-      [entityName]="selectedEntity.entity!"
-      [type]="selectedEntity.type!"
-      [position]="modalPosition"
-      (close)="closeModal()"
-      (addToSavedSearchEvent)="showSaveEntitiesFilter($event.entity, $event.type)"
-    ></app-modal-entitie-option>
+  <div 
+      #entityModal 
+      *ngIf="isModalVisible && selectedEntity" 
+      class="w-[249px] h-[112px]">
+      <app-modal-entitie-option
+        [entityName]="selectedEntity.entity!"
+        [type]="selectedEntity.type!"
+        [position]="modalPosition"
+        (close)="closeModal()"
+        (addToSavedSearchEvent)="showSaveEntitiesFilter($event.entity, $event.type)"
+      ></app-modal-entitie-option>
+    </div>
 
     <!-- Filtro de salvar entidades -->
      <div class=" w-[249px] h-[112px]"></div>
