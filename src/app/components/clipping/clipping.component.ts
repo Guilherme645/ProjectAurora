@@ -41,6 +41,7 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   @ViewChild('containerTimeline') timelineContainerRef!: ElementRef<HTMLElement>;
   @ViewChild('listaTranscricao') transcriptionListContainer!: ElementRef<HTMLElement>;
   @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
+isSelectionActive = false;
 
   // --- Estado Geral ---
   clippingData: ClippingData = {
@@ -175,6 +176,20 @@ onMouseMove(event: MouseEvent): void {
         }
     }
   }
+
+
+finalizarArrasto(event: MouseEvent) {
+  if (this.dragging) {
+    // ... (seu código atual de atualização de tempo) ...
+
+    // O estado de arrasto é desativado
+    this.dragging = null;
+    
+    // O estado de seleção ativa é ligado, pois o usuário terminou de arrastar
+    this.isSelectionActive = true;
+  }
+}
+
 
   prepareDeleteModal(): void {
     if (this.selectedIndex === null) {
@@ -358,8 +373,11 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
     }
     if (this.selectedIndex === index) {
       this.selectedIndex = null;
+    this.isSelectionActive = false; // Adicione esta linh
     } else {
       this.selectedIndex = index;
+          this.isSelectionActive = true; // Adicione esta linha
+
       if (index !== null) {
         const segmentStart = index * 300000;
         const segmentEnd = Math.min((index + 1) * 300000, this.videoDurationMs);
@@ -638,4 +656,26 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
     const seconds = (totalSeconds % 60).toString().padStart(2, '0');
     return `${minutes}:${seconds}`;
   }
+
+  get selectionStartPx(): number {
+  return this.calculatePositionFromTime(this.tempoInicialMs);
+}
+get selectionEndPx(): number {
+  return this.calculatePositionFromTime(this.tempoFinalMs);
+}
+get selectionProgressPx(): number {
+  // progresso CLAMPED dentro do intervalo selecionado
+  const clamped = Math.max(this.tempoInicialMs, Math.min(this.tempoAtualMs, this.tempoFinalMs));
+  return this.calculatePositionFromTime(clamped);
+}
+get playedWidthPx(): number {
+  return Math.max(0, this.selectionProgressPx - this.selectionStartPx);
+}
+get unplayedWidthPx(): number {
+  return Math.max(0, this.selectionEndPx - this.selectionProgressPx);
+}
+get isSelectionFullPlayed(): boolean {
+  return this.tempoAtualMs >= this.tempoFinalMs;
+}
+
 }

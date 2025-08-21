@@ -31,10 +31,10 @@
     <div class="player-column">
       <div class="timeline-box"> 
         <video #playerVideo class="video-player" controls 
-               (loadedmetadata)="onMetadadosCarregados($event)" 
-               (timeupdate)="onTempoAtualizado($event)"
-              (play)="onPlay()"
-       (pause)="isVideoPlaying = false">
+                (loadedmetadata)="onMetadadosCarregados($event)" 
+                (timeupdate)="onTempoAtualizado($event)"
+                (play)="onPlay()"
+        (pause)="isVideoPlaying = false">
           <source src="assets/video.mp4" type="video/mp4" />
           Seu navegador não suporta o elemento de vídeo.
         </video>
@@ -50,58 +50,77 @@
      class="played-range"
      [style.left.px]="posicaoInicioPx"
      [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
-</div>              <div *ngFor="let container of timelineContainers; let i = index"
-                   class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
-                   [ngClass]="{
-                     'bg-yellow-500 border-bg-yellow-800': selectedIndex === i,
-  'bg-gray-100/20 border-yellow-500/30': selectedIndex !== i
-                   }"
-                   [style.width.px]="segmentWidth"
-                   [style.left.px]="i * segmentWidth"
-                   (click)="selectContainer(i, $event)">
-              </div>
+</div>
 
-             <div *ngFor="let segment of selectionSegments" class="selection-range"
-                   [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
-                   [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)"
-                   [ngClass]="{ 'playing': isVideoPlaying && (tempoInicialMs > 0 || tempoFinalMs < videoDurationMs) }">
-              </div>
+<div *ngFor="let container of timelineContainers; let i = index"
+     class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
+     [ngClass]="{
+       'bg-yellow-500 border-bg-yellow-800': selectedIndex === i,
+       'bg-gray-100/20 border-yellow-500/30': selectedIndex !== i
+     }"
+     [style.width.px]="segmentWidth"
+     [style.left.px]="i * segmentWidth"
+     (click)="selectContainer(i, $event)">
 
-              <div *ngFor="let marcador of structuralMarkers; let i = index"
-                   class="time-marker structural-marker"
-                   [ngClass]="{'time-marker--selected': isMarkerInSelectedSegment(marcador)}"
-                   [style.left]="marcador.left">
-                {{ marcador.label }}
-              </div>
+  <!-- marcador esquerdo -->
+  <svg class="tab-marker left" width="2" height="10" viewBox="0 0 2 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <path d="M1 9V1" stroke="currentColor" stroke-opacity="0.9" stroke-linecap="round"/>
+  </svg>
 
-           <div *ngIf="selectedIndex === null"
-                   class="handle start-handle"
-                   [style.left.px]="posicaoInicioPx"
-                   [ngClass]="{'dragging': dragging === 'inicio'}"
-                   (mousedown)="iniciarArrasto('inicio', $event)">
-                   <div class="handle-tooltip">{{ formatTimestamp(tempoInicialMs) }}</div>
-              </div>
+  <!-- marcador direito -->
+  <svg class="tab-marker right" width="2" height="10" viewBox="0 0 2 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <path d="M1 9V1" stroke="currentColor" stroke-opacity="0.9" stroke-linecap="round"/>
+  </svg>
+</div>
 
-              <div *ngIf="selectedIndex === null"
-                   class="handle end-handle"
-                   [style.left.px]="posicaoFimPx"
-                   [ngClass]="{'dragging': dragging === 'fim'}"
-                   (mousedown)="iniciarArrasto('fim', $event)">
-                   <div class="handle-tooltip">{{ formatTimestamp(tempoFinalMs) }}</div>
-              </div>
+<div *ngFor="let segment of selectionSegments" class="selection-range"
+     [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
+     [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)"
+     [ngClass]="{ 'playing': isVideoPlaying && (tempoInicialMs > 0 || tempoFinalMs < videoDurationMs) }">
+</div>
 
-              <div class="playhead" [style.left.px]="posicaoPlayerPx">
-                <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
-              </div>
+<div *ngFor="let marcador of structuralMarkers; let i = index"
+     class="time-marker structural-marker"
+     [ngClass]="{'time-marker--selected': isMarkerInSelectedSegment(marcador)}"
+     [style.left]="marcador.left">
+  {{ marcador.label }}
+</div>
 
-            </div>
-          </div>
+<div *ngIf="selectedIndex === null"
+     class="handle start-handle"
+     [style.left.px]="posicaoInicioPx"
+     [ngClass]="{'active': isSelectionActive || dragging === 'inicio'}"
+     (mousedown)="iniciarArrasto('inicio', $event)">
+  <div class="handle-tooltip">{{ formatTimestamp(tempoInicialMs) }}</div>
+</div>
 
-          <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
-        </div>
-      </div>
+<div *ngIf="selectedIndex === null"
+     class="handle end-handle"
+     [style.left.px]="posicaoFimPx"
+     [ngClass]="{'active': isSelectionActive || dragging === 'fim'}"
+     (mousedown)="iniciarArrasto('fim', $event)">
+  <div class="handle-tooltip">{{ formatTimestamp(tempoFinalMs) }}</div>
+</div>
 
-      <div class="entities-placeholder w-[790px] h-[754px] mt-[20px]  ">
+<div class="played-range"
+     [ngClass]="{ 'active-selection': isSelectionActive || dragging !== null }"
+     [style.left.px]="posicaoInicioPx"
+     [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
+</div>
+
+<div class="playhead" [style.left.px]="posicaoPlayerPx">
+  <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
+</div>
+
+</div>
+</div>
+
+<button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
+</div>
+</div>
+
+
+      <div class="entities-placeholder ml-[70px] w-[790px] h-[754px] mt-[20px]  ">
         <app-clipping-entities
           [useAlternativeJson]="true"
           (textoMarcadoChange)="updateMarkedText($event)"
@@ -176,8 +195,8 @@
 
       <div #listaTranscricao class="transcription-list hide-scrollbar">
         <div *ngFor="let item of transcricaoExibida" class="transcription-item" 
-             (click)="irParaTimestamp(item.timestamp)" 
-             [ngClass]="{ 'playing': item.timestamp <= tempoAtualMs && tempoAtualMs < item.end, 'played': item.end <= tempoAtualMs }">
+              (click)="irParaTimestamp(item.timestamp)" 
+              [ngClass]="{ 'playing': item.timestamp <= tempoAtualMs && tempoAtualMs < item.end, 'played': item.end <= tempoAtualMs }">
           <div class="timestamp">{{ formatTimestamp(item.timestamp) }}</div>
           <p class="text-content" [innerHTML]="item.text"></p>
         </div>
