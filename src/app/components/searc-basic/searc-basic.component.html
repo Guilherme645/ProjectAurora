@@ -168,28 +168,35 @@
       </div>
     
       <!-- Dropdown "Mais Relevantes" -->
-      <div class="relative">
-        <button
+       <button 
+        type="button"
           class="text-gray-700 text-sm flex items-center gap-1 transition hover:text-blue-600"
-          aria-label="Ordenar resultados"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Mais relevantes
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M6 9l6 6 6-6"></path>
-          </svg>
-        </button>
- 
+        (click)="isDropdownOpen = !isDropdownOpen"
+        aria-label="Ordenar resultados"
+        aria-haspopup="true"
+        [attr.aria-expanded]="isDropdownOpen">
+        {{ selectedOption }}
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             [class.rotate-180]="isDropdownOpen"
+             class="transition-transform duration-200">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </button>
+
+      <div *ngIf="isDropdownOpen"
+           class="absolute mt-1 w-48 bg-white border border-gray-200  rounded-lg shadow-lg mt-[140px] right-0 z-20">
+        <ul class="text-sm text-gray-800">
+          <li (click)="selectOption('Mais relevantes')" 
+              class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              [class.text-blue-600]="selectedOption === 'Mais relevantes'">
+            Mais relevantes
+          </li>
+          <li (click)="selectOption('Mais recentes')" 
+              class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              [class.text-blue-600]="selectedOption === 'Mais recentes'">
+            Mais recentes
+          </li>
+        </ul>
       </div>
     </div>

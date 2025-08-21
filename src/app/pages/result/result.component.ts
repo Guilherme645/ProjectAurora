@@ -24,6 +24,9 @@ export class ResultComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedMentionsCount: number = 0;
   allSelected: boolean = false;
   isSearchOpen: boolean = false;
+  // NOVAS PROPRIEDADES para gerenciar os modais de forma independente
+  isVehiclesModalOpen: boolean = false;
+  isLocationModalOpen: boolean = false;
 
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
   @ViewChild('highSearchDrawer') highSearchDrawerRef!: ElementRef;
@@ -227,5 +230,28 @@ export class ResultComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.positionUpdateInterval) {
       clearInterval(this.positionUpdateInterval);
     }
+  }  
+  // Abre o modal de veículos e fecha o painel de busca avançada
+  openVehiclesModal() {
+    this.isSearchOpen = false;
+    this.isVehiclesModalOpen = true;
+  }
+  
+  // Fecha o modal de veículos e reabre o painel de busca avançada
+  closeVehiclesModal() {
+    this.isVehiclesModalOpen = false;
+    this.isSearchOpen = true;
+  }
+
+  // Abre o modal de localização e fecha o painel de busca avançada
+  openLocationModal() {
+    this.isSearchOpen = false;
+    this.isLocationModalOpen = true;
+  }
+
+  // Fecha o modal de localização e reabre o painel de busca avançada
+  closeLocationModal() {
+    this.isLocationModalOpen = false;
+    this.isSearchOpen = true;
   }
 }

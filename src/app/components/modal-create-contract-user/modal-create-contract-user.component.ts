@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-// Suas interfaces existentes
 interface Contract {
   number: string;
   startDate: string;
@@ -16,6 +15,7 @@ interface User {
   fullName: string;
   email: string;
   userType: string;
+  password: string;
   desiredPassword: boolean;
   addressType?: string;
   cep?: string;
@@ -26,25 +26,20 @@ interface User {
   state?: string;
 }
 
-interface Vehicle {
-  vehicle: string;
-  mediaType: string;
-}
-
 @Component({
   selector: 'app-modal-create-contract-user',
   templateUrl: './modal-create-contract-user.component.html',
   styleUrls: ['./modal-create-contract-user.component.css'],
   standalone: false
 })
-// >>> MUDANÇA: Implementa o AfterViewInit
 export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
   @Input() editMode: boolean = false;
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<any>();
+  @Output() save = new EventEmitter<{ contract: Contract; user: User }>();
+
+  currentStep = 1;
   passwordVisible = false;
 
-  currentStep: number = 1;
   contractForm!: FormGroup;
   userForm!: FormGroup;
   vehicleForm!: FormGroup;
@@ -52,14 +47,6 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
   userTypes = [
     { value: 'collaborator', label: 'Colaborador' },
     { value: 'admin', label: 'Administrador' },
-  ];
-
-  mediaTypes = [
-    { value: 'all', label: 'Todos' },
-    { value: 'vehicle', label: 'Veículo' },
-    { value: 'tvGlobo', label: 'TV Globo (Vídeo)' },
-    { value: 'folhaSP', label: 'Folha de São Paulo (Texto)' },
-    { value: 'g1', label: 'G1 (Texto)' },
   ];
 
   constructor(private fb: FormBuilder) {}
@@ -72,13 +59,14 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
       situation: ['', Validators.required],
       responsibleWorkspace: ['', Validators.required],
       workspaceName: [''],
-      file: [null, Validators.required], // Adicionado validador para o ficheiro
+      file: []  // <— obrigatório para liberar o step
     });
 
     this.userForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       userType: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       desiredPassword: [false],
       addressType: [''],
       cep: [''],
@@ -89,38 +77,40 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
       state: [''],
     });
 
+    // Veículos (se for usar depois)
     this.vehicleForm = this.fb.group({
-      vehicle: ['', Validators.required],
-      mediaType: ['', Validators.required],
+      vehicle: [''],
+      mediaType: [''],
     });
 
     if (this.editMode) {
-      // Lógica de edição
+      // carregar dados de edição aqui se necessário
     }
   }
 
-  // >>> MUDANÇA: Adiciona o ngAfterViewInit para inicializar a Preline UI
   ngAfterViewInit(): void {
-    // A inicialização é feita dentro de um setTimeout para garantir que o HTML foi renderizado
+    // garante Preline ativo (quando presente)
     setTimeout(() => {
-      if (window.HSStaticMethods) {
-        window.HSStaticMethods.autoInit();
+      if ((window as any).HSStaticMethods?.autoInit) {
+        (window as any).HSStaticMethods.autoInit();
       }
-    }, 100);
+    }, 0);
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
   }
 
   nextStep(): void {
     if (this.currentStep === 1) {
       this.contractForm.markAllAsTouched();
+      // console.log('contractForm.valid?', this.contractForm.valid, this.contractForm.value);
       if (this.contractForm.valid) this.currentStep = 2;
     } else if (this.currentStep === 2) {
       this.userForm.markAllAsTouched();
+      // console.log('userForm.valid?', this.userForm.valid, this.userForm.value);
       if (this.userForm.valid) this.currentStep = 3;
     }
-  }
-
-  togglePasswordVisibility(): void {
-    this.passwordVisible = !this.passwordVisible;
   }
 
   previousStep(): void {
@@ -129,9 +119,13 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void {
     if (this.currentStep === 3) {
-      const contractData = this.contractForm.value;
-      const userData = this.userForm.value;
-      
+      if (!this.contractForm.valid || !this.userForm.valid) {
+        this.contractForm.markAllAsTouched();
+        this.userForm.markAllAsTouched();
+        return;
+      }
+      const contractData: Contract = this.contractForm.value;
+      const userData: User = this.userForm.value;
       this.save.emit({ contract: contractData, user: userData });
       this.close.emit();
     } else {
@@ -139,13 +133,33 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onFileChange(event: any): void {
+  onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
+    if (input.files?.length) {
       const file = input.files[0];
-      this.contractForm.patchValue({ file: file });
-      // Força a revalidação do formulário
-      this.contractForm.get('file')?.updateValueAndValidity();
+      // Atribua o arquivo ao controle de formulário 'file'
+      this.contractForm.get('file')?.setValue(file);
+      // Oculta a área de upload e exibe a visualização (se houver)
+      const uploadArea = document.querySelector('[data-hs-file-upload-trigger]') as HTMLElement;
+      if (uploadArea) {
+        uploadArea.style.display = 'none';
+      }
+    } else {
+      this.contractForm.get('file')?.setValue(null);
+      // Exibe a área de upload novamente se nenhum arquivo foi selecionado
+      const uploadArea = document.querySelector('[data-hs-file-upload-trigger]') as HTMLElement;
+      if (uploadArea) {
+        uploadArea.style.display = 'flex';
+      }
     }
+  }
+  /** util p/ estilizar campos inválidos */
+  ctrl(control: string, form: 'contract' | 'user'): { [klass: string]: boolean } {
+    const fg = form === 'contract' ? this.contractForm : this.userForm;
+    const c = fg.get(control);
+    return {
+      'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200': !(c?.touched && c?.invalid),
+      'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200': !!(c?.touched && c?.invalid),
+    };
   }
 }

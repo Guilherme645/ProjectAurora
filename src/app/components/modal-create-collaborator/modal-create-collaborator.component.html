@@ -6,40 +6,34 @@
 
     <div class="flex items-start gap-8">
       <!-- Abas (Steps) -->
-      <nav class="w-[225px]">
-        <div 
-          class="flex items-center gap-3 my-2 h-[52px]"
-          [class]="currentStep === 1 ? 'text-blue-600' : 'text-gray-500'">
-          
-         
+     <nav class="w-[225px] h-[108px] -mt-[-10px] flex flex-col items-start gap-1">
+  <button type="button" 
+          (click)="currentStep = 1"
+          class="w-full h-[52px] px-3 py-2 rounded-[8px] flex items-center transition-colors
+                 font-medium text-[14px] leading-5 tracking-[-0.01em]
+                 "
+          [ngClass]="currentStep === 1 
+            ? 'bg-slate-50 text-blue-600' 
+            : 'bg-transparent text-gray-500 hover:bg-slate-50/60'">
+    Informações básicas
+  </button>
+  
+  <button type="button" 
+          (click)="currentStep = 2"
+          class="w-full h-[52px] px-3 py-2 rounded-[8px] flex items-center justify-between transition-colors
+                 font-medium text-[14px] leading-5 tracking-[-0.01em]
+                 "
+          [ngClass]="currentStep === 2 
+            ? 'bg-slate-50 text-blue-600' 
+            : 'bg-transparent text-gray-500 hover:bg-slate-50/60'">
+    <span>Endereço <br> Opcional</span>
+      
     
-          <div>
-            <span 
-              class="text-base font-medium"
-              [class]="currentStep >= 1 ? 'text-blue-700' : 'text-gray-500'">
-              Informações básicas
-            </span>
-          </div>
-        </div>
-    
-        <div 
-          class="flex items-center gap-3 my-2 h-[52px]"
-          [class]="currentStep === 2 ? 'text-blue-600' : 'text-gray-500'">
-          
-         
-    
-          <div>
-            <span 
-              class="text-base font-medium"
-              [class]="currentStep >= 2 ? 'text-blue-700' : 'text-gray-500'">
-           Endereço <br> Opcional      
-                </span>
-          </div>
-        </div>
-      </nav>
+  </button>
+</nav>
 
       <!-- Etapa 1: Informações básicas -->
-    <section *ngIf="currentStep === 1" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-[-8px]">
+  <section *ngIf="currentStep === 1" class="w-[765px] -mt-[-10px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6 border border-gray-200">
   <form [formGroup]="collaboratorForm" class="w-full h-full flex flex-col">
     
     <div class="flex items-center bg-gray-50 border-b border-gray-200 px-8 py-6 flex-shrink-0">
@@ -109,60 +103,100 @@
 </section>
 
       <!-- Etapa 2: Endereço -->
-      <section *ngIf="currentStep === 2" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-6">
-        <form [formGroup]="collaboratorForm">
-          <div class="p-5 bg-white rounded-xl max-h-[350px] overflow-y-auto">
-            <div class="bg-gray-50 border-b border-gray-200 px-8 py-6">
-              <h2 class="text-sm font-semibold text-gray-800">Informações de Endereço</h2>
-            </div>
-            <div class="px-8 py-6">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="md:col-span-2">
-                  <label for="addressType" class="block text-sm font-medium text-gray-700 mb-1">Tipo de endereço</label>
-                  <select id="addressType" formControlName="addressType" class="w-full p-3 text-sm border border-gray-300 rounded-lg bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
-                    <option value="" disabled>Selecione</option>
-                    <option value="residencial">Residencial</option>
-                    <option value="comercial">Comercial</option>
-                  </select>
-                </div>
-                <div>
-                  <label for="cep" class="block text-sm font-medium text-gray-700 mb-1">CEP</label>
-                  <input id="cep" type="text" formControlName="cep" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o CEP">
-                </div>
-                <div>
-                  <label for="street" class="block text-sm font-medium text-gray-700 mb-1">Endereço</label>
-                  <input id="street" type="text" formControlName="street" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o endereço">
-                </div>
-                <div>
-                  <label for="number" class="block text-sm font-medium text-gray-700 mb-1">Número</label>
-                  <input id="number" type="text" formControlName="number" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="0">
-                </div>
-                <div>
-                  <label for="complement" class="block text-sm font-medium text-gray-700 mb-1">Complemento</label>
-                  <input id="complement" type="text" formControlName="complement" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o complemento">
-                </div>
-                <div>
-                  <label for="neighborhood" class="block text-sm font-medium text-gray-700 mb-1">Bairro</label>
-                  <input id="neighborhood" type="text" formControlName="neighborhood" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o bairro">
-                </div>
-                <div>
-                  <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Cidade/Município</label>
-                  <input id="city" type="text" formControlName="city" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira a cidade ou município">
-                </div>
-                <div>
-                  <label for="state" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-                  <input id="state" type="text" formControlName="state" class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="Insira o estado">
-                </div>
-              </div>
-            </div>
-          </div>
+   <!-- Etapa 2: Endereço -->
+<section
+  *ngIf="currentStep === 2"
+  class="w-[765px] h-[435px] bg-white rounded-2xl -mt-[-10px] shadow-sm  border border-gray-200
+         overflow-hidden flex flex-col">
 
-          <!-- Rodapé -->
-          <div class="p-6 flex justify-end gap-3 bg-white">
-            <button class="w-[124px] h-[46px] bg-white text-gray-600 font-semibold text-[15px] rounded-lg border border-gray-300 hover:bg-gray-200 transition-all" (click)="previousStep(); $event.stopPropagation()">Voltar</button>
-            <button class="w-[179px] h-[46px] bg-gray-600 text-white font-semibold text-[15px] rounded-lg hover:bg-gray-700 transition-all" (click)="onSubmit(); $event.stopPropagation()">{{ editMode ? 'Salvar alteração' : 'Criar colaborador' }}</button>
-          </div>
-        </form>
-      </section>
+  <form [formGroup]="collaboratorForm" class="flex-1 flex flex-col min-h-0">
+    <!-- Cabeçalho fixo -->
+    <div class="bg-gray-50 border-b border-gray-200 px-8 py-6 flex-none">
+      <h2 class="text-sm font-semibold text-gray-800">Informações de Endereço</h2>
+    </div>
+
+    <!-- Miolo rolável -->
+    <div class="px-8 py-6 flex-1 overflow-y-auto min-h-0">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="md:col-span-2 w-[330px]">
+          <label for="addressType" class="block text-sm font-medium text-gray-700 mb-1">Tipo de endereço</label>
+          <select id="addressType" formControlName="addressType"
+                  class="w-full p-3 text-sm border border-gray-300 rounded-lg bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all">
+            <option value="" disabled>Selecione</option>
+            <option value="residencial">Residencial</option>
+            <option value="comercial">Comercial</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="cep" class="block text-sm font-medium text-gray-700 mb-1">CEP</label>
+          <input id="cep" type="text" formControlName="cep"
+                 class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                 placeholder="Insira o CEP">
+        </div>
+
+        <div>
+          <label for="street" class="block text-sm font-medium text-gray-700 mb-1">Endereço</label>
+          <input id="street" type="text" formControlName="street"
+                 class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                 placeholder="Insira o endereço">
+        </div>
+
+        <div>
+          <label for="number" class="block text-sm font-medium text-gray-700 mb-1">Número</label>
+          <input id="number" type="text" formControlName="number"
+                 class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                 placeholder="0">
+        </div>
+
+        <div>
+          <label for="complement" class="block text-sm font-medium text-gray-700 mb-1">Complemento</label>
+          <input id="complement" type="text" formControlName="complement"
+                 class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                 placeholder="Insira o complemento">
+        </div>
+
+        <div>
+          <label for="neighborhood" class="block text-sm font-medium text-gray-700 mb-1">Bairro</label>
+          <input id="neighborhood" type="text" formControlName="neighborhood"
+                 class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                 placeholder="Insira o bairro">
+        </div>
+
+  <div>
+          <label for="uf" class="block text-sm font-medium text-gray-700 mb-1">UF</label>
+          <input id="uf" type="text" formControlName="uf"
+                 class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                 placeholder="Insira o complemento">
+        </div>
+
+        <div>
+          <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Cidade/Município</label>
+          <input id="city" type="text" formControlName="city"
+                 class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                 placeholder="Insira a cidade ou município">
+        </div>
+
+        <div>
+          <label for="state" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+          <input id="state" type="text" formControlName="state"
+                 class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                 placeholder="Insira o estado">
+        </div>
+      </div>
+    </div>
+
+    <!-- Rodapé fixo -->
+    <div class="p-6 flex justify-end gap-3 bg-white border-t flex-none">
+     
+      <button type="button"
+              class="w-[179px] h-[46px] bg-[#1F2937] text-white font-semibold text-[15px] rounded-lg hover:bg-gray-700 transition-all"
+              (click)="onSubmit(); $event.stopPropagation()">
+        {{ editMode ? 'Salvar alteração' : 'Criar colaborador' }}
+      </button>
+    </div>
+  </form>
+</section>
+
     </div>
   </div>

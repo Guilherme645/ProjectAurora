@@ -18,6 +18,7 @@ export interface Collaborator {
     complement?: string;
     neighborhood?: string;
     city?: string;
+    uf?: string;
     state?: string;
   };
 }
@@ -59,6 +60,7 @@ export class ModalCreateCollaboratorComponent implements OnInit {
       number: [''],
       complement: [''],
       neighborhood: [''],
+      uf: [''],
       city: [''],
       state: ['']
     });

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-page-busca',
@@ -11,9 +11,13 @@ export class PageBuscaComponent {
   isMobileSidebarOpen = false;
   isModalVisible: boolean = false;
   isSearchOpen: boolean = false; // Controla o estado do HighSearch
+ @Output() openVehiclesModalRequest = new EventEmitter<void>();
+  @Output() openLocationModalRequest = new EventEmitter<void>();
 
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
   @ViewChild('highSearchDrawer') highSearchDrawerRef!: ElementRef; // Referência ao HighSearch
+  isVehiclesModalOpen: boolean = false;
+  isLocationModalOpen: boolean = false;
 
   constructor() {}
 
@@ -61,5 +65,29 @@ export class PageBuscaComponent {
     if (this.isSearchOpen && this.highSearchDrawerRef && !this.highSearchDrawerRef.nativeElement.contains(target)) {
       this.closeHighSearch();
     }
+  }
+  
+  // Abre o modal de veículos e fecha o painel de busca avançada
+  openVehiclesModal() {
+    this.isSearchOpen = false;
+    this.isVehiclesModalOpen = true;
+  }
+  
+  // Fecha o modal de veículos e reabre o painel de busca avançada
+  closeVehiclesModal() {
+    this.isVehiclesModalOpen = false;
+    this.isSearchOpen = true;
+  }
+
+  // Abre o modal de localização e fecha o painel de busca avançada
+  openLocationModal() {
+    this.isSearchOpen = false;
+    this.isLocationModalOpen = true;
+  }
+
+  // Fecha o modal de localização e reabre o painel de busca avançada
+  closeLocationModal() {
+    this.isLocationModalOpen = false;
+    this.isSearchOpen = true;
   }
 }

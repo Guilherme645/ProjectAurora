@@ -1,9 +1,7 @@
-<!-- Container do Modal (Versão Desktop) -->
 <div
   *ngIf="!isMobile"
-  class="modal-container w-[645px] h-[500px] bg-white shadow-lg rounded-2xl border border-gray-200 flex flex-col"
+  class="modal-container w-[645px] h-[500px] bg-white shadow-lg rounded-2xl border border-gray-200 flex flex-col relative z-[50]"
 >
-  <!-- Cabeçalho do Modal -->
   <div
     class="flex items-center justify-between bg-white px-4 py-3 h-[73px] w-full rounded-t-2xl border-b"
   >
@@ -32,19 +30,16 @@
       />
     </div>
     <button
-    class="text-xs text-gray-600 flex justify-center items-center w-[30px] h-[18px] border border-gray-300 rounded-sm hover:bg-gray-200"
-    (click)="closeModal()"
-  >
-    ESC
-  </button>
+      class="text-xs text-gray-600 flex justify-center items-center w-[30px] h-[18px] border border-gray-300 rounded-sm hover:bg-gray-200"
+      (click)="closeModal()"
+    >
+      ESC
+    </button>
   </div>
 
-  <!-- Conteúdo principal -->
   <div class="flex flex-grow w-[645px] h-[382px] pt-2 rounded-b-2xl overflow-hidden">
-    <!-- Menu lateral fixo -->
     <nav class="w-[150px] border-r border-gray-200 p-4 bg-white">
       <ul class="space-y-3">
-        <!-- Categoria: Texto -->
         <li
           class="category-item flex items-center gap-2 cursor-pointer px-2 py-2 rounded-lg"
           [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Texto', 'text-gray-600': selectedCategory !== 'Texto'}"
@@ -73,7 +68,6 @@
           </span>
         </li>
 
-        <!-- Categoria: Vídeo -->
         <li
           class="category-item flex items-center gap-2 cursor-pointer px-2 py-2 rounded-lg"
           [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Vídeo', 'text-gray-600': selectedCategory !== 'Vídeo'}"
@@ -102,7 +96,6 @@
           </span>
         </li>
 
-        <!-- Categoria: Áudio -->
         <li
           class="category-item flex items-center gap-2 cursor-pointer px-2 py-2 rounded-lg"
           [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Áudio', 'text-gray-600': selectedCategory !== 'Áudio'}"
@@ -133,7 +126,6 @@
       </ul>
     </nav>
 
-    <!-- Lista de Veículos -->
     <div class="p-4 flex-1 max-h-[382px] overflow-y-auto bg-white">
       <span class="block text-sm font-medium text-gray-700 text-left mb-3 category-title">
         {{ getCategoryTitle() }}
@@ -166,7 +158,6 @@
     </div>
   </div>
 
-  <!-- Rodapé -->
   <div class="w-full border-t p-4 flex justify-end bg-white rounded-b-2xl">
     <button
       type="button"

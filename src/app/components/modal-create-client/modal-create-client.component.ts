@@ -32,7 +32,6 @@ export class ModalCreateClientComponent implements OnInit {
   clientTypes = [
     { value: 'publico', label: 'Público' },
     { value: 'privado', label: 'Privado' },
-    { value: 'notas', label: 'Notas' },
   ];
 
   constructor(private fb: FormBuilder) {}

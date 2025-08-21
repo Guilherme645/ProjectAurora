@@ -1,4 +1,3 @@
-// nav-bar.component.ts
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 
@@ -29,6 +28,10 @@ export class NavBarComponent implements OnInit {
   hasMoreData: boolean = true;
   isModalVisible: boolean = false;
   modalAberto = false;
+
+  // NOVAS PROPRIEDADES para gerenciar os modais de forma independente
+  isVehiclesModalOpen: boolean = false;
+  isLocationModalOpen: boolean = false;
 
   @ViewChild('modalWrapper') modalWrapperRef!: ElementRef;
   @ViewChild('searchDrawer') searchDrawerRef!: ElementRef;
@@ -98,7 +101,6 @@ export class NavBarComponent implements OnInit {
     this.dataService.getData(this.page, this.pageSize, this.currentUser).subscribe(
       (data) => {
         if (data && data.noticias && data.noticias.length > 0) {
-          // MODIFICAÇÃO: Adiciona a propriedade 'selected' a cada notícia
           const newNoticias = data.noticias.map((n: any) => ({ ...n, selected: false }));
           this.noticias = this.noticias.concat(newNoticias);
           this.filterNoticias();
@@ -144,23 +146,19 @@ export class NavBarComponent implements OnInit {
     this.filterNoticias();
   }
 
-  // MODIFICAÇÃO: Método para "Selecionar Todos"
   onSelectAll(selectAll: boolean) {
     this.allSelected = selectAll;
     this.filteredNoticias.forEach(noticia => noticia.selected = selectAll);
     this.selectedMentionsCount = selectAll ? this.filteredNoticias.length : 0;
   }
 
-  // MODIFICAÇÃO: Gerenciamento do estado de seleção individual
   onSelectionChange(event: { noticia: any, isSelected: boolean }) {
     const item = this.noticias.find(n => n.id === event.noticia.id);
     if (item) {
       item.selected = event.isSelected;
     }
-    // Recalcula a contagem total
     this.selectedMentionsCount = this.noticias.filter(n => n.selected).length;
     
-    // Sincroniza o checkbox "Selecionar Todos"
     this.allSelected = this.selectedMentionsCount === this.noticias.length;
   }
 
@@ -170,8 +168,8 @@ export class NavBarComponent implements OnInit {
     this.noticias = [];
     this.filteredNoticias = [];
     this.hasMoreData = true;
-    this.allSelected = false; // Reset the select all state
-    this.selectedMentionsCount = 0; // Reset the count
+    this.allSelected = false;
+    this.selectedMentionsCount = 0;
     this.loadNoticias();
   }
 
@@ -206,5 +204,31 @@ export class NavBarComponent implements OnInit {
 
   toggleModal() {
     this.isModalVisible = !this.isModalVisible;
+  }
+
+  // MÉTODOS ADICIONADOS PARA GERENCIAR AS MODAIS DE VEÍCULOS E LOCALIZAÇÃO
+  
+  // Abre o modal de veículos e fecha o painel de busca avançada
+  openVehiclesModal() {
+    this.isSearchOpen = false;
+    this.isVehiclesModalOpen = true;
+  }
+  
+  // Fecha o modal de veículos e reabre o painel de busca avançada
+  closeVehiclesModal() {
+    this.isVehiclesModalOpen = false;
+    this.isSearchOpen = true;
+  }
+
+  // Abre o modal de localização e fecha o painel de busca avançada
+  openLocationModal() {
+    this.isSearchOpen = false;
+    this.isLocationModalOpen = true;
+  }
+
+  // Fecha o modal de localização e reabre o painel de busca avançada
+  closeLocationModal() {
+    this.isLocationModalOpen = false;
+    this.isSearchOpen = true;
   }
 }

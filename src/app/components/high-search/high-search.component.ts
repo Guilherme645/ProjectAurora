@@ -15,13 +15,18 @@ export class HighSearchComponent {
   dateError: string | null = null;
   @Input() isVisible: boolean = false;
   @Output() close = new EventEmitter<void>(); 
+  
+  // O evento que o componente pai irá ouvir para abrir o modal de veículos
+  @Output() openVehiclesModalRequest = new EventEmitter<void>();
+  @Output() openLocationModalRequest = new EventEmitter<void>();
+
   isSidebarOpen: boolean = false;
   selectedStartDateMobile: string = ''; 
-  selectedEndDateMobile: string = '';   
+  selectedEndDateMobile: string = '';   
   selectedStartDate: Date | null = null;
   selectedEndDate: Date | null = null;
   
-  etapaSelecionando: 'start' | 'end' = 'start'; // controla qual data está sendo selecionada
+  etapaSelecionando: 'start' | 'end' = 'start'; 
   
   constructor(private router: Router) {}
 
@@ -41,7 +46,6 @@ export class HighSearchComponent {
     location: false
   };
 
-  isVehiclesModalOpen = false;
   isLocationModalOpen = false;
 
   mediaTypes = {
@@ -65,18 +69,8 @@ export class HighSearchComponent {
     this.close.emit(); 
   }
 
-  onSidebarToggle(isOpen: boolean) {
-    this.isSidebarOpen = isOpen;
-    console.log('Sidebar foi', isOpen ? 'aberto' : 'fechado');
-  }
-
-  toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
-  }
-
   toggleSection(section: keyof typeof this.isSectionOpen) {
     this.isSectionOpen[section] = !this.isSectionOpen[section];
-    this.isVehiclesModalOpen = false;
     this.isLocationModalOpen = false;
   }
 
@@ -88,12 +82,12 @@ export class HighSearchComponent {
   onDateSelected(date: Date) {
     if (this.etapaSelecionando === 'start') {
       this.selectedStartDate = date;
-      this.selectedEndDate = null; // limpa a data de fim, caso exista
-      this.etapaSelecionando = 'end'; // agora o próximo clique será para selecionar a data de fim
+      this.selectedEndDate = null;
+      this.etapaSelecionando = 'end';
     } else if (this.etapaSelecionando === 'end') {
       if (this.selectedStartDate && date >= this.selectedStartDate) {
         this.selectedEndDate = date;
-        this.etapaSelecionando = 'start'; // reinicia o processo, caso o usuário queira escolher outro intervalo
+        this.etapaSelecionando = 'start';
       } else {
         alert('A data final deve ser posterior ou igual à data inicial.');
       }
@@ -110,10 +104,10 @@ export class HighSearchComponent {
     const date = value ? new Date(value) : null;
     if (type === 'start') {
       this.selectedStartDate = date;
-      this.selectedStartDateMobile = value; 
+      this.selectedStartDateMobile = value;
     } else {
       this.selectedEndDate = date;
-      this.selectedEndDateMobile = value; 
+      this.selectedEndDateMobile = value;
     }
     this.validateDates();
   }
@@ -147,12 +141,11 @@ export class HighSearchComponent {
     this.selectedStartDate = null;
     this.selectedEndDate = null;
     this.selectedStartDateMobile = ''; 
-    this.selectedEndDateMobile = '';  
+    this.selectedEndDateMobile = '';  
     this.dateError = null;
     Object.keys(this.isSectionOpen).forEach((key) => {
       this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
     });
-    this.isVehiclesModalOpen = false;
     this.isLocationModalOpen = false;
   }
 
@@ -163,27 +156,25 @@ export class HighSearchComponent {
   }
 
   openVehiclesModal() {
-    Object.keys(this.isSectionOpen).forEach((key) => {
-      this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
-    });
-    this.isVehiclesModalOpen = true;
-    this.isLocationModalOpen = false;
+    this.openVehiclesModalRequest.emit();
   }
 
+  // MUDANÇA PRINCIPAL: Emite um evento, não gerencia o estado localmente
   openLocationModal() {
-    Object.keys(this.isSectionOpen).forEach((key) => {
-      this.isSectionOpen[key as keyof typeof this.isSectionOpen] = false;
-    });
-    this.isVehiclesModalOpen = false;
-    this.isLocationModalOpen = true;
+    this.openLocationModalRequest.emit();
   }
 
   navigateToSimpleSearch() {
     window.location.href = '/busca';
   }
-  
-  onCloseSection() {
-    this.isVehiclesModalOpen = false;
-    this.isLocationModalOpen = false;
+
+   onSidebarToggle(isOpen: boolean) {
+    this.isSidebarOpen = isOpen;
   }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+
 }

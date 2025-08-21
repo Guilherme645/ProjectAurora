@@ -59,9 +59,24 @@
       [ngClass]="{'translate-x-0': isSearchOpen, 'translate-x-full': !isSearchOpen}"
       (click)="$event.stopPropagation()">
       <div class="p-4 w-full h-full">
-        <app-high-search [isVisible]="isSearchOpen" (close)="closeHighSearch()"></app-high-search>
-      </div>
+<app-high-search 
+          [isVisible]="isSearchOpen"
+          (close)="closeHighSearch()"
+          (openVehiclesModalRequest)="openVehiclesModal()"
+          (openLocationModalRequest)="openLocationModal()"> </app-high-search>
     </div>
+  </div>
+
+<div *ngIf="isVehiclesModalOpen"
+     class="fixed inset-0 flex items-center justify-end pr-10 z-[70] bg-black bg-opacity-40 backdrop-blur-sm">
+  <app-veiculos (closeSection)="closeVehiclesModal()"></app-veiculos>
+</div>
+
+<div *ngIf="isLocationModalOpen"
+     class="fixed inset-0 flex items-center justify-end pr-10 z-[70] bg-black bg-opacity-40 backdrop-blur-sm">
+  <app-localizacao (closeSection)="closeLocationModal()"></app-localizacao>
+</div>     
+  
 
     <!-- Conteúdo principal abaixo do overlay -->
     <div class="main-content ml-80 relative z-10">

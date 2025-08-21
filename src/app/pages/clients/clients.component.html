@@ -5,16 +5,20 @@
       (openModalExternally)="toggleModal()">
     </app-side-bar-employees>
   </div>
+<main class="lg:ml-[314px] p-4 sm:p-8 flex flex-col items-center gap-8">
+  <div class="w-full max-w-[1022px]">
+    <app-header-client (openModal)="toggleModal()"></app-header-client>
+  </div>
 
-  <main class="lg:ml-[314px] p-4 sm:p-8 flex flex-col items-center gap-8">
-    <div class="w-full max-w-6xl">
-      <app-header-client (openModal)="toggleModal()"></app-header-client>
-    </div>
+  <div class="w-full max-w-[1022px] bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+    <app-table-clients
+      class="block w-full"
+      [clients]="clients"
+      (editClient)="handleEdit($event)">
+    </app-table-clients>
+  </div>
+</main>
 
-    <div class="w-full max-w-6xl h-auto bg-white border border-gray-200 rounded-lg shadow-sm">
-                <app-table-clients [clients]="clients" (editClient)="handleEdit($event)"></app-table-clients>
-    </div>
-  </main>
   
    <div *ngIf="isModalOpen"
         class="fixed inset-0 flex items-center justify-center z-[1050] bg-black bg-opacity-40 backdrop-blur-sm"
