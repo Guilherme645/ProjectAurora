@@ -1,56 +1,64 @@
 <div class="relative min-h-screen bg-gray-50">
-    <div class="bg-neutral-800 text-white fixed h-full z-50">
+  <!-- Sidebar fixa casando com ml-80 -->
+  <aside class="fixed inset-y-0 left-0 z-50 h-full w-80 bg-neutral-800 text-white">
     <app-side-bar-employees
       (userChange)="onUserChange($event)"
       (openModalExternally)="toggleModal()">
     </app-side-bar-employees>
-  </div>
-<main class="lg:ml-[314px] p-4 sm:p-8 flex flex-col items-center gap-8">
-  <div class="w-full max-w-[1022px]">
-    <app-header-client (openModal)="toggleModal()"></app-header-client>
-  </div>
+  </aside>
 
-  <div class="w-full max-w-[1022px] bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-    <app-table-clients
-      class="block w-full"
-      [clients]="clients"
-      (editClient)="handleEdit($event)">
-    </app-table-clients>
-  </div>
-</main>
+  <!-- Conteúdo -->
+  <main class="lg:ml-80 px-4 sm:px-8 py-6 flex flex-col items-stretch gap-6">
 
-  
-   <div *ngIf="isModalOpen"
-        class="fixed inset-0 flex items-center justify-center z-[1050] bg-black bg-opacity-40 backdrop-blur-sm"
-        (click)="closeModal()">
-      <div (click)="$event.stopPropagation()">
-        <app-modal-create-client
-          [editMode]="!!selectedClientForEdit"
-          [clientData]="selectedClientForEdit"
-          (close)="closeModal()"
-          (clientCreated)="openContractModal($event)">
-        </app-modal-create-client>
+    <!-- Container central (largura ampla no desktop) -->
+    <div class="w-full max-w-screen-2xl mx-auto">
+      <app-header-client (openModal)="toggleModal()"></app-header-client>
+    </div>
+
+    <!-- Tabela: ocupa bem mais largura; sem max-w estreita -->
+    <section class="w-full max-w-screen-2xl mx-auto bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+      <app-table-clients
+        class="block w-full"
+        [clients]="clients"
+        (editClient)="handleEdit($event)">
+      </app-table-clients>
+    </section>
+  </main>
+
+  <!-- Modal: Criar/Editar cliente -->
+  <div *ngIf="isModalOpen"
+       class="fixed inset-0 z-[1050] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+       (click)="closeModal()">
+    <div (click)="$event.stopPropagation()">
+      <app-modal-create-client
+        [editMode]="!!selectedClientForEdit"
+        [clientData]="selectedClientForEdit"
+        (close)="closeModal()"
+        (clientCreated)="openContractModal($event)">
+      </app-modal-create-client>
     </div>
   </div>
 
+  <!-- Modal: Contrato -->
   <div *ngIf="isContractModalOpen"
-       class="fixed inset-0 flex items-center justify-center z-[1060] bg-black bg-opacity-40 backdrop-blur-sm"
+       class="fixed inset-0 z-[1060] flex items-center justify-center bg-black/40 backdrop-blur-sm"
        (click)="closeContractModal()">
     <div (click)="$event.stopPropagation()">
       <app-modal-contract
-        [clientName]="newlyCreatedClientName" (cancel)="closeContractModal()"
+        [clientName]="newlyCreatedClientName"
+        (cancel)="closeContractModal()"
         (registerLater)="closeContractModal()"
-        (continueRegistration)="openCreateContractUserModal()"> </app-modal-contract>
+        (continueRegistration)="openCreateContractUserModal()">
+      </app-modal-contract>
     </div>
   </div>
 
+  <!-- Modal: Criar usuário de contrato -->
   <div *ngIf="isCreateContractUserModalOpen"
-       class="fixed inset-0 flex items-center justify-center z-[1070] bg-black bg-opacity-40 backdrop-blur-sm"
+       class="fixed inset-0 z-[1070] flex items-center justify-center bg-black/40 backdrop-blur-sm"
        (click)="closeCreateContractUserModal()">
     <div (click)="$event.stopPropagation()">
-      <app-modal-create-contract-user
-        (close)="closeCreateContractUserModal()">
-      </app-modal-create-contract-user>
+      <app-modal-create-contract-user (close)="closeCreateContractUserModal()"></app-modal-create-contract-user>
     </div>
   </div>
 </div>

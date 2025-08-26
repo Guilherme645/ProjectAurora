@@ -26,80 +26,106 @@
     </app-save-clipping-modal>
   </div>
 
-  <div class="main-content">
-    
-    <div class="player-column">
-      <div class="timeline-box"> 
-        <video #playerVideo class="video-player" controls 
-               (loadedmetadata)="onMetadadosCarregados($event)" 
-               (timeupdate)="onTempoAtualizado($event)"
-              (play)="onPlay()"
-       (pause)="isVideoPlaying = false">
-          <source src="assets/video.mp4" type="video/mp4" />
-          Seu navegador não suporta o elemento de vídeo.
-        </video>
+<div class="main-content">
+  <div class="player-column">
+    <div class="timeline-box">
+      <video #playerVideo class="video-player" controls
+             (loadedmetadata)="onMetadadosCarregados($event)"
+             (timeupdate)="onTempoAtualizado($event)"
+             (play)="onPlay()"
+             (pause)="isVideoPlaying = false">
+        <source src="assets/video.mp4" type="video/mp4" />
+        Seu navegador não suporta o elemento de vídeo.
+      </video>
 
-      
-        <div class="timeline-controls-container">
-          <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
-          
-          <div class="timeline-wrapper">
-            <div #containerTimeline class="timeline-container" (click)="selectContainer(null)">
-              
-<div *ngIf="!dragging"
-     class="played-range"
-     [style.left.px]="posicaoInicioPx"
-     [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
-</div>              <div *ngFor="let container of timelineContainers; let i = index"
-                   class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
-                   [ngClass]="{
-                     'bg-yellow-500 border-bg-yellow-800': selectedIndex === i,
-  'bg-gray-100/20 border-yellow-500/30': selectedIndex !== i
-                   }"
-                   [style.width.px]="segmentWidth"
-                   [style.left.px]="i * segmentWidth"
-                   (click)="selectContainer(i, $event)">
-              </div>
+     <div class="timeline-controls-container">
+  <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
 
-             <div *ngFor="let segment of selectionSegments" class="selection-range"
-                   [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
-                   [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)"
-                   [ngClass]="{ 'playing': isVideoPlaying && (tempoInicialMs > 0 || tempoFinalMs < videoDurationMs) }">
-              </div>
+  <div class="timeline-wrapper">
+    <div #containerTimeline class="timeline-container" (click)="selectContainer(null)">
 
-              <div *ngFor="let marcador of structuralMarkers; let i = index"
-                   class="time-marker structural-marker"
-                   [ngClass]="{'time-marker--selected': isMarkerInSelectedSegment(marcador)}"
-                   [style.left]="marcador.left">
-                {{ marcador.label }}
-              </div>
-
-           <div *ngIf="selectedIndex === null"
-                   class="handle start-handle"
-                   [style.left.px]="posicaoInicioPx"
-                   [ngClass]="{'dragging': dragging === 'inicio'}"
-                   (mousedown)="iniciarArrasto('inicio', $event)">
-                   <div class="handle-tooltip">{{ formatTimestamp(tempoInicialMs) }}</div>
-              </div>
-
-              <div *ngIf="selectedIndex === null"
-                   class="handle end-handle"
-                   [style.left.px]="posicaoFimPx"
-                   [ngClass]="{'dragging': dragging === 'fim'}"
-                   (mousedown)="iniciarArrasto('fim', $event)">
-                   <div class="handle-tooltip">{{ formatTimestamp(tempoFinalMs) }}</div>
-              </div>
-
-              <div class="playhead" [style.left.px]="posicaoPlayerPx">
-                <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
-              </div>
-
-            </div>
-          </div>
-
-          <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
-        </div>
+      <!-- Faixa tocada -->
+      <div *ngIf="!dragging"
+           class="played-range"
+           [style.left.px]="posicaoInicioPx"
+           [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
       </div>
+
+      <!-- Segmentos da timeline -->
+      <div *ngFor="let container of timelineContainers; let i = index"
+           class="timeline-segment absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
+           [ngClass]="{
+             'bg-yellow-500 border-bg-yellow-800': selectedIndex === i,
+             'bg-gray-100/20 border-yellow-500/30': selectedIndex !== i
+           }"
+           [style.width.px]="segmentWidth"
+           [style.left.px]="i * segmentWidth"
+           (click)="selectContainer(i, $event)">
+
+        <!-- Handle esquerdo (SVG dentro do range, colado à esquerda) -->
+        <button type="button"
+                class="segment-handle segment-handle--left"
+                (click)="$event.stopPropagation()">
+          <svg class="tab-marker" width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 1.5V16.5M8.5 1.5V16.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Conteúdo central do range (opcional, mantém clique no segmento) -->
+        <div class="segment-fill h-full w-full"></div>
+
+        <!-- Handle direito (SVG dentro do range, colado à direita) -->
+        <button type="button"
+                class="segment-handle segment-handle--right"
+                (click)="$event.stopPropagation()">
+          <svg class="tab-marker" width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.5 1.5V16.5M1.5 1.5V16.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Faixas de seleção dinâmicas -->
+      <div *ngFor="let segment of selectionSegments" class="selection-range"
+           [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
+           [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)"
+           [ngClass]="{ 'playing': isVideoPlaying && (tempoInicialMs > 0 || tempoFinalMs < videoDurationMs) }">
+      </div>
+
+      <!-- Marcadores estruturais -->
+      <div *ngFor="let marcador of structuralMarkers; let i = index"
+           class="time-marker structural-marker"
+           [ngClass]="{'time-marker--selected': isMarkerInSelectedSegment(marcador)}"
+           [style.left]="marcador.left">
+        {{ marcador.label }}
+      </div>
+
+      <!-- Handles globais (somente quando nenhum segmento está selecionado) -->
+      <div *ngIf="selectedIndex === null"
+           class="handle start-handle"
+           [style.left.px]="posicaoInicioPx"
+           [ngClass]="{'dragging': dragging === 'inicio'}"
+           (mousedown)="iniciarArrasto('inicio', $event)">
+        <div class="handle-tooltip">{{ formatTimestamp(tempoInicialMs) }}</div>
+      </div>
+
+      <div *ngIf="selectedIndex === null"
+           class="handle end-handle"
+           [style.left.px]="posicaoFimPx"
+           [ngClass]="{'dragging': dragging === 'fim'}"
+           (mousedown)="iniciarArrasto('fim', $event)">
+        <div class="handle-tooltip">{{ formatTimestamp(tempoFinalMs) }}</div>
+      </div>
+
+      <!-- Cabeça de reprodução -->
+      <div class="playhead" [style.left.px]="posicaoPlayerPx">
+        <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
+</div>
+
 
       <div class="entities-placeholder w-[790px] h-[754px] mt-[20px]  ">
         <app-clipping-entities

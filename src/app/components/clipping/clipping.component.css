@@ -5,14 +5,17 @@
   --brand-blue-main: #737373;
   --brand-blue-light-3: #ff0000;
   --brand-blue-border: #9CA3AF;
-  --timeline-background: #fefce8;
+  --timeline-background: #F3F4F6;
   --timeline-handle-bg: #1F2937;
   --timeline-playhead-color: #374151;
---timeline-played-range-bg: #FEFCE8; /* Cor da faixa de progresso reproduzido */
+--timeline-played-range-bg: #FEF9C3; /* Cor da faixa de progresso reproduzido */
   --timeline-tooltip-bg: #000000;
   --timeline-tooltip-text: #ffffff;
   --timeline-marker-text: #9CA3AF;
-  
+  --sel-played-bg: #FEF3C7;       /* amarelo mais forte p/ já reproduzido */
+  --sel-played-border: #CA8A04;      /* a cor que você pediu */
+  --sel-unplayed-bg: #FFF7C2;       /* amarelo claro p/ restante */
+  --sel-unplayed-border: #EAB308;    /* opcional: borda do restante */
   --button-bg: #FFFFFF;
   --button-border: #E5E7EB;
   --button-text: #1F2937;
@@ -22,8 +25,39 @@
   --text-color-muted: #6B7280;
   --background-color: #FAFBFC; /* Magenta neon */
   
-  --transcription-played-bg: #fefce8;
+  --transcription-played-bg: #FEF9C3;
   --transcription-playing-bg: #EFF6FF;
+}
+
+/* NOVAS faixas da seleção */
+.selection-before, .selection-after {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;           /* acima do fundo, abaixo dos handles */
+}
+
+/* Parte já reproduzida dentro da seleção */
+.selection-before {
+  background: var(--sel-played-bg);
+  border: 2px solid var(--sel-played-border);
+  border-right: none;      /* evita borda dupla no encontro */
+  border-radius: 8px 0 0 8px; /* arredonda lado esquerdo */
+}
+
+/* Parte ainda não reproduzida dentro da seleção */
+.selection-after {
+  background: var(--sel-unplayed-bg);
+  border: 1px solid var(--sel-unplayed-border);
+  border-left: none;         /* encontra com a anterior sem “dente” */
+  border-radius: 0 8px 8px 0; /* arredonda lado direito */
+}
+
+/* Se o progresso alcançar o fim, feche o raio direito na faixa “before” */
+.selection-before.is-full {
+  border-right: 2px solid var(--sel-played-border);
+  border-radius: 8px;
 }
 
 /* ==========================================================================
@@ -128,7 +162,7 @@
   min-width: 0;
   display: flex;
   align-items: center;
-   user-select: none;         /* Padrão para a maioria dos navegadores */
+    user-select: none;      /* Padrão para a maioria dos navegadores */
   -webkit-user-select: none; /* Para navegadores baseados em WebKit (Chrome, Safari) */
   -moz-user-select: none;
 }
@@ -218,7 +252,7 @@
 
 /* Cor mais escura para a faixa de seleção quando o vídeo está tocando */
 .selection-range.playing {
-  background-color: #0c57cfb7; /* azul-500 com 50% de opacidade (mais escuro) */
+  background-color: #FEFCE8; /* azul-500 com 50% de opacidade (mais escuro) */
 }
 
 .handle {
@@ -245,6 +279,72 @@
   border-radius: 0 4px 4px 0;
   margin-left: 5px;
 }
+
+/* Garante contexto e camada acima do fundo */
+.timeline-container { position: relative; z-index: 10; }
+
+/* Marcadores */
+.tab-marker {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;      /* não bloqueia clique na aba */
+  opacity: 0.95;             /* levemente translúcido pra evitar “serrilhado” */
+}
+
+.tab-marker.left  { left: 4px; }
+.tab-marker.right { right: 4px; }
+
+/* If the background is very light/dark, you can reinforce the contrast: */
+.bg-gray-100\/20 .tab-marker path { 
+  stroke: #9CA3AF; /* Change to a darker color for the unselected state */
+}
+.bg-yellow-500 .tab-marker path { 
+  stroke: #1F2937; /* Change to a dark color for the selected state */
+}
+/* O container de cada segmento precisa ser relative para ancorar os handles */
+.timeline-segment {
+  position: absolute;         /* já está no HTML */
+  border: 1px solid transparent;
+  overflow: visible;          /* garante que os SVGs não sejam cortados */
+}
+
+/* Área central do segmento (opcional, só para manter click full-area) */
+.segment-fill {
+  pointer-events: none;
+}
+
+/* Handles nas bordas do segmento */
+.segment-handle {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 14px;                /* espaço para o SVG + clique */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;    /* se quiser destacar, use rgba(0,0,0,.2) */
+  border: 0;
+  padding: 0;
+  cursor: col-resize;
+}
+
+.segment-handle--left  { left: -1px; }   /* leve “grudada” externa opcional */
+.segment-handle--right { right: -1px; }
+
+/* Ajustes visuais do SVG */
+.tab-marker {
+  display: block;
+  pointer-events: none;       /* o clique fica no botão pai */
+}
+
+/* (Opcional) realce quando selecionado */
+.timeline-segment.bg-yellow-500 .segment-handle {
+  background: rgba(0,0,0,0.12);
+  border-left: 1px solid rgba(255,255,255,0.35);
+  border-right: 1px solid rgba(255,255,255,0.35);
+}
+
 .playhead {
   position: absolute;
   width: 1px;
@@ -277,6 +377,8 @@
   height: 100%;
   background-color: var(--timeline-played-range-bg); /* Usa a variável para a cor */
   border-radius: 4px 0 0 4px;
+  border: 2px solid var(--sel-played-border); /* Adiciona a borda solicitada */
+  border-right: none;
   pointer-events: none;
   z-index: 2; 
 }
