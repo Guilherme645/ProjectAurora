@@ -42,6 +42,13 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   @ViewChild('listaTranscricao') transcriptionListContainer!: ElementRef<HTMLElement>;
   @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
 isSelectionActive = false;
+// --- Propriedades auxiliares ---
+startMoved = false; // alça esquerda já foi movimentada
+endMoved = false;   // alça direita já foi movimentada
+
+edgeThreshold = 1;  // tolerância para considerar "na ponta" (px)
+timelineWidth = 0;  // largura do container da timeline (definida no AfterViewInit)
+handleWidth = 0;    // se quiser mais precisão, pode medir a largura da alça
 
   // --- Estado Geral ---
   clippingData: ClippingData = {
@@ -68,7 +75,7 @@ ultimaPosicaoScroll: number = 0;
   segmentWidth = 554;
   timelineContainers: number[] = [0];
   selectedIndex: number | null = null;
-  private timelineWidthPx = 554;
+  public timelineWidthPx = 554;
   videoDurationMs = 0;
   tempoAtualMs = 0;
   tempoInicialMs = 0;
@@ -121,11 +128,17 @@ handleKeyboardEvent(event: KeyboardEvent) {
     this.updateDisplayedTranscript();
   }
 
-  ngAfterViewInit(): void {
-    this.recalculateLayout();
-    this.cdr.detectChanges();
-  }
+ ngAfterViewInit(): void {
+  this.recalculateLayout();
+  // largura real da timeline baseada no elemento
+  this.timelineWidthPx = this.timelineContainerRef?.nativeElement?.clientWidth || this.timelineWidthPx;
+  this.cdr.detectChanges();
+}
 
+@HostListener('window:resize') onWindowResize(): void {
+  this.timelineWidthPx = this.timelineContainerRef?.nativeElement?.clientWidth || this.timelineWidthPx;
+  this.recalculateLayout();
+}
 onTranscriptionScroll(event: Event): void {
   const scrollTop = (event.target as HTMLElement).scrollTop;
 
@@ -140,11 +153,15 @@ onTranscriptionScroll(event: Event): void {
   this.ultimaPosicaoScroll = scrollTop;
 }
 
+isAtLeftEdge(): boolean {
+  return this.posicaoInicioPx <= this.edgeThreshold;
+}
 
-  // --- Listeners de Eventos Globais ---
-  @HostListener('window:resize') onWindowResize(): void {
-    this.recalculateLayout();
-  }
+// Detecta se a alça direita está na ponta direita (em px, com tolerância)
+isAtRightEdge(): boolean {
+  return (this.timelineWidthPx - this.posicaoFimPx) <= this.edgeThreshold;
+}
+
 
   @HostListener('window:mousemove', ['$event'])
 onMouseMove(event: MouseEvent): void {
@@ -272,6 +289,19 @@ onMouseUp(): void {
   }
 }
 
+
+
+computeHandleBgClass(handle: 'inicio' | 'fim') {
+  const atLeft  = handle === 'inicio' && this.isAtLeftEdge();
+  const atRight = handle === 'fim'    && this.isAtRightEdge();
+  const moved   = handle === 'inicio' ? this.startMoved : this.endMoved;
+
+  if (atLeft || atRight) return { 'handle--black': true };
+  if (moved)             return { 'handle--yellow800': true };
+  return { 'handle--black': true };
+}
+
+
   // --- Eventos do Player e Timeline ---
   onMetadadosCarregados(event: Event): void {
     const video = event.target as HTMLVideoElement;
@@ -304,12 +334,15 @@ onMouseUp(): void {
   }
 
   iniciarArrasto(handle: 'inicio' | 'fim', event: MouseEvent): void {
-    event.stopPropagation();
-    this.dragging = handle;
-    this.draggingMarkerIndex = null;
-    this.selectedIndex = null;
-  }
+  event.stopPropagation();
+  this.dragging = handle;
+  this.draggingMarkerIndex = null;
+  this.selectedIndex = null;
 
+  // >>> ADIÇÃO: marcar como “movida”
+  if (handle === 'inicio') this.startMoved = true;
+  if (handle === 'fim') this.endMoved = true;
+}
   iniciarArrastoMarcador(event: MouseEvent, index: number): void {
     event.stopPropagation();
     this.draggingMarkerIndex = index;

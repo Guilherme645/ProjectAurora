@@ -7,6 +7,7 @@
   --brand-blue-border: #9CA3AF;
   --timeline-background: #F3F4F6;
   --timeline-handle-bg: #1F2937;
+  --timeline-handle-bg: #854D0E;
   --timeline-playhead-color: #374151;
 --timeline-played-range-bg: #FEF9C3; /* Cor da faixa de progresso reproduzido */
   --timeline-tooltip-bg: #000000;
@@ -216,7 +217,7 @@
   bottom: 125%; /* Posiciona o tooltip acima do marcador */
   left: 50%;
   transform: translateX(-50%);
-  background-color: #1f2937; /* Cor de fundo escura (gray-800) */
+  background-color: #000000; /* Cor de fundo escura (gray-800) */
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -298,6 +299,10 @@
 /* Se o fundo for muito claro/escuro, você pode reforçar contraste: */
 .bg-gray-100\/20 .tab-marker path { stroke: #FFFFFF; }
 .bg-yellow-500   .tab-marker path { stroke: #FFFFFF; } /* mantém branco no selecionado */
+/* clipping.component.css */
+.handle { transition: background-color .15s ease; }
+.handle--black  { background-color: #171717 !important; }  /* neutral-900 */
+.handle--orange { background-color: #f97316 !important; }  /* orange-500 */
 
 
 .playhead {

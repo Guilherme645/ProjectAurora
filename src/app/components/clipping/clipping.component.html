@@ -1,126 +1,165 @@
+<!-- Container principal ocupando toda a tela -->
 <div class="w-full h-screen flex flex-col overflow-hidden clipping-container">
 
+  <!-- Modal de aviso (confirmação de exclusão de trecho) -->
   <app-modal
-    [isVisible]="isWarningModalVisible"
-    [title]="modalTitle"
-    [message]="modalMessage"
+    [isVisible]="isWarningModalVisible"   
+    [title]="modalTitle"                  
+    [message]="modalMessage"              
     subMessage="Você perderá todas as edições feitas dentro desse trecho."
     confirmButtonText="Remover trecho"
-    (confirm)="handleDeleteConfirm()"
-    (cancel)="handleModalClose()"
-    (close)="handleModalClose()">
+    (confirm)="handleDeleteConfirm()"     
+    (cancel)="handleModalClose()"         
+    (close)="handleModalClose()">        
   </app-modal>
- <app-header-clipping 
-  *ngIf="headerVisivel"
-  (saveClicked)="openSaveModal()"
-  [(tituloMencao)]="clippingData.titulo"
-  [(descricaoClipping)]="clippingData.descricao"
-  (sentimentoChange)="updateSentimento($event)">
-</app-header-clipping>
 
+  <!-- Cabeçalho do clipping (com título, descrição e sentimento) -->
+  <app-header-clipping 
+    *ngIf="headerVisivel"                
+    (saveClicked)="openSaveModal()"       
+    [(tituloMencao)]="clippingData.titulo" 
+    [(descricaoClipping)]="clippingData.descricao" 
+    (sentimentoChange)="updateSentimento($event)"> 
+  </app-header-clipping>
 
+  <!-- Modal de salvar clipping -->
   <div *ngIf="isSaveModalVisible" class="fixed inset-0 z-50 flex items-center justify-center bg-red backdrop-blur-sm">
     <app-save-clipping-modal 
-      (close)="closeSaveModal()"
-      [clippingData]="clippingData">
+      (close)="closeSaveModal()"          
+      [clippingData]="clippingData">      
     </app-save-clipping-modal>
   </div>
 
+  <!-- Conteúdo principal -->
   <div class="main-content">
     
+    <!-- Coluna do player de vídeo + linha do tempo -->
     <div class="player-column">
+
+      <!-- Caixa da timeline e vídeo -->
       <div class="timeline-box"> 
+        
+        <!-- Player de vídeo -->
         <video #playerVideo class="video-player" controls 
-                (loadedmetadata)="onMetadadosCarregados($event)" 
-                (timeupdate)="onTempoAtualizado($event)"
-                (play)="onPlay()"
-        (pause)="isVideoPlaying = false">
+               (loadedmetadata)="onMetadadosCarregados($event)"  
+               (timeupdate)="onTempoAtualizado($event)"          
+               (play)="onPlay()"                                 
+               (pause)="isVideoPlaying = false">                
           <source src="assets/video.mp4" type="video/mp4" />
           Seu navegador não suporta o elemento de vídeo.
         </video>
 
-      
+        <!-- Controles da timeline -->
         <div class="timeline-controls-container">
+          <!-- Botão adicionar container de +5min -->
           <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
           
+          <!-- Wrapper da timeline -->
           <div class="timeline-wrapper">
+            
+            <!-- Timeline clicável -->
             <div #containerTimeline class="timeline-container" (click)="selectContainer(null)">
               
-<div *ngIf="!dragging"
-     class="played-range"
-     [style.left.px]="posicaoInicioPx"
-     [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
-</div>
+              <!-- Faixa já reproduzida -->
+              <div *ngIf="!dragging"
+                   class="played-range"
+                   [style.left.px]="posicaoInicioPx"
+                   [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
+              </div>
 
-<div *ngFor="let container of timelineContainers; let i = index"
-     class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
-     [ngClass]="{
-       'bg-yellow-500 border-bg-yellow-800': selectedIndex === i,
-       'bg-gray-100/20 border-yellow-500/30': selectedIndex !== i
-     }"
-     [style.width.px]="segmentWidth"
-     [style.left.px]="i * segmentWidth"
-     (click)="selectContainer(i, $event)">
+              <!-- Containers (segmentos de tempo) -->
+              <div *ngFor="let container of timelineContainers; let i = index"
+                   class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
+                   [ngClass]="{
+                     'bg-yellow-500 border-bg-yellow-800': selectedIndex === i,
+                     'bg-gray-100/20 border-yellow-500/30': selectedIndex !== i
+                   }"
+                   [style.width.px]="segmentWidth"
+                   [style.left.px]="i * segmentWidth"
+                   (click)="selectContainer(i, $event)">
 
-  <!-- marcador esquerdo -->
-  <svg class="tab-marker left" width="2" height="10" viewBox="0 0 2 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <path d="M1 9V1" stroke="currentColor" stroke-opacity="0.9" stroke-linecap="round"/>
-  </svg>
+                <!-- Marcador esquerdo -->
+                <svg class="tab-marker left" width="2" height="10" viewBox="0 0 2 10" fill="none">
+                  <path d="M1 9V1" stroke="currentColor" stroke-opacity="0.9" stroke-linecap="round"/>
+                </svg>
 
-  <!-- marcador direito -->
-  <svg class="tab-marker right" width="2" height="10" viewBox="0 0 2 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <path d="M1 9V1" stroke="currentColor" stroke-opacity="0.9" stroke-linecap="round"/>
-  </svg>
-</div>
+                <!-- Marcador direito -->
+                <svg class="tab-marker right" width="2" height="10" viewBox="0 0 2 10" fill="none">
+                  <path d="M1 9V1" stroke="currentColor" stroke-opacity="0.9" stroke-linecap="round"/>
+                </svg>
+              </div>
 
-<div *ngFor="let segment of selectionSegments" class="selection-range"
-     [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
-     [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)"
-     [ngClass]="{ 'playing': isVideoPlaying && (tempoInicialMs > 0 || tempoFinalMs < videoDurationMs) }">
-</div>
+              <!-- Segmentos selecionados -->
+              <div *ngFor="let segment of selectionSegments" class="selection-range"
+                   [style.left.px]="calculatePositionFromTime(segment.startTimeMs)"
+                   [style.width.px]="calculatePositionFromTime(segment.endTimeMs) - calculatePositionFromTime(segment.startTimeMs)"
+                   [ngClass]="{ 'playing': isVideoPlaying && (tempoInicialMs > 0 || tempoFinalMs < videoDurationMs) }">
+              </div>
 
-<div *ngFor="let marcador of structuralMarkers; let i = index"
-     class="time-marker structural-marker"
-     [ngClass]="{'time-marker--selected': isMarkerInSelectedSegment(marcador)}"
-     [style.left]="marcador.left">
-  {{ marcador.label }}
-</div>
+              <!-- Marcadores estruturais (ex: timestamps fixos) -->
+              <div *ngFor="let marcador of structuralMarkers; let i = index"
+                   class="time-marker structural-marker"
+                   [ngClass]="{'time-marker--selected': isMarkerInSelectedSegment(marcador)}"
+                   [style.left]="marcador.left">
+                {{ marcador.label }}
+              </div>
 
+ <!-- Alça esquerda (início da seleção) -->
 <div *ngIf="selectedIndex === null"
-     class="handle start-handle"
+     class="handle start-handle flex items-center justify-center"
      [style.left.px]="posicaoInicioPx"
-     [ngClass]="{'active': isSelectionActive || dragging === 'inicio'}"
+     [ngClass]="computeHandleBgClass('inicio')"
      (mousedown)="iniciarArrasto('inicio', $event)">
+
+  <!-- Ícone “||” sempre branco -->
+  <svg class="w-3 h-3" viewBox="0 0 6 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="0" y="0" width="2" height="20" fill="white" />
+    <rect x="4" y="0" width="2" height="20" fill="white" />
+  </svg>
+
   <div class="handle-tooltip">{{ formatTimestamp(tempoInicialMs) }}</div>
 </div>
 
+<!-- Alça direita (fim da seleção) -->
 <div *ngIf="selectedIndex === null"
-     class="handle end-handle"
+     class="handle end-handle flex items-center justify-center"
      [style.left.px]="posicaoFimPx"
-     [ngClass]="{'active': isSelectionActive || dragging === 'fim'}"
+     [ngClass]="computeHandleBgClass('fim')"
      (mousedown)="iniciarArrasto('fim', $event)">
+
+  <!-- Ícone “||” sempre branco -->
+  <svg class="w-3 h-3" viewBox="0 0 6 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="0" y="0" width="2" height="20" fill="white" />
+    <rect x="4" y="0" width="2" height="20" fill="white" />
+  </svg>
+
   <div class="handle-tooltip">{{ formatTimestamp(tempoFinalMs) }}</div>
 </div>
 
-<div class="played-range"
-     [ngClass]="{ 'active-selection': isSelectionActive || dragging !== null }"
-     [style.left.px]="posicaoInicioPx"
-     [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
-</div>
-
-<div class="playhead" [style.left.px]="posicaoPlayerPx">
-  <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
-</div>
-
-</div>
-</div>
-
-<button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
-</div>
-</div>
 
 
-      <div class="entities-placeholder ml-[70px] w-[790px] h-[754px] mt-[20px]  ">
+              <!-- Faixa ativa da seleção -->
+              <div class="played-range"
+                   [ngClass]="{ 'active-selection': isSelectionActive || dragging !== null }"
+                   [style.left.px]="posicaoInicioPx"
+                   [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
+              </div>
+
+              <!-- Cabeça do player (cursor de reprodução) -->
+              <div class="playhead" [style.left.px]="posicaoPlayerPx">
+                <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Botão adicional de +5min -->
+          <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
+        </div>
+      </div>
+
+      <!-- Painel de entidades -->
+      <div class="entities-placeholder ml-[70px] w-[790px] h-[754px] mt-[20px]">
         <app-clipping-entities
           [useAlternativeJson]="true"
           (textoMarcadoChange)="updateMarkedText($event)"
@@ -131,13 +170,16 @@
       </div>
     </div>
 
+    <!-- Coluna da transcrição -->
     <div class="transcription-column">
       
+      <!-- Header da transcrição (sem busca ativa) -->
       <div *ngIf="!buscaAtiva" class="flex items-center justify-between h-[98px] px-6 py-3 border-b border-gray-200 flex-shrink-0">
         <div class="flex flex-col">
           <h2 class="text-sm font-semibold text-gray-900">Transcrição</h2>
           <span class="text-xs font-medium text-gray-500">Menção completa</span>
         </div>
+        <!-- Botão ativar busca -->
         <button (click)="ativarBusca()" title="Buscar na transcrição" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors">
           <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
@@ -145,8 +187,11 @@
         </button>
       </div>
 
+      <!-- Header da transcrição (com busca ativa) -->
       <div *ngIf="buscaAtiva" class="flex items-center gap-4 h-[98px] px-4 py-3 border-b border-gray-200 flex-shrink-0">
-        <div class="flex-grow flex items-center gap-2 h-[44px] pl-3 pr-2 bg-white border border-gray-200 rounded-md transition-all duration-200 ">
+        
+        <!-- Input de busca -->
+        <div class="flex-grow flex items-center gap-2 h-[44px] pl-3 pr-2 bg-white border border-gray-200 rounded-md transition-all duration-200">
           <svg class="w-4 h-4 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
@@ -160,6 +205,7 @@
             placeholder="Insira a palavra que deseja buscar"
             #searchInput>
 
+          <!-- Resultados da busca -->
           <div *ngIf="termoBusca.trim().length > 0" class="flex items-center gap-1 flex-shrink-0">
             <span *ngIf="totalResultados > 0" class="text-xs font-medium text-gray-500 whitespace-nowrap">
               {{ indiceResultadoAtual + 1 }} de {{ totalResultados }}
@@ -167,6 +213,8 @@
             <span *ngIf="totalResultados === 0" class="text-xs font-medium text-gray-400">
               Nenhum resultado
             </span>
+
+            <!-- Botões navegação entre resultados -->
             <div class="flex items-center">
               <button (click)="navigateToPreviousMatch()" [disabled]="totalResultados === 0 || indiceResultadoAtual <= 0" class="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
                 <svg class="w-4 h-4 transform rotate-180" fill="currentColor" viewBox="0 0 20 20">
@@ -179,6 +227,8 @@
                 </svg>
               </button>
             </div>
+
+            <!-- Botão limpar busca -->
             <button (click)="limparTermoBusca()" title="Limpar busca" class="p-1 rounded hover:bg-gray-100">
               <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -186,6 +236,8 @@
             </button>
           </div>
         </div>
+
+        <!-- Botão fechar busca -->
         <button (click)="desativarBusca()" title="Fechar busca" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0">
           <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -193,15 +245,15 @@
         </button>
       </div>
 
+      <!-- Lista da transcrição -->
       <div #listaTranscricao class="transcription-list hide-scrollbar">
         <div *ngFor="let item of transcricaoExibida" class="transcription-item" 
-              (click)="irParaTimestamp(item.timestamp)" 
-              [ngClass]="{ 'playing': item.timestamp <= tempoAtualMs && tempoAtualMs < item.end, 'played': item.end <= tempoAtualMs }">
+             (click)="irParaTimestamp(item.timestamp)" 
+             [ngClass]="{ 'playing': item.timestamp <= tempoAtualMs && tempoAtualMs < item.end, 'played': item.end <= tempoAtualMs }">
           <div class="timestamp">{{ formatTimestamp(item.timestamp) }}</div>
           <p class="text-content" [innerHTML]="item.text"></p>
         </div>
       </div>
-
     </div>
   </div>
 </div>

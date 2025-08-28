@@ -1,103 +1,43 @@
-.layout-container {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden;
-}
+/* No seu arquivo de estilos */
 
-
-
+/* O container principal (flex-1) agora tem um padding no topo */
 .flex-1 {
-  flex: 1;
-  box-sizing: border-box;
-  width: 100%;
-  transition: margin-left 0.3s ease;
+flex: 1;
+box-sizing: border-box;
+width: 100%;
+transition: margin-left 0.3s ease, padding-right 0.3s ease;
+/* Adicione o padding no topo para compensar a altura do cabeçalho */
+padding-top: 125px; 
 }
 
-.relative {
-  position: relative;
-}
-
-.ml-16 {
-  margin-left: 64px;
-}
-
-.ml-390px {
-  margin-left: 390px;
-}
-
-/* Ajuste o conteúdo principal quando o drawer está aberto (mantido como estava) */
-:host-context(.show-entities-drawer) .flex-1 {
-  padding-right: 384px;
-}
-
-/* Wrapper para o cabeçalho */
+/* O header deve ser posicionado de forma "fixed" dentro do fluxo normal */
 .header-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 30;
-  background-color: white;
-  transition: margin-left 0.3s ease, width 0.3s ease;
+position: fixed;
+top: 0;
+z-index: 30;
+background-color: white;
 }
 
-
-/* Ajuste a largura do cabeçalho quando o drawer está aberto (substituído pelo novo ajuste acima) */
-:host-context(.show-entities-drawer) .header-wrapper {
-  margin-left: calc(100% - 1110px);
+/* Ajustes de margem e largura para o cabeçalho */
+.header-wrapper {
+/* Para que ele se mova com a sidebar */
+transition: margin-left 0.3s ease;
 }
 
-/* Quando o drawer está fechado e o cabeçalho está contraído, encoste na sidebar */
-:host-context(:not(.show-entities-drawer)) .header-scrolled {
-  margin-left: 325px; /* Espaço exato da sidebar comprimida */
-  margin-right: auto;
-  max-width: calc(100% - 64px); /* Garante que o cabeçalho ocupe o restante da tela */
-  width: 1030px;
+.header-wrapper.ml-\[200px\] {
+margin-left: 200px;
 }
 
-
-/* Ajuste no container de conteúdo para evitar sobreposição com o cabeçalho fixo */
-.content-container {
-  max-width: 590px;
-  width: 100%;
-  margin-right: auto;
-  padding-left: 16px;
-  padding-right: 16px;
-  box-sizing: border-box;
-  padding-top: 25px; /* Altura da versão completa do cabeçalho */
+.header-wrapper.ml-\[390px\] {
+margin-left: 390px;
+}
+/* Quando a sidebar está aberta e o cabeçalho está em modo "scrolled" */
+.header-wrapper.header-scrolled {
+/* Defina a margem exatamente igual à largura da sidebar expandida */
+margin-left: 0px !important;
 }
 
-/* Ajuste para quando o cabeçalho estiver na versão compacta */
-.header-scrolled ~ .content-container {
-  padding-top: 60px; /* Altura da versão compacta do cabeçalho */
+/* Opcional: Se a sua sidebar comprimida tiver 200px, adicione a regra */
+.header-wrapper.header-scrolled.ml-\[200px\] {
+margin-left: 200px !important;
 }
-
-/* Garanta que o ajuste de largura também se aplique no modo compacto (substituído pelo novo ajuste acima) */
-:host-context(.show-entities-drawer) .header-scrolled {
-  margin-left: 148px;
-  padding-right: 200px; /* Reduz a lateral direita adicionando padding */}
-
-/* Quando a barra lateral está expandida */
-.ml-390px .content-container {
-  margin-left: 10px;
-}
-
-/* Quando a barra lateral está comprimida */
-.ml-16 .content-container {
-  margin-left: 170px;
-}
-
-/* Garante que o conteúdo interno não ultrapasse os limites */
-.content-container > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* Ajuste específico para o player e a descrição */
-.px-4 {
-  padding-left: 0;
-  padding-right: 0;
-  margin-top: 125px;
-}
-

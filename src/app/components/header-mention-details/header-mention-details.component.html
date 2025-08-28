@@ -107,7 +107,7 @@
 <!-- Versão 3: Com scroll e drawer fechado -->
 <div
   *ngIf="!isLoading && !errorMessage && isScrolled && !showEntitiesDrawer && (noticia$ | async) as noticia"
-  class="flex flex-wrap flex-row justify-between items-start content-start px-[24px] pt-[16px] pb-[16px] pl-[124px] gap-x-[104px] gap-y-[15px] absolute top-[0px] right-0 w-[1087px] h-[78px] bg-white shadow-[0px_6px_12px_rgba(0,0,0,0.03)] z-40"
+  class="flex flex-wrap flex-row justify-between items-start content-start px-[24px] pt-[16px] pb-[16px]  gap-x-[104px] gap-y-[15px] absolute top-[0px] right-0 w-[1415px] h-[78px] bg-white shadow-[0px_6px_12px_rgba(0,0,0,0.03)] z-40"
   style="isolation: isolate;"
 >
   <!-- Coluna da esquerda -->
@@ -145,7 +145,7 @@
     <!-- Versão 4: Com scroll e drawer aberto -->
     <div
       *ngIf="!isLoading && !errorMessage && isScrolled && showEntitiesDrawer && (noticia$ | async) as noticia"
-      class="fixed top-[0px] right-[500px] w-[955px] h-[78px] px-[124px] py-[16px] bg-white flex justify-between items-center gap-[15px_104px] z-40"
+      class="fixed top-[0px] right-[500px] w-[1155px] h-[78px] px-[124px] py-[16px] bg-white flex justify-between items-center gap-[15px_104px] z-40"
       style="isolation: isolate"
     >
       <div class="flex flex-col gap-[2px] mr w-[511px]">
@@ -163,7 +163,7 @@
           {{ noticia.titulo }}
         </div>
       </div>
-      <div class="flex items-center  gap-[4px] w-[209px] h-[46px]">
+      <div class="flex items-center  gap-[4px] ml-[220px] w-[209px] h-[46px]">
         <app-edit-metion-button (editClicked)="onEditMention()"></app-edit-metion-button>
         <app-share-button (shareClicked)="onShare()"></app-share-button>
       </div>

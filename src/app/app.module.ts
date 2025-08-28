@@ -85,6 +85,7 @@ import { ModalCreateContractUserComponent } from './components/modal-create-cont
 import { ChipsComponent } from './components/chips/chips.component';
 import { VeichlesTableComponent } from './components/veichles-table/veichles-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Adicione esta linha
+import { BaseModalComponent } from './components/base-modal/base-modal.component';
 
 @NgModule({
   declarations: [
@@ -163,7 +164,8 @@ HeaderClientComponent,
 ModalContractComponent,
 ModalCreateContractUserComponent,
 ChipsComponent,
-VeichlesTableComponent
+VeichlesTableComponent,
+BaseModalComponent
   ],
   imports: [
     BrowserModule,
