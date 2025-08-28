@@ -1,5 +1,3 @@
-// src/app/components/modal-create-collaborator/modal-create-collaborator.component.ts
-
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -27,13 +25,12 @@ export interface Collaborator {
   selector: 'app-modal-create-collaborator',
   templateUrl: './modal-create-collaborator.component.html',
   styleUrls: ['./modal-create-collaborator.component.css'],
-  standalone: false
-
+  standalone: false,
 })
 export class ModalCreateCollaboratorComponent implements OnInit {
   @Input() editMode: boolean = false;
   @Input() collaboratorData: Collaborator | null = null;
-    passwordVisible = false;
+  passwordVisible = false;
   @Output() close = new EventEmitter<void>();
   @Output() collaboratorSaved = new EventEmitter<Collaborator>();
 
@@ -42,7 +39,7 @@ export class ModalCreateCollaboratorComponent implements OnInit {
   collaboratorTypes = [
     { value: 'admin', label: 'Administrador' },
     { value: 'editor', label: 'Editor' },
-    { value: 'viewer', label: 'Visualizador' }
+    { value: 'viewer', label: 'Visualizador' },
   ];
 
   constructor(private fb: FormBuilder) {}
@@ -51,7 +48,7 @@ export class ModalCreateCollaboratorComponent implements OnInit {
     this.collaboratorForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.minLength(6)]],
+      password: [''],
       collaboratorType: ['', Validators.required],
       cpfCnpj: ['', Validators.required],
       addressType: [''],
@@ -62,7 +59,7 @@ export class ModalCreateCollaboratorComponent implements OnInit {
       neighborhood: [''],
       uf: [''],
       city: [''],
-      state: ['']
+      state: [''],
     });
 
     if (this.editMode && this.collaboratorData) {
@@ -74,21 +71,20 @@ export class ModalCreateCollaboratorComponent implements OnInit {
       this.collaboratorForm.get('password')?.clearValidators();
       this.collaboratorForm.get('password')?.updateValueAndValidity();
     } else {
-       // Senha é obrigatória na criação
+      // Senha é obrigatória na criação
       this.collaboratorForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
       this.collaboratorForm.get('password')?.updateValueAndValidity();
     }
   }
 
-
-    // Função para alternar a visibilidade da senha
+  // Função para alternar a visibilidade da senha
   togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;
   }
   nextStep(): void {
     const step1Controls = ['fullName', 'email', 'password', 'collaboratorType', 'cpfCnpj'];
     let isStep1Valid = true;
-    step1Controls.forEach(controlName => {
+    step1Controls.forEach((controlName) => {
       const control = this.collaboratorForm.get(controlName);
       control?.markAsTouched();
       if (control?.invalid) {
@@ -122,16 +118,16 @@ export class ModalCreateCollaboratorComponent implements OnInit {
           complement: this.collaboratorForm.get('complement')?.value || undefined,
           neighborhood: this.collaboratorForm.get('neighborhood')?.value || undefined,
           city: this.collaboratorForm.get('city')?.value || undefined,
-          state: this.collaboratorForm.get('state')?.value || undefined
-        }
+          state: this.collaboratorForm.get('state')?.value || undefined,
+        },
       };
-      
+
       // Adiciona a senha apenas se não estiver em modo de edição ou se um novo valor for digitado
       const passwordValue = this.collaboratorForm.get('password')?.value;
       if (!this.editMode || (this.editMode && passwordValue)) {
         formData.password = passwordValue;
       }
-      
+
       this.collaboratorSaved.emit(formData);
       this.close.emit();
     } else {

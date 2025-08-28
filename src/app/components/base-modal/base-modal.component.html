@@ -1,0 +1,20 @@
+<div>
+  <ng-container *ngIf="showDefaultActions">
+    <div class="flex items-center gap-3">
+    
+      <!-- Botão de confirmação/próximo passo -->
+      <button 
+        type="button"
+        [disabled]="confirmDisabled || loading"
+        (click)="onButtonClick()"
+        class="inline-flex items-center rounded-lg px-4 py-3.5
+               text-white bg-black hover:bg-black
+               font-inter font-semibold text-sm leading-tight tracking-tight
+               "
+      >
+        <span *ngIf="!loading">{{ confirmLabel }}</span>
+        <span *ngIf="loading" class="animate-pulse">{{ loadingLabel }}</span>
+      </button>
+    </div>
+  </ng-container>
+</div>

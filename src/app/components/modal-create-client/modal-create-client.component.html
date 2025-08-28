@@ -13,7 +13,7 @@
     (click)="currentStep = 1"
     [disabled]="currentStep !== 1"
     [attr.aria-current]="currentStep === 1 ? 'step' : null"
-    class="w-[225px] h-[52px] flex items-center px-3 py-2 rounded-[8px] transition-colors border border-transparent select-none
+    class="w-[225px] h-[52px] flex items-center px-3 py-2 rounded-[8px] transition-colors 
            "
     [ngClass]="currentStep === 1
       ? 'bg-slate-50 cursor-default'
@@ -48,7 +48,7 @@
       <!-- Etapa 1: Informações básicas -->
      <!-- col (Conteúdo da Etapa 1) -->
      <section *ngIf="currentStep === 1" class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-1 border border-gray-200">
-  <form [formGroup]="clientForm" class="w-full h-full flex flex-col">
+  <form [formGroup]="clientForm" class="w-[760px] h-full flex flex-col">
     
     <div class="box-border flex items-center px-8 py-8 gap-2.5 w-full h-[84px] bg-gray-50 border-b border-gray-200 flex-shrink-0">
       <h2 class="text-sm font-semibold font-inter text-gray-800 leading-5 tracking-tight">Informações básicas do cliente</h2>
@@ -122,20 +122,13 @@
             </div>
         </div>
     </div>
-    
-    <div class="flex-shrink-0 border-t border-gray-200 px-8 py-4 flex justify-end">
-      <button type="button" class="bg-gray-600 text-white px-5 py-2.5 text-sm font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all" (click)="nextStep(); $event.stopPropagation()">Continuar</button>
-    </div>
-
-  </form>
-</section>
+  </form> 
+ 
+</section> <div class="  mt-[-80px]   border-gray-200 px-8 py-4 flex justify-end">
+</div>
    <!-- Etapa 2: Endereço -->
-<section
-  *ngIf="currentStep === 2"
-   class="w-[765px] h-[435px] bg-white rounded-2xl shadow-sm -mt-1 border border-gray-200
-         overflow-hidden flex flex-col">
-
-  <form [formGroup]="clientForm" class="flex-1 flex flex-col min-h-0">
+ <section *ngIf="currentStep === 2" class="w-[765px] ml-[-80px] h-[435px] bg-white rounded-2xl shadow-sm -mt-1 border border-gray-200">
+  <form [formGroup]="clientForm" class="w-[760px] h-full flex flex-col">
     <!-- Cabeçalho -->
     <div class="box-border flex items-center px-8 py-8 gap-2.5 w-full h-[84px] bg-gray-50 border-b border-gray-200 flex-none">
       <h2 class="text-sm font-semibold font-inter text-gray-800 leading-5 tracking-tight">
@@ -201,17 +194,15 @@
     </div>
 
     <!-- Rodapé fixo no card -->
-    <div class="p-6 flex justify-end gap-3 bg-white border-t flex-none">
-      <button type="button"
-              class="w-[124px] h-[46px] bg-white text-gray-600 font-semibold text-[15px] rounded-lg border border-gray-300 hover:bg-gray-200 transition-all"
-              (click)="previousStep(); $event.stopPropagation()">Voltar</button>
-
-      <button type="button"
-              class="w-[179px] h-[46px] bg-gray-600 text-white font-semibold text-[15px] rounded-lg hover:bg-gray-700 transition-all"
-              (click)="onSubmit(); $event.stopPropagation()">Criar cliente</button>
-    </div>
+    
   </form>
 </section>
 
     </div>
-  </div>
+<div class="p-6 w-full flex justify-end gap-3 bg-white border-t flex-none">
+      <app-base-modal 
+    (nextStep)="nextStep()" 
+    (confirm)="onSubmit()"
+    [confirmLabel]="currentStep === 1 ? 'Continuar' : 'Criar cliente'">
+  </app-base-modal>
+</div></div>

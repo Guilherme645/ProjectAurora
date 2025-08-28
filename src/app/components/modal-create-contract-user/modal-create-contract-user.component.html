@@ -189,16 +189,9 @@
       </div>
     </div>
     
-    <div class="flex justify-end gap-3 border-t border-gray-200 p-6 flex-none">
-      <button type="button" class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-600"
-              (click)="close.emit()">Cancelar</button>
-      
-      <button type="button"
-              class="rounded-lg bg-gray-600 px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
-              [disabled]="!contractForm.valid"
-              (click)="nextStep()">Continuar</button>
-    </div>
+    
   </form>
+ 
 </section>
     <!-- STEP 2: Usuário -->
     <section *ngIf="currentStep === 2"
@@ -275,7 +268,6 @@
             </div>
           </div>
 
-          <!-- Endereço opcional -->
         <!-- Endereço opcional -->
 <ng-container *ngIf="userForm.get('desiredPassword')?.value">
   <div class="mt-6">
@@ -358,13 +350,9 @@
 
         </div>
 
-        <div class="flex justify-end gap-3 border-t border-gray-200 p-6 flex-none">
-          <button type="button" (click)="previousStep()"
-                  class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-600">Voltar</button>
-          <button type="button" (click)="nextStep()"
-                  class="rounded-lg bg-gray-600 px-5 py-2.5 text-sm font-semibold text-white">Continuar</button>
-        </div>
+        
       </form>
+      
     </section>
 
     <!-- STEP 3: Veículos -->
@@ -373,10 +361,21 @@
       <div class="flex-1 overflow-y-auto p-8">
         <app-veichles-table></app-veichles-table>
       </div>
-      <div class="flex shrink-0 justify-end gap-3 border-t border-gray-200 p-6">
-        <button type="button" (click)="onSubmit()"
-                class="rounded-lg bg-gray-600 px-5 py-2.5 text-sm font-semibold text-white">Salvar informações</button>
-      </div>
+     
     </section>
   </div>
+   <button type="button" class="inline-flex items-center gap-2 ml-[260px] text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 3.33333V12.6667" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M3.33333 8H12.6667" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Adicionar outro usuário
+    </button>
+  <div class="p-6 w-full flex justify-end gap-3 bg-white border-t flex-none">
+    <app-base-modal 
+    (nextStep)="nextStep()" 
+    (confirm)="onSubmit()"
+        [confirmLabel]="currentStep === 1 ? 'Continuar' : 'Salvar informações'">
+  </app-base-modal>
+</div>
 </div>

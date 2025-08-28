@@ -1,3 +1,4 @@
+// src/app/components/modal-create-contract-user/modal-create-contract-user.component.ts
 import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -59,7 +60,7 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
       situation: ['', Validators.required],
       responsibleWorkspace: ['', Validators.required],
       workspaceName: [''],
-      file: []  // <— obrigatório para liberar o step
+      file: [null, Validators.required] // Adicionado validador de 'required'
     });
 
     this.userForm = this.fb.group({
@@ -77,7 +78,6 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
       state: [''],
     });
 
-    // Veículos (se for usar depois)
     this.vehicleForm = this.fb.group({
       vehicle: [''],
       mediaType: [''],
@@ -89,7 +89,6 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // garante Preline ativo (quando presente)
     setTimeout(() => {
       if ((window as any).HSStaticMethods?.autoInit) {
         (window as any).HSStaticMethods.autoInit();
@@ -101,35 +100,39 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  // Método para avançar ou submeter
   nextStep(): void {
     if (this.currentStep === 1) {
       this.contractForm.markAllAsTouched();
-      // console.log('contractForm.valid?', this.contractForm.valid, this.contractForm.value);
-      if (this.contractForm.valid) this.currentStep = 2;
+      if (this.contractForm.valid) this.currentStep++;
     } else if (this.currentStep === 2) {
       this.userForm.markAllAsTouched();
-      // console.log('userForm.valid?', this.userForm.valid, this.userForm.value);
-      if (this.userForm.valid) this.currentStep = 3;
+      if (this.userForm.valid) this.currentStep++;
+    } else {
+      // Na última etapa, a ação é salvar, não navegar
+      this.onSubmit();
     }
   }
 
+  // Método para retroceder
   previousStep(): void {
     if (this.currentStep > 1) this.currentStep--;
   }
 
   onSubmit(): void {
-    if (this.currentStep === 3) {
-      if (!this.contractForm.valid || !this.userForm.valid) {
-        this.contractForm.markAllAsTouched();
-        this.userForm.markAllAsTouched();
-        return;
-      }
+    // Validação final de ambos os formulários antes de salvar
+    this.contractForm.markAllAsTouched();
+    this.userForm.markAllAsTouched();
+
+    if (this.contractForm.valid && this.userForm.valid) {
       const contractData: Contract = this.contractForm.value;
       const userData: User = this.userForm.value;
       this.save.emit({ contract: contractData, user: userData });
       this.close.emit();
     } else {
-      this.nextStep();
+      // Se houver erros, retorna para a primeira etapa com erro
+      if (this.contractForm.invalid) this.currentStep = 1;
+      else if (this.userForm.invalid) this.currentStep = 2;
     }
   }
 
@@ -137,29 +140,32 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
       const file = input.files[0];
-      // Atribua o arquivo ao controle de formulário 'file'
       this.contractForm.get('file')?.setValue(file);
-      // Oculta a área de upload e exibe a visualização (se houver)
-      const uploadArea = document.querySelector('[data-hs-file-upload-trigger]') as HTMLElement;
-      if (uploadArea) {
-        uploadArea.style.display = 'none';
-      }
     } else {
       this.contractForm.get('file')?.setValue(null);
-      // Exibe a área de upload novamente se nenhum arquivo foi selecionado
-      const uploadArea = document.querySelector('[data-hs-file-upload-trigger]') as HTMLElement;
-      if (uploadArea) {
-        uploadArea.style.display = 'flex';
-      }
     }
   }
-  /** util p/ estilizar campos inválidos */
-  ctrl(control: string, form: 'contract' | 'user'): { [klass: string]: boolean } {
-    const fg = form === 'contract' ? this.contractForm : this.userForm;
+
+  // Getter para o texto do botão principal
+  get primaryButtonLabel(): string {
+    return this.currentStep < 3 ? 'Continuar' : 'Salvar Informações';
+  }
+
+  // Getter para verificar se a etapa atual é válida
+  get isCurrentStepValid(): boolean {
+    if (this.currentStep === 1) return this.contractForm.valid;
+    if (this.currentStep === 2) return this.userForm.valid;
+    return true; // Etapa 3 não tem campos obrigatórios para avançar
+  }
+
+  // Helper para estilizar campos
+  ctrl(control: string, form: 'contract' | 'user' | 'vehicle'): { [klass: string]: boolean } {
+    const fg = form === 'contract' ? this.contractForm : form === 'user' ? this.userForm : this.vehicleForm;
     const c = fg.get(control);
+    const isValid = !(c?.touched && c?.invalid);
     return {
-      'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200': !(c?.touched && c?.invalid),
-      'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200': !!(c?.touched && c?.invalid),
+      'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200': isValid,
+      'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200': !isValid,
     };
   }
 }
