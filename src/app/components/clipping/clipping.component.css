@@ -7,7 +7,7 @@
   --brand-blue-border: #9CA3AF;
   --timeline-background: #F3F4F6;
   --timeline-handle-bg: #1F2937;
-  --timeline-handle-bg: #854D0E;
+--timeline-handle-bg: #CA8A04; 
   --timeline-playhead-color: #374151;
 --timeline-played-range-bg: #FEF9C3; /* Cor da faixa de progresso reproduzido */
   --timeline-tooltip-bg: #000000;
@@ -74,7 +74,7 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-color: var(--background-color);
+  background-color: #FAFAFC;
 }
 .main-content {
   display: flex;
@@ -82,55 +82,56 @@
   overflow: hidden;
 }
 .player-column {
-  flex: 3;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Alinha o conteúdo à esquerda */
+  padding: 24px;
+  margin-left: -22px;
   overflow-y: auto;
   min-width: 0;
-  /* Hide scrollbars */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin-top: -25px;
 }
 .player-column::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, and Opera */
+  display: none;
+}
+.player-column::-webkit-scrollbar {
+  display: none;
 }
 .timeline-box {
   background-color: #ffffff;
-  padding: 26px;
+  padding: 24px;
   width: 100%;
-  max-width: 844px;
-  margin-top: -25px;
-  margin-left: -50px;
-    box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.05);
-
+  border-radius: 8px;
 }
 .transcription-column {
-  flex: 2;
+  flex: 1;
   max-width: 538px;
   display: flex;
   flex-direction: column;
-  margin-top: 12px;
+  margin-top: 12px; /* Remove a margem superior */
   background-color: white;
-  border-left: 1px solid var(--border-color);
   box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+
 }
 .video-player {
   width: 100%;
-  max-width: 752px;
-  height: auto;
   aspect-ratio: 16 / 9;
   border-radius: 8px;
-  margin-bottom: 16px;
-  margin-left: 20px;
+  margin-bottom: 20px;
 }
-
+.entities-placeholder {
+  width: 100%;
+  margin-top: 24px; /* Espaçamento entre a timeline e o painel de entidades */
+}
 /* ==========================================================================
    Timeline
    ========================================================================== */
 .timeline-controls-container {
-  width: 726px;
-  max-width: 752px;
+  width: full;
   height: 68px;
   display: flex;
   align-items: center;
@@ -416,13 +417,13 @@
    ========================================================================== */
 @media (max-width: 1100px) {
   .main-content { flex-direction: column; overflow: auto; }
-  .player-column { overflow-y: visible; }
+  .player-column { overflow-y: visible; padding: 16px; }
   .transcription-column {
     flex: none;
     width: 100%;
     max-width: none;
     border-left: none;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--brand-blue-border);
     box-shadow: none;
   }
 }

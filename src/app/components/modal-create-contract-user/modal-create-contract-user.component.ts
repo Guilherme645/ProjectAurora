@@ -52,41 +52,42 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
-    this.contractForm = this.fb.group({
-      number: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      situation: ['', Validators.required],
-      responsibleWorkspace: ['', Validators.required],
-      workspaceName: [''],
-      file: [null, Validators.required] // Adicionado validador de 'required'
-    });
+ ngOnInit(): void {
+  this.contractForm = this.fb.group({
+    number: ['', Validators.required],
+    signature_date: ['', Validators.required], // Add this line
+    startDate: ['', Validators.required],
+    endDate: ['', Validators.required],
+    situation: ['', Validators.required],
+    responsibleWorkspace: ['', Validators.required],
+    workspaceName: [''],
+    file: [null, Validators.required]
+  });
 
-    this.userForm = this.fb.group({
-      fullName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      userType: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      desiredPassword: [false],
-      addressType: [''],
-      cep: [''],
-      street: [''],
-      number: [''],
-      complement: [''],
-      neighborhood: [''],
-      state: [''],
-    });
+  this.userForm = this.fb.group({
+    fullName: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    userType: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    desiredPassword: [false],
+    addressType: [''],
+    cep: [''],
+    street: [''],
+    number: [''],
+    complement: [''],
+    neighborhood: [''],
+    state: [''],
+  });
 
-    this.vehicleForm = this.fb.group({
-      vehicle: [''],
-      mediaType: [''],
-    });
+  this.vehicleForm = this.fb.group({
+    vehicle: [''],
+    mediaType: [''],
+  });
 
-    if (this.editMode) {
-      // carregar dados de edição aqui se necessário
-    }
+  if (this.editMode) {
+    // carregar dados de edição aqui se necessário
   }
+}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -101,18 +102,19 @@ export class ModalCreateContractUserComponent implements OnInit, AfterViewInit {
   }
 
   // Método para avançar ou submeter
-  nextStep(): void {
-    if (this.currentStep === 1) {
-      this.contractForm.markAllAsTouched();
-      if (this.contractForm.valid) this.currentStep++;
-    } else if (this.currentStep === 2) {
-      this.userForm.markAllAsTouched();
-      if (this.userForm.valid) this.currentStep++;
-    } else {
-      // Na última etapa, a ação é salvar, não navegar
-      this.onSubmit();
+nextStep(): void {
+  if (this.currentStep === 1) {
+    this.contractForm.markAllAsTouched();
+    if (this.contractForm.valid) {
+      this.currentStep = 2; // Move to the next step
+    }
+  } else if (this.currentStep === 2) {
+    this.userForm.markAllAsTouched();
+    if (this.userForm.valid) {
+      this.currentStep = 3; // Move to the final step
     }
   }
+}
 
   // Método para retroceder
   previousStep(): void {
