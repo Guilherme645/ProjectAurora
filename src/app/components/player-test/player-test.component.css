@@ -1,0 +1,236 @@
+:host {
+  --brand-blue-border: #9CA3AF;
+  --timeline-background: #F3F4F6;
+  --timeline-handle-bg: #CA8A04;
+  --timeline-playhead-color: #374151;
+
+  /* cores de seleção */
+  --selection-yellow: #FEF9C3;
+  --selection-yellow-strong: #FDE68A;
+  --selection-yellow-burnt: #B45309; /* amarelo queimado */
+
+  --timeline-tooltip-bg: #000000;
+  --timeline-tooltip-text: #ffffff;
+  --timeline-marker-text: #9CA3AF;
+  --sel-played-border: #CA8A04;
+
+  --button-bg: #FFFFFF;
+  --button-border: #E5E7EB;
+  --button-text: #1F2937;
+  --button-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --background-color: #FAFBFC;
+}
+/* Layout */
+.player-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  margin-left: -22px;
+  margin-top: -25px;
+  overflow-y: auto;
+  min-width: 0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.player-column::-webkit-scrollbar { display: none; }
+
+.timeline-container.full-selection {
+  background: #fff;
+}
+
+.timeline-box {
+  background-color: #ffffff;
+  padding: 24px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.video-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Timeline */
+.timeline-controls-container {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.timeline-button {
+  width: 75px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--button-bg);
+  border: 1px solid var(--button-border);
+  box-shadow: var(--button-shadow);
+  border-radius: 8px;
+  color: var(--button-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.timeline-button:hover { background-color: var(--background-color); }
+
+.timeline-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+/* Container */
+.timeline-container {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: var(--timeline-background);
+  border: 1px solid var(--brand-blue-border);
+  border-radius: 4px;
+  z-index: 10;
+}
+
+/* Progresso já reproduzido */
+.played-range {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: #E5E7EB;
+  border-radius: 4px 0 0 4px;
+  border: 2px solid var(--sel-played-border);
+  border-right: none;
+  pointer-events: none;
+  z-index: 2;
+  transition: background-color .3s, border-color .3s, z-index .0s;
+}
+
+.played-range.timeline-full-played {
+  background-color: var(--selection-yellow);          /* amarelo claro */
+  border-color: var(--selection-yellow-burnt);        /* borda queimado */
+  border-right: 2px solid var(--selection-yellow-burnt); /* fecha lateral direita */
+  border-radius: 4px;                                  /* borda completa */
+  z-index: 6;                                          /* sobrepõe a seleção */
+}
+
+/* Seleção (área demarcada) */
+.selection-highlight {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: var(--selection-yellow);
+  /* antes: apenas top/bottom; agora fecha as laterais também */
+  border: 2px solid var(--sel-played-border);
+  border-radius: 4px;          /* combina com o container */
+  box-sizing: border-box;      /* largura inclui a borda */
+  overflow: hidden;            /* evita a faixa interna cobrir a borda */
+  pointer-events: none;
+  z-index: 5;
+  transition: background-color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+/* Quando a seleção cobre o vídeo inteiro → fundo branco */
+.selection-highlight.full {
+  display: none;
+}
+
+/* Parte reproduzida dentro da seleção */
+.selection-highlight .selection-played {
+  height: 100%;
+  background: var(--selection-yellow-strong);
+  /* mantém dentro sem “pegar” a borda */
+  border-radius: inherit;
+}
+
+
+/* Handles */
+.handle {
+  position: absolute;
+  width: 8px;
+  height: 19px;
+  top: 50%;
+  background: var(--timeline-handle-bg);
+  cursor: ew-resize;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.15s ease;
+}
+.start-handle { border-radius: 4px 0 0 4px; margin-left: -4px; }
+.end-handle   { border-radius: 0 4px 4px 0; margin-left: 5px; }
+.handle--black  { background-color: #171717 !important; }
+.handle--orange { background-color: #f97316 !important; }
+
+.handle .handle-tooltip {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--timeline-tooltip-bg);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+}
+.handle:hover .handle-tooltip,
+.handle.dragging .handle-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Marcadores e playhead */
+.time-marker {
+  position: absolute;
+  max-width: 100px;
+  transform: translateX(50%);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--timeline-marker-text);
+  pointer-events: none;
+  z-index: 15;
+}
+.time-marker.time-marker--selected { color: #FFFFFF; font-weight: 600; }
+
+.playhead {
+  position: absolute;
+  width: 1px;
+  height: 54px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--timeline-playhead-color);
+  pointer-events: none;
+  z-index: 10;
+}
+.playhead-tooltip {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--timeline-tooltip-bg);
+  color: var(--timeline-tooltip-text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-top: 68px;
+}

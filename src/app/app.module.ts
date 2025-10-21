@@ -86,6 +86,7 @@ import { ChipsComponent } from './components/chips/chips.component';
 import { VeichlesTableComponent } from './components/veichles-table/veichles-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Adicione esta linha
 import { BaseModalComponent } from './components/base-modal/base-modal.component';
+import { PlayerTestComponent } from './components/player-test/player-test.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { BaseModalComponent } from './components/base-modal/base-modal.component
   OptionSearchComponent,
   EditSearchBasicInformationComponent,
   DuplicateSearchComponent,
+  PlayerTestComponent,
   RemoveSavedSearchComponent,
   DescricaoContainerComponent,
   DescricaoComponent,

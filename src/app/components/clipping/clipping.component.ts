@@ -153,6 +153,59 @@ onTranscriptionScroll(event: Event): void {
   this.ultimaPosicaoScroll = scrollTop;
 }
 
+isFullSelectionPlayed(): boolean {
+  return false;
+}
+get selectionPlayedWidthPx(): number {
+  const progress = Math.min(this.selectionProgressPx, this.selectionEndPx);
+  return Math.max(0, progress - this.selectionStartPx);
+}
+get selectionUnplayedWidthPx(): number {
+  const total = Math.max(0, this.selectionEndPx - this.selectionStartPx);
+  const played = Math.max(0, Math.min(this.selectionPlayedWidthPx, total));
+  return Math.max(0, total - played);
+}
+
+isTimestampInSelection(itemOrMs: number | { timestamp: number; end?: number }): boolean {
+  if (!this.isEffectiveSelection) return false;
+
+  const selStart = this.tempoInicialMs;
+  const selEnd   = this.tempoFinalMs;
+
+  let itemStart: number;
+  let itemEnd: number;
+
+  if (typeof itemOrMs === 'number') {
+    itemStart = itemOrMs;
+    itemEnd   = itemOrMs;
+  } else {
+    itemStart = itemOrMs.timestamp ?? 0;
+    itemEnd   = itemOrMs.end ?? itemStart;
+  }
+
+  // Interseção de [itemStart, itemEnd) com [selStart, selEnd)
+  return (itemEnd > selStart) && (itemStart < selEnd);
+}
+
+
+get hasSelection(): boolean {
+  return Number.isFinite(this.tempoInicialMs) &&
+         Number.isFinite(this.tempoFinalMs) &&
+         this.tempoFinalMs > this.tempoInicialMs;
+}
+get isFullSelection(): boolean {
+  const dur = this.videoDurationMs ?? 0;
+  // tolerância pequena para arredondamentos
+  const EPS = 2; // ms
+  return this.hasSelection &&
+         this.tempoInicialMs <= EPS &&
+         this.tempoFinalMs >= (dur - EPS);
+}
+
+get isEffectiveSelection(): boolean {
+  return this.hasSelection && !this.isFullSelection;
+}
+
 isAtLeftEdge(): boolean {
   return this.posicaoInicioPx <= this.edgeThreshold;
 }

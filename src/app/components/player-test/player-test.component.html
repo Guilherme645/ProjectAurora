@@ -1,0 +1,81 @@
+<div class="player-column">
+  <div class="timeline-box">
+
+    <video #playerVideo class="video-player" controls
+           (loadedmetadata)="onMetadadosCarregados($event)"
+           (timeupdate)="onTempoAtualizado($event)"
+           (play)="onPlay()"
+           (pause)="isVideoPlaying = false">
+      <source src="assets/video.mp4" type="video/mp4" />
+      Seu navegador não suporta o elemento de vídeo.
+    </video>
+
+    <div class="timeline-controls-container">
+      <button (click)="addTimelineContainer()" class="timeline-button">-5min</button>
+
+      <div class="timeline-wrapper">
+        <div #containerTimeline class="timeline-container" (click)="selectContainer(null)">
+
+          <!-- faixa base de progresso -->
+          <div class="played-range"
+               [ngClass]="{'timeline-full-played': isFullSelectionPlayed()}"
+               [style.left.px]="posicaoInicioPx"
+               [style.width.px]="posicaoPlayerPx > posicaoInicioPx ? (posicaoPlayerPx - posicaoInicioPx) : 0">
+          </div>
+
+          <!-- seleção com cor variável -->
+          <div class="selection-highlight"
+               *ngIf="tempoFinalMs > tempoInicialMs"
+               [ngClass]="{'full': isAtLeftEdge() && isAtRightEdge()}"
+               [style.left.px]="selectionStartPx"
+               [style.width.px]="selectionEndPx - selectionStartPx">
+            <div class="selection-played"
+                 [style.width.px]="selectionPlayedWidthPx">
+            </div>
+          </div>
+
+          <!-- marcadores -->
+          <div *ngFor="let marcador of structuralMarkers"
+               class="time-marker"
+               [style.left]="marcador.left">
+            {{ marcador.label }}
+          </div>
+
+          <!-- handles -->
+          <div *ngIf="selectedIndex === null"
+               class="handle start-handle flex items-center justify-center"
+               [style.left.px]="posicaoInicioPx"
+               [ngClass]="computeHandleBgClass('inicio')"
+               (mousedown)="iniciarArrasto('inicio', $event)">
+            <svg class="w-3 h-3" viewBox="0 0 6 20">
+              <rect x="0" y="0" width="2" height="20" fill="white" />
+              <rect x="4" y="0" width="2" height="20" fill="white" />
+            </svg>
+            <div class="handle-tooltip">{{ formatTimestamp(tempoInicialMs) }}</div>
+          </div>
+
+          <div *ngIf="selectedIndex === null"
+               class="handle end-handle flex items-center  justify-center"
+               [style.left.px]="posicaoFimPx"
+               [ngClass]="computeHandleBgClass('fim')"
+               (mousedown)="iniciarArrasto('fim', $event)">
+            <svg class="w-3 h-3" viewBox="0 0 6 20">
+              <rect x="0" y="0" width="2" height="20" fill="white" />
+              <rect x="4" y="0" width="2" height="20" fill="white" />
+            </svg>
+            <div class="handle-tooltip">{{ formatTimestamp(tempoFinalMs) }}</div>
+          </div>
+
+          <!-- playhead -->
+          <div class="playhead" [style.left.px]="posicaoPlayerPx">
+            <div class="playhead-tooltip">{{ formatTimestamp(tempoAtualMs) }}</div>
+          </div>
+
+        </div>
+      </div>
+
+      <button (click)="addTimelineContainer()" class="timeline-button">+5min</button>
+    </div>
+
+  </div>
+</div>

@@ -2,70 +2,60 @@
    Definição de Variáveis
    ========================================================================== */
 :host {
-  --brand-blue-main: #737373;
-  --brand-blue-light-3: #ff0000;
+  /* Variáveis principais da timeline (do novo CSS) */
   --brand-blue-border: #9CA3AF;
   --timeline-background: #F3F4F6;
-  --timeline-handle-bg: #1F2937;
---timeline-handle-bg: #CA8A04; 
+  --timeline-handle-bg: #CA8A04;
   --timeline-playhead-color: #374151;
---timeline-played-range-bg: #FEF9C3; /* Cor da faixa de progresso reproduzido */
+
+  /* Novas cores de seleção */
+  --selection-yellow: #FEF9C3;
+  --selection-yellow-strong: #FDE047;
+  --selection-yellow-burnt: #854D0E; /* amarelo queimado */
+
   --timeline-tooltip-bg: #000000;
   --timeline-tooltip-text: #ffffff;
   --timeline-marker-text: #9CA3AF;
-  --sel-played-bg: #FEF3C7;       /* amarelo mais forte p/ já reproduzido */
-  --sel-played-border: #CA8A04;      /* a cor que você pediu */
-  --sel-unplayed-bg: #FFF7C2;       /* amarelo claro p/ restante */
-  --sel-unplayed-border: #EAB308;    /* opcional: borda do restante */
+  --sel-played-border: #CA8A04;
+
+  /* Variáveis dos botões */
   --button-bg: #FFFFFF;
   --button-border: #E5E7EB;
   --button-text: #1F2937;
   --button-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-
+  --background-color: #FAFBFC;
+  
+  /* Variáveis mantidas (para transcrição, etc.) */
+  --brand-blue-main: #737373;
+  --brand-blue-light-3: #ff0000;
   --text-color-default: #1F2937;
   --text-color-muted: #6B7280;
-  --background-color: #FAFBFC; /* Magenta neon */
-  
   --transcription-played-bg: #FEF9C3;
   --transcription-playing-bg: #EFF6FF;
 }
+:root,
 
-/* NOVAS faixas da seleção */
-.selection-before, .selection-after {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  pointer-events: none;
-  z-index: 4;           /* acima do fundo, abaixo dos handles */
-}
+:host {
+  /* base de texto */
+  --tx-default: #1F2937; /* gray-800 */
+  --tx-muted:   #6B7280; /* gray-500 */
+  --tx-dimmed:  #9CA3AF; /* gray-400 */
 
-/* Parte já reproduzida dentro da seleção */
-.selection-before {
-  background: var(--sel-played-bg);
-  border: 2px solid var(--sel-played-border);
-  border-right: none;      /* evita borda dupla no encontro */
-  border-radius: 8px 0 0 8px; /* arredonda lado esquerdo */
-}
+  /* estados de seleção/reprodução */
+  --sel-bg:            #FEF9C3; /* amarelo claro (fundo trecho demarcado) */
+  --sel-border:        #EAB308; /* amarelo 500 (contorno do demarcado) */
+  --sel-border-strong: #B45309; /* amarelo queimado/dourado escuro */
 
-/* Parte ainda não reproduzida dentro da seleção */
-.selection-after {
-  background: var(--sel-unplayed-bg);
-  border: 1px solid var(--sel-unplayed-border);
-  border-left: none;         /* encontra com a anterior sem “dente” */
-  border-radius: 0 8px 8px 0; /* arredonda lado direito */
-}
-
-/* Se o progresso alcançar o fim, feche o raio direito na faixa “before” */
-.selection-before.is-full {
-  border-right: 2px solid var(--sel-played-border);
-  border-radius: 8px;
+  /* token atual (palavra/frase) */
+  --pill-bg:   #D97706; /* laranja 600 */
+  --pill-tx:   #FFFFFF; /* texto branco */
+  --pill-tx-h: #000000; /* texto preto on hover (seu pedido) */
 }
 
 /* ==========================================================================
-   Layout Principal
+   Layout Principal (Mantido de Bloco 2)
    ========================================================================== */
 .clipping-container, .main-content, .player-column, .transcription-column {
-  /* Estas regras estão corretas e foram mantidas */
   box-sizing: border-box;
 }
 .clipping-container {
@@ -81,11 +71,20 @@
   flex: 1;
   overflow: hidden;
 }
+
+.selection-unplayed {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: #E5E7EB; /* cinza pedido */
+  /* SEM bordas aqui, o contorno é só da .selection-highlight */
+  border: none;
+}
 .player-column {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinha o conteúdo à esquerda */
+  align-items: flex-start;
   padding: 24px;
   margin-left: -22px;
   overflow-y: auto;
@@ -93,9 +92,6 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
   margin-top: -25px;
-}
-.player-column::-webkit-scrollbar {
-  display: none;
 }
 .player-column::-webkit-scrollbar {
   display: none;
@@ -111,11 +107,10 @@
   max-width: 538px;
   display: flex;
   flex-direction: column;
-  margin-top: 12px; /* Remove a margem superior */
+  margin-top: 12px;
   background-color: white;
   box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-
+  border-radius: 8px;
 }
 .video-player {
   width: 100%;
@@ -125,18 +120,19 @@
 }
 .entities-placeholder {
   width: 100%;
-  margin-top: 24px; /* Espaçamento entre a timeline e o painel de entidades */
+  margin-top: 24px;
 }
+
 /* ==========================================================================
-   Timeline
+   Timeline (Regras de Bloco 1 e 2 combinadas)
    ========================================================================== */
 .timeline-controls-container {
-  width: full;
+  width: 100%; /* Corrigido de 'full' para 100% */
   height: 68px;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 20px;
+  margin-left: 0px;
 }
 .timeline-button {
   width: 75px;
@@ -146,7 +142,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--button-bg);
-  border: 1px solid var(--button-border);
+  border: 2px solid var(--button-border);
   box-shadow: var(--button-shadow);
   border-radius: 8px;
   color: var(--button-text);
@@ -164,10 +160,12 @@
   min-width: 0;
   display: flex;
   align-items: center;
-    user-select: none;      /* Padrão para a maioria dos navegadores */
-  -webkit-user-select: none; /* Para navegadores baseados em WebKit (Chrome, Safari) */
+  user-select: none;
+  -webkit-user-select: none;
   -moz-user-select: none;
 }
+
+/* Container (Novo de Bloco 1) */
 .timeline-container {
   position: relative;
   width: 100%;
@@ -176,15 +174,120 @@
   align-items: center;
   cursor: pointer;
   background: var(--timeline-background);
-  border: 1px solid var(--brand-blue-border);
+  border: 2px solid var(--brand-blue-border);
   border-radius: 4px;
+  z-index: 10;
 }
-.selection-range {
+
+/* Torna a borda do container transparente quando há uma seleção ativa */
+.timeline-container.has-selection {
+background-color: #E5E7EB; /* <-- AMARELO (cor "reproduzido") */
+  border-color: transparent;
+}
+.timeline-container.full-selection {
+  background: #fff;
+}
+
+/* Progresso já reproduzido (Novo de Bloco 1) */
+.played-range {
   position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
-  background-color: transparent;
+background-color: var(--selection-yellow-strong); /* <-- AMARELO (cor "reproduzido") */
+  border: 2px solid var(--sel-played-border);
+  border-right: none;
+  pointer-events: none;
+  z-index: 2;
+  transition: background-color .3s, border-color .3s, z-index .0s;
+}
+
+.played-range.timeline-full-played {
+  background-color: var(--selection-yellow);            /* amarelo claro */
+  border-color: var(--selection-yellow-burnt);          /* borda queimado */
+  border-right: 2px solid var(--selection-yellow-burnt); /* fecha lateral direita */
+  z-index: 6;                                           /* sobrepõe a seleção */
+}
+
+/* Seleção (área demarcada) (Novo de Bloco 1) */
+.selection-highlight {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: var(--selection-yellow);
+  border: 2px solid var(--sel-played-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+  transition: background-color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+.selection-highlight.full {
+  display: none;
+}
+
+/* Parte reproduzida dentro da seleção (Novo de Bloco 1) */
+.selection-highlight .selection-played {
+  height: 100%;
+  background: var(--selection-yellow-strong);
+}
+
+
+/* Handles (Novo de Bloco 1) */
+.handle {
+  position: absolute;
+  width: 8px;
+  height: 19px;
+  top: 50%;
+  background: var(--timeline-handle-bg);
+  cursor: ew-resize;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.15s ease;
+}
+.start-handle { border-radius: 4px 0 0 4px; margin-left: -4px; }
+.end-handle   { border-radius: 0 4px 4px 0; margin-left: 5px; }
+.handle--black  { background-color: #171717 !important; }
+.handle--orange { background-color: #f97316 !important; }
+
+.handle .handle-tooltip {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--timeline-tooltip-bg);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
   pointer-events: none;
 }
+.handle:hover .handle-tooltip,
+.handle.dragging .handle-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Marcadores (Mantido de Bloco 2) */
+.tab-marker {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0.95;
+}
+.tab-marker.left  { left: 4px; }
+.tab-marker.right { right: 4px; }
+.bg-gray-100\/20 .tab-marker path { stroke: #FFFFFF; }
+.bg-yellow-500   .tab-marker path { stroke: #FFFFFF; }
+
+/* Marcadores e playhead (Combinado) */
 .time-marker {
   position: absolute;
   max-width: 100px;
@@ -194,116 +297,11 @@
   font-size: 12px;
   color: var(--timeline-marker-text);
   pointer-events: none;
-  /* Adicionado para garantir que o marcador fique visível */
-  z-index: 15; 
+  z-index: 15;
 }
-
-.time-marker.time-marker--selected {
-  color: #FFFFFF; /* Cor do texto fica branca */
-  font-weight: 600; /* Opcional: um pouco mais de destaque */
-}
-.time-marker.start-marker {
-  transform: translateX(20px); /* Alinha a borda esquerda do marcador com o início */
-}
-
-.time-marker.end-marker {
-  transform: translateX(-20px); /* Alinha a borda direita do marcador com o final */
-}
-
-/* Adicione este CSS ao final do seu arquivo clipping.component.css */
-
-/* --- Estilos para Tooltip dos Marcadores (Handles) --- */
-.handle .handle-tooltip {
-  position: absolute;
-  bottom: 125%; /* Posiciona o tooltip acima do marcador */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #000000; /* Cor de fundo escura (gray-800) */
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap; /* Impede que o texto quebre a linha */
-  opacity: 0; /* Começa invisível */
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-  pointer-events: none; /* Não interfere com os cliques do mouse */
-}
-
-/* Mostra o tooltip quando o mouse está sobre o marcador ou quando está sendo arrastado */
-.handle:hover .handle-tooltip,
-.handle.dragging .handle-tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* --- Estilos para Destaque da Faixa de Seleção --- */
-
-/* Cor padrão da faixa de seleção */
-.selection-range {
-  position: absolute;
-  height: 100%;
-  background-color: #F3F4F6; /* azul-500 com 30% de opacidade */
-  border-left: 1px solid #9CA3AF;
-  border-right: 1px solid #9CA3AF;
-  top: 0;
-  pointer-events: none;
-  transition: background-color 0.3s ease; /* Transição suave da cor */
-}
-
-/* Cor mais escura para a faixa de seleção quando o vídeo está tocando */
-.selection-range.playing {
-  background-color: #FEFCE8; /* azul-500 com 50% de opacidade (mais escuro) */
-}
-
-.handle {
-  position: absolute;
-  width: 8px;
-  height: 19px;
-  top: 50%;
-  background: var(--timeline-handle-bg);
-  cursor: ew-resize;
-  z-index: 20;
-  /* CORREÇÃO: margin-left removido */
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  
-}
-.start-handle {
-  transform: translate(-50%, -50%); /* Garante centralização perfeita na posição */
-  border-radius: 4px 0 0 4px;
-  margin-left: -4px;
-}
-.end-handle {
-  transform: translate(-50%, -50%); /* CORREÇÃO: Usar -50% para centralizar corretamente */
-  border-radius: 0 4px 4px 0;
-  margin-left: 5px;
-}
-
-/* Garante contexto e camada acima do fundo */
-.timeline-container { position: relative; z-index: 10; }
-
-/* Marcadores */
-.tab-marker {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;      /* não bloqueia clique na aba */
-  opacity: 0.95;             /* levemente translúcido pra evitar “serrilhado” */
-}
-
-.tab-marker.left  { left: 4px; }
-.tab-marker.right { right: 4px; }
-
-/* Se o fundo for muito claro/escuro, você pode reforçar contraste: */
-.bg-gray-100\/20 .tab-marker path { stroke: #FFFFFF; }
-.bg-yellow-500   .tab-marker path { stroke: #FFFFFF; } /* mantém branco no selecionado */
-/* clipping.component.css */
-.handle { transition: background-color .15s ease; }
-.handle--black  { background-color: #171717 !important; }  /* neutral-900 */
-.handle--orange { background-color: #f97316 !important; }  /* orange-500 */
+.time-marker.time-marker--selected { color: #FFFFFF; font-weight: 600; }
+.time-marker.start-marker { transform: translateX(20px); }
+.time-marker.end-marker { transform: translateX(-20px); }
 
 
 .playhead {
@@ -330,71 +328,106 @@
   white-space: nowrap;
   margin-top: 68px;
 }
-.played-range {
-  display: block; /* Reativado para mostrar o progresso */
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  background-color: var(--timeline-played-range-bg); /* Usa a variável para a cor */
-  border-radius: 4px 0 0 4px;
-  border: 2px solid var(--sel-played-border); /* Adiciona a borda solicitada */
-  border-right: none;
-  pointer-events: none;
-  z-index: 2; 
-}
+
 
 /* ==========================================================================
-   Transcrição (com os novos estilos)
+   Transcrição (Mantido de Bloco 2)
    ========================================================================== */
 .transcription-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--button-border); /* Usando uma variável existente */
   flex-shrink: 0;
 }
 .search-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espaçamento entre a barra e o botão 'X' */
   padding: 12px 24px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--button-border); /* Usando uma variável existente */
 }
 .transcription-list {
   flex-grow: 1;
   overflow-y: auto;
   padding: 24px;
-  /* Hide scrollbars */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+.transcription-list::-webkit-scrollbar { display: none; }
+
+
 .transcription-list::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, and Opera */
+  display: none;
 }
 .transcription-item {
   padding: 12px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease;
+  color: var(--tx-default);
 }
 .transcription-item:hover {
   background-color: var(--background-color);
 }
-/* ADIÇÃO: Estilo para o item de transcrição já reproduzido */
 .transcription-item.played {
-  background-color: var(--transcription-played-bg);
+  background: transparent;
+  color: var(--tx-dimmed);
 }
-/* ADIÇÃO: Estilo para o item de transcrição em reprodução */
+.transcription-item.played .timestamp {
+  color: var(--tx-dimmed);
+}
+.transcription-item.selected {
+  background: var(--sel-bg);
+  /* contorno “fechando” igual ao player */
+}
+.text-content .tok {
+  display: inline; /* não quebra layout */
+  padding: 0 .15rem;
+  border-radius: .25rem;
+  transition: color .15s ease, background-color .15s ease;
+}
+.text-content .tok.is-active {
+  background: var(--pill-bg);
+  color: var(--pill-tx);
+}
+/* seu pedido: ao passar mouse a letra fica preta */
+.text-content .tok.is-active:hover {
+  color: var(--pill-tx-h);
+}
+
+/* 5) Trecho DEMARCADO + REPRODUZINDO
+   (mesmo fundo do demarcado + contorno mais forte) */
+.transcription-item.selected.playing {
+  background: var(--sel-bg);
+}
 .transcription-item.playing {
   background-color: var(--transcription-playing-bg);
 }
 .transcription-item .timestamp {
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-color-muted);
+  color: var(--tx-muted);
   margin-bottom: 4px;
-  transition: color 0.2s;
+  transition: color .2s ease;
 }
-/* ADIÇÃO: Destaca o timestamp dos itens ativos/reproduzidos */
+/* hover do item (facilita leitura quando o usuário passa o mouse) */
+.transcription-item:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+/* acessibilidade (foco via teclado) */
+.transcription-item:focus-visible {
+  outline: 2px solid var(--sel-border);
+  outline-offset: 2px;
+}
+
+/* Se quiser que o texto “apagado” continue legível quando o item está selected */
+.transcription-item.selected.played {
+  /* mantém o fundo demarcado, mas não deixa o texto tão apagado */
+  color: #374151; /* gray-700 */
+}
 .transcription-item.played .timestamp,
 .transcription-item.playing .timestamp {
   color: var(--brand-blue-main);
@@ -402,18 +435,12 @@
 .transcription-item .text-content {
   color: var(--text-color-default);
   line-height: 1.6;
+  transition: color 0.2s;
 }
-.transcription-item .text-content {
-  color: var(--text-color-default);
-  line-height: 1.6;
-  transition: color 0.2s; /* Smooth transition for the color change */
-}
-.transcription-item .text-content:hover {
-  color: #2563EB; 
-  font-weight: bold;
-}
+
+
 /* ==========================================================================
-   Regras de Responsividade (Mantidas)
+   Regras de Responsividade (Mantidas de Bloco 2)
    ========================================================================== */
 @media (max-width: 1100px) {
   .main-content { flex-direction: column; overflow: auto; }
