@@ -185,6 +185,7 @@
   left: 0;
   top: 0;
   height: 100%;
+  color: #000000;
   background: var(--brand-blue-main); /* Preenche com o amarelo claro */
   border-top: 2px solid var(--selection-yellow-burnt);
   border-bottom: 2px solid var(--selection-yellow-burnt);
@@ -342,24 +343,36 @@
   cursor: pointer;
   transition: background-color .2s, color .2s;
   color: var(--tx-default);
+  background-color: #F3F4F6;
 }
 .transcription-item:hover { background: var(--background-color); }
-.transcription-item.played { background: transparent; color: var(--tx-dimmed); }
-.transcription-item.played .timestamp { color: var(--tx-dimmed); }
+/* Bloco "Passado" (Fundo escuro) */
+.transcription-item.played { 
+  background: #ffffff; 
+}
+
+/* Cor do Timestamp no bloco "Passado" */
+.transcription-item.played .timestamp {
+  color: #D1D5DB; /* Cinza claro */
+}
+
+/* Cor do Texto Principal no bloco "Passado" */
+.transcription-item.played .text-content {
+  color: #464646; /* Branco/Claro */
+}
 .transcription-item.playing { background-color: var(--transcription-playing-bg); }
 .transcription-item.selected { background: var(--selection-yellow); }
 
 .transcription-item .timestamp {
   font-size: 12px;
   font-weight: 600;
-  color: var(--tx-muted);
+  color: #737373; /* <--- ALTERADO */
   margin-bottom: 4px;
   transition: color .2s;
 }
 .transcription-item.played .timestamp,
 .transcription-item.playing .timestamp {
-  color: var(--brand-blue-main); /* agora amarelo */
-}
+ color: #D1D5DB; /* Cinza claro para legibilidade */}
 
 .text-content {
   color: var(--text-color-default);

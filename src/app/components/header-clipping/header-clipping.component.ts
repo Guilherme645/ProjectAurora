@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-
+declare var HSStaticMethods: any;
 @Component({
   selector: 'app-header-clipping',
   templateUrl: './header-clipping.component.html',
@@ -32,6 +32,17 @@ export class HeaderClippingComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { }
+
+ngAfterViewInit(): void {
+    // Adiciona um pequeno delay para garantir que o DOM está 100% pronto
+    setTimeout(() => {
+      // Verifica se a biblioteca Preline está carregada
+      if (typeof HSStaticMethods !== 'undefined') {
+        // Manda o Preline inicializar todos os componentes (dropdowns, modais, etc)
+        HSStaticMethods.autoInit();
+      }
+    }, 100); // 100ms é geralmente seguro
+  }
 
   // --- Lógica de Eventos ---
   onSaveEditionsClick(): void {

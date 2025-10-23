@@ -17,7 +17,9 @@
     (saveClicked)="openSaveModal()"
     [(tituloMencao)]="clippingData.titulo"
     [(descricaoClipping)]="clippingData.descricao"
-    (sentimentoChange)="updateSentimento($event)">
+   [(descricaoClipping)]="clippingData.descricao"
+  (sentimentoChange)="updateSentimento($event)"
+  class="basis-[10%] flex-shrink-0">
   </app-header-clipping>
 
   <!-- Save Modal -->
