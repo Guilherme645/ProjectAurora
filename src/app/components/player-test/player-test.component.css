@@ -1,26 +1,68 @@
+/* ==========================================================================
+   VARIÁVEIS (tema 100% amarelo)
+   ========================================================================== */
 :host {
+  /* Timeline base */
   --brand-blue-border: #9CA3AF;
   --timeline-background: #F3F4F6;
-  --timeline-handle-bg: #CA8A04;
-  --timeline-playhead-color: #374151;
+  --timeline-handle-bg: #854D0E;      /* amarelo queimado */
+  --timeline-playhead-color: #854D0E; /* amarelo queimado */
 
-  /* cores de seleção */
-  --selection-yellow: #FEF9C3;
-  --selection-yellow-strong: #FDE68A;
-  --selection-yellow-burnt: #B45309; /* amarelo queimado */
+  /* Seleção */
+  --selection-yellow: #FEF9C3;             /* amarelo claro */
+  --selection-yellow-strong: #FDE047;      /* amarelo forte */
+  --selection-yellow-burnt: #854D0E;       /* amarelo queimado (bordas) */
 
+  /* Tooltip / textos */
   --timeline-tooltip-bg: #000000;
   --timeline-tooltip-text: #ffffff;
-  --timeline-marker-text: #9CA3AF;
-  --sel-played-border: #CA8A04;
+  --timeline-marker-text: #6B7280;
+  --sel-played-border: #854D0E;
 
+  /* Botões */
   --button-bg: #FFFFFF;
   --button-border: #E5E7EB;
   --button-text: #1F2937;
   --button-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
   --background-color: #FAFBFC;
+
+  /* Transcrição */
+  --brand-blue-main: #EAB308;         /* amarelo 500 */
+  --brand-blue-light-3: #FDE68A;      /* amarelo claro */
+  --text-color-default: #1F2937;
+  --text-color-muted: #6B7280;
+  --transcription-played-bg: #FEF9C3;
+  --transcription-playing-bg: #FFFBEB;
+
+  /* Texto / tokens */
+  --tx-default: #1F2937;
+  --tx-muted:  #6B7280;
+  --tx-dimmed: #9CA3AF;
+
+  --pill-bg: #D97706;  /* âmbar 600 */
+  --pill-tx: #FFFFFF;
+  --pill-tx-h: #000000;
 }
-/* Layout */
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL
+   ========================================================================== */
+.clipping-container, .main-content, .player-column, .transcription-column { box-sizing: border-box; }
+
+.clipping-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #FAFAFC;
+}
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
 .player-column {
   flex: 1;
   display: flex;
@@ -36,10 +78,6 @@
 }
 .player-column::-webkit-scrollbar { display: none; }
 
-.timeline-container.full-selection {
-  background: #fff;
-}
-
 .timeline-box {
   background-color: #ffffff;
   padding: 24px;
@@ -54,16 +92,27 @@
   margin-bottom: 20px;
 }
 
-/* Timeline */
+.transcription-column {
+  flex: 1;
+  max-width: 538px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================================
+   TIMELINE
+   ========================================================================== */
 .timeline-controls-container {
   width: 100%;
   height: 68px;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 20px;
 }
-
 .timeline-button {
   width: 75px;
   height: 45px;
@@ -71,7 +120,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--button-bg);
-  border: 1px solid var(--button-border);
+  border: 2px solid var(--button-border);
   box-shadow: var(--button-shadow);
   border-radius: 8px;
   color: var(--button-text);
@@ -85,6 +134,7 @@
 
 .timeline-wrapper {
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   user-select: none;
@@ -99,62 +149,127 @@
   align-items: center;
   cursor: pointer;
   background: var(--timeline-background);
-  border: 1px solid var(--brand-blue-border);
   border-radius: 4px;
   z-index: 10;
 }
 
-/* Progresso já reproduzido */
+/* Grade divisória (5min) */
+.segments-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  z-index: 1;
+  pointer-events: none;
+}
+.timeline-segment {
+  height: 100%;
+  background: transparent;
+  border-right: 1px solid var(--selection-yellow-burnt);
+  box-sizing: border-box;
+}
+.timeline-segment:first-child {
+  border-left: 1px solid var(--selection-yellow-burnt);
+}
+
+.handle.handle--black {
+  background-color: #000000;
+}
+
+.handle.handle--yellow800 {
+  background-color: var(--timeline-handle-bg); /* #854D0E (amarelo queimado) */
+}
+
+/* Progresso reproduzido (régua) */
 .played-range {
   position: absolute;
   left: 0;
   top: 0;
   height: 100%;
-  background-color: #E5E7EB;
-  border-radius: 4px 0 0 4px;
-  border: 2px solid var(--sel-played-border);
+  background: var(--brand-blue-main); /* Preenche com o amarelo claro */
+  border-top: 2px solid var(--selection-yellow-burnt);
+  border-bottom: 2px solid var(--selection-yellow-burnt);
+  border-left: 2px solid var(--selection-yellow-burnt);
   border-right: none;
+  border-radius: 4px 0 0 4px; /* Arredonda o canto esquerdo para bater com a timeline */
+  box-sizing: border-box; /* Garante que a borda não aumente o tamanho */
   pointer-events: none;
-  z-index: 2;
-  transition: background-color .3s, border-color .3s, z-index .0s;
+  z-index: 5;
 }
 
-.played-range.timeline-full-played {
-  background-color: var(--selection-yellow);          /* amarelo claro */
-  border-color: var(--selection-yellow-burnt);        /* borda queimado */
-  border-right: 2px solid var(--selection-yellow-burnt); /* fecha lateral direita */
-  border-radius: 4px;                                  /* borda completa */
-  z-index: 6;                                          /* sobrepõe a seleção */
-}
-
-/* Seleção (área demarcada) */
-.selection-highlight {
+/* Seleção de 5 minutos (fundo amarelo) */
+.selection-range {
   position: absolute;
   top: 0;
   height: 100%;
-  background: var(--selection-yellow);
-  /* antes: apenas top/bottom; agora fecha as laterais também */
-  border: 2px solid var(--sel-played-border);
-  border-radius: 4px;          /* combina com o container */
-  box-sizing: border-box;      /* largura inclui a borda */
-  overflow: hidden;            /* evita a faixa interna cobrir a borda */
+  background: var(--selection-yellow);              /* fundo amarelo */
+  border: 2px solid var(--selection-yellow-burnt);  /* contorno queimado */
+  border-radius: 4px;
+  box-sizing: border-box;
   pointer-events: none;
-  z-index: 5;
-  transition: background-color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
-}
-/* Quando a seleção cobre o vídeo inteiro → fundo branco */
-.selection-highlight.full {
-  display: none;
+  z-index: 4;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Parte reproduzida dentro da seleção */
-.selection-highlight .selection-played {
-  height: 100%;
-  background: var(--selection-yellow-strong);
-  /* mantém dentro sem “pegar” a borda */
-  border-radius: inherit;
+/* Quando o vídeo estiver tocando dentro da seleção */
+.selection-range.playing {
+  background: var(--selection-yellow-strong);       /* amarelo mais forte */
 }
 
+/* Segmento selecionado (pinta bloco inteiro) */
+.timeline-segment.is-selected {
+  background: var(--selection-yellow);
+}
+
+/* Marcadores e Playhead */
+.time-marker {
+  position: absolute;
+  max-width: 100px;
+  top: 50%;
+  transform: translate(50%, -50%);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--timeline-marker-text);
+  pointer-events: none;
+  z-index: 15;
+}
+
+.time-marker.time-marker--selected {
+  color: gray;
+  font-weight: 700;
+}
+
+.time-marker.start-marker {
+  transform: translate(0px, -50%);
+}
+
+.time-marker.end-marker {
+  transform: translate(-50px, -50%);
+}
+.playhead {
+  position: absolute;
+  width: 1px;
+  height: 54px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--timeline-playhead-color);
+  pointer-events: none;
+  z-index: 10;
+}
+.playhead-tooltip {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--timeline-tooltip-bg);
+  color: var(--timeline-tooltip-text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-top: 68px;
+}
 
 /* Handles */
 .handle {
@@ -170,8 +285,6 @@
 }
 .start-handle { border-radius: 4px 0 0 4px; margin-left: -4px; }
 .end-handle   { border-radius: 0 4px 4px 0; margin-left: 5px; }
-.handle--black  { background-color: #171717 !important; }
-.handle--orange { background-color: #f97316 !important; }
 
 .handle .handle-tooltip {
   position: absolute;
@@ -196,41 +309,102 @@
   visibility: visible;
 }
 
-/* Marcadores e playhead */
-.time-marker {
-  position: absolute;
-  max-width: 100px;
-  transform: translateX(50%);
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 12px;
-  color: var(--timeline-marker-text);
-  pointer-events: none;
-  z-index: 15;
+/* ==========================================================================
+   TRANSCRIÇÃO
+   ========================================================================== */
+.transcription-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--button-border);
+  flex-shrink: 0;
 }
-.time-marker.time-marker--selected { color: #FFFFFF; font-weight: 600; }
+.search-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--button-border);
+}
+.transcription-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 24px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.transcription-list::-webkit-scrollbar { display: none; }
 
-.playhead {
-  position: absolute;
-  width: 1px;
-  height: 54px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: var(--timeline-playhead-color);
-  pointer-events: none;
-  z-index: 10;
+.transcription-item {
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color .2s, color .2s;
+  color: var(--tx-default);
 }
-.playhead-tooltip {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%) translateY(-8px);
-  background: var(--timeline-tooltip-bg);
-  color: var(--timeline-tooltip-text);
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+.transcription-item:hover { background: var(--background-color); }
+.transcription-item.played { background: transparent; color: var(--tx-dimmed); }
+.transcription-item.played .timestamp { color: var(--tx-dimmed); }
+.transcription-item.playing { background-color: var(--transcription-playing-bg); }
+.transcription-item.selected { background: var(--selection-yellow); }
+
+.transcription-item .timestamp {
   font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-  margin-top: 68px;
+  font-weight: 600;
+  color: var(--tx-muted);
+  margin-bottom: 4px;
+  transition: color .2s;
+}
+.transcription-item.played .timestamp,
+.transcription-item.playing .timestamp {
+  color: var(--brand-blue-main); /* agora amarelo */
+}
+
+.text-content {
+  color: var(--text-color-default);
+  line-height: 1.6;
+  transition: color 0.2s;
+}
+.text-content .tok {
+  display: inline;
+  padding: 0 .15rem;
+  border-radius: .25rem;
+  transition: color .15s, background-color .15s;
+}
+.text-content .tok.is-active { background: var(--pill-bg); color: var(--pill-tx); }
+.text-content .tok.is-active:hover { color: var(--pill-tx-h); }
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .main-content { flex-direction: column; overflow: auto; }
+  .player-column { overflow-y: visible; padding: 16px; }
+  .transcription-column {
+    flex: none;
+    width: 100%;
+    max-width: none;
+    border-left: none;
+    border-top: 1px solid var(--selection-yellow-burnt);
+    box-shadow: none;
+  }
+}
+@media (max-width: 500px) {
+  .player-column, .transcription-column { padding: 12px; }
+  .timeline-controls-container { gap: 8px; }
+  .timeline-button { width: 60px; height: 40px; }
+}
+
+/* ==========================================================================
+   PATCH: neutraliza azuis antigos
+   ========================================================================== */
+.timeline-container .bg-blue-600,
+.timeline-container .bg-blue-600\/20 {
+  background: transparent !important;
+  border: 2px solid var(--selection-yellow-burnt) !important;
+}
+.timeline-container .border-blue-800,
+.timeline-container .border-blue-500\/30 {
+  border-color: var(--selection-yellow-burnt) !important;
 }

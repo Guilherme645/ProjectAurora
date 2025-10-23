@@ -36,19 +36,20 @@ interface ClippingData {
   standalone: false
 })
 export class ClippingComponent implements OnInit, AfterViewInit {
-  // --- Referências de Elementos ---
+ // --- Referências de Elementos ---
   @ViewChild('playerVideo') videoPlayerRef!: ElementRef<HTMLVideoElement>;
   @ViewChild('containerTimeline') timelineContainerRef!: ElementRef<HTMLElement>;
   @ViewChild('listaTranscricao') transcriptionListContainer!: ElementRef<HTMLElement>;
   @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
-isSelectionActive = false;
-// --- Propriedades auxiliares ---
-startMoved = false; // alça esquerda já foi movimentada
-endMoved = false;   // alça direita já foi movimentada
 
-edgeThreshold = 1;  // tolerância para considerar "na ponta" (px)
-timelineWidth = 0;  // largura do container da timeline (definida no AfterViewInit)
-handleWidth = 0;    // se quiser mais precisão, pode medir a largura da alça
+  isSelectionActive = false;
+  // --- Propriedades auxiliares ---
+  startMoved = false; // alça esquerda já foi movimentada
+  endMoved = false;   // alça direita já foi movimentada
+
+  edgeThreshold = 1;  // tolerância para considerar "na ponta" (px)
+  timelineWidth = 0;  // largura do container da timeline (definida no AfterViewInit)
+  handleWidth = 0;    // se quiser mais precisão, pode medir a largura da alça
 
   // --- Estado Geral ---
   clippingData: ClippingData = {
@@ -58,9 +59,8 @@ handleWidth = 0;    // se quiser mais precisão, pode medir a largura da alça
   };
   isSaveModalVisible = false;
 
-headerVisivel: boolean = true;
-ultimaPosicaoScroll: number = 0;
-
+  headerVisivel: boolean = true;
+  ultimaPosicaoScroll: number = 0;
 
   // --- Estado da Transcrição e Busca ---
   fullTranscript: TranscriptEntry[] = [];
@@ -87,14 +87,14 @@ ultimaPosicaoScroll: number = 0;
   structuralMarkers: TimeMark[] = [];
   selectionStartLabel: TimeMark | null = null;
   selectionEndLabel: TimeMark | null = null;
-
+realVideoDurationMs = 0;         // <-- ADICIONE ESTA LINHA: Duração REAL do vídeo
   dragging: 'inicio' | 'fim' | null = null;
   draggingMarkerIndex: number | null = null;
   posicaoPlayerPx = 0;
   posicaoInicioPx = 0;
   posicaoFimPx = 0;
   private splitPointsMs: number[] = [];
- isWarningModalVisible = false;
+  isWarningModalVisible = false;
   modalTitle = '';
   modalMessage = '';
 
@@ -102,21 +102,21 @@ ultimaPosicaoScroll: number = 0;
   markedTextSegments: string[] = [];
   markedText: string = '';
 
-@HostListener('window:keydown', ['$event'])
-handleKeyboardEvent(event: KeyboardEvent) {
-  // CORREÇÃO:
-  // 1. Verifica por 'Delete' (maiúsculo) E 'Backspace'.
-  // 2. Mantém a verificação se um segmento está selecionado (selectedIndex !== null).
-  if ((event.key === 'Delete' || event.key === 'Backspace') && this.selectedIndex !== null) {
-    
-    // IMPORTANTE: Previne o comportamento padrão do navegador.
-    // Impede que a tecla Backspace volte para a página anterior.
-    event.preventDefault();
-    
-    // Chama a função para preparar e mostrar o modal.
-    this.prepareDeleteModal();
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    // CORREÇÃO:
+    // 1. Verifica por 'Delete' (maiúsculo) E 'Backspace'.
+    // 2. Mantém a verificação se um segmento está selecionado (selectedIndex !== null).
+    if ((event.key === 'Delete' || event.key === 'Backspace') && this.selectedIndex !== null) {
+      
+      // IMPORTANTE: Previne o comportamento padrão do navegador.
+      // Impede que a tecla Backspace volte para a página anterior.
+      event.preventDefault();
+      
+      // Chama a função para preparar e mostrar o modal.
+      this.prepareDeleteModal();
+    }
   }
-}
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -128,138 +128,138 @@ handleKeyboardEvent(event: KeyboardEvent) {
     this.updateDisplayedTranscript();
   }
 
- ngAfterViewInit(): void {
-  this.recalculateLayout();
-  // largura real da timeline baseada no elemento
-  this.timelineWidthPx = this.timelineContainerRef?.nativeElement?.clientWidth || this.timelineWidthPx;
-  this.cdr.detectChanges();
-}
-
-@HostListener('window:resize') onWindowResize(): void {
-  this.timelineWidthPx = this.timelineContainerRef?.nativeElement?.clientWidth || this.timelineWidthPx;
-  this.recalculateLayout();
-}
-onTranscriptionScroll(event: Event): void {
-  const scrollTop = (event.target as HTMLElement).scrollTop;
-
-  if (scrollTop > this.ultimaPosicaoScroll) {
-    // Scroll para baixo → recolher
-    this.headerVisivel = false;
-  } else {
-    // Scroll para cima → mostrar
-    this.headerVisivel = true;
+  ngAfterViewInit(): void {
+    this.recalculateLayout();
+    // largura real da timeline baseada no elemento
+    this.timelineWidthPx = this.timelineContainerRef?.nativeElement?.clientWidth || this.timelineWidthPx;
+    this.cdr.detectChanges();
   }
 
-  this.ultimaPosicaoScroll = scrollTop;
-}
-
-isFullSelectionPlayed(): boolean {
-  return false;
-}
-get selectionPlayedWidthPx(): number {
-  const progress = Math.min(this.selectionProgressPx, this.selectionEndPx);
-  return Math.max(0, progress - this.selectionStartPx);
-}
-get selectionUnplayedWidthPx(): number {
-  const total = Math.max(0, this.selectionEndPx - this.selectionStartPx);
-  const played = Math.max(0, Math.min(this.selectionPlayedWidthPx, total));
-  return Math.max(0, total - played);
-}
-
-isTimestampInSelection(itemOrMs: number | { timestamp: number; end?: number }): boolean {
-  if (!this.isEffectiveSelection) return false;
-
-  const selStart = this.tempoInicialMs;
-  const selEnd   = this.tempoFinalMs;
-
-  let itemStart: number;
-  let itemEnd: number;
-
-  if (typeof itemOrMs === 'number') {
-    itemStart = itemOrMs;
-    itemEnd   = itemOrMs;
-  } else {
-    itemStart = itemOrMs.timestamp ?? 0;
-    itemEnd   = itemOrMs.end ?? itemStart;
+  @HostListener('window:resize') onWindowResize(): void {
+    this.timelineWidthPx = this.timelineContainerRef?.nativeElement?.clientWidth || this.timelineWidthPx;
+    this.recalculateLayout();
   }
 
-  // Interseção de [itemStart, itemEnd) com [selStart, selEnd)
-  return (itemEnd > selStart) && (itemStart < selEnd);
-}
+  onTranscriptionScroll(event: Event): void {
+    const scrollTop = (event.target as HTMLElement).scrollTop;
 
+    if (scrollTop > this.ultimaPosicaoScroll) {
+      // Scroll para baixo → recolher
+      this.headerVisivel = false;
+    } else {
+      // Scroll para cima → mostrar
+      this.headerVisivel = true;
+    }
 
-get hasSelection(): boolean {
-  return Number.isFinite(this.tempoInicialMs) &&
-         Number.isFinite(this.tempoFinalMs) &&
-         this.tempoFinalMs > this.tempoInicialMs;
-}
-get isFullSelection(): boolean {
-  const dur = this.videoDurationMs ?? 0;
-  // tolerância pequena para arredondamentos
-  const EPS = 2; // ms
-  return this.hasSelection &&
-         this.tempoInicialMs <= EPS &&
-         this.tempoFinalMs >= (dur - EPS);
-}
+    this.ultimaPosicaoScroll = scrollTop;
+  }
 
-get isEffectiveSelection(): boolean {
-  return this.hasSelection && !this.isFullSelection;
-}
+  isFullSelectionPlayed(): boolean {
+    return false;
+  }
 
-isAtLeftEdge(): boolean {
-  return this.posicaoInicioPx <= this.edgeThreshold;
-}
+  get selectionPlayedWidthPx(): number {
+    const progress = Math.min(this.selectionProgressPx, this.selectionEndPx);
+    return Math.max(0, progress - this.selectionStartPx);
+  }
 
-// Detecta se a alça direita está na ponta direita (em px, com tolerância)
-isAtRightEdge(): boolean {
-  return (this.timelineWidthPx - this.posicaoFimPx) <= this.edgeThreshold;
-}
+  get selectionUnplayedWidthPx(): number {
+    const total = Math.max(0, this.selectionEndPx - this.selectionStartPx);
+    const played = Math.max(0, Math.min(this.selectionPlayedWidthPx, total));
+    return Math.max(0, total - played);
+  }
 
+  isTimestampInSelection(itemOrMs: number | { timestamp: number; end?: number }): boolean {
+    if (!this.isEffectiveSelection) return false;
+
+    const selStart = this.tempoInicialMs;
+    const selEnd   = this.tempoFinalMs;
+
+    let itemStart: number;
+    let itemEnd: number;
+
+    if (typeof itemOrMs === 'number') {
+      itemStart = itemOrMs;
+      itemEnd   = itemOrMs;
+    } else {
+      itemStart = itemOrMs.timestamp ?? 0;
+      itemEnd   = itemOrMs.end ?? itemStart;
+    }
+
+    // Interseção de [itemStart, itemEnd) com [selStart, selEnd)
+    return (itemEnd > selStart) && (itemStart < selEnd);
+  }
+
+  get hasSelection(): boolean {
+    return Number.isFinite(this.tempoInicialMs) &&
+           Number.isFinite(this.tempoFinalMs) &&
+           this.tempoFinalMs > this.tempoInicialMs;
+  }
+
+  get isFullSelection(): boolean {
+    const dur = this.videoDurationMs ?? 0;
+    // tolerância pequena para arredondamentos
+    const EPS = 2; // ms
+    return this.hasSelection &&
+           this.tempoInicialMs <= EPS &&
+           this.tempoFinalMs >= (dur - EPS);
+  }
+
+  get isEffectiveSelection(): boolean {
+    return this.hasSelection && !this.isFullSelection;
+  }
+
+  isAtLeftEdge(): boolean {
+    return this.posicaoInicioPx <= this.edgeThreshold;
+  }
+
+  // Detecta se a alça direita está na ponta direita (em px, com tolerância)
+  isAtRightEdge(): boolean {
+    return (this.timelineWidthPx - this.posicaoFimPx) <= this.edgeThreshold;
+  }
 
   @HostListener('window:mousemove', ['$event'])
-onMouseMove(event: MouseEvent): void {
-  if (!this.dragging && this.draggingMarkerIndex === null) return;
-  event.preventDefault();
+  onMouseMove(event: MouseEvent): void {
+    if (!this.dragging && this.draggingMarkerIndex === null) return;
+    event.preventDefault();
 
-  const rect = this.timelineContainerRef.nativeElement.getBoundingClientRect();
-  const mouseX = Math.max(0, Math.min(event.clientX - rect.left, this.timelineWidthPx));
-  
-  // Lógica para arrastar as alças de seleção (handles)
-  if (this.dragging) {
-      const tempoMs = this.calculateTimeFromPosition(mouseX);
-      if (this.dragging === 'inicio' && tempoMs < this.tempoFinalMs) {
-          this.tempoInicialMs = tempoMs;
-      } else if (this.dragging === 'fim' && tempoMs > this.tempoInicialMs) {
-          this.tempoFinalMs = tempoMs;
-      }
-      this.updateAllPositions();
-      this.updateDisplayedTranscript();
-      // A chamada problemática foi removida.
-  } 
-    // MUDANÇA AQUI: Lógica para arrastar os marcadores de tempo
-    else if (this.draggingMarkerIndex !== null) {
-        const marker = this.structuralMarkers[this.draggingMarkerIndex];
-        if (marker) {
-            // Apenas atualiza a posição VISUAL (left) do marcador para dar o feedback.
-            // Não altera o 'timeMs' ou o 'label' para que a mudança não seja permanente.
-            marker.left = `${mouseX}px`;
+    const rect = this.timelineContainerRef.nativeElement.getBoundingClientRect();
+    const mouseX = Math.max(0, Math.min(event.clientX - rect.left, this.timelineWidthPx));
+    
+    // Lógica para arrastar as alças de seleção (handles)
+    if (this.dragging) {
+        const tempoMs = this.calculateTimeFromPosition(mouseX);
+        if (this.dragging === 'inicio' && tempoMs < this.tempoFinalMs) {
+            this.tempoInicialMs = tempoMs;
+        } else if (this.dragging === 'fim' && tempoMs > this.tempoInicialMs) {
+            this.tempoFinalMs = tempoMs;
         }
+        this.updateAllPositions();
+        this.updateDisplayedTranscript();
+        // A chamada problemática foi removida.
+    } 
+      // MUDANÇA AQUI: Lógica para arrastar os marcadores de tempo
+      else if (this.draggingMarkerIndex !== null) {
+          const marker = this.structuralMarkers[this.draggingMarkerIndex];
+          if (marker) {
+              // Apenas atualiza a posição VISUAL (left) do marcador para dar o feedback.
+              // Não altera o 'timeMs' ou o 'label' para que a mudança não seja permanente.
+              marker.left = `${mouseX}px`;
+          }
+      }
+  }
+
+  finalizarArrasto(event: MouseEvent) {
+    if (this.dragging) {
+      // ... (seu código atual de atualização de tempo) ...
+
+      // O estado de arrasto é desativado
+      this.dragging = null;
+      
+      // O estado de seleção ativa é ligado, pois o usuário terminou de arrastar
+      this.isSelectionActive = true;
     }
   }
-
-
-finalizarArrasto(event: MouseEvent) {
-  if (this.dragging) {
-    // ... (seu código atual de atualização de tempo) ...
-
-    // O estado de arrasto é desativado
-    this.dragging = null;
-    
-    // O estado de seleção ativa é ligado, pois o usuário terminou de arrastar
-    this.isSelectionActive = true;
-  }
-}
-
 
   prepareDeleteModal(): void {
     if (this.selectedIndex === null) {
@@ -280,105 +280,111 @@ finalizarArrasto(event: MouseEvent) {
     this.isWarningModalVisible = true;
   }
 
-   // As funções de confirmação e fechamento do modal permanecem as mesmas
-// As funções de confirmação e fechamento do modal permanecem as mesmas
-// As funções de confirmação e fechamento do modal permanecem as mesmas
-handleDeleteConfirm(): void {
-  if (this.selectedIndex === null) {
-    return;
+ handleDeleteConfirm(): void {
+    if (this.selectedIndex === null) {
+      return;
+    }
+
+    // Remove o container visual do segmento
+    this.timelineContainers.splice(this.selectedIndex, 1);
+    
+    // --- REMOVA ESTA LINHA ---
+    // this.videoDurationMs -= 300000; 
+
+    // --- REMOVA ESTAS LINHAS ---
+    // this.tempoInicialMs = 0;
+    // this.tempoFinalMs = this.videoDurationMs;
+
+    // --- ADICIONE ESTA LINHA ---
+    // Recalcula a duração com base nos containers restantes e reseta os tempos
+    this.updateVirtualDuration();
+
+    // Limpa a seleção e fecha o modal
+    this.selectedIndex = null;
+    this.isWarningModalVisible = false;
+    
+    this.recalculateLayout(); 
+    
+    console.log('Trecho removido!');
   }
-
-  // Remove o container visual do segmento
-  this.timelineContainers.splice(this.selectedIndex, 1);
-  
-  // Diminui a duração total da timeline em 5 minutos
-  this.videoDurationMs -= 300000; // 300.000 ms = 5 minutos
-
-  // ====================================================================
-  // CORREÇÃO: Reseta os marcadores de início e fim para os novos
-  // limites da timeline após a remoção de um trecho.
-  // ====================================================================
-  this.tempoInicialMs = 0;
-  this.tempoFinalMs = this.videoDurationMs;
-
-  // Limpa a seleção e fecha o modal
-  this.selectedIndex = null;
-  this.isWarningModalVisible = false;
-  
-  // Agora, ao recalcular, o layout usará a nova duração e os novos
-  // tempos dos marcadores, corrigindo a posição de tudo.
-  this.recalculateLayout(); 
-  
-  console.log('Trecho removido!');
-}
-
   handleModalClose(): void {
     this.isWarningModalVisible = false;
   }
 
   @HostListener('window:mouseup')
-onMouseUp(): void {
-  const wasDraggingSelection = !!this.dragging;
+  onMouseUp(): void {
+    const wasDraggingSelection = !!this.dragging;
 
-  if (this.draggingMarkerIndex !== null) {
-    this.generateTimeMarks();
-  }
-
-  this.dragging = null;
-  this.draggingMarkerIndex = null;
-
-  // NOVA LÓGICA PRINCIPAL
-  if (wasDraggingSelection) {
-    // Se o usuário estava arrastando um marcador, reseta o progresso para 0
-    if (this.videoPlayerRef) {
-      this.videoPlayerRef.nativeElement.currentTime = 0;
-      this.videoPlayerRef.nativeElement.pause(); // Garante que o vídeo fique pausado em 00:00
+    if (this.draggingMarkerIndex !== null) {
+      this.generateTimeMarks();
     }
-    this.tempoAtualMs = 0;
-    this.updateAllPositions(); // Atualiza a UI para refletir o tempo 0
-  } else {
-    // Mantém o comportamento antigo para outras ações (ex: clique simples fora dos marcadores)
-    this.adjustVideoPlayback();
+
+    this.dragging = null;
+    this.draggingMarkerIndex = null;
+
+    // NOVA LÓGICA PRINCIPAL
+    if (wasDraggingSelection) {
+      // Se o usuário estava arrastando um marcador, reseta o progresso para 0
+      if (this.videoPlayerRef) {
+        this.videoPlayerRef.nativeElement.currentTime = 0;
+        this.videoPlayerRef.nativeElement.pause(); // Garante que o vídeo fique pausado em 00:00
+      }
+      this.tempoAtualMs = 0;
+      this.updateAllPositions(); // Atualiza a UI para refletir o tempo 0
+    } else {
+      // Mantém o comportamento antigo para outras ações (ex: clique simples fora dos marcadores)
+      this.adjustVideoPlayback();
+    }
   }
-}
 
+  computeHandleBgClass(handle: 'inicio' | 'fim') {
+    const atLeft  = handle === 'inicio' && this.isAtLeftEdge();
+    const atRight = handle === 'fim'    && this.isAtRightEdge();
+    const moved   = handle === 'inicio' ? this.startMoved : this.endMoved;
 
-
-computeHandleBgClass(handle: 'inicio' | 'fim') {
-  const atLeft  = handle === 'inicio' && this.isAtLeftEdge();
-  const atRight = handle === 'fim'    && this.isAtRightEdge();
-  const moved   = handle === 'inicio' ? this.startMoved : this.endMoved;
-
-  if (atLeft || atRight) return { 'handle--black': true };
-  if (moved)             return { 'handle--yellow800': true };
-  return { 'handle--black': true };
-}
-
+    if (atLeft || atRight) return { 'handle--black': true };
+    if (moved)             return { 'handle--yellow800': true };
+    return { 'handle--black': true };
+  }
 
   // --- Eventos do Player e Timeline ---
+ // --- Eventos do Player e Timeline ---
+ // --- Eventos do Player e Timeline ---
   onMetadadosCarregados(event: Event): void {
     const video = event.target as HTMLVideoElement;
-    this.videoDurationMs = video.duration * 1000;
-    this.tempoInicialMs = 0;
-    this.tempoFinalMs = this.videoDurationMs;
+    
+    // 1. Armazena a duração REAL do arquivo de vídeo
+    this.realVideoDurationMs = video.duration * 1000;
+
+    // 2. FORÇA a timeline a começar com exatamente 1 bloco de 5 minutos
+    this.timelineContainers = [0]; 
+
+    // 3. Define a duração VIRTUAL da timeline (videoDurationMs) para 5 minutos
+    //    e reseta os tempos de início/fim para 0 e 5 minutos.
+    this.updateVirtualDuration(); 
+
+    // 4. Recalcula o layout (segmentWidth, marcadores de tempo)
     this.recalculateLayout();
+    
+    // 5. Atualiza a transcrição para mostrar apenas os primeiros 5 minutos
     this.updateDisplayedTranscript();
   }
 
   onPlay(): void {
-  this.isVideoPlaying = true;
-  if (this.videoPlayerRef) {
-    const video = this.videoPlayerRef.nativeElement;
-    const currentTimeMs = video.currentTime * 1000;
-    
-    // Verifica se o tempo atual está fora do intervalo selecionado
-    // (antes do início ou depois do fim)
-    if (currentTimeMs < this.tempoInicialMs || currentTimeMs >= this.tempoFinalMs) {
-      // Se estiver, move a agulha para o início da seleção antes de tocar
-      video.currentTime = this.tempoInicialMs / 1000;
+    this.isVideoPlaying = true;
+    if (this.videoPlayerRef) {
+      const video = this.videoPlayerRef.nativeElement;
+      const currentTimeMs = video.currentTime * 1000;
+      
+      // Verifica se o tempo atual está fora do intervalo selecionado
+      // (antes do início ou depois do fim)
+      if (currentTimeMs < this.tempoInicialMs || currentTimeMs >= this.tempoFinalMs) {
+        // Se estiver, move a agulha para o início da seleção antes de tocar
+        video.currentTime = this.tempoInicialMs / 1000;
+      }
     }
   }
-}
+
   onTempoAtualizado(event: Event): void {
     if (this.dragging || this.draggingMarkerIndex !== null) return;
     this.tempoAtualMs = (event.target as HTMLVideoElement).currentTime * 1000;
@@ -387,45 +393,43 @@ computeHandleBgClass(handle: 'inicio' | 'fim') {
   }
 
   iniciarArrasto(handle: 'inicio' | 'fim', event: MouseEvent): void {
-  event.stopPropagation();
-  this.dragging = handle;
-  this.draggingMarkerIndex = null;
-  this.selectedIndex = null;
+    event.stopPropagation();
+    this.dragging = handle;
+    this.draggingMarkerIndex = null;
+    this.selectedIndex = null;
 
-  // >>> ADIÇÃO: marcar como “movida”
-  if (handle === 'inicio') this.startMoved = true;
-  if (handle === 'fim') this.endMoved = true;
-}
+    // >>> ADIÇÃO: marcar como “movida”
+    if (handle === 'inicio') this.startMoved = true;
+    if (handle === 'fim') this.endMoved = true;
+  }
+
   iniciarArrastoMarcador(event: MouseEvent, index: number): void {
     event.stopPropagation();
     this.draggingMarkerIndex = index;
     this.dragging = null;
   }
-  
 
-  // Adicione esta função dentro da classe ClippingComponent
+  /**
+   * Verifica se um marcador de tempo específico está dentro do segmento da timeline
+   * que está atualmente selecionado.
+   * @param marker O objeto do marcador de tempo a ser verificado.
+   * @returns {boolean} True se o marcador estiver no segmento selecionado, senão false.
+   */
+  public isMarkerInSelectedSegment(marker: TimeMark): boolean {
+    // Se nenhum segmento estiver selecionado, não há o que fazer.
+    if (this.selectedIndex === null) {
+      return false;
+    }
 
-/**
-  * Verifica se um marcador de tempo específico está dentro do segmento da timeline
-  * que está atualmente selecionado.
-  * @param marker O objeto do marcador de tempo a ser verificado.
-  * @returns {boolean} True se o marcador estiver no segmento selecionado, senão false.
-  */
-public isMarkerInSelectedSegment(marker: TimeMark): boolean {
-  // Se nenhum segmento estiver selecionado, não há o que fazer.
-  if (this.selectedIndex === null) {
-    return false;
+    // Calcula o tempo de início e fim do segmento selecionado.
+    // Cada segmento tem 300.000 ms (5 minutos).
+    const segmentStartTimeMs = this.selectedIndex * 300000;
+    const segmentEndTimeMs = segmentStartTimeMs + 300000; // 5 minutos * 60.000 ms (corrigido para 5 min)
+
+    // Retorna true se o tempo do marcador estiver dentro do intervalo do segmento.
+    return marker.timeMs >= segmentStartTimeMs && marker.timeMs < segmentEndTimeMs;
   }
-
-  // Calcula o tempo de início e fim do segmento selecionado.
-  // Cada segmento tem 300.000 ms (5 minutos).
-  const segmentStartTimeMs = this.selectedIndex * 300000;
-  const segmentEndTimeMs = segmentStartTimeMs + 360000; // 6 minutos * 60.000 ms
-
-  // Retorna true se o tempo do marcador estiver dentro do intervalo do segmento.
-  return marker.timeMs >= segmentStartTimeMs && marker.timeMs <= segmentEndTimeMs;
-}
-  
+    
   // (Opcional) Você pode manter ou remover esta função se não quiser o clique duplo.
   definirMarcadorComoInicioOuFim(index: number): void {
     const markerTime = this.structuralMarkers[index].timeMs;
@@ -445,12 +449,33 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
     this.adjustVideoPlayback();
   }
 
-  // --- Lógica de Blocos da Timeline ---
-  addTimelineContainer(): void {
+addTimelineContainer(): void {
     this.timelineContainers.push(this.timelineContainers.length);
-    this.videoDurationMs += 300000;
+
+    // --- REMOVA ESTAS LINHAS ---
+    // this.videoDurationMs += 300000; 
+    // this.tempoFinalMs = this.videoDurationMs; 
+    
+    // --- ADICIONE ESTA LINHA ---
+    this.updateVirtualDuration(); 
+
     this.recalculateLayout();
     this.updateDisplayedTranscript();
+  }
+removeTimelineContainer(): void {
+    if (this.timelineContainers.length > 1) {
+      this.timelineContainers.pop();
+
+      // --- REMOVA ESTAS LINHAS ---
+      // this.videoDurationMs = Math.max(300000, this.videoDurationMs - 300000); 
+      // this.tempoFinalMs = this.videoDurationMs; 
+      
+      // --- ADICIONE ESTA LINHA ---
+      this.updateVirtualDuration(); 
+
+      this.recalculateLayout();
+      this.updateDisplayedTranscript();
+    }
   }
 
   selectContainer(index: number | null, event?: MouseEvent): void {
@@ -459,14 +484,15 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
     }
     if (this.selectedIndex === index) {
       this.selectedIndex = null;
-    this.isSelectionActive = false; // Adicione esta linh
+      this.isSelectionActive = false; // Adicione esta linha
     } else {
       this.selectedIndex = index;
-          this.isSelectionActive = true; // Adicione esta linha
+      this.isSelectionActive = true; // Adicione esta linha
 
       if (index !== null) {
-        const segmentStart = index * 300000;
-        const segmentEnd = Math.min((index + 1) * 300000, this.videoDurationMs);
+        const segmentDuration = 300000; // 5 minutos
+        const segmentStart = index * segmentDuration;
+        const segmentEnd = Math.min(segmentStart + segmentDuration, this.videoDurationMs);
         this.tempoInicialMs = segmentStart;
         this.tempoFinalMs = segmentEnd;
         this.updateAllPositions();
@@ -519,12 +545,34 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
     }
   }
 
-  checkPlaybackBounds(): void {
+ checkPlaybackBounds(): void {
     if (this.videoPlayerRef && this.tempoFinalMs > this.tempoInicialMs) {
       const video = this.videoPlayerRef.nativeElement;
-      if (this.tempoAtualMs >= this.tempoFinalMs) {
-        video.currentTime = this.tempoInicialMs / 1000;
-        video.play();
+      // Pega o fim real do ARQUIVO de vídeo
+      const realEndTimeMs = video.duration * 1000; 
+
+      let effectiveEndTimeMs: number;
+
+      if (this.isEffectiveSelection) {
+        // 1. Se for uma seleção customizada (ex: 1:00 a 1:30), 
+        //    o fim é o fim da SELEÇÃO.
+        effectiveEndTimeMs = this.tempoFinalMs;
+      } else {
+        // 2. Se a seleção for a timeline "cheia", 
+        //    o fim é o fim REAL do vídeo.
+        effectiveEndTimeMs = realEndTimeMs;
+      }
+
+      // Se o tempo atual for maior ou igual ao fim (e o fim é válido)
+      // Adicionamos uma pequena tolerância (500ms) para evitar loops estranhos
+      if (effectiveEndTimeMs > 0 && (this.tempoAtualMs >= effectiveEndTimeMs - 500)) {
+        
+        // Verifica se o tempo atual está "próximo" do fim, para evitar
+        // pular se o usuário clicar manualmente depois do fim.
+        if (Math.abs(this.tempoAtualMs - effectiveEndTimeMs) < 500) { 
+          video.currentTime = this.tempoInicialMs / 1000;
+          video.play();
+        }
       }
     }
   }
@@ -532,8 +580,9 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
   // --- Lógica da Transcrição e Busca ---
   updateDisplayedTranscript(): void {
     let items = [...this.fullTranscript];
-    if (this.tempoFinalMs > this.tempoInicialMs) {
-      items = items.filter(t => t.end >= this.tempoInicialMs && t.timestamp <= this.tempoFinalMs);
+    // Filtra a transcrição com base na seleção atual, mas respeita a duração virtual
+    if (this.hasSelection) {
+      items = items.filter(t => t.end > this.tempoInicialMs && t.timestamp < this.tempoFinalMs);
     }
     items = items.map((item, index) => {
       let textToDisplay: string | SafeHtml = item.originalText;
@@ -652,13 +701,10 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
   irParaTimestamp(tempoMs: number): void {
     if (this.videoPlayerRef && this.tempoInicialMs !== null && this.tempoFinalMs !== null) {
       const video = this.videoPlayerRef.nativeElement;
-      if (tempoMs >= this.tempoInicialMs && tempoMs <= this.tempoFinalMs) {
-        video.currentTime = tempoMs / 1000;
-        video.play();
-      } else {
-        video.currentTime = this.tempoInicialMs / 1000;
-        video.play();
-      }
+      // Clamp o timestamp à seleção atual
+      const clampedTime = Math.max(this.tempoInicialMs, Math.min(tempoMs, this.tempoFinalMs));
+      video.currentTime = clampedTime / 1000;
+      video.play();
     }
   }
   
@@ -685,24 +731,24 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
     return (positionPx / this.timelineWidthPx) * this.videoDurationMs;
   }
 
-  private generateTimeMarks(): void {
-    this.structuralMarkers = [];
-    if (this.videoDurationMs <= 0) return;
+private generateTimeMarks(): void {
+  this.structuralMarkers = [];
+  if (this.videoDurationMs <= 0) return;
 
-    const intervalMs = 60000;
-    const numMarks = Math.floor(this.videoDurationMs / intervalMs);
+  const intervalMs = 60000; // seu step atual (30s)
+  const numMarks = Math.floor(this.videoDurationMs / intervalMs);
 
-    for (let i = 0; i <= numMarks; i++) {
-      const timeMs = i * intervalMs;
-      if (timeMs > this.videoDurationMs) continue;
-
-      this.structuralMarkers.push({
-        label: this.formatTimestamp(timeMs),
-        left: `${this.calculatePositionFromTime(timeMs)}px`,
-        timeMs: timeMs
-      });
-    }
+  for (let i = 0; i < numMarks; i++) { // <<< troquei <= por <
+    const timeMs = i * intervalMs;
+    this.structuralMarkers.push({
+      label: this.formatTimestamp(timeMs),
+      left: `${this.calculatePositionFromTime(timeMs)}px`,
+      timeMs
+    });
   }
+}
+
+
 
   private updateSelectionLabels(): void {
     if (this.selectedIndex !== null) {
@@ -744,24 +790,56 @@ public isMarkerInSelectedSegment(marker: TimeMark): boolean {
   }
 
   get selectionStartPx(): number {
-  return this.calculatePositionFromTime(this.tempoInicialMs);
-}
-get selectionEndPx(): number {
-  return this.calculatePositionFromTime(this.tempoFinalMs);
-}
-get selectionProgressPx(): number {
-  // progresso CLAMPED dentro do intervalo selecionado
-  const clamped = Math.max(this.tempoInicialMs, Math.min(this.tempoAtualMs, this.tempoFinalMs));
-  return this.calculatePositionFromTime(clamped);
-}
-get playedWidthPx(): number {
-  return Math.max(0, this.selectionProgressPx - this.selectionStartPx);
-}
-get unplayedWidthPx(): number {
-  return Math.max(0, this.selectionEndPx - this.selectionProgressPx);
-}
-get isSelectionFullPlayed(): boolean {
-  return this.tempoAtualMs >= this.tempoFinalMs;
-}
+    return this.calculatePositionFromTime(this.tempoInicialMs);
+  }
 
+  get selectionEndPx(): number {
+    return this.calculatePositionFromTime(this.tempoFinalMs);
+  }
+
+  get selectionProgressPx(): number {
+    // progresso CLAMPED dentro do intervalo selecionado
+    const clamped = Math.max(this.tempoInicialMs, Math.min(this.tempoAtualMs, this.tempoFinalMs));
+    return this.calculatePositionFromTime(clamped);
+  }
+
+  get playedWidthPx(): number {
+    return Math.max(0, this.selectionProgressPx - this.selectionStartPx);
+  }
+
+  get unplayedWidthPx(): number {
+    return Math.max(0, this.selectionEndPx - this.selectionProgressPx);
+  }
+
+  get isSelectionFullPlayed(): boolean {
+    return this.tempoAtualMs >= this.tempoFinalMs;
+  }
+  /**
+   * Atualiza a duração virtual da timeline (videoDurationMs) para ser
+   * um múltiplo exato de 5 minutos, baseado no número de containers.
+   */
+  private updateVirtualDuration(): void {
+    const fiveMinutesMs = 300000;
+
+    // Garante que haja pelo menos 1 container (5 minutos)
+    if (this.timelineContainers.length === 0) {
+      // Se por algum motivo a lista estiver vazia, recria o primeiro.
+      // A função 'handleDeleteConfirm' já previne isso, mas é uma segurança.
+      // A 'removeTimelineContainer' também previne de zerar.
+      // Vamos garantir que a 'onMetadadosCarregados' crie pelo menos 1.
+      this.timelineContainers = [0];
+    }
+
+    // A duração total é SEMPRE o número de blocos * 5 minutos
+    this.videoDurationMs = this.timelineContainers.length * fiveMinutesMs;
+
+    // Reseta a seleção de tempo para os novos limites da timeline
+    this.tempoInicialMs = 0;
+    this.tempoFinalMs = this.videoDurationMs;
+
+    // Garante que a agulha (playhead) não fique fora dos limites
+    if (this.tempoAtualMs > this.videoDurationMs) {
+      this.tempoAtualMs = this.videoDurationMs;
+    }
+  }
 }
