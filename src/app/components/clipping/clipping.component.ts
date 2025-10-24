@@ -337,15 +337,36 @@ realVideoDurationMs = 0;         // <-- ADICIONE ESTA LINHA: Duração REAL do v
     }
   }
 
-  computeHandleBgClass(handle: 'inicio' | 'fim') {
-    const atLeft  = handle === 'inicio' && this.isAtLeftEdge();
-    const atRight = handle === 'fim'    && this.isAtRightEdge();
-    const moved   = handle === 'inicio' ? this.startMoved : this.endMoved;
+// Assumindo que você tem estas propriedades no seu componente:
+// tempoInicialMs: number;
+// tempoFinalMs: number;
+// videoDurationMs: number; // <--- Duração total do vídeo em milissegundos
 
-    if (atLeft || atRight) return { 'handle--black': true };
-    if (moved)             return { 'handle--yellow800': true };
-    return { 'handle--black': true };
+/**
+ * Retorna a classe de cor para o handle (marcador) com base em sua posição.
+ * Retorna 'handle--black' se estiver na extremidade (início ou fim).
+ * Retorna 'handle--yellow800' se estiver em qualquer outra posição.
+ */
+computeHandleBgClass(handleType: 'inicio' | 'fim'): string {
+
+  if (handleType === 'inicio') {
+    // 1. Verifica se o marcador INICIAL está na extremidade (0)
+    if (this.tempoInicialMs === 0) {
+      return 'handle--black';
+    }
+  } 
+  
+  if (handleType === 'fim') {
+    // 2. Verifica se o marcador FINAL está na extremidade (duração total)
+    //    Certifique-se que 'this.videoDurationMs' contém a duração total do vídeo em milissegundos.
+    if (this.tempoFinalMs === this.videoDurationMs) {
+      return 'handle--black';
+    }
   }
+
+  // 3. Se não estiver em nenhuma extremidade, volta para o amarelo
+  return 'handle--yellow800';
+}
 
   // --- Eventos do Player e Timeline ---
  // --- Eventos do Player e Timeline ---
@@ -842,4 +863,44 @@ private generateTimeMarks(): void {
       this.tempoAtualMs = this.videoDurationMs;
     }
   }
+
+  getTimelineBorderClass(): string {
+  // Verifica se o marcador inicial está em 0
+  const isStartAtEdge = (this.tempoInicialMs === 0);
+  
+  // Verifica se o marcador final está na duração total
+  const isEndAtEdge = (this.tempoFinalMs === this.videoDurationMs);
+
+  if (isStartAtEdge && isEndAtEdge) {
+    // Se AMBOS estão nas pontas, a borda fica preta
+    return 'timeline-border-black';
+  } else {
+    // Se QUALQUER um deles for movido, a borda fica amarela
+    return 'timeline-border-yellow';
+  }
+}
+
+// ... (no seu arquivo clipping.component.ts)
+
+/**
+ * Retorna as classes CSS corretas para um segmento da timeline base.
+ * Esta função é chamada pelo [ngClass] no *ngFor dos segmentos.
+ */
+getSegmentClass(index: number): any {
+
+  // 1. Se o usuário estiver com uma seleção ativa (puxou os marcadores)
+  if (this.isEffectiveSelection) {
+    // Aplica a classe que deixa o fundo cinza e sem borda.
+    return { 'timeline-segment-disabled': true };
+  }
+
+  // 2. Se não houver seleção, usa a lógica antiga:
+  //    (azul escuro se selecionado, azul claro se não selecionado)
+  return {
+    'bg-blue-600 border-blue-800': this.selectedIndex === index,
+    'bg-blue-600/20 border-blue-500/30': this.selectedIndex !== index
+  };
+}
+
+// ... (resto do seu código .ts)
 }

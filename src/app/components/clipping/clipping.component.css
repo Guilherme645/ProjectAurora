@@ -54,7 +54,6 @@
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
   background-color: #FAFAFC;
 }
 .main-content {
@@ -278,7 +277,7 @@
   width: 8px;
   height: 19px;
   top: 50%;
-  background: var(--timeline-handle-bg);
+  background-color: var(--timeline-handle-bg);
   cursor: ew-resize;
   z-index: 20;
   transform: translate(-50%, -50%);
@@ -332,10 +331,8 @@
   flex-grow: 1;
   overflow-y: auto;
   padding: 24px;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
 }
-.transcription-list::-webkit-scrollbar { display: none; }
 
 .transcription-item {
   padding: 12px;
@@ -412,12 +409,45 @@
 /* ==========================================================================
    PATCH: neutraliza azuis antigos
    ========================================================================== */
+/* ==========================================================================
+   PATCH: Define as cores da borda da timeline
+   ========================================================================== */
+
+/* Remove as classes de background azul do Tailwind */
 .timeline-container .bg-blue-600,
 .timeline-container .bg-blue-600\/20 {
   background: transparent !important;
+}
+
+/* ESTADO PADRÃO (E QUANDO MOVIDO): Borda Amarela
+   Esta classe é aplicada pelo getTimelineBorderClass() */
+.timeline-container.timeline-border-yellow .bg-blue-600,
+.timeline-container.timeline-border-yellow .bg-blue-600\/20 {
   border: 2px solid var(--selection-yellow-burnt) !important;
 }
-.timeline-container .border-blue-800,
-.timeline-container .border-blue-500\/30 {
+
+.timeline-container.timeline-border-yellow .border-blue-800,
+.timeline-container.timeline-border-yellow .border-blue-500\/30 {
   border-color: var(--selection-yellow-burnt) !important;
 }
+
+/* ESTADO DE EXTREMIDADE: Borda Preta (quando os marcadores estão em 0 e no fim)
+   Esta classe é aplicada pelo getTimelineBorderClass() */
+.timeline-container.timeline-border-black .bg-blue-600,
+.timeline-container.timeline-border-black .bg-blue-600\/20 {
+  border: 2px solid #000000 !important;
+}
+
+.timeline-container.timeline-border-black .border-blue-800,
+.timeline-container.timeline-border-black .border-blue-500\/30 {
+  border-color: #000000 !important;
+}
+
+.timeline-segment-disabled {
+  background-color: #D1D5DB !important; /* Tailwind gray-300 */
+  border-color: #D1D5DB !important;       /* Borda da mesma cor do fundo */
+}
+
+
+
+

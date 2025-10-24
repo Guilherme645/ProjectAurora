@@ -1,5 +1,4 @@
-<div class="w-full h-screen flex flex-col overflow-hidden clipping-container">
-  <!-- Warning Modal -->
+<div class="w-full min-h-screen flex flex-col clipping-container">  <!-- Warning Modal -->
   <app-modal
     [isVisible]="isWarningModalVisible"
     [title]="modalTitle"
@@ -19,8 +18,8 @@
     [(descricaoClipping)]="clippingData.descricao"
    [(descricaoClipping)]="clippingData.descricao"
   (sentimentoChange)="updateSentimento($event)"
-  class="basis-[10%] flex-shrink-0">
-  </app-header-clipping>
+class="flex-shrink-0">  </app-header-clipping>
+
 
   <!-- Save Modal -->
   <div *ngIf="isSaveModalVisible" class="fixed inset-0 z-50 flex items-center justify-center bg-red backdrop-blur-sm">
@@ -50,10 +49,10 @@
           <button (click)="removeTimelineContainer()" class="timeline-button">-5min</button>
           
           <div class="timeline-wrapper">
-            <div #containerTimeline 
-                 class="timeline-container" 
-                 [class.has-selection]="isEffectiveSelection"
-                 (click)="selectContainer(null)">
+           <div #containerTimeline 
+     class="timeline-container" 
+     [class.has-selection]="isEffectiveSelection"
+     [ngClass]="getTimelineBorderClass()"  (click)="selectContainer(null)">
               <!-- Played Range -->
               <div class="played-range"
                    [style.left.px]="posicaoInicioPx"
@@ -61,16 +60,12 @@
               </div>
 
               <!-- Timeline Containers -->
-              <div *ngFor="let container of timelineContainers; let i = index"
-                   class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
-                   [ngClass]="{
-                     'bg-blue-600 border-blue-800': selectedIndex === i,
-                     'bg-blue-600/20 border-blue-500/30': selectedIndex !== i
-                   }"
-                   [style.width.px]="segmentWidth"
-                   [style.left.px]="i * segmentWidth"
-                   (click)="selectContainer(i, $event)">
-              </div>
+            <div *ngFor="let container of timelineContainers; let i = index"
+               class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
+               [ngClass]="getSegmentClass(i)" [style.width.px]="segmentWidth"
+               [style.left.px]="i * segmentWidth"
+               (click)="selectContainer(i, $event)">
+          </div>
 
               <!-- Selection Highlight -->
               <div *ngIf="isEffectiveSelection"
