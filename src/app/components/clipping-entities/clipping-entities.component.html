@@ -3,41 +3,45 @@
   class=" bottom-5 right-0 w-[98%]  ml-6 bg-white rounded-tl-[8px] shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] p-6 flex flex-col"
 >
   <!-- Cabeçalho -->
-  <div class="flex justify-between items-start mb-6">
-    <div class="flex flex-col gap-1">
-      <h2 class="text-[18px] font-semibold tracking-tight text-black font-inter">Entidades</h2>
-      <span class="text-xs font-medium text-gray-500 font-inter">
-        {{ totalEntities }} entidades extraídas do texto
-      </span>
-    </div>
-    <div class="flex gap-2">
-      <!-- Botão para toggle de todas as categorias -->
-      <button
-        (click)="toggleHighlightAll()"
-        class="w-[46px] h-[46px] flex items-center justify-center rounded bg-gray-100 hover:bg-gray-200"
-        title="Destacar todas as categorias"
-      >
-        <svg
-          *ngIf="!highlightAllCategories"
-          class="w-4 h-4 text-gray-500"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <svg
-          *ngIf="highlightAllCategories"
-          class="w-4 h-4 text-gray-500"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
+<!-- Cabeçalho -->
+<div class="flex justify-between items-start mb-6">
+  <div class="flex flex-col gap-1">
+    <h2 class="text-[18px] font-semibold tracking-tight text-black font-inter">Entidades</h2>
+    <span class="text-xs font-medium text-gray-500 font-inter">
+      {{ totalEntities }} entidades extraídas do texto
+    </span>
   </div>
+
+  <!-- Switch: Destacar todas as categorias -->
+  <label
+    for="toggle-highlight-all"
+    class="flex items-center gap-3 select-none"
+    title="Destacar todas as categorias"
+  >
+    <!-- Texto -->
+    <span class="font-inter text-[14px] leading-[20px] font-medium tracking-[-0.01em] text-[#404040]">
+      Destacar todas as categorias
+    </span>
+
+    <!-- Track + Knob -->
+    <span class="relative inline-flex w-[50px] h-[28px] items-center rounded-full p-[2px]"
+          [ngClass]="highlightAllCategories ? 'bg-[#2563eb]' : 'bg-[#F3F4F6]'">
+    <input
+  id="toggle-highlight-all"
+  type="checkbox"
+  class="sr-only"
+  [checked]="highlightAllCategories"
+  (click)="toggleHighlightAll()"
+  role="switch"
+  [attr.aria-checked]="highlightAllCategories"
+/>
+      <!-- Knob -->
+      <span class="h-[24px] w-[24px] rounded-full bg-white shadow-[0_1px_2px_rgba(0,0,0,0.10),0_1px_1px_rgba(0,0,0,0.06)] transform transition-transform duration-300"
+            [ngClass]="highlightAllCategories ? 'translate-x-[22px]' : 'translate-x-0'"></span>
+    </span>
+  </label>
+</div>
+
 
   <!-- Campo de busca -->
   <div *ngIf="isSearchVisible" class="mb-6">

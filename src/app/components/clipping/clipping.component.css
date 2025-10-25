@@ -185,7 +185,7 @@
   top: 0;
   height: 100%;
   color: #000000;
-  background: var(--brand-blue-main); /* Preenche com o amarelo claro */
+  background: #FDE047; /* Preenche com o amarelo claro */
   border-top: 2px solid var(--selection-yellow-burnt);
   border-bottom: 2px solid var(--selection-yellow-burnt);
   border-left: 2px solid var(--selection-yellow-burnt);
@@ -212,7 +212,7 @@
 
 /* Quando o vídeo estiver tocando dentro da seleção */
 .selection-range.playing {
-  background: var(--selection-yellow-strong);       /* amarelo mais forte */
+  background:  var(--selection-yellow);       /* amarelo mais forte */
 }
 
 /* Segmento selecionado (pinta bloco inteiro) */
@@ -357,8 +357,8 @@
 .transcription-item.played .text-content {
   color: #464646; /* Branco/Claro */
 }
-.transcription-item.playing { background-color: var(--transcription-playing-bg); }
-.transcription-item.selected { background: var(--selection-yellow); }
+.transcription-item.playing { background-color:#FEF9C3; }
+.transcription-item.selected { background:#FEF9C3; }
 
 .transcription-item .timestamp {
   font-size: 12px;
