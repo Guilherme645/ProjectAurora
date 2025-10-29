@@ -49,10 +49,13 @@ class="flex-shrink-0">  </app-header-clipping>
           <button (click)="removeTimelineContainer()" class="timeline-button">-5min</button>
           
           <div class="timeline-wrapper">
+            
            <div #containerTimeline 
      class="timeline-container" 
      [class.has-selection]="isEffectiveSelection"
      [ngClass]="getTimelineBorderClass()"  (click)="selectContainer(null)">
+     
+
               <!-- Played Range -->
               <div class="played-range"
                    [style.left.px]="posicaoInicioPx"
@@ -60,11 +63,11 @@ class="flex-shrink-0">  </app-header-clipping>
               </div>
 
               <!-- Timeline Containers -->
-            <div *ngFor="let container of timelineContainers; let i = index"
+<div *ngFor="let container of timelineContainers; let i = index"
                class="absolute top-0 h-full rounded-md transition-colors duration-200 cursor-pointer"
                [ngClass]="getSegmentClass(i)" [style.width.px]="segmentWidth"
                [style.left.px]="i * segmentWidth"
-               (click)="selectContainer(i, $event)">
+               (click)="isEffectiveSelection ? null : selectContainer(i, $event)">
           </div>
 
               <!-- Selection Highlight -->
@@ -95,7 +98,7 @@ class="flex-shrink-0">  </app-header-clipping>
               </div>
 
               <!-- Start Handle -->
-              <div *ngIf="selectedIndex === null"
+              <div 
                    class="handle start-handle flex items-center justify-center"
                    [style.left.px]="posicaoInicioPx"
                    [ngClass]="computeHandleBgClass('inicio')"
@@ -108,7 +111,7 @@ class="flex-shrink-0">  </app-header-clipping>
               </div>
 
               <!-- End Handle -->
-              <div *ngIf="selectedIndex === null"
+              <div 
                    class="handle end-handle flex items-center justify-center"
                    [style.left.px]="posicaoFimPx"
                    [ngClass]="computeHandleBgClass('fim')"

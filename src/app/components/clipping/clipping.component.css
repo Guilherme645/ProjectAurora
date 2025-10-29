@@ -50,11 +50,12 @@
 .clipping-container, .main-content, .player-column, .transcription-column { box-sizing: border-box; }
 
 .clipping-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  background-color: #FAFAFC;
+  /* Remove a altura fixa (100vh) e o layout flex.
+    Isso permite que o container cresça e a PÁGINA role.
+  */
+  height: auto;
+  min-height: 100vh;
+  display: block; /* Anula o 'display: flex' do HTML */
 }
 .main-content {
   display: flex;
@@ -92,16 +93,30 @@
 }
 
 .transcription-column {
-  flex: 1;
-  max-width: 538px;
-  display: flex;
-  flex-direction: column;
-  margin-top: 12px;
-  background-color: white;
+  /* * ESTA É A NOVA CORREÇÃO:
+   * Remove o 'flex: 1' para que a coluna NÃO cresça.
+  */
+  flex: none; 
+  
+  /* * Define uma LARGURA FIXA. 
+   * O seu CSS original tinha 'max-width: 538px', então vamos usá-lo.
+  */
+  width: 538px;
+  
+  /* Remove a margem, pois o 'gap' no .main-content já cuida disso */
+  margin-top: 0; 
+  
+  /* (Da correção anterior) FAZ A COLUNA SER 'STICKY' */
+  position: sticky;
+  top: 24px; 
+  
+  /* (Da correção anterior) Define uma altura para a rolagem interna */
+  height: 52%;
+    background-color: white;
   border-radius: 8px;
   box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.05);
+  
 }
-
 /* ==========================================================================
    TIMELINE
    ========================================================================== */
@@ -451,3 +466,15 @@
 
 
 
+.timeline-seek-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  cursor: pointer;
+  pointer-events: none; /* desativado por padrão */
+  border-radius: 4px;
+}
+
+.timeline-seek-overlay.active {
+  pointer-events: auto; /* ativado só quando bloco selecionado */
+}

@@ -41,7 +41,11 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   @ViewChild('containerTimeline') timelineContainerRef!: ElementRef<HTMLElement>;
   @ViewChild('listaTranscricao') transcriptionListContainer!: ElementRef<HTMLElement>;
   @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
+  @ViewChild('seekTooltip') seekTooltipRef!: ElementRef<HTMLElement>;
 
+showSeekTooltip = false;
+seekTooltipX = 0;
+seekTooltipTime = '00:00';
   isSelectionActive = false;
   // --- Propriedades auxiliares ---
   startMoved = false; // alça esquerda já foi movimentada
@@ -154,6 +158,9 @@ realVideoDurationMs = 0;         // <-- ADICIONE ESTA LINHA: Duração REAL do v
     this.ultimaPosicaoScroll = scrollTop;
   }
 
+
+
+  
   isFullSelectionPlayed(): boolean {
     return false;
   }
