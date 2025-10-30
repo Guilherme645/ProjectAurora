@@ -1,5 +1,7 @@
+import { DragConstrainPosition } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { debounce, Subscription } from 'rxjs';
 import transcriptData from 'src/assets/transcricao_completa.json';
 
 // --- Interfaces ---
@@ -8,6 +10,13 @@ interface TranscriptEntry {
   end: number;
   text: string | SafeHtml;
   originalText: string;
+}
+
+interface Entities {
+  datas: string[];
+  lugares: string[];
+  pessoas: string[];
+  organizacoes: string[];
 }
 
 interface TimeMark {
@@ -42,11 +51,26 @@ export class ClippingComponent implements OnInit, AfterViewInit {
   @ViewChild('listaTranscricao') transcriptionListContainer!: ElementRef<HTMLElement>;
   @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
   @ViewChild('seekTooltip') seekTooltipRef!: ElementRef<HTMLElement>;
-
+@ViewChild('playerRef') playerRef!: ElementRef;
 showSeekTooltip = false;
 seekTooltipX = 0;
 seekTooltipTime = '00:00';
   isSelectionActive = false;
+  // --- Player-Specific Properties ---
+isFloating = false;
+isPlaying = false;
+posterImage = 'assets/ultimato.png'; // Ajuste se necessário
+videoDescription: string = '';
+
+showDates: boolean = true;
+showPlaces: boolean = true;
+showPeople: boolean = true;
+showOrganizations: boolean = true;
+highlightedDescription: string = '';
+errorMessage: string | null = null;
+private subscriptions = new Subscription();
+isMobile: boolean = false;
+showEntitiesDrawer: boolean = false;
   // --- Propriedades auxiliares ---
   startMoved = false; // alça esquerda já foi movimentada
   endMoved = false;   // alça direita já foi movimentada
@@ -143,6 +167,23 @@ realVideoDurationMs = 0;         // <-- ADICIONE ESTA LINHA: Duração REAL do v
     this.timelineWidthPx = this.timelineContainerRef?.nativeElement?.clientWidth || this.timelineWidthPx;
     this.recalculateLayout();
   }
+
+togglePlay(): void {
+  if (!this.videoPlayerRef || !this.videoPlayerRef.nativeElement) {
+    console.warn('videoPlayer não está disponível para reprodução.');
+    return;
+  }
+  const video: HTMLVideoElement = this.videoPlayerRef.nativeElement;
+  if (this.isPlaying) {
+    video.pause();
+  } else {
+    video.play().catch(error => {
+      console.error('Erro ao reproduzir o vídeo:', error);
+      this.errorMessage = 'Erro ao reproduzir o vídeo. Tente novamente.';
+    });
+  }
+  this.isPlaying = !this.isPlaying;
+}
 
   onTranscriptionScroll(event: Event): void {
     const scrollTop = (event.target as HTMLElement).scrollTop;
@@ -908,6 +949,86 @@ getSegmentClass(index: number): any {
     'bg-blue-600/20 border-blue-500/30': this.selectedIndex !== index
   };
 }
+/**
+   * Manipula o clique no container principal da timeline.
+   * Esta função agora SEMPRE navega o vídeo para o ponto clicado.
+   *
+   * A lógica de "selecionar um bloco" é tratada pelo clique no próprio
+   * segmento (div *ngFor), que chama event.stopPropagation() e impede
+   * que este clique no "pai" (o container) seja executado.
+   */
+ /**
+   * Manipula o clique no container principal da timeline (SINGLE CLICK).
+   * Esta função agora SEMPRE navega o vídeo para o ponto clicado.
+   */
+// ... (resto do TS permanece igual, exceto a modificação abaixo na função onTimelineClick)
 
-// ... (resto do seu código .ts)
+ /**
+   * Manipula o clique no container principal da timeline (SINGLE CLICK).
+   * Esta função navega o vídeo para o ponto clicado,
+   * MAS SÓ SE:
+   * - Não houver seleção ativa (seleciona em qualquer lugar), OU
+   * - Houver seleção ativa E o clique for DENTRO da área demarcada (amarela).
+   */
+  public onTimelineClick(event: MouseEvent): void {
+    
+    // 1. Ignora o clique se o usuário estiver arrastando um handle
+    if (this.dragging) {
+      return;
+    }
+
+    // 2. Pega a posição X do mouse relativa à timeline
+    const rect = this.timelineContainerRef.nativeElement.getBoundingClientRect();
+    const mouseX = Math.max(0, Math.min(event.clientX - rect.left, this.timelineWidthPx));
+
+    // 3. Converte a posição X para tempo em milissegundos
+    const clickedTimeMs = this.calculateTimeFromPosition(mouseX);
+
+    // >>> ADIÇÃO: Regra para permitir cliques SÓ na área demarcada
+    let allowClick = true;
+    if (this.isEffectiveSelection) {
+      // Se houver seleção, verifica se o clique está DENTRO do intervalo [tempoInicialMs, tempoFinalMs)
+      allowClick = clickedTimeMs >= this.tempoInicialMs && clickedTimeMs < this.tempoFinalMs;
+    }
+
+    if (!allowClick) {
+      return; // Ignora o clique se fora da área demarcada
+    }
+
+    // 4. Atualiza o player de vídeo
+    if (this.videoPlayerRef) {
+      this.videoPlayerRef.nativeElement.currentTime = clickedTimeMs / 1000;
+    }
+
+    // 5. Atualiza o estado interno e a posição do playhead
+    this.tempoAtualMs = clickedTimeMs;
+    this.updateAllPositions(); // Isso move o playhead visualmente
+  }
+// Adicione estas duas funções ao seu clipping.component.ts
+
+/**
+ * Chamada quando o mouse se move sobre a timeline.
+ * Atualiza a posição e o texto do tooltip de hover.
+ */
+public onTimelineHover(event: MouseEvent): void {
+  // 1. Calcula a posição X do mouse dentro da timeline
+  const rect = this.timelineContainerRef.nativeElement.getBoundingClientRect();
+  const mouseX = Math.max(0, Math.min(event.clientX - rect.left, this.timelineWidthPx));
+  
+  // 2. Converte a posição X em tempo (ms)
+  const hoverTimeMs = this.calculateTimeFromPosition(mouseX);
+
+  // 3. Atualiza as propriedades que controlam o tooltip
+  this.seekTooltipTime = this.formatTimestamp(hoverTimeMs);
+  this.seekTooltipX = mouseX;
+  this.showSeekTooltip = true; // Garante que ele apareça
+}
+
+/**
+ * Chamada quando o mouse sai da área da timeline.
+ * Esconde o tooltip de hover.
+ */
+public onTimelineLeave(): void {
+  this.showSeekTooltip = false;
+}
 }
