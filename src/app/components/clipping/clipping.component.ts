@@ -58,6 +58,7 @@ seekTooltipTime = '00:00';
   isSelectionActive = false;
   // --- Player-Specific Properties ---
 isFloating = false;
+hasExtended: boolean = false;
 isPlaying = false;
 posterImage = 'assets/ultimato.png'; // Ajuste se necessário
 videoDescription: string = '';
@@ -108,7 +109,7 @@ showEntitiesDrawer: boolean = false;
   tempoAtualMs = 0;
   tempoInicialMs = 0;
   tempoFinalMs = 0;
-
+expansionSide: 'none' | 'left' | 'right' = 'none';
   // MODIFICAÇÃO AQUI: Nova propriedade para rastrear se o vídeo está tocando
   isVideoPlaying: boolean = false;
 
@@ -169,21 +170,33 @@ realVideoDurationMs = 0;         // <-- ADICIONE ESTA LINHA: Duração REAL do v
   }
 
 togglePlay(): void {
-  if (!this.videoPlayerRef || !this.videoPlayerRef.nativeElement) {
-    console.warn('videoPlayer não está disponível para reprodução.');
-    return;
+    if (!this.videoPlayerRef || !this.videoPlayerRef.nativeElement) {
+      return;
+    }
+    const video: HTMLVideoElement = this.videoPlayerRef.nativeElement;
+    
+    if (video.paused) {
+      video.play().catch(err => console.error(err));
+      // O evento (play) vai disparar e setar isVideoPlaying = true
+    } else {
+      video.pause();
+      // O evento (pause) vai disparar e setar isVideoPlaying = false
+    }
   }
-  const video: HTMLVideoElement = this.videoPlayerRef.nativeElement;
-  if (this.isPlaying) {
-    video.pause();
-  } else {
-    video.play().catch(error => {
-      console.error('Erro ao reproduzir o vídeo:', error);
-      this.errorMessage = 'Erro ao reproduzir o vídeo. Tente novamente.';
-    });
+
+  // 3. Mantenha o onPlay como estava, apenas garantindo que ele sete true
+  onPlay(): void {
+    this.isVideoPlaying = true;
+    
+    // ... (sua lógica existente de verificar limites de tempo continua aqui) ...
+    if (this.videoPlayerRef) {
+      const video = this.videoPlayerRef.nativeElement;
+      const currentTimeMs = video.currentTime * 1000;
+      if (currentTimeMs < this.tempoInicialMs || currentTimeMs >= this.tempoFinalMs) {
+        video.currentTime = this.tempoInicialMs / 1000;
+      }
+    }
   }
-  this.isPlaying = !this.isPlaying;
-}
 
   onTranscriptionScroll(event: Event): void {
     const scrollTop = (event.target as HTMLElement).scrollTop;
@@ -266,6 +279,11 @@ togglePlay(): void {
     return (this.timelineWidthPx - this.posicaoFimPx) <= this.edgeThreshold;
   }
 
+// 1. NOVO MÉTODO: Garante que o ícone mude quando pausar
+  onPause(): void {
+    this.isVideoPlaying = false;
+  }
+
   @HostListener('window:mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (!this.dragging && this.draggingMarkerIndex === null) return;
@@ -328,32 +346,23 @@ togglePlay(): void {
     this.isWarningModalVisible = true;
   }
 
- handleDeleteConfirm(): void {
-    if (this.selectedIndex === null) {
-      return;
-    }
+handleDeleteConfirm(): void {
+    if (this.selectedIndex === null) return;
 
-    // Remove o container visual do segmento
     this.timelineContainers.splice(this.selectedIndex, 1);
     
-    // --- REMOVA ESTA LINHA ---
-    // this.videoDurationMs -= 300000; 
+    // SE SOBROU APENAS 1 BLOCO, RESETA TUDO
+    if (this.timelineContainers.length === 1) {
+      this.expansionSide = 'none';
+    }
+    // Nota: Se sobraram 2 ou mais blocos, mantemos o 'expansionSide' atual
+    // para continuar bloqueando o lado oposto.
 
-    // --- REMOVA ESTAS LINHAS ---
-    // this.tempoInicialMs = 0;
-    // this.tempoFinalMs = this.videoDurationMs;
-
-    // --- ADICIONE ESTA LINHA ---
-    // Recalcula a duração com base nos containers restantes e reseta os tempos
     this.updateVirtualDuration();
-
-    // Limpa a seleção e fecha o modal
     this.selectedIndex = null;
     this.isWarningModalVisible = false;
-    
     this.recalculateLayout(); 
-    
-    console.log('Trecho removido!');
+    this.updateDisplayedTranscript();
   }
   handleModalClose(): void {
     this.isWarningModalVisible = false;
@@ -370,17 +379,27 @@ togglePlay(): void {
     this.dragging = null;
     this.draggingMarkerIndex = null;
 
-    // NOVA LÓGICA PRINCIPAL
     if (wasDraggingSelection) {
-      // Se o usuário estava arrastando um marcador, reseta o progresso para 0
-      if (this.videoPlayerRef) {
+      // --- CORREÇÃO AQUI ---
+      
+      // ANTES: O código forçava voltar para 0
+      /* if (this.videoPlayerRef) {
         this.videoPlayerRef.nativeElement.currentTime = 0;
-        this.videoPlayerRef.nativeElement.pause(); // Garante que o vídeo fique pausado em 00:00
+        this.videoPlayerRef.nativeElement.pause();
       }
       this.tempoAtualMs = 0;
-      this.updateAllPositions(); // Atualiza a UI para refletir o tempo 0
+      */
+
+      // AGORA: Mantemos o tempo onde ele está
+      if (this.videoPlayerRef) {
+        // Apenas sincronizamos a variável interna com a posição real do vídeo
+        // caso o vídeo estivesse tocando enquanto você arrastava
+        this.tempoAtualMs = this.videoPlayerRef.nativeElement.currentTime * 1000;
+      }
+      
+      this.updateAllPositions(); // Atualiza a UI visualmente
     } else {
-      // Mantém o comportamento antigo para outras ações (ex: clique simples fora dos marcadores)
+      // Mantém o comportamento para outros cliques
       this.adjustVideoPlayback();
     }
   }
@@ -416,43 +435,22 @@ computeHandleBgClass(handleType: 'inicio' | 'fim'): string {
   return 'handle--yellow800';
 }
 
-  // --- Eventos do Player e Timeline ---
- // --- Eventos do Player e Timeline ---
- // --- Eventos do Player e Timeline ---
+// 2. Atualize o carregamento de metadados para resetar o estado
   onMetadadosCarregados(event: Event): void {
     const video = event.target as HTMLVideoElement;
-    
-    // 1. Armazena a duração REAL do arquivo de vídeo
     this.realVideoDurationMs = video.duration * 1000;
-
-    // 2. FORÇA a timeline a começar com exatamente 1 bloco de 5 minutos
-    this.timelineContainers = [0]; 
-
-    // 3. Define a duração VIRTUAL da timeline (videoDurationMs) para 5 minutos
-    //    e reseta os tempos de início/fim para 0 e 5 minutos.
-    this.updateVirtualDuration(); 
-
-    // 4. Recalcula o layout (segmentWidth, marcadores de tempo)
-    this.recalculateLayout();
     
-    // 5. Atualiza a transcrição para mostrar apenas os primeiros 5 minutos
+    this.timelineContainers = [0]; 
+    
+    // RESET: Começa sem nenhum lado escolhido
+    this.expansionSide = 'none'; 
+
+    this.updateVirtualDuration(); 
+    this.recalculateLayout();
     this.updateDisplayedTranscript();
   }
 
-  onPlay(): void {
-    this.isVideoPlaying = true;
-    if (this.videoPlayerRef) {
-      const video = this.videoPlayerRef.nativeElement;
-      const currentTimeMs = video.currentTime * 1000;
-      
-      // Verifica se o tempo atual está fora do intervalo selecionado
-      // (antes do início ou depois do fim)
-      if (currentTimeMs < this.tempoInicialMs || currentTimeMs >= this.tempoFinalMs) {
-        // Se estiver, move a agulha para o início da seleção antes de tocar
-        video.currentTime = this.tempoInicialMs / 1000;
-      }
-    }
-  }
+ 
 
   onTempoAtualizado(event: Event): void {
     if (this.dragging || this.draggingMarkerIndex !== null) return;
@@ -1031,4 +1029,38 @@ public onTimelineHover(event: MouseEvent): void {
 public onTimelineLeave(): void {
   this.showSeekTooltip = false;
 }
+// 3. Atualize a função da Esquerda
+  extendTimelineLeft(): void {
+    // Se o lado direito já foi escolhido, não faz nada
+    if (this.expansionSide === 'right') return;
+
+    this.timelineContainers.unshift(Date.now());
+    
+    // Define que o lado ESQUERDO domina
+    this.expansionSide = 'left';
+
+    this.applyExtensionLogic();
+  }
+
+  extendTimelineRight(): void {
+    // Se o lado esquerdo já foi escolhido, não faz nada
+    if (this.expansionSide === 'left') return;
+
+    this.timelineContainers.push(Date.now());
+
+    // Define que o lado DIREITO domina
+    this.expansionSide = 'right';
+
+    this.applyExtensionLogic();
+  }
+
+  // Função auxiliar (pode manter ou criar se não tiver)
+  private applyExtensionLogic(): void {
+    this.updateVirtualDuration();
+    this.recalculateLayout();
+    this.updateDisplayedTranscript();
+  }
+
+ 
+
 }

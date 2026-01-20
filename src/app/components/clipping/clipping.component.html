@@ -11,13 +11,13 @@
     (close)="handleModalClose()"
   ></app-modal>
   <!-- Header -->
-  <app-header-clipping
+ <app-header-clipping
     *ngIf="headerVisivel"
+    class="relative z-50 block" 
     (saveClicked)="openSaveModal()"
     [(tituloMencao)]="clippingData.titulo"
     [(descricaoClipping)]="clippingData.descricao"
     (sentimentoChange)="updateSentimento($event)"
-    class="flex-shrink-0"
   ></app-header-clipping>
   <!-- Save Modal -->
   <div
@@ -30,29 +30,47 @@
     ></app-save-clipping-modal>
   </div>
   <!-- Main Content -->
-  <div class="main-content">
-    <!-- Player Column -->
+<div class="main-content relative z-0">    <!-- Player Column -->
     <div class="player-column">
       <!-- Timeline Box with Video Player -->
-      <div class="timeline-box">
-      <video #playerVideo 
-       class="video-player"
-       (click)="togglePlay()" 
-       (loadedmetadata)="onMetadadosCarregados($event)" 
-       (timeupdate)="onTempoAtualizado($event)"
-       (play)="onPlay()"
-       [poster]="posterImage">
-          <source src="assets/video.mp4" type="video/mp4" />
-          Seu navegador não suporta o elemento de vídeo.
-        </video>
-        <!-- Timeline Controls -->
-        <div class="timeline-controls-container">
+  
+<div class="timeline-box">
+
+  <div class="relative w-full group rounded-2xl overflow-hidden shadow-lg border border-gray-900 bg-black">
+    
+    <video #playerVideo 
+      class="video-player w-full h-auto block"
+      (click)="togglePlay()" 
+      (loadedmetadata)="onMetadadosCarregados($event)" 
+      (timeupdate)="onTempoAtualizado($event)"
+      (play)="onPlay()"       
+      (pause)="onPause()"     
+      [poster]="posterImage">
+        <source src="assets/video.mp4" type="video/mp4" />
+        Seu navegador não suporta o elemento de vídeo.
+    </video>
+
+    <div class="absolute bottom-4 left-4 z-20 pointer-events-none transition-opacity duration-300">
+      <div class="flex items-center justify-center w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm text-white shadow-sm border border-white/10">
+        <svg *ngIf="isVideoPlaying" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-0.5">
+          <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+        </svg>
+        <svg *ngIf="!isVideoPlaying" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 01.75-.75H9a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H7.5a.75.75 0 01-.75-.75V5.25zm7.5 0A.75.75 0 0115 4.5h1.5a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H15a.75.75 0 01-.75-.75V5.25z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+
+  </div>
+  <div class="timeline-controls-container">
+          
           <button
-            (click)="removeTimelineContainer()"
-            class="timeline-button"
-          >
-            -5min
-          </button>
+    (click)="extendTimelineLeft()"
+    [disabled]="expansionSide === 'right'"
+    class="timeline-button disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    +5min
+  </button>
           <div class="timeline-wrapper">
             <div
               #containerTimeline
@@ -170,12 +188,13 @@
               </div>
             </div>
           </div>
-          <button
-            (click)="addTimelineContainer()"
-            class="timeline-button"
-          >
-            +5min
-          </button>
+     <button
+    (click)="extendTimelineRight()"
+    [disabled]="expansionSide === 'left'"
+    class="timeline-button disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    +5min
+  </button>
         </div>
       </div>
       <!-- Entities Placeholder -->

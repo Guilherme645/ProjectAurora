@@ -1,0 +1,159 @@
+<!-- Header (mantido igual ao anterior) -->
+<header class="bg-white shadow-lg sticky top-0 z-50">
+  <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Logo/Título -->
+    <div class="flex items-center space-x-2">
+      <button id="sidebar-toggle" class="lg:hidden p-2 rounded-md hover:bg-gray-100" (click)="toggleSidebar()">
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      <h1 class="text-xl font-bold text-gray-800"></h1>
+    </div>
+    
+    <!-- Dropdown Usuário (mantido) -->
+    <div class="relative">
+      <button class="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none" (click)="toggleDropdown()">
+        <span>Usuário</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+      <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden" id="user-dropdown">
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sair</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Layout Principal (mantido igual) -->
+<div class="flex min-h-screen bg-gray-100">
+  <!-- Sidebar (mantido igual) -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-in-out overflow-y-auto">
+    <div class="py-6 px-4">
+      <h2 class="text-lg font-semibold text-gray-800 mb-6">Menu</h2>
+      <nav class="space-y-2">
+        <a href="#" class="flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-700">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          Dashboard
+        </a>
+        <a href="#" class="flex items-center px-3 py-2 text-blue-600 bg-blue-50 rounded-lg">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+          Gráficos
+        </a>
+        <a href="#" class="flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-700">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          Configurações
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Overlay para Mobile (mantido) -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden" (click)="toggleSidebar()"></div>
+
+  <!-- Main Content (mantido, com botão e cards) -->
+  <main class="flex-1 lg:ml-64 p-6 overflow-y-auto">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Botão Atualizar (mantido) -->
+      <div class="mb-4">
+        <button 
+          type="button" 
+          class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          (click)="createChart()">
+          Atualizar Gráfico
+        </button>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-md p-6 relative flex flex-col lg:flex-row gap-6">
+        
+        <!-- Card de Estatística (mantido, com total 436 no screenshot – soma dos dados é 436 sim!) -->
+        <div class="w-full lg:w-1/4">
+          <div class="bg-gray-50 dark:bg-neutral-800 rounded-xl border border-gray-200 dark:border-neutral-700 p-6">
+            <div class="flex items-center">
+              <span class="text-sm font-semibold text-gray-500 dark:text-neutral-400 tracking-wide uppercase">Total Unidades</span>
+            </div>
+            <div class="flex items-center justify-between mt-4">
+              <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ getTotalValor() }}</span>
+              <div class="p-2.5 bg-blue-100 dark:bg-blue-900 rounded-full">
+                <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card Principal com Gráfico (mantido) -->
+        <div class="flex-1">
+          <h2 class="text-lg font-semibold text-gray-700 mb-1">
+            Gráfico Customizado (D3.js)
+          </h2>
+          <p class="text-sm text-gray-500 mb-4">
+            Renderizado com D3.js, estilizado com tokens do Figma (via CSS).
+          </p>
+          
+          <!-- Container para o D3.js -->
+          <div id="chart-container" class="mb-4"></div>
+        </div>
+      </div>
+      
+      <!-- Alerta de Informação (mantido, azul como no screenshot) -->
+      <div class="mt-6">
+        <div class="flex items-start p-4 border border-blue-200 rounded-lg bg-blue-50 dark:bg-blue-900 dark:border-blue-800" id="alert-info">
+          <div class="flex-shrink-0">
+            <svg class="flex-shrink-0 w-4 h-4 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="ms-3">
+            <p class="text-sm font-medium text-blue-800 dark:text-blue-400">
+              Dica: Passe o mouse nas barras para ver detalhes!
+            </p>
+            <!-- Botão de dismiss (Preline JS ou manual) -->
+            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-0 p-1.5 hover:bg-blue-100 inline-flex items-center justify-center h-8 w-8 dark:bg-blue-900 dark:text-blue-400 dark:hover:bg-blue-800" (click)="dismissAlert()">
+              <span class="sr-only">Dismiss</span>
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Footer (mantido igual) -->
+<footer class="bg-white border-t border-gray-200 mt-auto">
+  <div class="container mx-auto px-4 py-6">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <p class="text-sm text-gray-500 mb-4 md:mb-0">&copy; 2025 Project Aurora. Todos os direitos reservados.</p>
+      <div class="flex space-x-4">
+        <a href="#" class="text-sm text-gray-500 hover:text-gray-700">Privacidade</a>
+        <a href="#" class="text-sm text-gray-500 hover:text-gray-700">Termos</a>
+        <a href="#" class="text-sm text-gray-500 hover:text-gray-700">Suporte</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Tooltip das Barras (agora com estilo azul claro para matchar o design) -->
+<div 
+  id="chart-tooltip" 
+  class="absolute p-3 bg-blue-50 text-blue-800 text-xs rounded-lg shadow-lg border border-blue-200
+         opacity-0 invisible pointer-events-none z-50 max-w-xs whitespace-nowrap"
+  style="transition: opacity 0.2s ease-in-out;">
+  <!-- Conteúdo injetado pelo D3: ex. <strong>Mar</strong>: 80 unidades -->
+</div>

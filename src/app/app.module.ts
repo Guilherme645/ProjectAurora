@@ -87,6 +87,7 @@ import { VeichlesTableComponent } from './components/veichles-table/veichles-tab
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Adicione esta linha
 import { BaseModalComponent } from './components/base-modal/base-modal.component';
 import { PlayerTestComponent } from './components/player-test/player-test.component';
+import { ChartsComponent } from './components/charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -167,7 +168,8 @@ ModalContractComponent,
 ModalCreateContractUserComponent,
 ChipsComponent,
 VeichlesTableComponent,
-BaseModalComponent
+BaseModalComponent,
+ChartsComponent
   ],
   imports: [
     BrowserModule,

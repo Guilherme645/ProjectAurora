@@ -1,0 +1,5 @@
+:host {
+  position: relative;
+  z-index: 50;
+  display: block; /* Garante que ele respeite o layout */
+}
