@@ -32,7 +32,7 @@
            shadow-sm tracking-wide -mt-px -ms-px
            first:rounded-t-lg sm:mt-0 sm:first:ms-0 text-sm font-normal
            text-black relative
-           focus:outline-none focus:border-blue-600 focus:ring-blue-600 focus:border-b focus:mb-0
+           focus:outline-none focus:border-black focus:ring-black focus:border-b focus:mb-0
            disabled:opacity-50 disabled:pointer-events-none"
     [ngClass]="{
       'border-2 border-red-500 focus:ring-red-500': passwordError || dadosVaziosError || credentialsError
@@ -52,7 +52,7 @@
     placeholder="Senha" 
     class="py-3 px-4 pe-11 block w-full border border-gray-200 shadow-sm -mt-1px tracking-wide
            first:rounded-b-lg sm:mt-0 text-sm relative font-normal text-black
-           focus:outline-none focus:border-blue-600 focus:ring-blue-600 focus:border-t focus:mt-0
+           focus:outline-none focus:border-black focus:ring-black focus:border-t focus:mt-0
            disabled:opacity-50 disabled:pointer-events-none"
     [ngClass]="{
       'border-2 border-red-500 focus:ring-red-500': passwordError || dadosVaziosError || credentialsError
@@ -118,7 +118,7 @@
                 <!-- Botão de Entrar -->
                 <button 
                   type="submit" 
-                  class="mt-4 w-full sm:w-[400px] py-3 px-4 text-sm font-medium rounded-lg bg-gray-800 text-white hover:bg-gray-600 transition-all"
+                  class="mt-4 w-full sm:w-[400px] py-3 px-4 text-sm font-medium rounded-lg bg-black text-white hover:bg-[#FAFF00] hover:text-black transition-all"
                 >
                   Entrar
                 </button>
@@ -139,13 +139,13 @@
   </div>
 
   <!-- Imagem ao Lado (Visível apenas no Desktop) -->
-  <div class="hidden md:flex md:w-[57%] h-screen p-4">
-    <img 
-      src="assets/foto.png" 
-      alt="Imagem ao lado" 
-      class="w-full h-full object-cover rounded-xl"
-    >
-  </div>
+<div class="hidden md:block md:w-1/2 h-full border-l-[4px] border-[#FAFF00]">
+  <img 
+    src="assets/foto2.jpg" 
+    alt="Imagem ao lado" 
+    class="w-full h-full object-cover"
+  >
+</div>
 
   <!-- Alerta de Erro -->
   <div 
