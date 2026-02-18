@@ -1,0 +1,10 @@
+.globe-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Garante que o ícone de rádio centralize no ponto exato */
+:host ::ng-deep .globe-html-element {
+  pointer-events: none; /* Deixa o mouse passar para o globo poder ser girado */
+  transform: translate(-50%, -50%);
+}

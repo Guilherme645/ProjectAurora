@@ -34,7 +34,7 @@ export class SideBarComponent implements OnInit {
     },
     { label: 'Clippings', link: '/', icon: 'clip' },
     { label: 'Relatórios', link: '/home/report', icon: 'report' },
-    { label: 'Dashboard', link: '/home/dashboard', icon: 'dashboard' },
+    { label: 'Dashboard', link: '/dashboard', icon: 'dashboard' },
     { label: 'Configurações', link: '/home/settings', icon: 'settings' }
   ];
 

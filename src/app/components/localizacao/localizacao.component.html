@@ -1,5 +1,9 @@
-<div *ngIf="isModalOpen" id="modalWrapper" class="veiculosModalContainer">
-  <div id="veiculosModal" class="w-[490px] h-[573px] bg-white shadow-lg rounded-2xl text-gray-800 relative">
+<div *ngIf="!isMobile" class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+  
+  <div 
+    class="absolute inset-0 bg-[#111827]/40 backdrop-blur-sm transition-opacity"
+    (click)="closeModal()">
+  </div>  <div id="veiculosModal" class="w-[490px] h-[573px] bg-white shadow-lg rounded-2xl text-gray-800 relative">
 
     <div class="flex items-center justify-between bg-white px-4 py-3 h-[73px] rounded-t-2xl">
       <div class="relative w-full">

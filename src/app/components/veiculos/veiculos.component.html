@@ -1,261 +1,88 @@
-<div
-  *ngIf="!isMobile"
-  class="modal-container w-[645px] h-[500px] bg-white shadow-lg rounded-2xl border border-gray-200 flex flex-col relative z-[50]"
->
-  <div
-    class="flex items-center justify-between bg-white px-4 py-3 h-[73px] w-full rounded-t-2xl border-b"
-  >
-    <div class="relative w-full">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="lucide stroke-1 text-gray-500 absolute left-4 top-1/2 transform -translate-y-1/2"
-      >
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21 -4.3-4.3"></path>
-      </svg>
-      <input
-        type="text"
-        placeholder="Procurar veículos"
-        [(ngModel)]="searchQuery"
-        class="w-full bg-white text-gray-900 placeholder-gray-400 focus:outline-none pl-10 py-2 border-none"
-        (ngModelChange)="searchQuery = $event.trim(); updateSelectAll()"
-      />
-    </div>
-    <button
-      class="text-xs text-gray-600 flex justify-center items-center w-[30px] h-[18px] border border-gray-300 rounded-sm hover:bg-gray-200"
-      (click)="closeModal()"
-    >
-      ESC
-    </button>
-  </div>
+<div *ngIf="!isMobile" class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-[#111827]/40 backdrop-blur-sm transition-opacity" (click)="closeModal()"></div>
 
-  <div class="flex flex-grow w-[645px] h-[382px] pt-2 rounded-b-2xl overflow-hidden">
-    <nav class="w-[150px] border-r border-gray-200 p-4 bg-white">
-      <ul class="space-y-3">
-        <li
-          class="category-item flex items-center gap-2 cursor-pointer px-2 py-2 rounded-lg"
-          [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Texto', 'text-gray-600': selectedCategory !== 'Texto'}"
-          (click)="selectCategory('Texto')"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            [ngClass]="{'stroke-blue-600': selectedCategory === 'Texto', 'stroke-gray-600': selectedCategory !== 'Texto'}"
-          >
-            <path d="M3 12h18"></path>
-            <path d="M3 6h18"></path>
-            <path d="M3 18h18"></path>
-          </svg>
-          <span
-            [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Texto', 'text-gray-600': selectedCategory !== 'Texto'}"
-          >
-            Texto
-          </span>
-        </li>
+  <div class="relative w-[645px] h-[500px] bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col overflow-hidden"
+       (click)="$event.stopPropagation()">
 
-        <li
-          class="category-item flex items-center gap-2 cursor-pointer px-2 py-2 rounded-lg"
-          [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Vídeo', 'text-gray-600': selectedCategory !== 'Vídeo'}"
-          (click)="selectCategory('Vídeo')"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            [ngClass]="{'stroke-blue-600': selectedCategory === 'Vídeo', 'stroke-gray-600': selectedCategory !== 'Vídeo'}"
-          >
-            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-            <path d="m10 11 5 3-5 3v-6Z"></path>
-          </svg>
-          <span
-            [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Vídeo', 'text-gray-600': selectedCategory !== 'Vídeo'}"
-          >
-            Vídeo
-          </span>
-        </li>
-
-        <li
-          class="category-item flex items-center gap-2 cursor-pointer px-2 py-2 rounded-lg"
-          [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Áudio', 'text-gray-600': selectedCategory !== 'Áudio'}"
-          (click)="selectCategory('Áudio')"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            [ngClass]="{'stroke-blue-600': selectedCategory === 'Áudio', 'stroke-gray-600': selectedCategory !== 'Áudio'}"
-          >
-            <path d="M17.5 22h.5a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"></path>
-            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-            <path d="M2 19a2 2 0 1 1 4 0v1a2 2 0 1 1-4 0v-4a6 6 0 1 1 12 0v4a2 2 0 1 1-4 0v-1a2 2 0 1 1 4 0"></path>
-          </svg>
-          <span
-            [ngClass]="{'text-blue-600 font-medium': selectedCategory === 'Áudio', 'text-gray-600': selectedCategory !== 'Áudio'}"
-          >
-            Áudio
-          </span>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="p-4 flex-1 max-h-[382px] overflow-y-auto bg-white">
-      <span class="block text-sm font-medium text-gray-700 text-left mb-3 category-title">
-        {{ getCategoryTitle() }}
-      </span>
-
-      <label class="flex items-center gap-x-2 text-sm font-medium text-gray-700 mb-6">
-        <input
-          type="checkbox"
-          class="rounded text-blue-600 focus:ring-blue-500"
-          [(ngModel)]="selectAll"
-          (change)="toggleSelectAll()"
-        />
-        Selecionar todos os veículos de {{ selectedCategory }}
-      </label>
-
-      <div class="grid grid-cols-2 gap-x-6 gap-y-3 pr-2">
-        <label
-          *ngFor="let veiculo of getFilteredVehicles()"
-          class="flex items-center gap-x-2 text-sm font-medium"
-        >
-          <input
-            type="checkbox"
-            class="rounded text-blue-600 focus:ring-blue-500"
-            [(ngModel)]="veiculo.selecionado"
-            (change)="updateSelectAll()"
-          />
-          {{ veiculo.nome }}
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="w-full border-t p-4 flex justify-end bg-white rounded-b-2xl">
-    <button
-      type="button"
-      class="py-3 px-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800"
-      (click)="closeModal()"
-    >
-      Utilizar veículos selecionados
-    </button>
-  </div>
-</div>
-
-<!-- Modal Mobile -->
-<div
-  *ngIf="isMobile"
-  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-end"
->
-  <div
-    class="w-full max-h-[80vh] bg-white shadow-lg rounded-t-2xl border border-gray-200 flex flex-col"
-  >
-    <div class="w-12 h-1.5 bg-gray-400 rounded-full mx-auto mt-2"></div>
-
-    <div class="bg-white px-4 py-3 w-full border-b z-10 sticky top-0">
+    <!-- header -->
+    <div class="flex items-center justify-between bg-white px-6 py-4 h-[73px] w-full border-b flex-shrink-0">
       <div class="relative w-full">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide stroke-1 text-gray-500 absolute left-4 top-1/2 transform -translate-y-1/2"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide stroke-1 text-gray-400 absolute left-0 top-1/2 transform -translate-y-1/2">
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21 -4.3-4.3"></path>
         </svg>
+
         <input
           type="text"
           placeholder="Procurar veículos"
           [(ngModel)]="searchQuery"
-          class="w-full bg-white text-gray-900 placeholder-gray-400 focus:outline-none pl-10 py-2 border-none"
+          class="w-full bg-white text-gray-900 placeholder-gray-400 focus:outline-none pl-8 py-2 border-none text-[14px]"
           (ngModelChange)="searchQuery = $event.trim(); updateSelectAll()"
         />
       </div>
+
+      <button class="ml-4 text-[10px] font-bold text-gray-500 flex justify-center items-center px-1.5 py-0.5 border border-gray-200 rounded-[4px] bg-gray-50 hover:bg-gray-100"
+              (click)="closeModal()">
+        ESC
+      </button>
     </div>
 
-    <div class="bg-white sticky top-[50px] z-10 border-b">
-      <div class="flex justify-around pb-2">
-        <button
-          *ngFor="let categoria of categorias"
-          class="px-4 py-2 text-sm font-medium"
-          [ngClass]="{'text-blue-600 border-b-2 border-blue-600': selectedCategory === categoria, 'text-gray-600': selectedCategory !== categoria}"
-          (click)="selectCategory(categoria)"
-        >
-          {{ categoria }}
-        </button>
-      </div>
-    </div>
+    <!-- body -->
+    <div class="flex flex-grow w-[645px] h-[382px] pt-2 rounded-b-2xl overflow-hidden">
+      <!-- sidebar -->
+      <nav class="w-[150px] border-r border-gray-200 p-4 bg-white">
+        <ul class="space-y-3">
+          <li
+            *ngFor="let g of groups"
+            class="flex items-center gap-2 cursor-pointer px-2 py-2 rounded-lg"
+            [ngClass]="{'text-blue-600 font-medium': selectedGroup === g, 'text-gray-600': selectedGroup !== g}"
+            (click)="selectGroup(g)"
+          >
+            <span [ngClass]="{'text-blue-600 font-medium': selectedGroup === g, 'text-gray-600': selectedGroup !== g}">
+              {{ g }}
+            </span>
+          </li>
+        </ul>
+      </nav>
 
-    <div class="flex-1 overflow-y-auto px-4" style="max-height: calc(80vh - 120px);">
-      <span class="block text-sm font-medium text-gray-700 text-left mb-3">
-        {{ getCategoryTitle() }}
-      </span>
+      <!-- list -->
+      <div class="p-4 flex-1 max-h-[382px] overflow-y-auto bg-white">
+        <span class="block text-sm font-medium text-gray-700 text-left mb-3">
+          {{ getGroupTitle() }}
+        </span>
 
-      <label class="flex items-center gap-x-2 text-sm font-medium text-gray-700 mb-2">
-        <input
-          type="checkbox"
-          class="rounded text-blue-600 focus:ring-blue-500"
-          [(ngModel)]="selectAll"
-          (change)="toggleSelectAll()"
-        />
-        Selecionar todos os veículos de {{ selectedCategory }}
-      </label>
-
-      <div class="grid grid-cols-1 gap-y-3 pr-2">
-        <label
-          *ngFor="let veiculo of getFilteredVehicles()"
-          class="flex items-center gap-x-2 text-sm font-medium"
-        >
-          <input
-            type="checkbox"
-            class="rounded text-blue-600 focus:ring-blue-500"
-            [(ngModel)]="veiculo.selecionado"
-            (change)="updateSelectAll()"
-          />
-          {{ veiculo.nome }}
+        <label class="flex items-center gap-x-2 text-sm font-medium text-gray-700 mb-6">
+          <input type="checkbox"
+                 class="rounded text-blue-600 focus:ring-blue-500"
+                 [(ngModel)]="selectAll"
+                 (change)="toggleSelectAll()"/>
+          <ng-container *ngIf="mode === 'tier'; else categorySelectAll">
+            Selecionar todos os veículos do {{ selectedGroup.toLowerCase() }} ({{ getSelectedGroupTotal() }})
+          </ng-container>
+          <ng-template #categorySelectAll>
+            Selecionar todos os veículos de {{ selectedGroup }}
+          </ng-template>
         </label>
+
+        <div class="grid grid-cols-2 gap-x-6 gap-y-3 pr-2">
+          <label *ngFor="let v of getFilteredVehicles()" class="flex items-center gap-x-2 text-sm font-medium">
+            <input type="checkbox"
+                   class="rounded text-blue-600 focus:ring-blue-500"
+                   [(ngModel)]="v.selecionado"
+                   (change)="updateSelectAll()"/>
+            {{ v.nome }}
+          </label>
+        </div>
       </div>
     </div>
 
-    <div class="mobile-modal-footer">
-      <button
-        type="button"
-        class="mobile-action-button"
-        (click)="closeModal()"
-      >
+    <!-- footer -->
+    <div class="w-full border-t p-4 flex justify-end bg-white rounded-b-2xl">
+      <button type="button"
+              class="py-3 px-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800"
+              (click)="closeModal()">
         Utilizar veículos selecionados
       </button>
     </div>

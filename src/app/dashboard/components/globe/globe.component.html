@@ -1,0 +1,22 @@
+<div class="relative w-full h-full bg-white  overflow-hidden ">
+
+  <!-- GLOBO -->
+  <div
+    #globeContainer
+    class="absolute inset-0 cursor-grab active:cursor-grabbing transition-opacity duration-500"
+    [class.opacity-0]="isMapMode"
+    [class.pointer-events-none]="isMapMode"
+  ></div>
+
+  <!-- MAPA -->
+  <div
+    #mapContainer
+    class="absolute inset-0 transition-opacity duration-500"
+    [class.opacity-0]="!isMapMode"
+    [class.pointer-events-none]="!isMapMode"
+  ></div>
+
+  <!-- Live Pulse -->
+  
+
+</div>

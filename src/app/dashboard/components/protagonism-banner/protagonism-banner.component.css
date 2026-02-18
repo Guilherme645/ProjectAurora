@@ -1,0 +1,76 @@
+:host ::ng-deep .no-scrollbar {
+  -ms-overflow-style: none !important; /* IE/Edge legacy */
+  scrollbar-width: none !important;    /* Firefox */
+  scrollbar-gutter: auto !important;
+}
+
+:host ::ng-deep .no-scrollbar::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+:host ::ng-deep .no-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent !important;
+}
+
+:host ::ng-deep .no-scrollbar::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+
+/* =========================
+   TOOLTIP por data-tooltip
+   ========================= */
+
+/* Importante: só funciona em elementos HTML (span/div),
+   por isso NÃO colocamos data-tooltip no <svg>. */
+[data-tooltip] {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Caixa */
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background-color: #111827;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: 6px;
+
+  width: max-content;
+  max-width: 260px;
+  white-space: normal;
+  text-align: center;
+
+  z-index: 99999;
+  pointer-events: none;
+  margin-bottom: 8px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Setinha */
+[data-tooltip]:hover::before {
+  content: '';
+  position: absolute;
+
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  margin-bottom: 2px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #111827 transparent transparent transparent;
+
+  z-index: 99999;
+  pointer-events: none;
+}

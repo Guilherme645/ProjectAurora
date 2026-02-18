@@ -1,0 +1,47 @@
+<div class="w-full flex flex-col h-full relative">
+  
+  <div class="flex flex-col items-start gap-[4px] mb-4 pl-0">
+    
+    <div class="flex flex-row items-center gap-[8px] h-[24px]">
+      <h2 class="font-inter font-semibold text-[16px] leading-[24px] tracking-[-0.01em] text-[#1F2937] whitespace-nowrap">
+        {{ chartTitle }}
+      </h2>
+
+      <div *ngIf="chartTitle === 'Volume por tiers'" class="relative group flex items-center justify-center">
+       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 18.3333C14.6024 18.3333 18.3334 14.6023 18.3334 9.99996C18.3334 5.39759 14.6024 1.66663 10 1.66663C5.39765 1.66663 1.66669 5.39759 1.66669 9.99996C1.66669 14.6023 5.39765 18.3333 10 18.3333Z" fill="#6B7280"/>
+<path d="M10 13.3333V10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 6.66663H10.0083" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+
+        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:block w-max z-[9999]">
+          <div class="bg-[#111827] text-white text-[12px] leading-[1.6] px-3 py-2 rounded-[6px] shadow-xl text-left relative">
+            <div class="whitespace-nowrap">Tier 1 = Alta relevância</div>
+            <div class="whitespace-nowrap">Tier 2 = Média relevância</div>
+            <div class="whitespace-nowrap">Tier 3 = Baixa relevância</div>
+            <div class="absolute bottom-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-b-[#111827]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="font-inter font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-[#6B7280]">
+      {{ chartSubtitle }}
+    </p>
+  </div>
+
+  <div #chart class="w-full h-[300px] block" style="margin-left: -10px;"> 
+    </div>
+
+  <div class="flex flex-wrap items-center gap-6 mt-4 pl-0">
+    <div *ngFor="let series of chartData" class="flex items-center gap-[8px]">
+      <span class="w-[6px] h-[6px] rounded-full" [style.background-color]="series.color"></span>
+      
+      <span class="font-inter font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-[#6B7280]">
+        {{ series.name }}
+      </span>
+    </div>
+  </div>
+
+</div>

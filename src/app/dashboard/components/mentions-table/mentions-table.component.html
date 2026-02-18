@@ -1,0 +1,157 @@
+<div class="w-full bg-white border border-[#F3F4F6] rounded-[8px] p-[32px] shadow-sm">
+  
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+      
+      <div class="flex flex-col gap-1">
+        <h3 class="text-[18px] font-bold text-[#1F2937] leading-[24px]">{{ data?.title }}</h3>
+        <p class="text-[12px] font-medium text-[#6B7280] leading-[16px]">{{ data?.subtitle }}</p>
+      </div>
+
+      <div class="flex items-center gap-4 w-full md:w-auto">
+        
+        <div *ngIf="searchPlaceholder" class="relative group w-full md:w-[400px]">
+          <div class="absolute inset-y-0 left-0 pl-[16px] flex items-center pointer-events-none">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 14L11.1 11.1" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <input 
+            type="text" 
+            [placeholder]="searchPlaceholder"
+            (input)="onSearch($event)"
+            class="block w-full h-[46px] pl-[48px] pr-4 py-[14px] text-[15px] font-medium text-[#1F2937] bg-white border border-[#E5E7EB] rounded-[8px] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] placeholder-[#6B7280] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+          >
+        </div>
+
+        <div *ngIf="showVehicleStats" class="flex flex-col justify-center items-start px-[20px] py-[12px] gap-[10px] bg-[#F8FAFC] border border-[#F3F4F6] rounded-[3px] h-[56px] min-w-[335px]">
+           <div class="flex flex-row items-center gap-[12px] w-full">
+              <span class="font-inter font-semibold text-[20px] leading-[24px] tracking-[-0.018em] text-[#1F2937]">
+                {{ vehicleCount || 0 }} de {{ totalVehicles || 0 }} veículos
+              </span>
+              <span class="font-inter font-medium text-[12px] leading-[16px] tracking-[-0.01em] text-[#6B7280] max-w-[200px]">
+                Veículos da busca salva citaram as palavras-chaves selecionadas
+              </span>
+           </div>
+        </div>
+
+      </div>
+  </div>
+
+  <div class="border border-[#F3F4F6] rounded-[8px] overflow-visible">
+    
+    <div class="flex items-center h-[56px] bg-[#F9FAFB] border-b border-[#F3F4F6] px-6 text-[12px] font-semibold text-[#6B7280] tracking-wider relative z-20">
+      
+      <div class="flex-1">Nome</div>
+      
+      <div class="w-[160px] flex items-center justify-center gap-2 relative">
+        <span>{{ data?.data?.[0]?.tier ? 'Tier' : 'Tipo de entidade' }}</span>
+        
+        <button (click)="toggleFilter('type', $event)" 
+                class="flex items-center justify-center w-[24px] h-[24px] bg-white border border-[#E9EAEB] rounded-[4px] shadow-[0px_1px_2px_rgba(52,54,54,0.05)] hover:bg-gray-50 transition-all active:bg-gray-100"
+                [class.border-gray-300]="activeFilterColumn === 'type'"
+                [class.bg-gray-100]="activeFilterColumn === 'type'">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <path d="M13.3332 3.73336C13.3332 3.35999 13.3329 3.17317 13.2603 3.03056C13.1963 2.90512 13.0947 2.8032 12.9693 2.73929C12.8267 2.66663 12.6396 2.66663 12.2662 2.66663H3.73291C3.35954 2.66663 3.17304 2.66663 3.03044 2.73929C2.90499 2.8032 2.80308 2.90512 2.73917 3.03056C2.6665 3.17317 2.6665 3.35999 2.6665 3.73336V4.22486C2.6665 4.38792 2.6665 4.46952 2.68492 4.54624C2.70126 4.61426 2.72826 4.67924 2.76481 4.73889C2.80603 4.80615 2.86378 4.8639 2.979 4.97913L6.35416 8.35429C6.46946 8.46958 6.5268 8.52692 6.56802 8.59419C6.60458 8.65384 6.63194 8.71904 6.64827 8.78707C6.66651 8.86301 6.6665 8.94364 6.6665 9.1034V12.274C6.6665 12.8454 6.6665 13.1314 6.78687 13.3034C6.89197 13.4537 7.05411 13.5539 7.23551 13.5807C7.44326 13.6114 7.69898 13.4838 8.21012 13.2282L8.74346 12.9615C8.9575 12.8545 9.06426 12.8008 9.14245 12.721C9.21159 12.6504 9.26449 12.5656 9.29671 12.4722C9.33315 12.3666 9.33317 12.2466 9.33317 12.0073V9.10836C9.33317 8.9453 9.33317 8.86379 9.35159 8.78707C9.36792 8.71904 9.39493 8.65384 9.43148 8.59419C9.47243 8.52737 9.52961 8.47018 9.64338 8.35642L9.64567 8.35429L13.0208 4.97913C13.1361 4.86382 13.1935 4.80617 13.2347 4.73889C13.2712 4.67924 13.2986 4.61427 13.3149 4.54624C13.3332 4.4703 13.3332 4.38958 13.3332 4.22983V3.73336Z" stroke="#535862" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ng-container *ngTemplateOutlet="filterDropdown; context: { column: 'type' }"></ng-container>
+      </div>
+
+      <div class="w-[120px] flex items-center justify-center gap-2 cursor-pointer group" (click)="onSort('quantity')">
+        <span [class.text-blue-600]="sortColumn === 'quantity'">Quantidade</span>
+        
+        <div class="flex items-center justify-center w-[24px] h-[24px] bg-white border border-[#E9EAEB] rounded-[4px] shadow-[0px_1px_2px_rgba(52,54,54,0.05)] hover:bg-gray-50 transition-all"
+             [class.border-gray-300]="sortColumn === 'quantity'"
+             [class.bg-gray-50]="sortColumn === 'quantity'">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <path d="M7.3335 10.6667L5.3335 12.6667M5.3335 12.6667L3.3335 10.6667M5.3335 12.6667V3.33337M8.66683 5.33337L10.6668 3.33337M10.6668 3.33337L12.6668 5.33337M10.6668 3.33337V12.6667" stroke="#535862" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="w-[100px] flex items-center justify-center gap-2 cursor-pointer group text-[#EF4444]" (click)="onSort('negative')">
+        <span [class.font-bold]="sortColumn === 'negative'">Negativa</span>
+        
+        <div class="flex items-center justify-center w-[24px] h-[24px] bg-white border border-[#E9EAEB] rounded-[4px] shadow-[0px_1px_2px_rgba(52,54,54,0.05)] hover:bg-gray-50 transition-all"
+             [class.border-gray-300]="sortColumn === 'negative'"
+             [class.bg-gray-50]="sortColumn === 'negative'">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.3335 10.6667L5.3335 12.6667M5.3335 12.6667L3.3335 10.6667M5.3335 12.6667V3.33337M8.66683 5.33337L10.6668 3.33337M10.6668 3.33337L12.6668 5.33337M10.6668 3.33337V12.6667" stroke="#535862" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+      </div>
+
+      <div class="w-[100px] flex items-center justify-center gap-2 cursor-pointer group" (click)="onSort('neutral')">
+        <span [class.font-bold]="sortColumn === 'neutral'">Neutra</span>
+        
+        <div class="flex items-center justify-center w-[24px] h-[24px] bg-white border border-[#E9EAEB] rounded-[4px] shadow-[0px_1px_2px_rgba(52,54,54,0.05)] hover:bg-gray-50 transition-all"
+             [class.border-gray-300]="sortColumn === 'neutral'"
+             [class.bg-gray-50]="sortColumn === 'neutral'">
+             <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.3335 10.6667L5.3335 12.6667M5.3335 12.6667L3.3335 10.6667M5.3335 12.6667V3.33337M8.66683 5.33337L10.6668 3.33337M10.6668 3.33337L12.6668 5.33337M10.6668 3.33337V12.6667" stroke="#535862" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+      </div>
+
+      <div class="w-[100px] flex items-center justify-center gap-2 cursor-pointer group text-[#14B8A6]" (click)="onSort('positive')">
+        <span [class.font-bold]="sortColumn === 'positive'">Positiva</span>
+        
+        <div class="flex items-center justify-center w-[24px] h-[24px] bg-white border border-[#E9EAEB] rounded-[4px] shadow-[0px_1px_2px_rgba(52,54,54,0.05)] hover:bg-gray-50 transition-all"
+             [class.border-gray-300]="sortColumn === 'positive'"
+             [class.bg-gray-50]="sortColumn === 'positive'">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.3335 10.6667L5.3335 12.6667M5.3335 12.6667L3.3335 10.6667M5.3335 12.6667V3.33337M8.66683 5.33337L10.6668 3.33337M10.6668 3.33337L12.6668 5.33337M10.6668 3.33337V12.6667" stroke="#535862" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <div *ngFor="let item of filteredItems" class="flex items-center min-h-[72px] border-b border-[#F3F4F6] px-6 hover:bg-gray-50 transition-colors last:border-0">
+         <div class="flex-1 flex items-center justify-between pr-8">
+             <div class="flex items-center gap-3">
+               <div *ngIf="item.logoUrl" class="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center overflow-hidden bg-white flex-shrink-0">
+                 <img [src]="item.logoUrl" [alt]="item.name" class="w-8 h-8 object-contain">
+               </div>
+               
+               <span class="text-[14px] font-bold text-[#1F2937]">{{ item.name }}</span>
+             </div>
+
+             <div class="text-gray-300" *ngIf="item.mediaType">
+               <svg *ngIf="item.mediaType === 'text'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+               <svg *ngIf="item.mediaType === 'video'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><path d="m22 7-8.5-5.5L5 7"/></svg>
+             </div>
+         </div>
+
+         <div class="w-[160px] flex justify-center">
+            <app-chips *ngIf="item.tier" [label]="item.tier" [color]="item.tier === 'Tier 1' ? 'green' : (item.tier === 'Tier 2' ? 'blue' : 'yellow')"></app-chips>
+            <span *ngIf="!item.tier" class="text-[14px] font-bold text-[#1F2937]">{{ item.type }}</span>
+         </div>
+
+         <div class="w-[120px] text-center text-[14px] font-bold text-[#1F2937]">{{ item.quantity || (item.negative + item.neutral + item.positive) }}</div>
+         <div class="w-[100px] text-center text-[14px] font-bold text-[#1F2937]">{{ item.negative }}</div>
+         <div class="w-[100px] text-center text-[14px] font-bold text-[#1F2937]">{{ item.neutral }}</div>
+         <div class="w-[100px] text-center text-[14px] font-bold text-[#1F2937]">{{ item.positive }}</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #filterDropdown let-column="column">
+  <div *ngIf="activeFilterColumn === column" 
+       class="absolute top-[100%] right-[-10px] mt-2 w-[160px] bg-white border border-[#F5F5F5] shadow-lg rounded-[4px] py-1 z-50 flex flex-col max-h-[200px] overflow-y-auto"
+       (click)="$event.stopPropagation()">
+    <label *ngFor="let opt of filters[column]" class="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer gap-2 select-none">
+      <div class="relative flex items-center justify-center w-[16px] h-[16px]">
+        <input type="checkbox" [checked]="opt.checked" (change)="onFilterChange(column, opt)"
+               class="peer appearance-none w-[16px] h-[16px] border border-[#D1D5DB] rounded-[2px] checked:bg-[#314CD9] checked:border-[#314CD9] transition-all">
+        <svg class="absolute w-[10px] h-[10px] text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 14 14" fill="none">
+          <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="text-[12px] font-medium text-[#414651] truncate">{{ opt.label }}</span>
+    </label>
+  </div>
+</ng-template>

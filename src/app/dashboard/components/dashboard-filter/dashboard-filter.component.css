@@ -1,0 +1,61 @@
+/* Estilo base extraído do seu CSS (_badge-and-tag) */
+.badge-and-tag {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 6px;
+  gap: 1px;
+  height: 28px;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  background: #FFFFFF;
+}
+
+.placeholder-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 4px;
+  gap: 7px;
+}
+
+.tag-text {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.01em;
+  color: #6B7280;
+}
+
+/* Close-Icon / Plus-Icon Container */
+.close-icon-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* Variações de cor do seu CSS */
+.grey-bg {
+  background: #D1D5DB; /* Usado para fechar */
+}
+
+.blue-bg {
+  background: #DBEAFE; /* Usado para adicionar (+) */
+}
+
+.active-tag:hover {
+  border-color: #D1D5DB;
+}
+
+.suggestion-tag:hover {
+  border-color: #DBEAFE;
+  background-color: #F9FAFB;
+}

@@ -1,0 +1,79 @@
+<div class="relative w-full max-w-[358px] h-[388px] bg-white  mx-auto md:mx-0">
+
+  <div *ngIf="isLoading" class="absolute inset-0 flex flex-col items-center justify-center animate-pulse bg-white z-10 rounded-[8px]">
+    <div class="w-3/4 h-8 bg-gray-100 rounded mb-4"></div>
+    <div class="flex w-full px-8 gap-4 h-[200px]">
+      <div class="w-[67px] h-full bg-gray-100 rounded"></div>
+      <div class="flex-1 flex flex-col gap-4">
+        <div class="h-4 w-full bg-gray-100 rounded"></div>
+        <div class="h-20 w-full bg-gray-100 rounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading && data">
+    <!-- Header -->
+    <div class="absolute left-[32px] top-[32px] w-[294px] flex flex-col gap-[4px]">
+      <h3 class="font-semibold text-[16px] text-[#1F2937]">{{ data.title }}</h3>
+      <p class="font-medium text-[12px] text-[#6B7280]">{{ data.subtitle }}</p>
+    </div>
+
+    <!-- Barra gradiente -->
+    <div
+      class="absolute left-[32px] top-[108px] w-[67px] h-[248px] rounded-[4px]"
+      [style.background]="'linear-gradient(179.65deg, ' + data.gradientStart + ' 0.27%, ' + data.gradientEnd + ' 150.01%)'"
+    >
+      <div class="absolute left-[28px] top-[24px] w-[9px] h-[200px] flex flex-col justify-between items-center text-[#000000] font-medium text-[12px]">
+        <span>5</span>
+        <span>4</span>
+        <span>3</span>
+        <span>2</span>
+        <span>1</span>
+      </div>
+
+      <div
+        class="absolute left-[calc(50%-24.5px)] w-[49px] h-[23px] rounded-[4px]"
+        [style.top]="getMarkerTopPosition(data.score)"
+        style="background: rgba(255, 255, 255, 0.2); border: 0.6px solid rgba(255, 255, 255, 0.1); box-shadow: inset 0px 4px 12px rgba(255, 255, 255, 0.25);"
+      ></div>
+    </div>
+
+    <!-- Texto à direita -->
+    <div class="absolute left-[119px] top-[108px] w-[207px] h-[248px] flex flex-col justify-end gap-[20px]">
+      <div class="flex flex-col gap-[2px]">
+        <span class="font-semibold text-[14px] text-[#1F2937]">
+          {{ data.scoreLabel }}
+        </span>
+        <span class="font-medium text-[12px] text-[#6B7280]">
+          Classificação do índice
+        </span>
+      </div>
+
+      <div class="w-full h-px bg-[#F3F4F6]"></div>
+
+      <p class="font-medium text-[12px] text-[#6B7280] leading-[16px]">
+        {{ data.description }}
+      </p>
+
+      <!-- Link abre modal -->
+      <button
+        type="button"
+        class="text-left font-semibold text-[12px] text-[#2563EB] underline decoration-solid"
+        (click)="openExplainModal()"
+      >
+        {{ data.linkText }}
+      </button>
+    </div>
+
+    <!-- MODAL (reutilizável) -->
+    <app-index-explain-modal
+      [open]="explainOpen"
+      [type]="modalType"
+[score]="scoreSafe"
+      [description]="modalDescription"
+      [formula]="modalFormula"
+      (close)="closeExplainModal()"
+    ></app-index-explain-modal>
+
+  </ng-container>
+</div>

@@ -88,6 +88,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { BaseModalComponent } from './components/base-modal/base-modal.component';
 import { PlayerTestComponent } from './components/player-test/player-test.component';
 import { ChartsComponent } from './components/charts/charts.component';
+import { DashboardPageComponent } from './dashboard/page/dashboard-page/dashboard-page.component';
+import { DeashboardHeaderComponent } from './dashboard/components/deashboard-header/deashboard-header.component';
+import { VerticalStatsCardComponent } from './dashboard/components/VerticalStatsCard/VerticalStatsCard.component';
+import { VolumeChartComponent } from './dashboard/components/volume-chart/volume-chart.component';
+import { ProtagonismBannerComponent } from './dashboard/components/protagonism-banner/protagonism-banner.component';
+import { MediaChartComponent } from './dashboard/components/media-chart/media-chart.component';
+import { IndexChartComponent } from './dashboard/components/index-chart/index-chart.component';
+import { MentionsTableComponent } from './dashboard/components/mentions-table/mentions-table.component';
+import { IndexExplainModalComponent } from './dashboard/components/index-explain-modal/index-explain-modal.component';
+import { DashboardFilterComponent } from './dashboard/components/dashboard-filter/dashboard-filter.component';
+import { GlobeComponent } from './dashboard/components/globe/globe.component';
 
 @NgModule({
   declarations: [
@@ -169,7 +180,18 @@ ModalCreateContractUserComponent,
 ChipsComponent,
 VeichlesTableComponent,
 BaseModalComponent,
-ChartsComponent
+ChartsComponent,
+DashboardPageComponent,
+DeashboardHeaderComponent,
+VerticalStatsCardComponent,
+VolumeChartComponent,
+ProtagonismBannerComponent,
+MediaChartComponent,
+IndexChartComponent,
+MentionsTableComponent,
+IndexExplainModalComponent,
+DashboardFilterComponent,
+GlobeComponent
   ],
   imports: [
     BrowserModule,

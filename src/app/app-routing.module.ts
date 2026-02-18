@@ -13,8 +13,9 @@ import { DescricaoContainerComponent } from './descricao-container/descricao-con
 import { ClippingComponent } from './components/clipping/clipping.component';
 import { ClientsComponent } from './pages/clients/clients.component';
 import { EmployeesComponent } from './pages/employees/employees.component';
+import { DashboardPageComponent } from './dashboard/page/dashboard-page/dashboard-page.component';
 
-export const routes: Routes = [ 
+export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: PageLoginComponent },
   { path: 'navBar', component: NavBarComponent },
@@ -26,20 +27,15 @@ export const routes: Routes = [
   { path: 'result-saved-search', component: ResultSavedSearchComponent },
   { path: 'saved-search', component: PageSavedSearchComponent },
   { path: 'textos', component: DescricaoContainerComponent },
-    { path: 'clippings', component: ClippingComponent },
-        { path: 'clients', component: ClientsComponent },
-                { path: 'employees', component: EmployeesComponent },
-
-
-
-
-
-
+  { path: 'clippings', component: ClippingComponent },
+  { path: 'clients', component: ClientsComponent },
+  { path: 'employees', component: EmployeesComponent },
+    { path: 'dashboard', component: DashboardPageComponent },
 
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

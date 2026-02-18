@@ -1,0 +1,145 @@
+{
+  "stats": {
+    "items": [
+      { "value": 832, "label": "Ocorrências totais", "colorClass": "text-gray-800" },
+      { "value": 721, "label": "Ocorrências positivas", "colorClass": "text-[#14B8A6]" },
+      { "value": 48, "label": "Ocorrências neutras", "colorClass": "text-[#2563EB]" },
+      { "value": 63, "label": "Ocorrências negativas", "colorClass": "text-[#EF4444]" }
+    ]
+  },
+  "statsTiers": {
+    "items": [
+      { "value": 109, "label": "Tier 1", "colorClass": "text-[#14B8A6]" },
+      { "value": 89, "label": "Tier 2", "colorClass": "text-[#2563EB]" },
+      { "value": 23, "label": "Tier 3", "colorClass": "text-[#EBD725]" }
+    ]
+  },
+  "volume": [
+    {
+      "name": "Dias Toffoli",
+      "color": "#2563EB",
+      "values": [20, 45, 58, 38, 78, 45, 35, 55, 72, 55, 50, 55]
+    },
+    {
+      "name": "Alexandre de Moraes",
+      "color": "#14B8A6",
+      "values": [28, 35, 50, 70, 40, 48, 40, 29, 38, 26, 45, 68]
+    },
+    {
+      "name": "Roberto Barroso",
+      "color": "#EBD725",
+      "values": [50, 38, 42, 32, 40, 28, 42, 48, 35, 42, 28, 40]
+    }
+  ],
+  "volumeTiers": [
+    { "name": "Tier 1", "color": "#14B8A6", "values": [25, 40, 50, 35, 45, 30, 25, 40, 50, 35, 45, 30] },
+    { "name": "Tier 2", "color": "#2563EB", "values": [18, 35, 60, 42, 55, 40, 18, 35, 60, 42, 55, 40] },
+    { "name": "Tier 3", "color": "#EBD725", "values": [48, 30, 42, 32, 40, 28, 48, 30, 42, 32, 40, 28] }
+  ],
+  "mediaData": {
+    "title": "Distribuição por tipo de mídia",
+    "subtitle": "Dado consolidado no período selecionado",
+    "data": [
+      { "label": "Rádio", "value": 30.67, "color": "#2DD4BF" },
+      { "label": "Texto Impresso", "value": 28.03, "color": "#2DD4BF" },
+      { "label": "Vídeo", "value": 26.28, "color": "#2563EB" },
+      { "label": "Texto Web", "value": 14.88, "color": "#60A5FA" }
+    ]
+  },
+  "relevanceData": {
+    "title": "Índice de Relevância",
+    "subtitle": "Relevância das menções de acordo com os tiers",
+    "score": 2,
+    "scoreLabel": "Score 2",
+    "description": "Score que reflete o peso qualitativo das menções com base na relevância dos veículos (tiers).",
+    "linkText": "Entenda o cálculo",
+    "gradientStart": "#D7DFF1",
+    "gradientEnd": "#2563EB"
+  },
+  "qualityData": {
+    "title": "Índice de Qualidade",
+    "subtitle": "Qualidade das menções de acordo com sentimento",
+    "score": 3,
+    "scoreLabel": "Score 3",
+    "description": "Resume o equilíbrio entre menções positivas, negativas e neutras. Mede a “saúde” das exposições.",
+    "linkText": "Entenda o cálculo",
+    "gradientStart": "#E75E2A",
+    "gradientEnd": "#9FBE3B"
+  },
+  "entityMentions": {
+    "title": "Ocorrência por entidades",
+    "subtitle": "Datas, pessoas, lugares, profissões e organizações identificadas nos conteúdos.",
+    "data": [
+      { "name": "Alexandre de Moraes", "type": "Pessoa", "negative": 12, "neutral": 201, "positive": 140 },
+      { "name": "Jair Bolsonaro", "type": "Pessoa", "negative": 10, "neutral": 128, "positive": 214 },
+      { "name": "Dias Toffoli", "type": "Pessoa", "negative": 14, "neutral": 291, "positive": 45 },
+      { "name": "Roberto Barroso", "type": "Pessoa", "negative": 98, "neutral": 217, "positive": 36 },
+      { "name": "STF", "type": "Organização", "negative": 29, "neutral": 182, "positive": 138 },
+      { "name": "Advogado", "type": "Profissão", "negative": 21, "neutral": 178, "positive": 149 }
+    ]
+  },
+  "vehicleMentions": {
+  "title": "Volume por veículos",
+  "subtitle": "Veículos da busca salva citaram as palavras-chaves selecionadas",
+  "data": [
+    { 
+      "name": "Folha de São Paulo", 
+      "logoUrl": "assets/logos/globo.png", 
+      "mediaType": "text", 
+      "tier": "Tier 1", 
+      "quantity": 353, 
+      "negative": 12, 
+      "neutral": 201, 
+      "positive": 140 
+    },
+    { 
+      "name": "Globo", 
+      "logoUrl": "assets/logos/globo.png", 
+      "mediaType": "video", 
+      "tier": "Tier 1", 
+      "quantity": 350, 
+      "negative": 14, 
+      "neutral": 291, 
+      "positive": 45 
+    },
+    { 
+      "name": "Globo", 
+      "logoUrl": "assets/logos/globo.png", 
+      "mediaType": "video", 
+      "tier": "Tier 2", 
+      "quantity": 350, 
+      "negative": 14, 
+      "neutral": 291, 
+      "positive": 45 
+    },
+    { 
+      "name": "Globo", 
+      "logoUrl": "assets/logos/globo.png", 
+      "mediaType": "video", 
+      "tier": "Tier 3", 
+      "quantity": 350, 
+      "negative": 14, 
+      "neutral": 291, 
+      "positive": 45 
+    }
+  ]
+},
+  "protagonism": {
+    "main": {
+      "title": "Protagonismo nos veículos online",
+      "value": 82,
+      "positive": 15,
+      "negative": 85
+    },
+    "people": [
+      { "name": "Dias Toffoli", "value": 23, "positive": 15, "negative": 85 },
+      { "name": "Alexandre de Moraes", "value": 12, "positive": 15, "negative": 85 },
+      { "name": "Roberto Barroso", "value": 65, "positive": 15, "negative": 85 },
+      { "name": "Roberto Barroso", "value": 65, "positive": 15, "negative": 85 },
+      { "name": "Roberto Barroso", "value": 65, "positive": 15, "negative": 85 },
+      { "name": "Roberto Barroso", "value": 65, "positive": 15, "negative": 85 },
+      { "name": "Roberto Barroso", "value": 65, "positive": 15, "negative": 85 },
+      { "name": "Roberto Barroso", "value": 65, "positive": 15, "negative": 85 }
+    ]
+  }
+}

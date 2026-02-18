@@ -1,6 +1,13 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { HostListener } from '@angular/core';
+
+type Mode = 'category' | 'tier';
+type GroupKey = string;
+
+export interface VehicleItem {
+  nome: string;
+  selecionado: boolean;
+}
 
 @Component({
   selector: 'app-veiculos',
@@ -11,73 +18,133 @@ import { HostListener } from '@angular/core';
 export class VeiculosComponent implements OnInit {
   isMobile: boolean = window.innerWidth <= 768;
   isModalOpen: boolean = true;
-  selectedCategory: string = 'Texto';
+
+  /** ✅ NOVO: controla o layout/dados */
+  @Input() mode: Mode = 'category'; // default: comportamento antigo
+  /**
+   * ✅ opcional: se o pai quiser passar os dados prontos:
+   * {
+   *   "Tier 1": [...],
+   *   "Tier 2": [...],
+   * }
+   */
+  @Input() dataSource?: Record<string, VehicleItem[]>;
+
   searchQuery: string = '';
-  vehicles: { [key: string]: { nome: string; selecionado: boolean }[] } = {};
-  categorias: string[] = ['Texto', 'Vídeo', 'Áudio'];
   selectAll: boolean = false;
-  @Output() closeSection = new EventEmitter<void>();
+
+  /** grupos dinâmicos: pode ser categorias ou tiers */
+  groups: GroupKey[] = [];
+  selectedGroup: GroupKey = '';
+
+  /** dados normalizados por grupo */
+  vehiclesByGroup: Record<GroupKey, VehicleItem[]> = {};
+
+  @Output() close = new EventEmitter<void>();
 
   constructor(private dataservice: DataService) {}
 
   ngOnInit(): void {
+    if (this.dataSource) {
+      this.applyData(this.dataSource);
+      return;
+    }
     this.loadVeiculos();
   }
 
+  /** caso o pai altere dataSource depois */
+  ngOnChanges(): void {
+    if (this.dataSource) this.applyData(this.dataSource);
+  }
+
+  private applyData(src: Record<string, VehicleItem[]>) {
+    this.vehiclesByGroup = {};
+    Object.keys(src || {}).forEach((k) => {
+      this.vehiclesByGroup[k] = (src[k] || []).map(this.normalizeVehicle);
+    });
+
+    this.groups = Object.keys(this.vehiclesByGroup);
+
+    // define default selecionado
+    const preferred =
+      this.mode === 'tier'
+        ? (this.groups.find((g) => g.toLowerCase().includes('tier 1')) ?? this.groups[0])
+        : (this.groups.find((g) => g.toLowerCase() === 'texto') ?? this.groups[0]);
+
+    this.selectedGroup = preferred || '';
+    this.updateSelectAll();
+  }
+
   loadVeiculos(): void {
+    // ✅ usa o mesmo endpoint que você já tem
     this.dataservice.getVeiculos().subscribe({
-      next: (data) => {
-        this.vehicles = data;
-        this.updateSelectAll();
+      next: (data: any) => {
+        /**
+         * Aqui é o pulo do gato:
+         * - Se mode='category', esperamos chaves Texto/Vídeo/Áudio
+         * - Se mode='tier', esperamos chaves Tier 1/2/3
+         *
+         * Se teu backend NÃO vier assim, você adapta só aqui.
+         */
+        this.applyData(data);
       },
       error: (err) => console.error('Erro ao carregar veículos:', err),
     });
   }
 
-  selectCategory(categoria: string): void {
-    this.selectedCategory = categoria;
+  private normalizeVehicle = (v: any): VehicleItem => ({
+    nome: String(v?.nome ?? v?.name ?? ''),
+    selecionado: Boolean(v?.selecionado ?? v?.selected ?? false),
+  });
+
+  selectGroup(group: GroupKey): void {
+    this.selectedGroup = group;
     this.updateSelectAll();
   }
 
-  getFilteredVehicles(): { nome: string; selecionado: boolean }[] {
-    const allVehicles = this.vehicles[this.selectedCategory] || [];
-    return allVehicles.filter((veiculo) =>
-      veiculo.nome.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+  getFilteredVehicles(): VehicleItem[] {
+    const all = this.vehiclesByGroup[this.selectedGroup] || [];
+    const q = this.searchQuery.trim().toLowerCase();
+    if (!q) return all;
+    return all.filter((v) => v.nome.toLowerCase().includes(q));
+  }
+
+  getGroupTitle(): string {
+    // ✅ só pra manter seu texto antigo no modo category
+    if (this.mode !== 'category') return this.selectedGroup;
+
+    if (this.selectedGroup === 'Texto') return 'Texto (Jornais impressos e Web)';
+    if (this.selectedGroup === 'Áudio') return 'Áudio (Rádio)';
+    if (this.selectedGroup === 'Vídeo') return 'Vídeo (Canais de televisão)';
+    return this.selectedGroup;
+  }
+
+  getSelectedGroupTotal(): number {
+    return (this.vehiclesByGroup[this.selectedGroup] || []).length;
   }
 
   toggleSelectAll(): void {
-    const filteredVehicles = this.getFilteredVehicles();
-    filteredVehicles.forEach((v) => (v.selecionado = this.selectAll));
+    const filtered = this.getFilteredVehicles();
+    filtered.forEach((v) => (v.selecionado = this.selectAll));
   }
 
   updateSelectAll(): void {
-    const filteredVehicles = this.getFilteredVehicles();
-    this.selectAll =
-      filteredVehicles.length > 0 && filteredVehicles.every((v) => v.selecionado);
+    const filtered = this.getFilteredVehicles();
+    this.selectAll = filtered.length > 0 && filtered.every((v) => v.selecionado);
   }
-
-  getCategoryTitle(): string {
-    if (this.selectedCategory === 'Texto') {
-      return 'Texto (Jornais impressos e Web)';
-    } else if (this.selectedCategory === 'Áudio') {
-      return 'Áudio (Rádio)';
-    } else if (this.selectedCategory === 'Vídeo') {
-      return 'Vídeo (Canais de televisão)';
-    }
-    return this.selectedCategory;
-  }
-  
 
   closeModal(): void {
     this.isModalOpen = false;
-    this.closeSection.emit(); // emite pro pai
+    this.close.emit();
   }
 
-  @HostListener('document:keydown.escape', ['$event'])
-  handleEscapeKey(event: KeyboardEvent) {
+  @HostListener('document:keydown', ['$event'])
+  handleKeydown(event: KeyboardEvent) {
+    if (event.key !== 'Escape') return;
     if (this.isModalOpen) {
-      this.closeModal(); // função que já emite o closeSection
+      this.closeModal();
+      event.preventDefault();
+      event.stopPropagation();
     }
   }
 }

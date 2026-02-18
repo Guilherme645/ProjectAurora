@@ -1,0 +1,14 @@
+.chart-tooltip {
+  position: absolute;
+  background-color: #0F172A; /* Slate-900 / Quase preto */
+  border: 1px solid #1E293B; /* Borda sutil */
+  color: #fff;
+  padding: 12px 16px; /* Padding interno generoso */
+  border-radius: 8px; /* Cantos arredondados */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Sombra forte */
+  pointer-events: none;
+  z-index: 100;
+  transition: opacity 0.1s ease-out;
+  opacity: 0;
+  min-width: 180px;
+}

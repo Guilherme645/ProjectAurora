@@ -1,0 +1,44 @@
+<div *ngIf="isLoading" 
+     class="flex flex-col justify-between items-center w-[216px] animate-pulse"
+     [class.h-[416px]]="isTiers"
+     [class.h-[430px]]="!isTiers">
+  <div *ngFor="let i of (isTiers ? [1,2,3] : [1,2,3,4])" class="flex flex-col items-center gap-2 w-full">
+    <div class="h-6 bg-gray-200 rounded w-12"></div>
+    <div class="h-3 bg-gray-200 rounded w-24"></div>
+    <div *ngIf="isTiers ? i !== 3 : i !== 4" class="w-full h-[1px] bg-gray-100 mt-4"></div>
+  </div>
+</div>
+
+<div *ngIf="statsData && !isLoading" 
+     class="flex flex-col justify-between items-center w-[216px] py-0 relative"
+     [class.h-[416px]]="isTiers"
+     [class.h-[430px]]="!isTiers">
+  
+  <ng-container *ngFor="let item of statsData.items; let last = last; let i = index">
+    
+    <div class="flex flex-col items-center gap-[4px] w-full flex-none">
+      
+      <span 
+        class="font-inter font-semibold tracking-[-0.018em] transition-all"
+        [ngClass]="[
+          getValueColor(i),
+          isTiers ? 'text-[30px] leading-[36px] tracking-[-0.024em]' : 'text-[20px] leading-[24px]'
+        ]"
+      >
+        {{ item.value }}
+      </span>
+
+      <span 
+        class="font-inter font-medium text-[12px] leading-[16px] text-center tracking-[-0.01em]"
+        [ngClass]="getLabelColor(i)"
+      >
+        {{ item.label }}
+      </span>
+
+    </div>
+
+    <div *ngIf="!last" class="w-[216px] h-[1px] bg-[#F3F4F6] flex-none"></div>
+
+  </ng-container>
+
+</div>
