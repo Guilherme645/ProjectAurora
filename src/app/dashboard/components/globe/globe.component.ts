@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, ViewChild, OnDestroy, HostListener } from '@angular/core';
 import Globe, { GlobeInstance } from 'globe.gl';
 import * as THREE from 'three';
 import maplibregl, { Map as MapLibreMap, Marker } from 'maplibre-gl';
@@ -31,7 +31,7 @@ export class GlobeComponent implements AfterViewInit, OnDestroy {
 
   private mapMarkers: Marker[] = [];
   private selectedRadio: RadioPoint | null = null;
-
+public isFullscreen = false;
   // ✅ trava de sync
   private isSyncingFromGlobe = false;
   private isSyncingFromMap = false;
@@ -101,72 +101,93 @@ export class GlobeComponent implements AfterViewInit, OnDestroy {
   // ---------------------------
   // GLOBO
   // ---------------------------
-  private initGlobe() {
-    const el = this.globeContainer.nativeElement;
-    const w = el.clientWidth || 600;
-    const h = el.clientHeight || 500;
+ private initGlobe() {
+  const el = this.globeContainer.nativeElement;
+  const w = el.clientWidth || 600;
+  const h = el.clientHeight || 500;
 
-    this.world = new (Globe as any)(el)
-      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-      .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-      .backgroundColor('rgba(0,0,0,0)')
-      .width(w)
-      .height(h)
-      .showAtmosphere(true)
-      .atmosphereColor('#ffffff')
-      .atmosphereAltitude(0.1)
+  this.world = new (Globe as any)(el)
+    .backgroundColor('rgba(0,0,0,0)')
+    .width(w)
+    .height(h)
+    .showAtmosphere(true)
+    .atmosphereColor('#80d4f6') // Tom de azul claro para a borda
+    .atmosphereAltitude(0.15)
+    
+    // ✅ Marcadores minimalistas (iguais aos da imagem)
+    .htmlElementsData(this.data)
+    .htmlElement((d: any) => {
+      const id = Number(d?.id);
+      const r = this.data.find(x => x.id === id) ?? this.data[0];
 
-      // ✅ SEM ringsData (sem animação)
+      const node = document.createElement('div');
+      node.style.transform = 'translate(-50%, -50%)';
+      node.style.cursor = 'pointer';
+      node.style.pointerEvents = 'auto';
 
-      // ✅ ícones no globo (clicáveis)
-      .htmlElementsData(this.data)
-      .htmlElement((d: any) => {
-        // ✅ resolve o rádio de forma determinística
-        const id = Number(d?.id);
-        const r = this.data.find(x => x.id === id) ?? this.data[0];
+      node.innerHTML = `
+        <div title="${this.escapeHtml(r.label)}"
+             style="width: 28px; height: 28px; border-radius: 50%; background: ${this.escapeHtml(r.color)};
+                    border: 2px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+               fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"></path>
+            <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+          </svg>
+        </div>
+      `;
 
-        const node = document.createElement('div');
-        node.style.transform = 'translate(-50%, -50%)';
-        node.style.cursor = 'pointer';
-        node.style.pointerEvents = 'auto';
-
-        node.innerHTML = `
-          <div title="${this.escapeHtml(r.label)}"
-               style="width:24px;height:24px;border-radius:9999px;background:${this.escapeHtml(r.color)};
-                      border:1px solid #fff;display:flex;align-items:center;justify-content:center;
-                      box-shadow:0 6px 18px rgba(0,0,0,.25)">
-            <span class="material-symbols-outlined" style="font-size:14px;color:#fff;line-height:1">radio</span>
-          </div>
-        `;
-
-        const stop = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
-
-        node.addEventListener('pointerdown', stop, { passive: false });
-        node.addEventListener('mousedown', stop, { passive: false });
-        node.addEventListener('touchstart', stop, { passive: false });
-
-        node.addEventListener('click', (ev) => {
-          stop(ev);
-          this.onRadioClickedById(r.id); // ✅ não usa objeto “d”
-        });
-
-        return node;
+      const stop = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
+      node.addEventListener('pointerdown', stop, { passive: false });
+      node.addEventListener('mousedown', stop, { passive: false });
+      node.addEventListener('touchstart', stop, { passive: false });
+      node.addEventListener('click', (ev) => {
+        stop(ev);
+        this.onRadioClickedById(r.id);
       });
 
-    this.world.controls().autoRotate = false;
-    this.world.controls().enableZoom = true;
+      return node;
+    });
 
-    // foco inicial Brasil
-    this.world.pointOfView({ lat: -15, lng: -50, altitude: 2.2 });
-
-    this.addClouds();
-
-    // ✅ coverage estática no globo
-    this.installGlobeCoverageAreas();
-
-    this.world.controls().addEventListener('change', this.onControlsChange);
+  // ✅ 1. Criar o Oceano com Gradiente (Azul para Ciano)
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, '#5eb8ff');   // Topo: Azul
+    gradient.addColorStop(1, '#00f5d4');   // Base: Ciano Vibrante
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
+  const oceanMaterial = new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(canvas) });
+  this.world.globeMaterial(oceanMaterial);
 
+  // ✅ 2. Carregar Continentes (GeoJSON) para a cor "Terra"
+  fetch('https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson')
+    .then(res => res.json())
+    .then(countries => {
+      this.world.polygonsData(countries.features)
+        .polygonCapColor(() => '#d0fcf4') // Cor da terra (Ciano super claro)
+        .polygonSideColor(() => 'rgba(0,0,0,0)')
+        .polygonStrokeColor(() => '#bdf2e8'); // Borda sutil dos países
+    });
+
+  this.world.controls().autoRotate = false;
+  this.world.controls().enableZoom = true;
+  this.world.controls().enableRotate = false; 
+  this.world.controls().enablePan = false;
+
+  // Foco inicial Brasil
+  this.world.pointOfView({ lat: -15, lng: -50, altitude: 2.2 });
+
+  this.addClouds();
+  this.installGlobeCoverageAreas();
+  this.world.controls().addEventListener('change', this.onControlsChange);
+}
   private onRadioClickedById(id: number) {
     const r = this.data.find(x => x.id === id);
     if (!r) return;
@@ -426,7 +447,6 @@ export class GlobeComponent implements AfterViewInit, OnDestroy {
 
     if (on) {
       this.mapFocusLockUntil = Date.now() + 900;
-
       requestAnimationFrame(() => this.map?.resize());
       setTimeout(() => this.map?.resize(), 250);
 
@@ -438,8 +458,9 @@ export class GlobeComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    this.world.controls().enableRotate = true;
-    this.world.controls().enablePan = true;
+    // ✅ Quando VOLTAR para o globo, MANTENHA a rotação desativada:
+    this.world.controls().enableRotate = false; // Mude de true para false
+    this.world.controls().enablePan = false;    // Mude de true para false
     this.world.controls().enableZoom = true;
 
     const c = this.map?.getCenter();
@@ -533,5 +554,19 @@ export class GlobeComponent implements AfterViewInit, OnDestroy {
     const y = radius * Math.cos(phi);
 
     return new THREE.Vector3(x, y, z);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape' && this.isFullscreen) {
+      this.isFullscreen = false;
+      setTimeout(() => this.resizeAll(), 100);
+    }
+  }
+  toggleFullscreen() {
+    this.isFullscreen = !this.isFullscreen;
+    
+    // Força um redimensionamento extra para garantir que o Three.js e o MapLibre preencham a tela
+    setTimeout(() => this.resizeAll(), 100);
   }
 }

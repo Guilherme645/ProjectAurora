@@ -1,0 +1,98 @@
+<section class="w-full bg-white border border-[#F3F4F6] shadow-sm rounded-lg overflow-hidden flex flex-col transition-all duration-300" [ngClass]="isFullscreen ? 'fixed inset-0 z-[100] h-screen w-screen rounded-none' : 'relative'">
+  
+  <div class="p-6 flex-shrink-0 border-b border-[#F3F4F6] lg:border-none">
+    <h2 class="text-[16px] font-bold text-[#1F2937]">Distribuição de menção por Geolocalização</h2>
+    <p class="text-[13px] text-[#6B7280] mt-1">Aplica-se apenas a veículos de rádio, TV e impressos.</p>
+  </div>
+
+  <div class="px-6 pb-6 flex-1 flex flex-col min-h-0">
+    <div class="w-full rounded-lg border border-[#F3F4F6] bg-white flex flex-col lg:flex-row flex-1 min-h-0 overflow-hidden">
+      
+      <div class="w-full lg:w-[480px] xl:w-[520px] p-4 lg:p-5  flex flex-col bg-w">
+        <div class="w-full h-[420px] lg:h-full min-h-[460px] rounded-lg overflow-hidden bg-white relative">
+          <app-globe class="block w-full h-full"></app-globe>
+        </div>
+      </div>
+
+      <div class="flex-1 min-w-0 flex flex-col overflow-hidden bg-white">
+        
+        <div class="flex items-center justify-between px-6 h-[56px] bg-[#F9FAFB] border-b border-[#F3F4F6] flex-shrink-0">
+          <div class="text-[13px] font-medium text-[#6B7280]">Nome</div>
+          
+          <div class="flex items-center gap-3">
+            <div class="text-[13px] font-medium text-[#6B7280]">Alcance estimado</div>
+            <button class="w-[28px] h-[28px] border border-[#E5E7EB] rounded bg-white flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.66667 6.66667L8 3.33333L11.3333 6.66667"/><path d="M11.3333 9.33333L8 12.6667L4.66667 9.33333"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto divide-y divide-[#F3F4F6]">
+          <div *ngFor="let item of tableData" class="flex items-center px-6 h-[64px] hover:bg-[#FAFAFA] transition-colors">
+            
+            <div class="w-[30%] min-w-[140px] text-[14px] font-semibold text-[#111827] truncate pr-4">
+              {{ item.name }}
+            </div>
+
+            <div class="w-[10%] min-w-[40px] flex items-center text-[#9CA3AF]">
+              <svg *ngIf="item.mediaType === 'audio'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+              </svg>
+              <svg *ngIf="item.mediaType === 'document'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <polygon points="10 11 15 14 10 17 10 11"></polygon>
+              </svg>
+            </div>
+
+            <div class="flex-1 min-w-[140px] text-[14px] font-medium text-[#111827] truncate pr-4">
+              {{ item.location }}
+            </div>
+
+            <div class="w-[10%] min-w-[40px] flex items-center justify-end pr-6 text-[#9CA3AF]">
+              <div class="relative w-[20px] h-[20px]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <svg class="absolute -bottom-1 -right-1" width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+            </div>
+
+            <div class="w-[15%] min-w-[60px] text-right text-[14px] font-semibold text-[#111827]">
+              {{ item.reach }}
+            </div>
+            
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 px-6 py-4 border-t border-[#F3F4F6] bg-white flex-shrink-0">
+          <div class="flex flex-row items-center h-[38px] border border-[#F3F4F6] rounded-[4px] overflow-hidden">
+            <button class="flex items-center justify-center w-[40px] h-full hover:bg-gray-50 transition-colors cursor-pointer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="w-[1px] h-full bg-[#E5E7EB]"></div>
+            <button class="flex items-center justify-center w-[38px] h-full bg-[#E5E7EB] text-[14px] font-medium text-[#6B7280]">1</button>
+            <div class="w-[1px] h-full bg-[#E5E7EB]"></div>
+            <button class="flex items-center justify-center w-[38px] h-full hover:bg-gray-50 text-[14px] font-medium text-[#6B7280] transition-colors">2</button>
+            <div class="w-[1px] h-full bg-[#F3F4F6]"></div>
+            <button class="flex items-center justify-center w-[38px] h-full hover:bg-gray-50 text-[14px] font-medium text-[#6B7280] transition-colors">3</button>
+            <div class="w-[1px] h-full bg-[#F3F4F6]"></div>
+            <button class="flex items-center justify-center w-[40px] h-full hover:bg-gray-50 transition-colors cursor-pointer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+      </div>
+  </div>
+</section>

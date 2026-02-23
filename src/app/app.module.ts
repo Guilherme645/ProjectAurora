@@ -99,6 +99,7 @@ import { MentionsTableComponent } from './dashboard/components/mentions-table/me
 import { IndexExplainModalComponent } from './dashboard/components/index-explain-modal/index-explain-modal.component';
 import { DashboardFilterComponent } from './dashboard/components/dashboard-filter/dashboard-filter.component';
 import { GlobeComponent } from './dashboard/components/globe/globe.component';
+import { EntitiesTableComponent } from './dashboard/components/entities-table/entities-table.component';
 
 @NgModule({
   declarations: [
@@ -191,7 +192,8 @@ IndexChartComponent,
 MentionsTableComponent,
 IndexExplainModalComponent,
 DashboardFilterComponent,
-GlobeComponent
+GlobeComponent,
+EntitiesTableComponent
   ],
   imports: [
     BrowserModule,

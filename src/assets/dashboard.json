@@ -40,7 +40,7 @@
     "title": "Distribuição por tipo de mídia",
     "subtitle": "Dado consolidado no período selecionado",
     "data": [
-      { "label": "Rádio", "value": 30.67, "color": "#2DD4BF" },
+      { "label": "Rádio", "value": 30.67, "color": "#CCFBF1" },
       { "label": "Texto Impresso", "value": 28.03, "color": "#2DD4BF" },
       { "label": "Vídeo", "value": 26.28, "color": "#2563EB" },
       { "label": "Texto Web", "value": 14.88, "color": "#60A5FA" }
