@@ -13,8 +13,7 @@ import maplibregl, { Map as MapLibreMap, Marker } from 'maplibre-gl';
 import Supercluster from 'supercluster';
 
 type RadioPoint = { id: number; lat: number; lng: number; size: number; color: string; label: string; rangeKm: number; };
-type PinPoint = { id: number; lat: number; lng: number; };
-
+type PinPoint = { id: number; lat: number; lng: number; rangeM: number; };
 @Component({
   selector: 'app-globe',
   standalone: false,
@@ -69,7 +68,7 @@ export class GlobeComponent implements AfterViewInit, OnDestroy {
     this.initGlobe();
     this.initMap();
 
-    this.allPins = await this.loadPinsFromCsv('assets/brasil_2000_lat_lon.csv');
+    this.allPins = await this.loadPinsFromCsv('assets/brasil_2000_lat_lon_com_alcance.csv');
 
     // Ao invés de carregar o supercluster ou pinos individuais no globo, 
     // nós apenas desenhamos as 5 bolhas regionais iniciais.
@@ -399,24 +398,66 @@ export class GlobeComponent implements AfterViewInit, OnDestroy {
   private mapZoomToAltitude(z: number): number { return Math.min(3, Math.max(0.07, Math.pow(2, (12 - z) / 2.2))); }
   
   private async loadPinsFromCsv(url: string): Promise<PinPoint[]> {
-    const res = await fetch(url); const text = await res.text();
-    const lines = text.split(/\r?\n/).filter(Boolean);
-    if (lines.length <= 1) return [];
-    const hasHeader = (lines[0] || '').toLowerCase().includes('lat');
-    const dataLines = hasHeader ? lines.slice(1) : lines;
-    const pts: PinPoint[] = [];
-    for (const line of dataLines) {
-      const parts = line.split(',').map(s => s.trim());
-      if (parts.length < 3) continue;
-      const id = Number(parts[0]), lat = Number(parts[1]), lng = Number(parts[2]);
-      if (Number.isFinite(id) && Number.isFinite(lat) && Number.isFinite(lng)) pts.push({ id, lat, lng });
-    }
-    return pts;
+  const res = await fetch(url);
+  const text = await res.text();
+  const lines = text.split(/\r?\n/).filter(l => l.trim().length);
+
+  if (lines.length <= 1) return [];
+
+  const header = lines[0].split(',').map(s => s.trim().toLowerCase());
+  const hasHeader = header.includes('latitude') || header.includes('lat');
+
+  const idx = (nameCandidates: string[]) => {
+    const i = header.findIndex(h => nameCandidates.includes(h));
+    return i >= 0 ? i : -1;
+  };
+
+  let idI = 0, latI = 1, lngI = 2, rangeI = -1;
+
+  if (hasHeader) {
+    idI = idx(['id']);
+    latI = idx(['lat', 'latitude']);
+    lngI = idx(['lng', 'lon', 'longitude']);
+    rangeI = idx(['alcance_m', 'range_m', 'range', 'range_meters', 'rangem']);
   }
 
-  private pinsToGeoJSON(points: PinPoint[]): GeoJSON.FeatureCollection {
-    return { type: 'FeatureCollection', features: points.map(p => ({ type: 'Feature', properties: { id: p.id }, geometry: { type: 'Point', coordinates: [p.lng, p.lat] } })) };
+  const dataLines = hasHeader ? lines.slice(1) : lines;
+  const pts: PinPoint[] = [];
+
+  for (const line of dataLines) {
+    const parts = line.split(',').map(s => s.trim());
+    if (parts.length < 3) continue;
+
+    const id = Number(parts[idI] ?? parts[0]);
+    const lat = Number(parts[latI] ?? parts[1]);
+    const lng = Number(parts[lngI] ?? parts[2]);
+
+    // se não tiver coluna, usa default 800m
+    const rangeM = rangeI >= 0 ? Number(parts[rangeI]) : 800;
+
+    if (
+      Number.isFinite(id) &&
+      Number.isFinite(lat) &&
+      Number.isFinite(lng) &&
+      Number.isFinite(rangeM)
+    ) {
+      pts.push({ id, lat, lng, rangeM });
+    }
   }
+
+  return pts;
+}
+ private pinsToGeoJSON(points: PinPoint[]): GeoJSON.FeatureCollection {
+  return {
+    type: 'FeatureCollection',
+    features: points.map(p => ({
+      type: 'Feature',
+      properties: { id: p.id, rangeM: p.rangeM },
+      geometry: { type: 'Point', coordinates: [p.lng, p.lat] }
+    }))
+  };
+}
+
 
   private getNearestRadio(lat: number, lng: number): RadioPoint { return this.data[0]; } // Simplificado
   private resizeAll() { try { this.world.width(this.globeContainer.nativeElement.clientWidth || 600); this.world.height(this.globeContainer.nativeElement.clientHeight || 500); this.map?.resize(); } catch {} }

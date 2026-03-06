@@ -7,15 +7,19 @@ import { DashboardService, DashboardData } from '../../service/dashboard.service
   standalone: false
 })
 export class DashboardPageComponent implements OnInit {
-  isFilterOpen = false;
-  isLocationModalOpen = false;
+    isFilterOpen = false;
+
+isLocationModalOpen = false;
   isVehiclesModalOpen = false;
   isModalOpen = false;
 
-  sidebarOpen = true;
+  sidebarOpen = false;
   dashboardData?: DashboardData;
   isLoading = true;
 
+  // 👉 1. ADICIONE ESTAS DUAS VARIÁVEIS AQUI
+  filteredVolumeData: any[] = [];
+  selectedKeywords: string[] = ['Dias Toffoli', 'Alexandre de Moraes', 'Roberto Barroso'];
   // ✅ flags
   private reopenFilterAfterLocationClose = false;
   private reopenFilterAfterVehiclesClose = false;
@@ -32,11 +36,41 @@ export class DashboardPageComponent implements OnInit {
       next: (data) => {
         this.dashboardData = data;
         this.isLoading = false;
+        this.updateFilteredData();
       },
       error: (err) => { console.error(err); this.isLoading = false; }
     });
   }
 
+  // 👉 3. ADICIONE A FUNÇÃO TOGGLE AQUI (Dentro da classe, antes ou depois das outras funções)
+onKeywordsChanged(keywords: string[]) {
+    this.selectedKeywords = keywords;
+    this.updateFilteredData();
+  }
+ updateFilteredData() {
+    if (!this.dashboardData?.volume) return;
+
+    // Criamos uma paleta de cores maior para suportar vários ministros ao mesmo tempo
+    const mockupColors = ['#2563EB', '#14B8A6', '#EBD725', '#9333EA', '#F97316', '#EF4444', '#10B981'];
+
+    this.filteredVolumeData = this.selectedKeywords.map((keyword, index) => {
+      // 1. Tenta achar os dados desse ministro que já vieram da API mockada
+      const existingData = this.dashboardData!.volume.find((s: any) => s.name === keyword);
+
+      if (existingData) {
+        // Se achou, usa ele e garante que a cor não vai se repetir errada
+        return { ...existingData, color: mockupColors[index % mockupColors.length] };
+      }
+
+      // 2. Se NÃO ACHOU (ex: adicionou Luiz Fux), a gente cria dados fake na hora para o gráfico!
+      return {
+        name: keyword,
+        color: mockupColors[index % mockupColors.length],
+        // Gera 12 meses de valores aleatórios (entre 10 e 70) para desenhar a linha
+        values: Array.from({ length: 12 }, () => Math.floor(Math.random() * 60) + 10)
+      };
+    });
+  }
   openFilter() {
     this.isFilterOpen = true;
     this.isLocationModalOpen = false;
@@ -119,7 +153,7 @@ onKeydown(event: KeyboardEvent) {
 
 
   onSidebarToggle(isOpen: boolean) {
-    this.sidebarOpen = isOpen;
+    this.sidebarOpen = false;
   }
 
   toggleModal() {

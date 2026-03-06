@@ -1,9 +1,10 @@
 <div class="flex h-screen w-full bg-white overflow-hidden">
   <!-- SIDEBAR -->
-  <aside class="h-full flex-shrink-0 z-50 bg-neutral-800 text-white transition-all duration-300">
+<aside class="h-full flex-shrink-0 z-50 bg-[#111827] text-white transition-all duration-300">
     <app-side-bar
-      [isSidebarOpen]="sidebarOpen"
-      (sidebarToggled)="onSidebarToggle($event)"
+      [isSidebarOpen]="false" 
+      [disableToggle]="true"
+      [hideCompactSidebar]="true" (sidebarToggled)="onSidebarToggle($event)"
       (openModalExternally)="toggleModal()">
     </app-side-bar>
   </aside>
@@ -62,8 +63,7 @@
         <div class="flex-1 p-[24px] min-w-0 overflow-visible flex flex-col">
           <app-volume-chart
             class="flex-1 w-full h-full"
-            [volumeDataRaw]="dashboardData?.volume"
-            [chartTitle]="'Volume de ocorrências'"
+            [volumeDataRaw]="filteredVolumeData" [chartTitle]="'Volume de ocorrências'"
             [chartSubtitle]="'Total de notícias capturadas das palavras-chaves selecionadas'"
             [isLoading]="isLoading">
           </app-volume-chart>
@@ -138,10 +138,10 @@
   </main>
 
   <!-- FILTER (só renderiza quando aberto, pra não “cobrir” a tela invisível) -->
-  <app-dashboard-filter
+ <app-dashboard-filter
     *ngIf="isFilterOpen"
     [isVisible]="isFilterOpen"
-    (close)="closeFilter()"
+    [currentKeywords]="selectedKeywords"          (keywordsChanged)="onKeywordsChanged($event)" (close)="closeFilter()"
     (openVehiclesModalRequest)="openVehiclesModal()"
     (openLocationModalRequest)="openLocationModal()">
   </app-dashboard-filter>
@@ -154,7 +154,7 @@
     </div>
 
     <div class="relative z-10 flex items-center justify-center p-4" (click)="$event.stopPropagation()">
-      <app-veiculos mode="tier" (close)="closeVehiclesModal()"></app-veiculos>
+      <app-tier-modal (close)="closeVehiclesModal()"></app-tier-modal>
     </div>
   </div>
 

@@ -11,8 +11,10 @@ import { DataService } from 'src/app/services/data.service';
 export class SideBarComponent implements OnInit {
   @Input() isSidebarOpen = true;
   @Output() userChange = new EventEmitter<string>();
+  @Input() disableToggle = false; // 👉 ADICIONE ESTA LINHA AQUI
   @Output() sidebarToggled = new EventEmitter<boolean>();
   @Output() openModalExternally = new EventEmitter<void>();
+  @Input() hideCompactSidebar = false; // 👉 ADICIONE ESTA LINHA AQUI
   isExpanded = true;
   isThreeDotsActive = false; // New property to track active state of the button
   isMobile = window.innerWidth <= 768;
@@ -41,9 +43,10 @@ export class SideBarComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {
-    this.checkScreenSize();
+    this.isMobile = window.innerWidth <= 768;
+    // Em vez de forçar, agora ele obedece o que o componente pai (Dashboard) mandar!
+    this.isExpanded = this.isMobile ? false : this.isSidebarOpen;
     this.loadUsers();
-    this.isExpanded = this.isSidebarOpen;
   }
 
   ngOnChanges(): void {
@@ -89,15 +92,14 @@ export class SideBarComponent implements OnInit {
     }
   }
 
-  @HostListener('window:resize')
+ @HostListener('window:resize')
   private checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
-    if (!this.isMobile) {
-      this.isSidebarOpen = true;
-      this.isExpanded = true;
-    } else {
-      this.isSidebarOpen = false;
+    if (this.isMobile) {
       this.isExpanded = false;
+    } else {
+      // No desktop, ele respeita a variável de controle em vez de abrir sozinho
+      this.isExpanded = this.isSidebarOpen;
     }
     this.sidebarToggled.emit(this.isSidebarOpen);
   }

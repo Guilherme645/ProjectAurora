@@ -1,0 +1,84 @@
+<div *ngIf="!isMobile" class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-[#111827]/40 backdrop-blur-sm transition-opacity" (click)="closeModal()"></div>
+
+  <div class="relative w-[645px] h-[500px] bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col overflow-hidden"
+       (click)="$event.stopPropagation()">
+
+    <div class="flex items-center justify-between bg-white px-6 py-4 h-[73px] w-full border-b flex-shrink-0">
+      <div class="relative w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide stroke-1 text-gray-400 absolute left-0 top-1/2 transform -translate-y-1/2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21 -4.3-4.3"></path>
+        </svg>
+
+        <input
+          type="text"
+          placeholder="Procurar veículos"
+          [(ngModel)]="searchQuery"
+          class="w-full bg-white text-gray-900 placeholder-gray-300 focus:outline-none pl-8 py-2 border-none text-[15px]"
+          (ngModelChange)="searchQuery = $event.trim(); updateSelectAll()"
+        />
+      </div>
+
+      <button class="ml-4 text-[11px] font-semibold text-gray-500 flex justify-center items-center px-2 py-1 border border-gray-200 rounded-[6px] bg-white hover:bg-gray-50"
+              (click)="closeModal()">
+        ESC
+      </button>
+    </div>
+
+    <div class="flex flex-grow w-[645px] h-[382px] pt-2 rounded-b-2xl overflow-hidden">
+      <nav class="w-[150px] border-r border-gray-100 p-4 bg-white">
+        <ul class="space-y-3 mt-1">
+          <li
+            *ngFor="let g of groups"
+            class="flex items-center gap-2 cursor-pointer px-2 py-1.5 rounded-lg"
+            (click)="selectGroup(g)"
+          >
+            <span class="text-[14px]" [ngClass]="{'text-[#2563EB] font-medium': selectedGroup === g, 'text-gray-900 font-normal': selectedGroup !== g}">
+              {{ g }}
+            </span>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="p-6 flex-1 max-h-[382px] overflow-y-auto bg-white">
+        <span class="block text-[13px] font-medium text-gray-500 text-left mb-4">
+          {{ getGroupTitle() }}
+        </span>
+
+        <label class="flex items-center gap-x-3 text-[14px] font-medium text-gray-900 mb-6 cursor-pointer">
+          <input type="checkbox"
+                 class="w-4 h-4 rounded border-gray-300 text-[#2563EB] focus:ring-[#2563EB]"
+                 [(ngModel)]="selectAll"
+                 (change)="toggleSelectAll()"/>
+          <ng-container *ngIf="mode === 'tier'; else categorySelectAll">
+            Selecionar todos os veículos do {{ selectedGroup.toLowerCase() }} ({{ getSelectedGroupTotal() }})
+          </ng-container>
+          <ng-template #categorySelectAll>
+            Selecionar todos os veículos de {{ selectedGroup }}
+          </ng-template>
+        </label>
+
+        <div class="grid grid-cols-2 gap-x-4 gap-y-4 pr-2">
+          <label *ngFor="let v of getFilteredVehicles()" class="flex items-center gap-x-3 text-[14px] font-normal text-gray-800 cursor-pointer">
+            <input type="checkbox"
+                   class="w-4 h-4 rounded border-gray-300 text-[#2563EB] focus:ring-[#2563EB]"
+                   [(ngModel)]="v.selecionado"
+                   (change)="updateSelectAll()"/>
+            {{ v.nome }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full border-t border-gray-100 p-5 flex justify-end bg-[#F9FAFB] rounded-b-2xl">
+      <button type="button"
+              class="py-2.5 px-5 inline-flex items-center gap-x-2 text-[14px] font-semibold rounded-lg bg-[#1F2937] text-white hover:bg-gray-800 shadow-sm transition-colors"
+              (click)="closeModal()">
+        Utilizar veículos selecionados
+      </button>
+    </div>
+  </div>
+</div>

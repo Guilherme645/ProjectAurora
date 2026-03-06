@@ -179,7 +179,7 @@
 
 <ng-template #filterDropdown let-column="column">
   <div *ngIf="activeFilterColumn === column" 
-       class="absolute top-[100%] right-[-10px] mt-2 w-[160px] bg-white border border-[#F5F5F5] shadow-lg rounded-[4px] py-1 z-50 flex flex-col max-h-[200px] overflow-y-auto"
+       class="absolute top-[100%] right-[-10px] mt-2 w-[160px] bg-white border border-[#F5F5F5] shadow-lg rounded-[4px] py-1 z-50 flex flex-col max-h-[250px] "
        (click)="$event.stopPropagation()">
     <label *ngFor="let opt of filters[column]" class="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer gap-2 select-none">
       <div class="relative flex items-center justify-center w-[16px] h-[16px]">

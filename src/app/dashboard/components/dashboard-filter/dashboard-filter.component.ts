@@ -19,14 +19,18 @@ export class DashboardFilterComponent {
   // O evento que o componente pai irá ouvir para abrir o modal de veículos
   @Output() openVehiclesModalRequest = new EventEmitter<void>();
   @Output() openLocationModalRequest = new EventEmitter<void>();
+// Adicione junto com os seus outros @Inputs e @Outputs
+  @Input() currentKeywords: string[] = []; 
+  @Output() keywordsChanged = new EventEmitter<string[]>();
 
+  activeTags: string[] = [];
+  suggestions: string[] = [];
   isSidebarOpen: boolean = false;
   selectedStartDateMobile: string = ''; 
   selectedEndDateMobile: string = '';   
   selectedStartDate: Date | null = null;
   selectedEndDate: Date | null = null;
-  activeTags: string[] = ['Alexandre de Moraes', 'Dias Toffoli', 'Roberto Barroso'];
-suggestions: string[] = ['Rosa Weber', 'Gilmar Mendes', 'Luiz Fux'];
+ allAvailableTags: string[] = ['Alexandre de Moraes', 'Dias Toffoli', 'Roberto Barroso', 'Rosa Weber', 'Gilmar Mendes', 'Luiz Fux'];
   etapaSelecionando: 'start' | 'end' = 'start'; 
   
   constructor(private router: Router) {}
@@ -63,6 +67,14 @@ isSectionOpen: {
     negative: false
   };
 
+ngOnInit() {
+    // Pega as tags ativas que vieram da tela principal
+    this.activeTags = [...this.currentKeywords];
+    
+    // Sugestões são todas as tags que NÃO estão ativas no momento
+    this.suggestions = this.allAvailableTags.filter(tag => !this.activeTags.includes(tag));
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.isMobile = event.target.innerWidth <= 768;
@@ -84,20 +96,22 @@ isSectionOpen: {
 
   // Remove uma tag da lista de ativos e devolve para as sugestões
 removeTag(tag: string) {
-  this.activeTags = this.activeTags.filter(t => t !== tag);
-  if (!this.suggestions.includes(tag)) {
-    this.suggestions.push(tag);
+    this.activeTags = this.activeTags.filter(t => t !== tag);
+    if (!this.suggestions.includes(tag)) {
+      this.suggestions.push(tag);
+    }
+    // AVISA O PAI QUE MUDOU
+    this.keywordsChanged.emit(this.activeTags);
   }
-}
-
 // Adiciona uma sugestão aos ativos e remove da lista de sugestões
 addSuggestion(suggestion: string) {
-  if (!this.activeTags.includes(suggestion)) {
-    this.activeTags.push(suggestion);
+    if (!this.activeTags.includes(suggestion)) {
+      this.activeTags.push(suggestion);
+    }
+    this.suggestions = this.suggestions.filter(s => s !== suggestion);
+    // AVISA O PAI QUE MUDOU
+    this.keywordsChanged.emit(this.activeTags);
   }
-  this.suggestions = this.suggestions.filter(s => s !== suggestion);
-}
-
   onDateSelected(date: Date) {
     if (this.etapaSelecionando === 'start') {
       this.selectedStartDate = date;
@@ -168,12 +182,12 @@ addSuggestion(suggestion: string) {
     this.isLocationModalOpen = false;
   }
 
-  navigateToResults() {
+navigateToResults() {
     if (this.isSearchValid()) {
-      this.router.navigate(['/resultado']);
+      // Em vez de mudar de página, apenas fecha o filtro para ver o gráfico atualizado
+      this.onClose();
     }
   }
-
  openVehiclesModal() {
   this.onClose(); // ✅ fecha o painel primeiro
   this.openVehiclesModalRequest.emit();

@@ -66,7 +66,7 @@
     "gradientStart": "#E75E2A",
     "gradientEnd": "#9FBE3B"
   },
-  "entityMentions": {
+ "entityMentions": {
     "title": "Ocorrência por entidades",
     "subtitle": "Datas, pessoas, lugares, profissões e organizações identificadas nos conteúdos.",
     "data": [
@@ -75,7 +75,11 @@
       { "name": "Dias Toffoli", "type": "Pessoa", "negative": 14, "neutral": 291, "positive": 45 },
       { "name": "Roberto Barroso", "type": "Pessoa", "negative": 98, "neutral": 217, "positive": 36 },
       { "name": "STF", "type": "Organização", "negative": 29, "neutral": 182, "positive": 138 },
-      { "name": "Advogado", "type": "Profissão", "negative": 21, "neutral": 178, "positive": 149 }
+      { "name": "Advogado", "type": "Profissão", "negative": 21, "neutral": 178, "positive": 149 },
+      
+      { "name": "Brasília", "type": "Local", "negative": 5, "neutral": 80, "positive": 12 },
+      { "name": "Apple", "type": "Marca", "negative": 2, "neutral": 40, "positive": 95 },
+      { "name": "iPhone 15", "type": "Produto", "negative": 8, "neutral": 15, "positive": 30 }
     ]
   },
   "vehicleMentions": {

@@ -100,6 +100,7 @@ import { IndexExplainModalComponent } from './dashboard/components/index-explain
 import { DashboardFilterComponent } from './dashboard/components/dashboard-filter/dashboard-filter.component';
 import { GlobeComponent } from './dashboard/components/globe/globe.component';
 import { EntitiesTableComponent } from './dashboard/components/entities-table/entities-table.component';
+import { TierModalComponent } from './components/tier-modal/tier-modal.component';
 
 @NgModule({
   declarations: [
@@ -193,7 +194,8 @@ MentionsTableComponent,
 IndexExplainModalComponent,
 DashboardFilterComponent,
 GlobeComponent,
-EntitiesTableComponent
+EntitiesTableComponent,
+TierModalComponent
   ],
   imports: [
     BrowserModule,

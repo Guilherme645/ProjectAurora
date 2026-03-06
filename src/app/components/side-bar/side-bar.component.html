@@ -3,7 +3,7 @@
   <div class="flex h-screen">
     
     <!-- Sidebar Compacta (Seleção de Usuários) -->
-    <div class="compact-sidebar flex flex-col items-center bg-[#0F141B] p-4">
+    <div *ngIf="!hideCompactSidebar" class="compact-sidebar flex flex-col items-center bg-[#0F141B] p-4">
       <div *ngFor="let key of userKeys" class="flex justify-center">
         <button 
           class="sidebar-button w-10 h-10 rounded-lg flex justify-center items-center text-white mb-3 transition-all duration-300 ease-in-out relative"
@@ -42,7 +42,7 @@
           </ng-template>
         </div>
 
-        <button (click)="toggleSidebar()"
+       <button *ngIf="!disableToggle" (click)="toggleSidebar()"
         class="text-white hover:text-gray-300 transition-all"
         [ngClass]="{
           'ml-2 mt-1': isExpanded, 

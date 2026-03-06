@@ -34,19 +34,25 @@ export class VolumeChartComponent implements OnInit, OnChanges {
   }
 
   private render() {
+    // PRIMEIRO: Limpa o gráfico atual da tela. Assim se o array vier vazio, a tela fica limpa de verdade.
+    const element = this.chartContainer.nativeElement;
+    d3.select(element).selectAll('*').remove();
+    this.chartData = [];
+
+    // Se não tiver dados (usuário fechou todas as tags), para por aqui.
     if (!this.volumeDataRaw || this.volumeDataRaw.length === 0) return;
 
-    // 1. FORÇA AS CORES CORRETAS (Azul, Teal, Amarelo)
-    const colorPalette = ['#2563EB', '#14B8A6', '#EBD725'];
+    // Paleta de cores estendida
+    const colorPalette = ['#2563EB', '#14B8A6', '#EBD725', '#9333EA', '#F97316', '#EF4444', '#10B981'];
 
     this.chartData = this.volumeDataRaw.map((s, i) => ({
       ...s,
-      // Se não vier cor do back, usa a paleta na ordem fixa
+      // Puxa a cor que definimos na tela principal ou pega a da paleta
       color: s.color || colorPalette[i % colorPalette.length],
       values: s.values.map((v: any, index: number) => ({ x: index, y: v }))
     }));
 
-    // Pequeno delay para garantir que o container HTML exista
+    // Pequeno delay para garantir que o container HTML exista e desenha as linhas
     setTimeout(() => this.createChart(), 0);
   }
 
